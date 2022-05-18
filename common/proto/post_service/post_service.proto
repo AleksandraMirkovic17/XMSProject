@@ -1,0 +1,122 @@
+syntax = "proto3";
+
+option go_package = "github.com/dislinked";
+
+import "google/protobuf/timestamp.proto";
+import "google/api/annotations.proto";
+
+service PostService{
+  rpc Get(GetRequest) returns(GetResponse) {
+    option (google.api.http) = {
+      get: "/post/{id}"
+    };
+  }
+  rpc GetAll(Empty) returns(GetMultipleResponse) {
+    option (google.api.http) = {
+      get: "/post"
+    };
+  }
+  rpc GetByUser(GetByUserRequest) returns(GetAllResponse) {
+    option (google.api.http) = {
+      get: "/post/user/{username}"
+    };
+  }
+
+  rpc CreatePost(NewPost) returns(NewPost) {
+    option(google.api.http) = {
+      post: "/post"
+      body: "post"
+    };
+  }
+  rpc ReactToPost(ReactionRequest) returns(ReactionResponse) {
+    option (google.api.http) = {
+      post: "/post/react"
+      body: "reaction"
+    };
+  }
+
+  rpc CreateCommentOnPost(CommentRequest) returns(CommentResponse){
+    option(google.api.http) = {
+      post: "/post/{postId}/comment"
+      body: "comment"
+    };
+  }
+}
+
+message Empty {}
+
+message GetMultipleResponse {
+  repeated Post posts = 1;
+}
+
+message NewPost {
+  Post post = 1;
+}
+
+message CommentRequest {
+  string postId = 1;
+  Comment comment = 2;
+}
+
+message CommentResponse {
+  string commentId = 1;
+}
+
+message GetRequest {
+  string id = 1;
+}
+
+message GetResponse {
+  Post post = 1;
+}
+
+message GetAllRequest {
+}
+
+message GetAllResponse {
+  repeated Post posts = 1;
+}
+
+message GetByUserRequest {
+  string username = 1;
+}
+
+message ReactionRequest {
+  Reaction reaction = 1;
+}
+
+message ReactionResponse {
+  string postId = 1;
+}
+
+message Reaction {
+  string username = 1;
+  string postId = 2;
+
+  enum ReactionType {
+    LIKE = 0;
+    DISLIKE = 1;
+  }
+
+  ReactionType reactionType = 3;
+}
+
+message Post {
+  string id = 1;
+  string user = 2;
+  string posttext = 3;
+  repeated string image = 4;
+  repeated string links = 5;
+  google.protobuf.Timestamp date = 6;
+  repeated Reaction reactions = 7;
+  repeated Comment comments = 8;
+  bool isdeleted = 9;
+  }
+
+
+message Comment {
+  string id = 1;
+  string content = 2;
+  google.protobuf.Timestamp date = 3;
+  string username = 4;
+}

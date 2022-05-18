@@ -1,8 +1,8 @@
 package main
 
 import (
-	"PostService/startup"
-	cfg "PostService/startup/config"
+	"github.com/dislinked/api_gateway/startup"
+	cfg "github.com/dislinked/api_gateway/startup/config"
 )
 
 func main() {
