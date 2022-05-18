@@ -3,7 +3,9 @@ package api
 import (
 	"PostService/domain"
 	pb "github.com/dislinked/common/proto/post_service"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"google.golang.org/protobuf/types/known/timestamppb"
+	"time"
 )
 
 func mapPost(post *domain.Post) *pb.Post {
@@ -34,24 +36,87 @@ func mapPost(post *domain.Post) *pb.Post {
 	return postPb
 }
 
-/*func mapNewPost(postPb *pb.Post) *domain.Post {
+func mapNewPost(postPb *pb.Post) *domain.Post {
 	post := &domain.Post{
-		Id:         primitive.NewObjectID(),
-		UserId:     postPb.UserId,
-		PostText:   postPb.PostText,
-		DatePosted: time.Now(),
+		Id:        primitive.NewObjectID(),
+		User:      postPb.User,
+		PostText:  postPb.Posttext,
+		Date:      time.Now(),
+		IsDeleted: false,
 	}
-	for _, image := range postPb.ImagePaths {
-		post.ImagePaths = append(post.ImagePaths, image)
+	for _, image := range postPb.Image {
+		post.Images = append(post.Images, image)
 	}
 	for _, link := range postPb.Links {
 		post.Links = append(post.Links, link)
+	}
+	post.Comments = []domain.Comment{}
+	for _, comment := range postPb.Comments {
+		id, err := primitive.ObjectIDFromHex(comment.Id)
+		if err != nil {
+			continue
+		}
+		post.Comments = append(post.Comments, domain.Comment{
+			Id:      id,
+			Content: comment.Content,
+			Date:    comment.Date.AsTime(),
+			User:    comment.Username,
+		})
 	}
 
 	return post
 }
 
-func mapNewComment(commentPb *pb.Comment) *domain.Comment {
+/*
+
+func mapPostToPb(post *domain.Post) *pb.Post {
+	postPb := &pb.Post{
+		Id:       post.Id.Hex(),
+		Username: post.Username,
+		Content:  post.Content,
+		Image:    post.Image,
+		Likes:    post.Likes,
+		Dislikes: post.Dislikes,
+		Date:     timestamppb.New(post.Date),
+	}
+	for _, comment := range post.Comments {
+		postPb.Comments = append(postPb.Comments, &pb.Comment{
+			Id:       comment.Id.Hex(),
+			Content:  comment.Content,
+			Date:     timestamppb.New(comment.Date),
+			Username: comment.Username,
+		})
+	}
+	return postPb
+}
+*/
+
+func inversePostMap(post *domain.Post) *pb.Post {
+	postPb := &pb.Post{
+		Id:       post.Id.Hex(),
+		User:     post.User,
+		Posttext: post.PostText,
+		Image:    post.Images,
+		Date:     timestamppb.New(post.Date),
+	}
+	for _, comment := range post.Comments {
+		postPb.Comments = append(postPb.Comments, &pb.Comment{
+			Id:       comment.Id.Hex(),
+			Content:  comment.Content,
+			Date:     timestamppb.New(comment.Date),
+			Username: comment.User,
+		})
+	}
+	/*for _, reaction := range post.Reactions {
+		postPb.Reactions = append(postPb.Reactions, &pb.Reaction{
+			Username:     reaction.User,
+			ReactionType: reaction.Reaction,
+		})
+	}*/
+	return postPb
+}
+
+/*func mapNewComment(commentPb *pb.Comment) *domain.Comment {
 	comment := &domain.Comment{
 		Username:    commentPb.Username,
 		CommentText: commentPb.CommentText,

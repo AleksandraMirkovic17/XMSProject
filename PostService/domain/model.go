@@ -20,7 +20,7 @@ type Reaction struct {
 type ReactionType int
 
 const (
-	LIKE ReactionType = iota
+	LIKE = iota
 	DISLIKED
 )
 

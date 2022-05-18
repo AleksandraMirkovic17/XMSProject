@@ -12,8 +12,8 @@ type Comment struct {
 }
 
 type Reaction struct {
-	User     string `bson:"user"`
-	Reaction int    `bson:"reaction_type"`
+	User     string
+	Reaction int
 }
 
 type Post struct {

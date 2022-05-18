@@ -5,36 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="73e9022d-bf7f-4b1c-95b0-7a9024d84ed5" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.dev.env" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/PostService/infrastructure/api/pb_mapper.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/PostService/infrastructure/api/post_grpc_api.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/PostService/infrastructure/persistence/client.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/PostService/infrastructure/persistence/post_mongodb_store.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/PostService/startup/config/config.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/PostService/startup/server.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/api_gateway/.idea/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/api_gateway/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/api_gateway/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/api_gateway/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/api_gateway/domain/model.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/api_gateway/go.mod" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/api_gateway/infrastructure/api/handler.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/api_gateway/infrastructure/services/client.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/api_gateway/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/api_gateway/startup/config/config.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/api_gateway/startup/server.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/common/config/config.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/common/proto/post_service/google/api/annotations.proto" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/common/proto/post_service/google/api/field_behavior.proto" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/common/proto/post_service/google/api/http.proto" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/common/proto/post_service/google/api/httpbody.proto" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/common/proto/post_service/post_service.proto" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PostService/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/PostService/go.mod" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PostService/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/PostService/go.sum" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PostService/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/PostService/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PostService/application/post_service.go" beforeDir="false" afterPath="$PROJECT_DIR$/PostService/application/post_service.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PostService/domain/model.go" beforeDir="false" afterPath="$PROJECT_DIR$/PostService/domain/model.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PostService/infrastructure/api/pb_mapper.go" beforeDir="false" afterPath="$PROJECT_DIR$/PostService/infrastructure/api/pb_mapper.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PostService/infrastructure/api/post_grpc_api.go" beforeDir="false" afterPath="$PROJECT_DIR$/PostService/infrastructure/api/post_grpc_api.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api_gateway/domain/model.go" beforeDir="false" afterPath="$PROJECT_DIR$/api_gateway/domain/model.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

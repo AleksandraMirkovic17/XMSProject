@@ -24,15 +24,15 @@ func (service *PostService) GetAll() ([]*domain.Post, error) {
 	return service.store.GetAll()
 }
 
-func (service *PostService) Insert(post *domain.Post) error {
+func (service *PostService) Insert(post *domain.Post) (*domain.Post, error) {
 	(*post).Id = primitive.NewObjectID()
 	err := service.store.Insert(post)
 	if err != nil {
 		err := errors.New("Error occured during creating new post")
-		return err
+		return nil, err
 	}
 
-	return nil
+	return post, nil
 }
 
 func (service *PostService) GetAllByUser(uuid string) ([]*domain.Post, error) {

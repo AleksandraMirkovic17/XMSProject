@@ -3,7 +3,9 @@ package api
 import (
 	"PostService/application"
 	"context"
+	"fmt"
 	pb "github.com/dislinked/common/proto/post_service"
+	"google.golang.org/grpc/status"
 )
 
 type PostHandler struct {
@@ -25,5 +27,22 @@ func (handler *PostHandler) GetAll(ctx context.Context, request *pb.Empty) (*pb.
 		current := mapPost(post)
 		response.Posts = append(response.Posts, current)
 	}
+	return response, nil
+}
+
+func (handler *PostHandler) CreatePost(ctx context.Context, request *pb.NewPost) (*pb.NewPost, error) {
+	fmt.Println((*request).Post)
+	post := mapNewPost(request.Post)
+	fmt.Println(post)
+
+	newPost, err := handler.service.Insert(post)
+	if err != nil {
+		return nil, status.Error(400, err.Error())
+	}
+
+	response := &pb.NewPost{
+		Post: inversePostMap(newPost),
+	}
+
 	return response, nil
 }
