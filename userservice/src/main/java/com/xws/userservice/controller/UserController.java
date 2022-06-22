@@ -3,11 +3,13 @@ package com.xws.userservice.controller;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -21,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.xws.userservice.dto.LoginDTO;
+import com.xws.userservice.dto.RegistrationDTO;
 import com.xws.userservice.jwt.JwtResponse;
 import com.xws.userservice.jwt.JwtUtils;
 import com.xws.userservice.model.User;
@@ -72,5 +75,22 @@ public class UserController {
 												 userDetails.getUsername(), 
 												 userDetails.getEmail(), 
 												 roles));
+	}
+	
+	@PostMapping
+	@PreAuthorize("permitAll()")
+	public ResponseEntity<String> register(@RequestBody RegistrationDTO signUpRequest, HttpServletRequest request)
+	{
+		if (userService.findByEmail(signUpRequest.getEmail()) != null) {
+			return ResponseEntity
+					.badRequest()
+					.body("Error: Email is already taken!");
+		}
+		signUpRequest.setPassword(encoder.encode(signUpRequest.getPassword()));
+		User registeredUser = new User(signUpRequest);
+		userService.save(registeredUser);
+		return new ResponseEntity<>(
+			      "Registration successful!", 
+			      HttpStatus.OK);
 	}
 }

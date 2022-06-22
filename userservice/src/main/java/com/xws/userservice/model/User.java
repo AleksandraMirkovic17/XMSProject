@@ -20,6 +20,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.xws.userservice.dto.RegistrationDTO;
 import com.xws.userservice.enums.EGender;
 import com.xws.userservice.enums.EPrivacyLevel;
 
@@ -77,6 +78,14 @@ public class User {
 	boolean activated = false;
 	
 	public User() { }
+	
+	public User(RegistrationDTO registrationRequest) {
+		this.username = registrationRequest.getUsername();
+		this.email = registrationRequest.getEmail();
+		this.firstName = registrationRequest.getFirstName();
+		this.lastName = registrationRequest.getLastName();
+		this.contactPhone = registrationRequest.getContactPhone();
+	}
 	
 	public Integer getId() {
 		return id;
