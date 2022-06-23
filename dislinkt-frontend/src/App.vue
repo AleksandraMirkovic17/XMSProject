@@ -3,6 +3,7 @@
     <nav class="navMenu navbar-dark bg-dark">
       <a href="/" style="float:left">Homepage</a>
       <a href="/login">Login</a>
+      <a href="/register">Join us</a>
     </nav>
     <router-view/>
   </div>
@@ -33,7 +34,7 @@ body, html {
   height:100vh;
   min-height:550px;
   margin: 0;
-  background-color: #eae7dc;
+  background-color: #424242;
   background-position: center;
   background-repeat: no-repeat;
   background-attachment: fixed;

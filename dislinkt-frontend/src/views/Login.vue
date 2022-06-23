@@ -32,6 +32,13 @@
                         <a class="txt1" href="#">
                         Forgot Password?
                         </a>
+                        <br>
+                      <p class="txt1">
+                        Don't have an account?
+                        <a href="/register">
+                          Register.
+                        </a>
+                      </p>
                     </div>
                 </form>
             </div>

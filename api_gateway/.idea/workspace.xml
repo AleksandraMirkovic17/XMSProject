@@ -5,17 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="021e447f-d116-496d-8782-b20eb9f606f0" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/../.dev.env" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../PostService/infrastructure/grpc/proto/generate.sh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../PostService/infrastructure/grpc/proto/post_service.proto" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../common/proto/post_service/google/api/annotations.proto" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../common/proto/post_service/google/api/field_behavior.proto" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../common/proto/post_service/google/api/http.proto" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../common/proto/post_service/google/api/httpbody.proto" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../common/proto/post_service/post_service.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Microservices project/post-service/src/main/java/model/Post.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PostService/startup/config/config.go" beforeDir="false" afterPath="$PROJECT_DIR$/../PostService/startup/config/config.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PostService/startup/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/../PostService/startup/server.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/startup/config/config.go" beforeDir="false" afterPath="$PROJECT_DIR$/startup/config/config.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -26,18 +21,31 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
   <component name="ProjectId" id="29JAiCoIbhCXAq0rDDwuMOtBJ4r" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.go.format.on.save.advertiser.fired": "true",
     "RunOnceActivity.go.formatter.settings.were.checked": "true",
     "RunOnceActivity.go.migrated.go.modules.settings": "true",
     "RunOnceActivity.go.modules.go.list.on.any.changes.was.set": "true",
+    "RunOnceActivity.go.watchers.conflict.with.on.save.actions.check.performed": "true",
     "WebServerToolWindowFactoryState": "false",
     "go.import.settings.migrated": "true",
-    "last_opened_file_path": "C:/Users/PC/Desktop/xml/XMSProject"
+    "last_opened_file_path": "C:/Users/PC/Desktop/xml/XMSProject/common",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)"
   }
 }]]></component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />

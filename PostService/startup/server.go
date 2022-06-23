@@ -35,6 +35,8 @@ func (server *Server) Start() {
 
 func (server *Server) initMongoClient() *mongo.Client {
 	client, err := persistence.GetClient(server.config.PostDBHost, server.config.PostDBPort)
+	println("Na kom sam portuu")
+	fmt.Println(server.config.PostDBHost)
 	if err != nil {
 		log.Fatalln(err)
 	}
