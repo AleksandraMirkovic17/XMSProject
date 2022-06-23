@@ -3,7 +3,6 @@ package config
 import (
 	"flag"
 	cfg "github.com/dislinked/common/config"
-	"os"
 )
 
 type Config struct {
@@ -21,8 +20,8 @@ func NewConfig() *Config {
 	}
 
 	return &Config{
-		Port:       os.Getenv("POST_SERVICE_PORT"),
-		PostDBHost: os.Getenv("POST_DB_HOST"),
-		PostDBPort: os.Getenv("POST_DB_PORT"),
+		Port:       "8081",
+		PostDBHost: "localhost",
+		PostDBPort: "27017",
 	}
 }

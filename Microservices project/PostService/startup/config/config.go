@@ -3,12 +3,13 @@ package config
 import (
 	"flag"
 	cfg "github.com/dislinked/common/config"
+	"os"
 )
 
 type Config struct {
-	Port     string
-	PostHost string
-	PostPort string
+	Port       string
+	PostDBHost string
+	PostDBPort string
 }
 
 func NewConfig() *Config {
@@ -18,10 +19,10 @@ func NewConfig() *Config {
 	if *devEnv {
 		cfg.LoadEnv()
 	}
-	return &Config{
-		Port:     "4200",
-		PostHost: "localhost",
-		PostPort: "8081",
-	}
 
+	return &Config{
+		Port:       os.Getenv("POST_SERVICE_PORT"),
+		PostDBHost: os.Getenv("POST_DB_HOST"),
+		PostDBPort: os.Getenv("POST_DB_PORT"),
+	}
 }
