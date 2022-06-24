@@ -1,0 +1,51 @@
+syntax = "proto3";
+
+option go_package = "github.com/dislinked";
+
+import "google/protobuf/timestamp.proto";
+import "google/api/annotations.proto";
+
+service UserService{
+  rpc Get(GetRequest) returns(GetResponse) {
+    option (google.api.http) = {
+      get: "/user/{id}"
+    };
+  }
+  rpc GetAll(Empty) returns(GetAllResponse) {
+    option (google.api.http) = {
+      get: "/user"
+    };
+  }
+  rpc CreatePost(NewUser) returns(NewUser) {
+    option(google.api.http) = {
+      post: "/user"
+      body: "user"
+    };
+  }
+}
+
+message Empty {}
+
+message NewUser {
+  User user = 1;
+}
+
+message GetRequest {
+  string id = 1;
+}
+
+message GetResponse {
+  User User = 1;
+}
+
+message GetAllResponse {
+  repeated User users = 1;
+}
+
+message User {
+  string id = 1;
+  string username = 2;
+  string email = 3;
+  string gender = 4;
+  string dateOfBirth = 5;
+}
