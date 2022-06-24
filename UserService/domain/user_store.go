@@ -1,10 +1,15 @@
 package domain
 
-import "go.mongodb.org/mongo-driver/bson/primitive"
+import (
+	"go.mongodb.org/mongo-driver/x/mongo/driver/uuid"
+)
 
 type UserStore interface {
-	Get(id primitive.ObjectID) (*User, error)
-	GetAll() ([]*User, error)
 	Insert(user *User) error
-	DeleteAll()
+	Update(user *User) error
+	GetAll() (*[]User, error)
+	FindByID(uuid uuid.UUID) (*User, error)
+	FindByUsername(username string) (*User, error)
+	Search(searchText string) (*[]User, error)
+	Delete(user *User) error
 }

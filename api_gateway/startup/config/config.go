@@ -9,6 +9,8 @@ type Config struct {
 	Port     string
 	PostHost string
 	PostPort string
+	UserHost string
+	UserPort string
 }
 
 func NewConfig() *Config {
@@ -22,6 +24,8 @@ func NewConfig() *Config {
 		Port:     "4200",
 		PostHost: "localhost",
 		PostPort: "8081",
+		UserHost: "localhost",
+		UserPort: "8082",
 	}
 
 }
