@@ -5,14 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="73e9022d-bf7f-4b1c-95b0-7a9024d84ed5" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/jobService/.idea/modules.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.dev.env" beforeDir="false" afterPath="$PROJECT_DIR$/.dev.env" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/XMSProject.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/XMSProject.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PostService/startup/config/config.go" beforeDir="false" afterPath="$PROJECT_DIR$/PostService/startup/config/config.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PostService/startup/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/PostService/startup/server.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api_gateway/startup/config/config.go" beforeDir="false" afterPath="$PROJECT_DIR$/api_gateway/startup/config/config.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UserService/.idea/PostService.iml" beforeDir="false" afterPath="$PROJECT_DIR$/UserService/.idea/UserService.iml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
