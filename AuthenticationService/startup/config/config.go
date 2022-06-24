@@ -1,7 +1,5 @@
 package config
 
-import "os"
-
 type Config struct {
 	Port       string
 	AuthDBHost string
@@ -13,11 +11,11 @@ type Config struct {
 
 func NewConfig() *Config {
 	return &Config{
-		Port:       os.Getenv("4201"),
-		AuthDBHost: os.Getenv("AUTH_DB_HOST"),
-		AuthDBPort: os.Getenv("AUTH_DB_PORT"),
-		AuthDBName: os.Getenv("AUTH_DB_NAME"),
-		AuthDBUser: os.Getenv("AUTH_DB_USER"),
-		AuthDBPass: os.Getenv("AUTH_DB_PASS"),
+		Port:       "4201",
+		AuthDBHost: "localhost",
+		AuthDBPort: "5432",
+		AuthDBName: "authentication_user",
+		AuthDBUser: "root",
+		AuthDBPass: "root",
 	}
 }

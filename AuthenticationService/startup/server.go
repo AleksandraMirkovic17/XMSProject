@@ -2,6 +2,7 @@ package startup
 
 import (
 	"AuthenticationService/application"
+	"AuthenticationService/startup/config"
 	"fmt"
 	"google.golang.org/grpc"
 	"log"

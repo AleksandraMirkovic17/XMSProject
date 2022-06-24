@@ -5,21 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="73e9022d-bf7f-4b1c-95b0-7a9024d84ed5" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/AuthenticationService/application/authentication_service.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AuthenticationService/application/jwt_manager.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AuthenticationService/domain/authentication_store.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AuthenticationService/domain/dto.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AuthenticationService/domain/model.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AuthenticationService/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AuthenticationService/startup/config/config.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AuthenticationService/startup/server.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/XMSProject.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/XMSProject.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/AuthenticationService/infrastructure/api/authentication_grpc_api.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/AuthenticationService/infrastructure/persistence/client.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/AuthenticationService/infrastructure/persistence/user_postgres_store.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/common/proto/authentication_service/authentication_service.proto" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/UserService/domain/model.go" beforeDir="false" afterPath="$PROJECT_DIR$/UserService/domain/model.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/UserService/domain/user_store.go" beforeDir="false" afterPath="$PROJECT_DIR$/UserService/domain/user_store.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api_gateway/startup/config/config.go" beforeDir="false" afterPath="$PROJECT_DIR$/api_gateway/startup/config/config.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api_gateway/startup/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/api_gateway/startup/server.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AuthenticationService/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/AuthenticationService/go.mod" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AuthenticationService/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/AuthenticationService/go.sum" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AuthenticationService/startup/config/config.go" beforeDir="false" afterPath="$PROJECT_DIR$/AuthenticationService/startup/config/config.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AuthenticationService/startup/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/AuthenticationService/startup/server.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
