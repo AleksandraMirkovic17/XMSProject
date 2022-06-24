@@ -5,15 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="73e9022d-bf7f-4b1c-95b0-7a9024d84ed5" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/AuthenticationService/infrastructure/api/pb_mapper.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/common/proto/authentication_service/google/api/annotations.proto" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/common/proto/authentication_service/google/api/field_behavior.proto" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/common/proto/authentication_service/google/api/http.proto" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/common/proto/authentication_service/google/api/httpbody.proto" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AuthenticationService/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/AuthenticationService/go.mod" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AuthenticationService/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/AuthenticationService/go.sum" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AuthenticationService/infrastructure/api/authentication_grpc_api.go" beforeDir="false" afterPath="$PROJECT_DIR$/AuthenticationService/infrastructure/api/authentication_grpc_api.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AuthenticationService/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/AuthenticationService/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AuthenticationService/startup/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/AuthenticationService/startup/server.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UserService/domain/model.go" beforeDir="false" afterPath="$PROJECT_DIR$/UserService/domain/model.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UserService/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/UserService/go.mod" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UserService/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/UserService/go.sum" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UserService/infrastructure/api/pb_mapper.go" beforeDir="false" afterPath="$PROJECT_DIR$/UserService/infrastructure/api/pb_mapper.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/proto/user_service/user_service.pb.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/proto/user_service/user_service.proto" beforeDir="false" afterPath="$PROJECT_DIR$/common/proto/user_service/user_service.proto" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

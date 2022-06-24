@@ -2,9 +2,14 @@ package startup
 
 import (
 	"AuthenticationService/application"
+	"AuthenticationService/domain"
+	"AuthenticationService/infrastructure/api"
+	"AuthenticationService/infrastructure/persistence"
 	"AuthenticationService/startup/config"
 	"fmt"
+	pb "github.com/dislinked/common/proto/authentication_service"
 	"google.golang.org/grpc"
+	"gorm.io/gorm"
 	"log"
 	"net"
 )
@@ -68,7 +73,8 @@ func (server *Server) startGrpcServer(authenticationHandler *api.AuthenticationH
 		log.Fatalf("failed to listen: %v", err)
 	}
 	grpcServer := grpc.NewServer()
-	auth.RegisterAuthenticationServiceServer(grpcServer, authenticationHandler)
+	pb.RegisterAuthenticationServiceServer(grpcServer, authenticationHandler)
 	if err := grpcServer.Serve(listener); err != nil {
 		log.Fatalf("failed to serve: %s", err)
 	}
+}

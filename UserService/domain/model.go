@@ -17,7 +17,8 @@ const (
 type Gender int
 
 const (
-	MALE = iota
+	Other = iota
+	MALE
 	FEMALE
 )
 
