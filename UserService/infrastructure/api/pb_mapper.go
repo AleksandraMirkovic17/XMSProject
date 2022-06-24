@@ -3,38 +3,35 @@ package api
 import (
 	"UserService/domain"
 	pb "github.com/dislinked/common/proto/user_service"
+	"go.mongodb.org/mongo-driver/bson/primitive"
+	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
-/*func mapUser(userD *domain.User) *pb.User {
-	userPb := &pb.User{
-		Id:          userD.Id.String(),
-		Name:        userD.Name,
-		Surname:     userD.Surname,
-		Username:    *userD.Username,
-		Email:       *userD.Email,
-		Number:      userD.Number,
-		Gender:      mapGenderToPb(userD.Gender),
-		DateOfBirth: userD.DateOfBirth,
-		Password:    userD.Password,
-		UserRole:    mapUserRole(userD.UserRole),
-		Biography:   userD.Biography,
-		Blocked:     userD.Blocked,
-		CreatedAt:   timestamppb.New(userD.CreatedAt),
-		UpdatedAt:   timestamppb.New(userD.UpdatedAt),
-		Private:     userD.Private,
-	}
-	return userPb
-}*/
 func mapUser(user *domain.User) *pb.User {
 	var userPb = &pb.User{
 		Id:          user.Id.String(),
+		Name:        user.Name,
+		Surname:     user.Surname,
 		Username:    user.Username,
 		Email:       user.Email,
 		Gender:      mapGenderToPb(user.Gender),
-		DateOfBirth: user.DateOfBirth.String(),
+		Role:        mapRoleToPb(user.Role),
+		DateOfBirth: timestamppb.New(user.DateOfBirth),
 	}
 
 	return userPb
+}
+
+func mapRoleToPb(role domain.Role) pb.UserRole {
+	switch role {
+	case domain.Regular:
+		return pb.UserRole_Regular
+	case domain.Agent:
+		return pb.UserRole_Agent
+	case domain.Admin:
+		return pb.UserRole_Admin
+	}
+	return pb.UserRole_Regular
 }
 
 func mapGenderToPb(gender domain.Gender) pb.Gender {
@@ -48,6 +45,56 @@ func mapGenderToPb(gender domain.Gender) pb.Gender {
 	}
 	return pb.Gender_Other
 }
+
+func mapNewUserPbToDomain(userPb *pb.NewUser) *domain.User {
+	userD := &domain.User{
+		Id:          primitive.ObjectID{},
+		Name:        (*userPb).User.Name,
+		Surname:     (*userPb).User.Surname,
+		Username:    (*userPb).User.Username,
+		Email:       (*userPb).User.Email,
+		Password:    (*userPb).User.Password,
+		Gender:      mapGenderPbToDomainGender(userPb.User.Gender),
+		Role:        domain.Regular,
+		DateOfBirth: (*((*userPb).User.DateOfBirth)).AsTime(),
+	}
+	return userD
+}
+
+func mapGenderPbToDomainGender(gender pb.Gender) domain.Gender {
+	switch gender {
+	case pb.Gender_Female:
+		return domain.FEMALE
+	case pb.Gender_Male:
+		return domain.MALE
+	case pb.Gender_Other:
+		return domain.Other
+	}
+	return domain.Other
+
+}
+
+/*
+func mapNewUser(userPb *pb.NewUser) *domain.User {
+	userD := &domain.User{
+		Id:          uuid.NewV4(),
+		Name:        userPb.Name,
+		Surname:     userPb.Surname,
+		Username:    &userPb.Username,
+		Email:       &userPb.Email,
+		Number:      userPb.Number,
+		Gender:      mapGenderToDomain(userPb.Gender),
+		DateOfBirth: userPb.DateOfBirth,
+		Password:    userPb.Password,
+		UserRole:    domain.Regular,
+		Biography:   userPb.Biography,
+		Blocked:     false,
+		CreatedAt:   time.Now(),
+		UpdatedAt:   time.Now(),
+		Private:     userPb.Private,
+	}
+	return userD
+}*/
 
 /*func mapNewPost(postPb *pb.Post) *domain.Post {
 	post := &domain.Post{

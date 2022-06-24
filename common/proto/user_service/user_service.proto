@@ -6,12 +6,12 @@ import "google/protobuf/timestamp.proto";
 import "google/api/annotations.proto";
 
 service UserService{
-  rpc Get(GetRequest) returns(GetResponse) {
+  rpc Get(GetUserRequest) returns(GetUserResponse) {
     option (google.api.http) = {
       get: "/user/{id}"
     };
   }
-  rpc GetAll(Empty) returns(GetAllResponse) {
+  rpc GetAll(EmptyUser) returns(GetAllUserResponse) {
     option (google.api.http) = {
       get: "/user"
     };
@@ -24,21 +24,21 @@ service UserService{
   }
 }
 
-message Empty {}
+message EmptyUser {}
 
 message NewUser {
   User user = 1;
 }
 
-message GetRequest {
+message GetUserRequest {
   string id = 1;
 }
 
-message GetResponse {
+message GetUserResponse {
   User User = 1;
 }
 
-message GetAllResponse {
+message GetAllUserResponse {
   repeated User users = 1;
 }
 
@@ -57,10 +57,13 @@ enum UserRole{
 message User {
   string id = 1;
   string username = 2;
-  string email = 3;
-  Gender gender = 4;
-  UserRole role = 5;
-  string dateOfBirth = 6;
+  string name = 3;
+  string surname = 4;
+  string email = 5;
+  Gender gender = 6;
+  UserRole role = 7;
+  google.protobuf.Timestamp dateOfBirth = 8;
+  string password = 9;
 }
 
 

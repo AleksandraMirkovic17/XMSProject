@@ -12,4 +12,5 @@ type UserStore interface {
 	FindByUsername(username string) (*User, error)
 	Search(searchText string) (*[]User, error)
 	Delete(user *User) error
+	DeleteAll() error
 }
