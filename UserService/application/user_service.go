@@ -2,9 +2,7 @@ package application
 
 import (
 	"UserService/domain"
-	"errors"
-
-	"go.mongodb.org/mongo-driver/bson/primitive"
+	uuid "github.com/satori/go.uuid"
 )
 
 type UserService struct {
@@ -17,25 +15,70 @@ func NewUserService(store domain.UserStore) *UserService {
 	}
 }
 
-func (service *UserService) Get(id primitive.ObjectID) (*domain.User, error) {
-	return service.store.Get(id)
+func (service *UserService) Register(user *domain.User) error {
+	// span := tracer.StartSpanFromContext(ctx, "Register-Service")
+	// defer span.Finish()
+	//
+	// newCtx := tracer.ContextWithSpan(context.Background(), span)
+
+	return nil
 }
 
-func (service *UserService) GetAll() ([]*domain.User, error) {
-	return service.store.GetAll()
+func (service *UserService) Insert(user *domain.User) error {
+	// span := tracer.StartSpanFromContext(ctx, "Register-Service")
+	// defer span.Finish()
+	//
+	// newCtx := tracer.ContextWithSpan(context.Background(), span)
+	err := service.store.Insert(user)
+	return err
+}
+func (service *UserService) Update(uuid uuid.UUID, user *domain.User) error {
+	return nil
 }
 
-func (service *UserService) Insert(post *domain.User) (*domain.User, error) {
-	(*post).Id = primitive.NewObjectID()
-	err := service.store.Insert(post)
+func (service *UserService) PatchUser(updatePaths []string, requestUser *domain.User,
+	uuid uuid.UUID) (*domain.User, error) {
+	// span := tracer.StartSpanFromContext(ctx, "Update-Service")
+	// defer span.Finish()
+	//
+	// newCtx := tracer.ContextWithSpan(context.Background(), span)
+	foundUser, err := service.store.FindByID(uuid)
 	if err != nil {
-		err := errors.New("Error occured during creating new user")
 		return nil, err
 	}
 
-	return post, nil
+	updatedUser, err := updateField(updatePaths, foundUser, requestUser)
+	if err != nil {
+		return nil, err
+	}
+	err = service.store.Update(updatedUser)
+	return updatedUser, nil
 }
 
-func (service *UserService) DeleteAll() {
-	service.store.DeleteAll()
+func updateField(paths []string, user *domain.User, requestUser *domain.User) (*domain.User, error) {
+	return user, nil
+}
+
+func (service *UserService) GetAll() (*[]domain.User, error) {
+	// span := tracer.StartSpanFromContext(ctx, "GetAll-Service")
+	// defer span.Finish()
+	//
+	// newCtx := tracer.ContextWithSpan(context.Background(), span)
+	return service.store.GetAll()
+}
+
+func (service *UserService) Search(searchText string) (*[]domain.User, error) {
+	return service.store.Search(searchText)
+}
+
+func (service *UserService) GetOne(uuid uuid.UUID) (*domain.User, error) {
+	return service.store.FindByID(uuid)
+}
+
+func (service *UserService) FindByUsername(username string) (*domain.User, error) {
+	return service.store.FindByUsername(username)
+}
+
+func (service *UserService) Delete(user *domain.User) interface{} {
+	return service.store.Delete(user)
 }

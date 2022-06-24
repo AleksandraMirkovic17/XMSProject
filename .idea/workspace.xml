@@ -6,13 +6,14 @@
   <component name="ChangeListManager">
     <list default="true" id="73e9022d-bf7f-4b1c-95b0-7a9024d84ed5" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/UserService/domain/model.go" beforeDir="false" afterPath="$PROJECT_DIR$/UserService/domain/model.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UserService/application/user_service.go" beforeDir="false" afterPath="$PROJECT_DIR$/UserService/application/user_service.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/UserService/domain/user_store.go" beforeDir="false" afterPath="$PROJECT_DIR$/UserService/domain/user_store.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/UserService/infrastructure/api/pb_mapper.go" beforeDir="false" afterPath="$PROJECT_DIR$/UserService/infrastructure/api/pb_mapper.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/common/proto/user_service/user_service.pb.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/common/proto/user_service/user_service.pb.gw.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/common/proto/user_service/user_service.proto" beforeDir="false" afterPath="$PROJECT_DIR$/common/proto/user_service/user_service.proto" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/common/proto/user_service/user_service_grpc.pb.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UserService/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/UserService/go.mod" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UserService/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/UserService/go.sum" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UserService/infrastructure/persistence/client.go" beforeDir="false" afterPath="$PROJECT_DIR$/UserService/infrastructure/persistence/client.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UserService/infrastructure/persistence/user_mongodb_store.go" beforeDir="false" afterPath="$PROJECT_DIR$/UserService/infrastructure/persistence/user_mongodb_store.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UserService/startup/config/config.go" beforeDir="false" afterPath="$PROJECT_DIR$/UserService/startup/config/config.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UserService/startup/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/UserService/startup/server.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -33,6 +34,9 @@
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
   </component>
   <component name="ProjectId" id="29IBzKzDINW69cNYdjN5W421eIN" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />

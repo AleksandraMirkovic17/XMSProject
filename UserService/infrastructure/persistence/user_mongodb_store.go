@@ -2,78 +2,78 @@ package persistence
 
 import (
 	"UserService/domain"
-	"context"
-
-	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/bson/primitive"
-	"go.mongodb.org/mongo-driver/mongo"
+	uuid "github.com/satori/go.uuid"
+	"gorm.io/gorm"
 )
 
-const (
-	DATABASE   = "user"
-	COLLECTION = "user"
-)
-
-type UserMongoDBStore struct {
-	users *mongo.Collection
+type UserPostgresStore struct {
+	db *gorm.DB
 }
 
-func (store *UserMongoDBStore) DeleteAll() {
-	//TODO implement me
-	panic("implement me")
-}
-
-func NewUserMongoDBStore(client *mongo.Client) domain.UserStore {
-	users := client.Database(DATABASE).Collection(COLLECTION)
-	return &UserMongoDBStore{users: users}
-}
-
-func (store *UserMongoDBStore) Get(id primitive.ObjectID) (*domain.User, error) {
-	filter := bson.M{"_id": id}
-	return store.filterOne(filter)
-}
-
-func (store *UserMongoDBStore) GetAll() ([]*domain.User, error) {
-	filter := bson.D{}
-	return store.filter(filter)
-}
-
-func (store *UserMongoDBStore) Insert(user *domain.User) error {
-	result, err := store.users.InsertOne(context.TODO(), user)
-	if err != nil {
-		return err
-	}
-	user.Id = result.InsertedID.(primitive.ObjectID)
-
-	return nil
-}
-
-func (store *UserMongoDBStore) filter(filter interface{}) ([]*domain.User, error) {
-	cursor, err := store.users.Find(context.TODO(), filter)
-	defer cursor.Close(context.TODO())
-
+func NewUserPostgresStore(db *gorm.DB) (domain.UserStore, error) {
+	err := db.AutoMigrate(&domain.User{})
 	if err != nil {
 		return nil, err
 	}
-
-	return decode(cursor)
+	return &UserPostgresStore{db: db}, nil
 }
 
-func (store *UserMongoDBStore) filterOne(filter interface{}) (user *domain.User, err error) {
-	result := store.users.FindOne(context.TODO(), filter)
-	err = result.Decode(&user)
-	return
-}
-
-func decode(cursor *mongo.Cursor) (users []*domain.User, err error) {
-	for cursor.Next(context.TODO()) {
-		var user domain.User
-		err = cursor.Decode(&user)
-		if err != nil {
-			return
-		}
-		users = append(users, &user)
+func (store *UserPostgresStore) Insert(user *domain.User) error {
+	// span := tracer.StartSpanFromContext(ctx, "Register-DB")
+	// defer span.Finish()
+	result := store.db.Create(user)
+	if result.Error != nil {
+		return result.Error
 	}
-	err = cursor.Err()
-	return
+	return nil
+}
+
+func (store *UserPostgresStore) Update(user *domain.User) error {
+	// span := tracer.StartSpanFromContext(ctx, "Update-DB")
+	// defer span.Finish()
+	if result := store.db.Save(&user); result.Error != nil {
+		return result.Error
+	}
+	return nil
+}
+
+func (store *UserPostgresStore) GetAll() (*[]domain.User, error) {
+	// span := tracer.StartSpanFromContext(ctx, "GetAll-DB")
+	// defer span.Finish()
+	var users []domain.User
+	result := store.db.Find(&users)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+	return &users, nil
+}
+
+func (store *UserPostgresStore) FindByID(uuid uuid.UUID) (user *domain.User, err error) {
+	foundUser := domain.User{}
+	if result := store.db.First(&foundUser, uuid); result.Error != nil {
+		return nil, result.Error
+	}
+	return &foundUser, nil
+}
+
+func (store *UserPostgresStore) FindByUsername(username string) (user *domain.User, err error) {
+	return nil, nil
+}
+
+func (store *UserPostgresStore) Search(searchText string) (*[]domain.User, error) {
+	var users []domain.User
+	arg := "%" + searchText + "%"
+	result := store.db.Where("name LIKE ? OR surname LIKE ? OR username LIKE ?", arg, arg, arg).Find(&users)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+	return &users, nil
+}
+
+func (store *UserPostgresStore) Delete(user *domain.User) error {
+	result := store.db.Delete(user)
+	if result.Error != nil {
+		return result.Error
+	}
+	return nil
 }

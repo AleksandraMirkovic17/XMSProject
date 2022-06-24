@@ -8,8 +8,11 @@ import (
 
 type Config struct {
 	Port       string
-	PostDBHost string
-	PostDBPort string
+	UserDBHost string
+	UserDBPort string
+	UserDBName string
+	UserDBUser string
+	UserDBPass string
 }
 
 func NewConfig() *Config {
@@ -22,7 +25,10 @@ func NewConfig() *Config {
 
 	return &Config{
 		Port:       "8091",
-		PostDBHost: "localhost",
-		PostDBPort: "27017",
+		UserDBHost: "localhost",
+		UserDBPort: "5432",
+		UserDBName: "xws_user",
+		UserDBUser: "root",
+		UserDBPass: "root",
 	}
 }

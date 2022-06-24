@@ -1,7 +1,7 @@
 package domain
 
 import (
-	"go.mongodb.org/mongo-driver/x/mongo/driver/uuid"
+	uuid "github.com/satori/go.uuid"
 )
 
 type UserStore interface {
@@ -12,5 +12,4 @@ type UserStore interface {
 	FindByUsername(username string) (*User, error)
 	Search(searchText string) (*[]User, error)
 	Delete(user *User) error
-	DeleteAll() error
 }

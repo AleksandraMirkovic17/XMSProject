@@ -3,68 +3,71 @@ package startup
 import (
 	"UserService/application"
 	"UserService/domain"
-	"UserService/infrastructure/api"
 	"UserService/infrastructure/persistence"
 	"UserService/startup/config"
-	"fmt"
+	"gorm.io/gorm"
 	"log"
-	"net"
-
-	postProto "github.com/dislinked/common/proto/post_service"
-	"go.mongodb.org/mongo-driver/mongo"
-	"google.golang.org/grpc"
 )
+
+var grpcGatewayTag = otgo.Tag{Key: string(ext.Component), Value: "grpc-gateway"}
 
 type Server struct {
 	config *config.Config
+	// tracer otgo.Tracer
+	// closer io.Closer
 }
 
 func NewServer(config *config.Config) *Server {
-	return &Server{config: config}
+	// newTracer, closer := tracer.Init(config.JaegerServiceName)
+	// otgo.SetGlobalTracer(newTracer)
+	return &Server{
+		config: config,
+		// tracer: newTracer,
+		// closer: closer,
+	}
 }
+
+const (
+	QueueGroup = "user_service"
+)
 
 func (server *Server) Start() {
-	print("usao u start")
-	mongoClient := server.initMongoClient()
-	print("init mongo client")
-	postStore := server.initPostStore(mongoClient)
+	postgresClient := server.initUserClient()
+	userStore := server.initUserStore(postgresClient)
 
-	postService := server.initPostService(postStore)
-	postHandler := server.initPostHandler(postService)
-	server.startGrpcServer(postHandler)
+	server.initRegisterUserHandler(userService, replyPublisher, commandSubscriber)
+
+	userHandler := server.initUserHandler(userService)
+
+	server.startGrpcServer(userHandler)
 }
 
-func (server *Server) initMongoClient() *mongo.Client {
-	client, err := persistence.GetClient(server.config.PostDBHost, server.config.PostDBPort)
-	println("Na kom sam portuu")
-	fmt.Println(server.config.PostDBHost)
+func (server *Server) initUserClient() *gorm.DB {
+	client, err := persistence.GetClient(
+		server.config.UserDBHost, server.config.UserDBUser,
+		server.config.UserDBPass, server.config.UserDBName,
+		server.config.UserDBPort)
 	if err != nil {
-		log.Fatalln(err)
+		log.Fatal(err)
 	}
 	return client
 }
 
-func (server *Server) initPostStore(client *mongo.Client) domain.PostStore {
-	store := persistence.NewPostMongoDBStore(client)
+func (server *Server) initUserStore(client *gorm.DB) domain.UserStore {
+	store, err := persistence.NewUserPostgresStore(client)
+	if err != nil {
+		log.Fatal(err)
+	}
+	// store.DeleteAll()
+	// for _, Product := range products {
+	// 	err := store.Register(Product)
+	// 	if err != nil {
+	// 		log.Fatal(err)
+	// 	}
+	// }
 	return store
 }
 
-func (server *Server) initPostService(store domain.PostStore) *application.PostService {
-	return application.NewPostService(store)
-}
-
-func (server *Server) initPostHandler(service *application.PostService) *api.PostHandler {
-	return api.NewPostHandler(service)
-}
-
-func (server *Server) startGrpcServer(postHandler *api.PostHandler) {
-	listener, err := net.Listen("tcp", fmt.Sprintf(":%s", server.config.Port))
-	if err != nil {
-		log.Fatalf("failed to listen: %v", err)
-	}
-	grpcServer := grpc.NewServer()
-	postProto.RegisterPostServiceServer(grpcServer, postHandler)
-	if err := grpcServer.Serve(listener); err != nil {
-		log.Fatalf("failed to serve: %s", err)
-	}
+func (server *Server) initUserService(store domain.UserStore) *application.UserService {
+	return application.NewUserService(store)
 }
