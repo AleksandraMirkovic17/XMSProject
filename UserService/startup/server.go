@@ -3,13 +3,17 @@ package startup
 import (
 	"UserService/application"
 	"UserService/domain"
+	"UserService/infrastructure/api"
 	"UserService/infrastructure/persistence"
 	"UserService/startup/config"
-	"gorm.io/gorm"
+	"fmt"
 	"log"
-)
+	"net"
 
-var grpcGatewayTag = otgo.Tag{Key: string(ext.Component), Value: "grpc-gateway"}
+	userProto "github.com/dislinked/common/proto/user_service"
+	"google.golang.org/grpc"
+	"gorm.io/gorm"
+)
 
 type Server struct {
 	config *config.Config
@@ -34,10 +38,10 @@ const (
 func (server *Server) Start() {
 	postgresClient := server.initUserClient()
 	userStore := server.initUserStore(postgresClient)
-
-	server.initRegisterUserHandler(userService, replyPublisher, commandSubscriber)
-
+	userService := server.initUserService(userStore)
 	userHandler := server.initUserHandler(userService)
+
+	//server.initRegisterUserHandler(userService, replyPublisher, commandSubscriber)
 
 	server.startGrpcServer(userHandler)
 }
@@ -70,4 +74,21 @@ func (server *Server) initUserStore(client *gorm.DB) domain.UserStore {
 
 func (server *Server) initUserService(store domain.UserStore) *application.UserService {
 	return application.NewUserService(store)
+}
+
+func (server *Server) initUserHandler(service *application.UserService) *api.UserHandler {
+	return api.NewUserHandler(service)
+}
+
+func (server *Server) startGrpcServer(userHandler *api.UserHandler) {
+	listener, err := net.Listen("tcp", fmt.Sprintf(":%s", server.config.Port))
+	if err != nil {
+		log.Fatalf("failed to listen: %v", err)
+	}
+	grpcServer := grpc.NewServer()
+	userProto.RegisterUserServiceServer(grpcServer, userHandler)
+	if err := grpcServer.Serve(listener); err != nil {
+		log.Fatalf("failed to serve: %s", err)
+		log.Fatalf("failed to serve: %s", err)
+	}
 }
