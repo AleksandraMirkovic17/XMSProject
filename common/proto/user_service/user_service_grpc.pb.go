@@ -24,7 +24,7 @@ const _ = grpc.SupportPackageIsVersion7
 type UserServiceClient interface {
 	Get(ctx context.Context, in *GetUserRequest, opts ...grpc.CallOption) (*GetUserResponse, error)
 	GetAll(ctx context.Context, in *EmptyUser, opts ...grpc.CallOption) (*GetAllUserResponse, error)
-	CreatePost(ctx context.Context, in *NewUser, opts ...grpc.CallOption) (*NewUser, error)
+	Insert(ctx context.Context, in *RegisterUserRequest, opts ...grpc.CallOption) (*User, error)
 }
 
 type userServiceClient struct {
@@ -53,9 +53,9 @@ func (c *userServiceClient) GetAll(ctx context.Context, in *EmptyUser, opts ...g
 	return out, nil
 }
 
-func (c *userServiceClient) CreatePost(ctx context.Context, in *NewUser, opts ...grpc.CallOption) (*NewUser, error) {
-	out := new(NewUser)
-	err := c.cc.Invoke(ctx, "/UserService/CreatePost", in, out, opts...)
+func (c *userServiceClient) Insert(ctx context.Context, in *RegisterUserRequest, opts ...grpc.CallOption) (*User, error) {
+	out := new(User)
+	err := c.cc.Invoke(ctx, "/UserService/Insert", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -68,7 +68,7 @@ func (c *userServiceClient) CreatePost(ctx context.Context, in *NewUser, opts ..
 type UserServiceServer interface {
 	Get(context.Context, *GetUserRequest) (*GetUserResponse, error)
 	GetAll(context.Context, *EmptyUser) (*GetAllUserResponse, error)
-	CreatePost(context.Context, *NewUser) (*NewUser, error)
+	Insert(context.Context, *RegisterUserRequest) (*User, error)
 	mustEmbedUnimplementedUserServiceServer()
 }
 
@@ -82,8 +82,8 @@ func (UnimplementedUserServiceServer) Get(context.Context, *GetUserRequest) (*Ge
 func (UnimplementedUserServiceServer) GetAll(context.Context, *EmptyUser) (*GetAllUserResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetAll not implemented")
 }
-func (UnimplementedUserServiceServer) CreatePost(context.Context, *NewUser) (*NewUser, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CreatePost not implemented")
+func (UnimplementedUserServiceServer) Insert(context.Context, *RegisterUserRequest) (*User, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Insert not implemented")
 }
 func (UnimplementedUserServiceServer) mustEmbedUnimplementedUserServiceServer() {}
 
@@ -134,20 +134,20 @@ func _UserService_GetAll_Handler(srv interface{}, ctx context.Context, dec func(
 	return interceptor(ctx, in, info, handler)
 }
 
-func _UserService_CreatePost_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(NewUser)
+func _UserService_Insert_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RegisterUserRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(UserServiceServer).CreatePost(ctx, in)
+		return srv.(UserServiceServer).Insert(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/UserService/CreatePost",
+		FullMethod: "/UserService/Insert",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserServiceServer).CreatePost(ctx, req.(*NewUser))
+		return srv.(UserServiceServer).Insert(ctx, req.(*RegisterUserRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -168,8 +168,8 @@ var UserService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _UserService_GetAll_Handler,
 		},
 		{
-			MethodName: "CreatePost",
-			Handler:    _UserService_CreatePost_Handler,
+			MethodName: "Insert",
+			Handler:    _UserService_Insert_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

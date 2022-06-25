@@ -24,7 +24,7 @@ func NewConfig() *Config {
 	}
 
 	return &Config{
-		Port:       "8091",
+		Port:       "8089",
 		UserDBHost: "localhost",
 		UserDBPort: "5432",
 		UserDBName: "xws_user",

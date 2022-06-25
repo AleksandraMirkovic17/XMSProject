@@ -16,7 +16,7 @@ service UserService{
       get: "/user"
     };
   }
-  rpc CreatePost(NewUser) returns(NewUser) {
+  rpc Insert(RegisterUserRequest) returns(User) {
     option(google.api.http) = {
       post: "/user"
       body: "user"
@@ -26,9 +26,6 @@ service UserService{
 
 message EmptyUser {}
 
-message NewUser {
-  User user = 1;
-}
 
 message GetUserRequest {
   string id = 1;
@@ -64,6 +61,14 @@ message User {
   UserRole role = 7;
   google.protobuf.Timestamp dateOfBirth = 8;
   string password = 9;
+}
+
+message NewUser {
+  User user = 1;
+}
+
+message  RegisterUserRequest {
+  NewUser user = 1;
 }
 
 

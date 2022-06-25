@@ -25,7 +25,7 @@ func NewConfig() *Config {
 		PostHost: "localhost",
 		PostPort: "8081",
 		UserHost: "localhost",
-		UserPort: "8082",
+		UserPort: "8089",
 	}
 
 }
