@@ -44,7 +44,7 @@ func (handler *UserHandler) Insert(ctx context.Context, request *pb.RegisterUser
 	user := mapNewUserPbToDomain(request.User)
 	fmt.Println("mapper zavrsio")
 
-	err := handler.service.Register(user)
+	err := handler.service.Insert(user)
 	fmt.Println("Register zavrsio")
 	if err != nil {
 		return nil, err

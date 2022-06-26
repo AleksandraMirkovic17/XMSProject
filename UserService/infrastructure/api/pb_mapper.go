@@ -2,8 +2,9 @@ package api
 
 import (
 	"UserService/domain"
+
 	pb "github.com/dislinked/common/proto/user_service"
-	"go.mongodb.org/mongo-driver/bson/primitive"
+	uuid "github.com/satori/go.uuid"
 	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
@@ -48,13 +49,13 @@ func mapGenderToPb(gender domain.Gender) pb.Gender {
 
 func mapNewUserPbToDomain(userPb *pb.NewUser) *domain.User {
 	userD := &domain.User{
-		Id:          primitive.ObjectID{},
+		Id:          uuid.NewV4(),
 		Name:        (*userPb).User.Name,
 		Surname:     (*userPb).User.Surname,
 		Username:    (*userPb).User.Username,
 		Email:       (*userPb).User.Email,
 		Password:    (*userPb).User.Password,
-		Gender:      mapGenderPbToDomainGender(userPb.User.Gender),
+		Gender:      mapGenderPbToDomainGender((*userPb).User.Gender),
 		Role:        domain.Regular,
 		DateOfBirth: (*((*userPb).User.DateOfBirth)).AsTime(),
 	}

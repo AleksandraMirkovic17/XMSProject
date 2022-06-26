@@ -3,7 +3,7 @@ package domain
 import (
 	"time"
 
-	"go.mongodb.org/mongo-driver/bson/primitive"
+	uuid "github.com/satori/go.uuid"
 )
 
 type Role int
@@ -23,13 +23,13 @@ const (
 )
 
 type User struct {
-	Id          primitive.ObjectID `bson:"_id"`
-	Name        string             `bson:"name"`
-	Surname     string             `bson:"surname"`
-	Username    string             `bson:"username"`
-	Email       string             `bson:"email"`
-	Password    string             `bson:"password"`
-	Gender      Gender             `bson:"gender"`
-	Role        Role               `bson:"role"`
-	DateOfBirth time.Time          `bson:"date"`
+	Id          uuid.UUID `gorm:"index:idx_name,unique"`
+	Name        string    `bson:"name"`
+	Surname     string    `bson:"surname"`
+	Username    string    `bson:"username"`
+	Email       string    `bson:"email"`
+	Password    string    `bson:"password"`
+	Gender      Gender    `bson:"gender"`
+	Role        Role      `bson:"role"`
+	DateOfBirth time.Time `bson:"date"`
 }

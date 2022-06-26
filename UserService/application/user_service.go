@@ -2,6 +2,7 @@ package application
 
 import (
 	"UserService/domain"
+
 	uuid "github.com/satori/go.uuid"
 )
 
