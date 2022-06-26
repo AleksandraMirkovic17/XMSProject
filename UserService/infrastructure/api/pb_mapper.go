@@ -55,7 +55,7 @@ func mapNewUserPbToDomain(userPb *pb.NewUser) *domain.User {
 		Username:    (*userPb).User.Username,
 		Email:       (*userPb).User.Email,
 		Password:    (*userPb).User.Password,
-		Gender:      mapGenderPbToDomainGender((*userPb).User.Gender),
+		Gender:      domain.MALE,
 		Role:        domain.Regular,
 		DateOfBirth: (*((*userPb).User.DateOfBirth)).AsTime(),
 	}

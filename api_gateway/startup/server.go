@@ -10,6 +10,7 @@ import (
 	cfg "github.com/dislinked/api_gateway/startup/config"
 	postGw "github.com/dislinked/common/proto/post_service"
 	userGw "github.com/dislinked/common/proto/user_service"
+	"github.com/gorilla/handlers"
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
@@ -46,5 +47,24 @@ func (server *Server) initHandlers() {
 
 func (server *Server) Start() {
 	print("Server started apig!")
-	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%s", server.config.Port), server.mux))
+	cors := handlers.CORS(
+		handlers.AllowedOrigins([]string{
+			"http://localhost:4200",
+			"http://localhost:4200/**",
+			"http://localhost:8080/**",
+			"http://localhost:8080",
+		}),
+		handlers.AllowedMethods([]string{"GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"}),
+		handlers.AllowedHeaders([]string{"Accept", "Accept-Language", "Content-Type", "Content-Language", "Origin", "Authorization", "Access-Control-Allow-Origin", "*"}),
+		handlers.AllowCredentials(),
+	)
+	print("Cors is set up...")
+	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%s", server.config.Port), cors(muxMiddleware(server))))
+
+}
+
+func muxMiddleware(server *Server) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		server.mux.ServeHTTP(w, r)
+	})
 }

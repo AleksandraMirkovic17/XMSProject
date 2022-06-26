@@ -6,11 +6,13 @@ replace github.com/dislinked/common => ../common
 
 require (
 	github.com/dislinked/common v0.0.0-00010101000000-000000000000
+	github.com/gorilla/handlers v1.5.1
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.10.0
 	google.golang.org/grpc v1.46.2
 )
 
 require (
+	github.com/felixge/httpsnoop v1.0.1 // indirect
 	github.com/golang/protobuf v1.5.2 // indirect
 	github.com/joho/godotenv v1.4.0 // indirect
 	golang.org/x/net v0.0.0-20220127200216-cd36cc0744dd // indirect

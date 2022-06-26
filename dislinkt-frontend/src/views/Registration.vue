@@ -33,9 +33,9 @@
       <span class="input-group-text" id="basic-addon7">Gender</span>
       <select class="form-select" aria-label="Default select example" v-model="user.user.gender">
         <option selected>Select</option>
-        <option value="male">Male</option>
-        <option value="female">Female</option>
-        <option value="other">Other</option>
+        <option value=1>Male</option>
+        <option value=2>Female</option>
+        <option value=3>Other</option>
       </select>
     </div>
     <div class="input-group mb-3">
@@ -44,7 +44,7 @@
     </div>
     <div class="input-group mb-3">
       <span class="input-group-text" id="basic-addon9">Repeat password</span>
-      <input type="password" class="form-control" aria-label="Surname" aria-describedby="basic-addon1">
+      <input type="password" class="form-control" aria-label="Surname" aria-describedby="basic-addon1" v-model="user.user.repeatPassword">
     </div>
     <br>
     <button type="button" class="btn btn-dark" style="width: 100%; height: 60px" v-on:click="registerUser()">Register</button>
@@ -68,15 +68,43 @@ export default {
   data(){
       return {
           user: {
-            user: {
-              
+            user : {
+              /*{
+    "user" : {
+        "name": "Angelina",
+        "surname": "Jolie",
+        "username": "angelina",
+        "email": "angelina@gmail.com",
+        "contactPhone": "734848932894",
+        "dateOfBirth": "2000-01-01T01:30:15.01Z",
+        "password": "123"
+    }
+}*/
             }
           }
       }
   },
   methods: {
       registerUser(){
-          UserService.registerUser(this.user);
+        if(this.user.user.password != this.user.user.repeatPassword){
+          alert("Passwords are not same!")
+          return
+        }
+        alert(this.user.user.name)
+          UserService.registerUser({
+            "user" : {
+              "name": this.user.user.name,
+              "surname": this.user.user.surname,
+              "username": this.user.user.username,
+              "gender": 2,
+              "email": this.user.user.email,
+              "contactPhone": this.user.user.contactPhone,
+              "dateOfBirth": this.user.user.date,
+              "password": this.user.user.password
+            }
+
+            }
+          );
       }
   }
 }
