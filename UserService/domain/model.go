@@ -29,7 +29,9 @@ type User struct {
 	Username    string    `bson:"username"`
 	Email       string    `bson:"email"`
 	Password    string    `bson:"password"`
+	Phone       string    `bson:"phone"`
 	Gender      Gender    `bson:"gender"`
 	Role        Role      `bson:"role"`
 	DateOfBirth time.Time `bson:"date"`
+	Public      bool      `bson:"isPublic"`
 }

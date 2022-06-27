@@ -1,21 +1,41 @@
 <template>
   <div id="app">
-    <nav class="navMenu navbar-dark bg-dark">
+    <nav class="navMenu navbar-dark bg-dark" style="padding: 1%">
       <a href="/" style="float:left">Homepage</a>
       <a href="/login">Login</a>
       <a href="/register">Join us</a>
+      <a>
+        <input class="form-control" list="datalistOptions" id="exampleDataList" v-model="searchParams" placeholder="Type to search...">
+      </a>
+      <a>
+        <button class="btn-primary" v-on:click="searchProfiles()">Search</button>
+      </a>
+
     </nav>
+
     <router-view/>
   </div>
 </template>
 
 <script>
 
+import router from "./router";
+
 export default {
   name: 'App',
+  data(){
+    return {
+      searchParams: ''
+    }
+  },
   components: {
 
-  }
+  },
+  methods: {
+    searchProfiles(){
+      router.push('/profiles/'+this.searchParams)
+    }
+  },
 }
 </script>
 

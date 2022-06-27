@@ -5,7 +5,7 @@ const USER_API_BASE_URL = 'http://localhost:4200/user';
 class UserService{
 
     getUsers(){
-        return axios.get(USER_API_BASE_URL);
+       return axios.get(USER_API_BASE_URL);
     }
 
     registerUser(user){

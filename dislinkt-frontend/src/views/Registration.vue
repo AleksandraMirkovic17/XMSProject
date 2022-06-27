@@ -46,6 +46,12 @@
       <span class="input-group-text" id="basic-addon9">Repeat password</span>
       <input type="password" class="form-control" aria-label="Surname" aria-describedby="basic-addon1" v-model="user.user.repeatPassword">
     </div>
+    <div class="form-check form-switch" style="width: 180px">
+      <input class="form-check-input"  style="width: 50px; height: 25px" type="checkbox" role="switch" id="flexSwitchCheckChecked" checked v-model="user.user.public">
+      <label class="form-check-label" for="flexSwitchCheckChecked" style="font-weight: bolder; font-size: 18px">Public account</label>
+    </div>
+    <br>
+    <p>If you select this option your account and posts will be visible to anyone! You can chenge at setting later!</p>
     <br>
     <button type="button" class="btn btn-dark" style="width: 100%; height: 60px" v-on:click="registerUser()">Register</button>
     <br>
@@ -91,6 +97,7 @@ export default {
           return
         }
         alert(this.user.user.name)
+        alert(this.user.user.public)
           UserService.registerUser({
             "user" : {
               "name": this.user.user.name,
@@ -99,8 +106,9 @@ export default {
               "gender": 2,
               "email": this.user.user.email,
               "contactPhone": this.user.user.contactPhone,
-              "dateOfBirth": this.user.user.date,
-              "password": this.user.user.password
+              "dateOfBirth": "2000-01-01T01:30:15.01Z",
+              "password": this.user.user.password,
+              "Public": this.user.user.public
             }
 
             }

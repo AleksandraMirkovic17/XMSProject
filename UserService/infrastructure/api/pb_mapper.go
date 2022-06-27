@@ -18,6 +18,7 @@ func mapUser(user *domain.User) *pb.User {
 		Gender:      mapGenderToPb(user.Gender),
 		Role:        mapRoleToPb(user.Role),
 		DateOfBirth: timestamppb.New(user.DateOfBirth),
+		Public:      user.Public,
 	}
 
 	return userPb
@@ -55,9 +56,10 @@ func mapNewUserPbToDomain(userPb *pb.NewUser) *domain.User {
 		Username:    (*userPb).User.Username,
 		Email:       (*userPb).User.Email,
 		Password:    (*userPb).User.Password,
-		Gender:      domain.MALE,
+		Gender:      mapGenderPbToDomainGender((*userPb).User.Gender),
 		Role:        domain.Regular,
 		DateOfBirth: (*((*userPb).User.DateOfBirth)).AsTime(),
+		Public:      (*userPb).User.Public,
 	}
 	return userD
 }
