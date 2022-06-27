@@ -1,8 +1,12 @@
 package persistence
 
-import "fmt"
-import "AuthenticationService/domain"
-import "gorm.io/gorm"
+import (
+	"AuthenticationService/domain"
+	"fmt"
+
+	uuid "github.com/jackc/pgtype/ext/gofrs-uuid"
+	"gorm.io/gorm"
+)
 
 type AuthenticationPostgresStore struct {
 	db *gorm.DB
@@ -28,7 +32,7 @@ func (store *AuthenticationPostgresStore) Create(user *domain.User) (*domain.Use
 	return newUser, nil
 }
 
-func (store *AuthenticationPostgresStore) GetById(id int) (*domain.User, error) {
+func (store *AuthenticationPostgresStore) GetById(id uuid.UUID) (*domain.User, error) {
 	var user domain.User
 	result := store.db.Find(&user, id)
 
