@@ -10,11 +10,11 @@
                         <strong>Log in</strong>
                     </span>
                     <div class="wrap-input100 validate-input" data-validate="Enter username">
-                        <input class="input100" type="text" name="username" placeholder="Username" value="">
+                        <input class="input100" type="text" name="username" placeholder="Username" value="" v-model="user.username">
                         <span class="focus-input100" data-placeholder=""></span>
                     </div>
                     <div class="wrap-input100 validate-input" data-validate="Enter password">
-                        <input class="input100" type="password" name="pass" placeholder="Password" value="">
+                        <input class="input100" type="password" name="pass" placeholder="Password" value="" v-model="user.password">
                         <span class="focus-input100" data-placeholder=""></span>
                     </div>
                     <!--<div class="contact100-form-checkbox">
@@ -24,7 +24,7 @@
                         </label>
                     </div>-->
                     <div class="container-login100-form-btn">
-                        <button class="login100-form-btn">
+                        <button class="login100-form-btn" v-on:click="login()">
                             <strong>Login</strong>
                         </button>
                     </div>
@@ -48,92 +48,27 @@
 
 <script>
 
-//import UserService from '../services/UserService';
-//
-//export default {
-//    name: 'UserProfile',
-//    data(){
-//        return {
-//            user: {},
-//            originalUser: {},
-//            countries: [],
-//            deletionRequest: {},
-//            isUserInfoChanged: false
-//        }
-//    },
-//    mounted: function() {
-//        this.loadUserData()
-//    },
-//    methods: {
-//        loadUserData() {
-//            UserService.getCountries().then((response) => {
-//                this.countries = response.data;   
-//            });
-//            UserService.getUser(this.$route.params.id).then(response => {
-//                this.user = response.data
-//                this.originalUser = this.user
-//                for(let i = 0; i < this.user.deletionRequests.length; i++)
-//                    if(this.user.deletionRequests[i].requestApproval == "PENDING")
-//                        this.deletionRequest = this.user.deletionRequests[i]
-//                console.log(this.deletionRequest)
-//            })
-//            .catch(err => {
-//                console.error(err);
-//                if(err.response.status == 403)
-//                    this.$router.push("/unauthorized")
-//            })
-//            this.isUserInfoChanged = false
-//        },
-//        updateUser() {
-//            UserService.updateUser(this.user).then(() => {
-//                this.$router.go();
-//            });
-//        },
-//        userInfoHasChanged() {
-//            this.isUserInfoChanged = true
-//        },
-//        isAllInputValid() {
-//            if(this.user.firstName == "")
-//                return false
-//            if(this.user.lastName == "")
-//                return false
-//            if(this.user.contactPhone == "")
-//                return false
-//            if(this.user.address == "")
-//                return false
-//            if(this.user.city == "")
-//                return false
-//            if(this.user.country == "")
-//                return false
-//            if((this.user.oldPasswordGuess && (!this.user.newPassword || !this.user.newPasswordConfirmation))
-//                || (this.user.newPassword && (!this.user.oldPasswordGuess || !this.user.newPasswordConfirmation))
-//                || (this.user.newPasswordConfirmation && (!this.user.oldPasswordGuess || !this.user.newPassword)))
-//                return false;
-//            return true
-//        },
-//        requestUserDeletion() {
-//            this.deletionRequest.userId = this.user.id
-//            UserService.requestDeletion(this.deletionRequest).then(() => {
-//                this.$router.go();
-//            })
-//        },
-//        retractDeletion() {
-//            UserService.retractDeletion(this.deletionRequest.id).then(() => {
-//                this.$router.go();
-//            })
-//        },
-//        getUserPenaltyPoints() {
-//            if(this.user.lastPenaltyPointDate) {
-//                var lastPenaltyPointDateConverted = new Date(this.user.lastPenaltyPointDate[0], this.user.lastPenaltyPointDate[1], this.user.lastPenaltyPointDate[2])
-//                var currentDate = new Date()
-//                if((lastPenaltyPointDateConverted.getFullYear() * 12 + lastPenaltyPointDateConverted.getMonth() - 1) < (currentDate.getFullYear() * 12 + currentDate.getMonth()))
-//                    return 0
-//                return this.user.penaltyPoints
-//            }
-//            return 0
-//        }
-//    }
-//}
+import UserService from '../services/UserService';
+
+export default {
+    name: 'Login',
+    data(){
+        return {
+            user: {
+                username: "",
+                password: ""
+            }
+        }
+    },
+    methods: {
+        async login(){
+            UserService.login(this.user).then(() => {
+                if(localStorage.getItem('user'))
+                    this.$router.push("/")
+            });
+        }
+    }
+}
 
 </script>
 

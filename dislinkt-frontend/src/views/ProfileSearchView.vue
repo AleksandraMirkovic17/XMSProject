@@ -18,7 +18,7 @@ export default {
     }
     },
   mounted() {
-    var searchParams = this.$route.params.search
+    //var searchParams = this.$route.params.search
     console.log(UserService.getUsers())
     UserService.getUsers().then(res => {
       this.users = res.data.users
