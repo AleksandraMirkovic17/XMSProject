@@ -8,6 +8,7 @@ import (
 	"net/http"
 
 	cfg "github.com/dislinked/api_gateway/startup/config"
+	authGw "github.com/dislinked/common/proto/authentication_service"
 	postGw "github.com/dislinked/common/proto/post_service"
 	userGw "github.com/dislinked/common/proto/user_service"
 	"github.com/gorilla/handlers"
@@ -35,6 +36,11 @@ func (server *Server) initHandlers() {
 	opts := []grpc.DialOption{grpc.WithTransportCredentials(insecure.NewCredentials())}
 	userEndpoint := fmt.Sprintf("%s:%s", server.config.UserHost, server.config.UserPort)
 	err := userGw.RegisterUserServiceHandlerFromEndpoint(context.TODO(), server.mux, userEndpoint, opts)
+	if err != nil {
+		panic(err)
+	}
+	authEndpoint := fmt.Sprintf("%s:%s", server.config.AuthHost, server.config.AuthPort)
+	err = authGw.RegisterAuthenticationServiceHandlerFromEndpoint(context.TODO(), server.mux, authEndpoint, opts)
 	if err != nil {
 		panic(err)
 	}

@@ -2,6 +2,7 @@ package config
 
 import (
 	"flag"
+
 	cfg "github.com/dislinked/common/config"
 )
 
@@ -11,6 +12,8 @@ type Config struct {
 	PostPort string
 	UserHost string
 	UserPort string
+	AuthHost string
+	AuthPort string
 }
 
 func NewConfig() *Config {
@@ -26,6 +29,8 @@ func NewConfig() *Config {
 		PostPort: "8081",
 		UserHost: "localhost",
 		UserPort: "8089",
+		AuthHost: "localhost",
+		AuthPort: "4201",
 	}
 
 }
