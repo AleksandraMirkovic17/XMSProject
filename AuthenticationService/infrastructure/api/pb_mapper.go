@@ -1,10 +1,13 @@
 package api
 
-import "AuthenticationService/domain"
-import pb "github.com/dislinked/common/proto/authentication_service"
+import (
+	"AuthenticationService/domain"
 
-func mapUserToPB(user *domain.User) *pb.User {
-	userPb := &pb.User{
+	pb "github.com/dislinked/common/proto/authentication_service"
+)
+
+func mapUserToPB(user *domain.User) *pb.UserCredentials {
+	userPb := &pb.UserCredentials{
 		Username: user.Username,
 		Password: user.Password,
 		Role:     user.Role,
@@ -12,7 +15,7 @@ func mapUserToPB(user *domain.User) *pb.User {
 	return userPb
 }
 
-func mapUserToDomain(user *pb.User) *domain.User {
+func mapUserToDomain(user *pb.UserCredentials) *domain.User {
 	userDomain := &domain.User{
 		Username: (*user).Username,
 		Password: (*user).Password,

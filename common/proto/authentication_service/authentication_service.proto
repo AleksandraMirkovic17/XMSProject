@@ -31,7 +31,7 @@ message Credentials {
   string password = 2;
 }
 
-message User {
+message UserCredentials {
   string username = 1;
   string password = 2;
   string role = 3;
@@ -48,7 +48,7 @@ message LoginRequest {
 }
 
 message RegisterRequest {
-  User user = 1;
+  UserCredentials user = 1;
 }
 
 message RegisterResponse {
