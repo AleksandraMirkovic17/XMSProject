@@ -71,3 +71,22 @@ func (handler *UserHandler) Insert(ctx context.Context, request *pb.RegisterUser
 
 	return mapUser(user), nil
 }
+
+func (handler *UserHandler) Update(ctx context.Context, request *pb.UpdateUserRequest) (*pb.User, error) {
+	user := mapNewUserPbToDomain(request.User)
+	foundUser, findErr := handler.service.FindByUsername(*((*user).Username))
+	if findErr != nil {
+		return nil, findErr
+	}
+	if foundUser == nil {
+		return nil, findErr
+	}
+	user.Id = foundUser.Id
+
+	updateErr := handler.service.Update(user.Id, user)
+	if updateErr != nil {
+		return nil, updateErr
+	}
+
+	return mapUser(user), nil
+}
