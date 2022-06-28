@@ -13,8 +13,8 @@ func mapUser(user *domain.User) *pb.User {
 		Id:          user.Id.String(),
 		Name:        user.Name,
 		Surname:     user.Surname,
-		Username:    user.Username,
-		Email:       user.Email,
+		Username:    *user.Username,
+		Email:       *user.Email,
 		Gender:      mapGenderToPb(user.Gender),
 		Role:        mapRoleToPb(user.Role),
 		DateOfBirth: timestamppb.New(user.DateOfBirth),
@@ -53,8 +53,8 @@ func mapNewUserPbToDomain(userPb *pb.NewUser) *domain.User {
 		Id:          uuid.NewV4(),
 		Name:        (*userPb).User.Name,
 		Surname:     (*userPb).User.Surname,
-		Username:    (*userPb).User.Username,
-		Email:       (*userPb).User.Email,
+		Username:    &(*userPb).User.Username,
+		Email:       &(*userPb).User.Email,
 		Password:    (*userPb).User.Password,
 		Gender:      mapGenderPbToDomainGender((*userPb).User.Gender),
 		Role:        domain.Regular,
@@ -76,57 +76,3 @@ func mapGenderPbToDomainGender(gender pb.Gender) domain.Gender {
 	return domain.Other
 
 }
-
-/*
-func mapNewUser(userPb *pb.NewUser) *domain.User {
-	userD := &domain.User{
-		Id:          uuid.NewV4(),
-		Name:        userPb.Name,
-		Surname:     userPb.Surname,
-		Username:    &userPb.Username,
-		Email:       &userPb.Email,
-		Number:      userPb.Number,
-		Gender:      mapGenderToDomain(userPb.Gender),
-		DateOfBirth: userPb.DateOfBirth,
-		Password:    userPb.Password,
-		UserRole:    domain.Regular,
-		Biography:   userPb.Biography,
-		Blocked:     false,
-		CreatedAt:   time.Now(),
-		UpdatedAt:   time.Now(),
-		Private:     userPb.Private,
-	}
-	return userD
-}*/
-
-/*func mapNewPost(postPb *pb.Post) *domain.Post {
-	post := &domain.Post{
-		Id:        primitive.NewObjectID(),
-		User:      postPb.User,
-		PostText:  postPb.Posttext,
-		Date:      time.Now(),
-		IsDeleted: false,
-	}
-	for _, image := range postPb.Image {
-		post.Images = append(post.Images, image)
-	}
-	for _, link := range postPb.Links {
-		post.Links = append(post.Links, link)
-	}
-	post.Comments = []domain.Comment{}
-	for _, comment := range postPb.Comments {
-		id, err := primitive.ObjectIDFromHex(comment.Id)
-		if err != nil {
-			continue
-		}
-		post.Comments = append(post.Comments, domain.Comment{
-			Id:      id,
-			Content: comment.Content,
-			Date:    comment.Date.AsTime(),
-			User:    comment.Username,
-		})
-	}
-
-	return post
-}
-*/

@@ -23,15 +23,15 @@ const (
 )
 
 type User struct {
-	Id          uuid.UUID `gorm:"index:idx_name,unique"`
-	Name        string    `bson:"name"`
-	Surname     string    `bson:"surname"`
-	Username    string    `bson:"username"`
-	Email       string    `bson:"email"`
-	Password    string    `bson:"password"`
-	Phone       string    `bson:"phone"`
-	Gender      Gender    `bson:"gender"`
-	Role        Role      `bson:"role"`
-	DateOfBirth time.Time `bson:"date"`
-	Public      bool      `bson:"isPublic"`
+	Id          uuid.UUID `gorm:"primaryKey"`
+	Name        string
+	Surname     string
+	Username    *string `gorm:"unique"`
+	Email       *string `gorm:"unique"`
+	Password    string
+	Phone       string
+	Gender      Gender
+	Role        Role
+	DateOfBirth time.Time
+	Public      bool
 }
