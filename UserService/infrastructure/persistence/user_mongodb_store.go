@@ -12,7 +12,7 @@ type UserPostgresStore struct {
 }
 
 func NewUserPostgresStore(db *gorm.DB) (domain.UserStore, error) {
-	err := db.AutoMigrate(&domain.User{})
+	err := db.AutoMigrate(&domain.User{}, &domain.WorkExperience{}, &domain.EducationExperience{}, &domain.LanguageSkill{})
 	if err != nil {
 		return nil, err
 	}
