@@ -52,6 +52,7 @@ type LanguageSkill struct {
 	Id          uuid.UUID `gorm:"primaryKey"`
 	Name        string
 	Proficiency LanguageProficiency
+	UserId      uuid.UUID
 }
 
 type EducationExperience struct {
@@ -60,6 +61,7 @@ type EducationExperience struct {
 	Type            EducationType
 	StartDate       time.Time
 	EndDate         time.Time
+	UserId          uuid.UUID
 }
 
 type WorkExperience struct {
@@ -68,6 +70,7 @@ type WorkExperience struct {
 	PositionName     string
 	StartDate        time.Time
 	EndDate          time.Time
+	UserId           uuid.UUID
 }
 
 type User struct {
@@ -82,8 +85,8 @@ type User struct {
 	Role                 Role
 	DateOfBirth          time.Time
 	Public               bool
-	Languages            []LanguageSkill       `gorm:"foreignKey:Id"`
-	EducationExperiences []EducationExperience `gorm:"foreignKey:Id"`
-	WorkExperience       []WorkExperience      `gorm:"foreignKey:Id"`
+	Languages            []LanguageSkill       `gorm:"foreignKey:UserId"`
+	EducationExperiences []EducationExperience `gorm:"foreignKey:UserId"`
+	WorkExperience       []WorkExperience      `gorm:"foreignKey:UserId"`
 	Biography            string
 }
