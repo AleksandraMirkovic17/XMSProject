@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="profiles-view">
     <div v-for="(user,index) in users" :key="index">
       <div class="profile-container">
         <div class="profile-icon">
@@ -9,7 +9,7 @@
         </div>
         <div class="info">
           <h4>{{user.name}} {{user.surname}}</h4>
-          <h3>{{user.username}}</h3>
+          <h3>({{user.username}})</h3>
         </div>
       </div>
 
@@ -28,9 +28,8 @@ export default {
     }
     },
   mounted() {
-    //var searchParams = this.$route.params.search
-    console.log(UserService.getUsers())
-    UserService.getUsers().then(res => {
+    var searchParams = this.$route.params.search
+    UserService.searchUsers(searchParams).then(res => {
       this.users = res.data.users
     });
 
@@ -43,9 +42,17 @@ export default {
 </script>
 
 <style scoped>
+.profiles-view{
+  margin: 2%;
+}
+
 .profile-container{
   border-radius: 20px;
+  border-style: solid;
+  border-width: 1pt;
+  border-color: #e5e5e5;
   backround-color: white;
+  padding: 1%;
   color: #e5e5e5;
   display: flex;
   flex-direction: row;

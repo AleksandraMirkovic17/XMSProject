@@ -122,11 +122,11 @@ func (store *UserPostgresStore) Search(searchText string) (*[]domain.User, error
 			searchParamLower := strings.ToLower(searchParam)
 			println(searchParamLower)
 			if !(strings.Contains(nameSearch, searchParamLower) || strings.Contains(surnameSearch, searchParamLower) || strings.Contains(usernameSearch, searchParamLower)) {
-				println("Does not contain")
 				break
 			}
-			print("User appending")
-			users = append(users, cuser)
+			if cuser.Public {
+				users = append(users, cuser)
+			}
 		}
 	}
 

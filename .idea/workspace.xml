@@ -6,9 +6,10 @@
   <component name="ChangeListManager">
     <list default="true" id="73e9022d-bf7f-4b1c-95b0-7a9024d84ed5" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/UserService/infrastructure/api/user_grpc_api.go" beforeDir="false" afterPath="$PROJECT_DIR$/UserService/infrastructure/api/user_grpc_api.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/UserService/infrastructure/persistence/user_mongodb_store.go" beforeDir="false" afterPath="$PROJECT_DIR$/UserService/infrastructure/persistence/user_mongodb_store.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/common/proto/user_service/user_service_grpc.pb.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/api_gateway/startup/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/api_gateway/startup/server.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dislinkt-frontend/src/services/UserService.js" beforeDir="false" afterPath="$PROJECT_DIR$/dislinkt-frontend/src/services/UserService.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dislinkt-frontend/src/views/ProfileSearchView.vue" beforeDir="false" afterPath="$PROJECT_DIR$/dislinkt-frontend/src/views/ProfileSearchView.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

@@ -8,6 +8,10 @@ class UserService{
        return axios.get(USER_API_BASE_URL);
     }
 
+    searchUsers(param){
+        return axios.get(USER_API_BASE_URL+"/"+ param)
+    }
+
     registerUser(user){
         return axios.post(USER_API_BASE_URL, user);
     }
