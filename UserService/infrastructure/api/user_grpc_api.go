@@ -90,3 +90,19 @@ func (handler *UserHandler) Update(ctx context.Context, request *pb.UpdateUserRe
 
 	return mapUser(user), nil
 }
+
+func (handler *UserHandler) SearchProfile(request *pb.SearchProfileRequest) (*pb.GetAllUserResponse, error) {
+
+	users, err := handler.service.Search(request.GetParam())
+	if err != nil {
+		return nil, err
+	}
+	response := &pb.GetAllUserResponse{
+		Users: []*pb.User{},
+	}
+	for _, user := range users {
+		current := mapUser(user)
+		response.Users = append(response.Users, current)
+	}
+	return response, nil
+}

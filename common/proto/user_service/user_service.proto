@@ -28,6 +28,11 @@ service UserService{
       body: "user"
     };
   }
+  rpc SearchProfile(SearchProfileRequest) returns(GetAllUserResponse) {
+    option(google.api.http) = {
+      get: "/user/{param}"
+    };
+  }
 }
 
 message EmptyUser {}
@@ -81,6 +86,10 @@ message  RegisterUserRequest {
 
 message UpdateUserRequest{
   NewUser user = 1;
+}
+
+message SearchProfileRequest{
+  string param = 1;
 }
 
 

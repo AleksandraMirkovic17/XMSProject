@@ -33,7 +33,9 @@ export default {
   },
   methods: {
     searchProfiles(){
-      router.push('/profiles/'+this.searchParams)
+      if(this.searchParams!=''){
+        router.push('/profiles/'+this.searchParams)
+      }
     }
   },
 }
