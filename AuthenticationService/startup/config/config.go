@@ -15,7 +15,7 @@ func NewConfig() *Config {
 		AuthDBHost: "localhost",
 		AuthDBPort: "5432",
 		AuthDBName: "xws_user",
-		AuthDBUser: "admin",
-		AuthDBPass: "ftn",
+		AuthDBUser: "root",
+		AuthDBPass: "root",
 	}
 }

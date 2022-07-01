@@ -24,7 +24,7 @@
                         </label>
                     </div>-->
                     <div class="container-login100-form-btn">
-                        <button class="login100-form-btn" v-on:click="login()">
+                        <button class="login100-form-btn" type="button" v-on:click="login()">
                             <strong>Login</strong>
                         </button>
                     </div>
@@ -62,10 +62,17 @@ export default {
     },
     methods: {
         async login(){
-            UserService.login(this.user).then(() => {
-                if(localStorage.getItem('user'))
-                    this.$router.push("/")
-            });
+            UserService.login(this.user).then(response => {
+                console.log(response.data.token)
+                if (response.data.token) {
+                  console.log("Ovde")
+                  localStorage.setItem('user', JSON.stringify(response.data));
+                  this.$router.push("/profile/"+"1")
+                }
+            })
+            .catch(error =>
+              console.log(error)
+            );
         }
     }
 }

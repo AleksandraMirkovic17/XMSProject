@@ -20,10 +20,11 @@ type Post struct {
 	Id        string
 	User      string
 	PostText  string
-	Images    []string
+	Images    string
 	Links     []string
 	Date      time.Time
 	Reactions []Reaction
+
 	Comments  []Comment
 	IsDeleted bool
 }

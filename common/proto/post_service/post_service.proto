@@ -105,7 +105,7 @@ message Post {
   string id = 1;
   string user = 2;
   string posttext = 3;
-  repeated string image = 4;
+  string image = 4;
   repeated string links = 5;
   google.protobuf.Timestamp date = 6;
   repeated Reaction reactions = 7;

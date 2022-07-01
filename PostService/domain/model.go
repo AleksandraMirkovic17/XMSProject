@@ -28,7 +28,7 @@ type Post struct {
 	Id        primitive.ObjectID `bson:"_id"`
 	User      string             `bson:"user"`
 	PostText  string             `bson:"post_text"`
-	Images    []string           `bson:"images"`
+	Image     string             `bson:"images"`
 	Links     []string           `bson:"links"`
 	Date      time.Time          `bson:"date"`
 	Reactions []Reaction         `bson:"reactions"`
