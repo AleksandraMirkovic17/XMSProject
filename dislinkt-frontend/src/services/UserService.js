@@ -17,15 +17,7 @@ class UserService{
     }
 
     login(user) {
-        return axios
-          .post('http://localhost:4200/login', user)
-          .then(response => {
-            console.log(response.data.token)
-            if (response.data.token) {
-              localStorage.setItem('user', JSON.stringify(response.data));
-            }
-            return response.data;
-          });
+        return axios.post('http://localhost:4200/login', user);
       }
   
       logout() {

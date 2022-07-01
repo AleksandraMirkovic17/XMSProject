@@ -61,6 +61,8 @@ func (server *Server) Start() {
 			"http://localhost:8080",
 			"http://localhost:8081/**",
 			"http://localhost:8081",
+			"http://localhost:8082/**",
+			"http://localhost:8082",
 		}),
 		handlers.AllowedMethods([]string{"GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"}),
 		handlers.AllowedHeaders([]string{"Accept", "Accept-Language", "Content-Type", "Content-Language", "Origin", "Authorization", "Access-Control-Allow-Origin", "*"}),

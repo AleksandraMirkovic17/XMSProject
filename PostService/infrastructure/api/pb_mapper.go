@@ -14,9 +14,7 @@ func mapPost(post *domain.Post) *pb.Post {
 		User:     post.User,
 		Posttext: post.PostText,
 		Date:     timestamppb.New(post.Date),
-	}
-	for _, image := range post.Images {
-		postPb.Image = append(postPb.Image, image)
+		Image:    post.Image,
 	}
 	for _, link := range post.Links {
 		postPb.Links = append(postPb.Links, link)
@@ -43,9 +41,7 @@ func mapNewPost(postPb *pb.Post) *domain.Post {
 		PostText:  postPb.Posttext,
 		Date:      time.Now(),
 		IsDeleted: false,
-	}
-	for _, image := range postPb.Image {
-		post.Images = append(post.Images, image)
+		Image:     postPb.Image,
 	}
 	for _, link := range postPb.Links {
 		post.Links = append(post.Links, link)
@@ -96,7 +92,7 @@ func inversePostMap(post *domain.Post) *pb.Post {
 		Id:       post.Id.Hex(),
 		User:     post.User,
 		Posttext: post.PostText,
-		Image:    post.Images,
+		Image:    post.Image,
 		Date:     timestamppb.New(post.Date),
 	}
 	for _, comment := range post.Comments {
