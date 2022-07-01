@@ -26,16 +26,6 @@ const (
 	FEMALE
 )
 
-type LanguageProficiency int
-
-const (
-	ELEMENTARY = iota
-	LIMITED
-	PROFESSIONAL_WORKING
-	FULL_PROFESSIONAL
-	NATIVE
-)
-
 type EducationType int
 
 const (
@@ -48,11 +38,10 @@ const (
 // CLASSES //
 /////////////
 
-type LanguageSkill struct {
-	Id          uuid.UUID `gorm:"primaryKey"`
-	Name        string
-	Proficiency LanguageProficiency
-	UserId      uuid.UUID
+type Skill struct {
+	Id     uuid.UUID `gorm:"primaryKey"`
+	Name   string
+	UserId uuid.UUID
 }
 
 type EducationExperience struct {
@@ -85,7 +74,7 @@ type User struct {
 	Role                 Role
 	DateOfBirth          time.Time
 	Public               bool
-	Languages            []LanguageSkill       `gorm:"foreignKey:UserId"`
+	Skills               []Skill               `gorm:"foreignKey:UserId"`
 	EducationExperiences []EducationExperience `gorm:"foreignKey:UserId"`
 	WorkExperience       []WorkExperience      `gorm:"foreignKey:UserId"`
 	Biography            string

@@ -3,6 +3,7 @@ package api
 import (
 	"UserService/domain"
 
+	dislinked "github.com/dislinked/common/proto/user_service"
 	pb "github.com/dislinked/common/proto/user_service"
 	uuid "github.com/satori/go.uuid"
 	"google.golang.org/protobuf/types/known/timestamppb"
@@ -19,6 +20,14 @@ func mapUser(user *domain.User) *pb.User {
 		Role:        mapRoleToPb(user.Role),
 		DateOfBirth: timestamppb.New(user.DateOfBirth),
 		Public:      user.Public,
+		Skills:      []*dislinked.Skill{},
+	}
+
+	for _, skill := range user.Skills {
+		userPb.Skills = append(userPb.Skills, &dislinked.Skill{
+			Id:   skill.Id.String(),
+			Name: skill.Name,
+		})
 	}
 
 	return userPb
