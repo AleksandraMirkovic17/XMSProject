@@ -6,40 +6,40 @@ import "google/protobuf/timestamp.proto";
 import "google/api/annotations.proto";
 
 service UserService{
-  rpc Get(GetUserRequest) returns(GetUserResponse) {
-    option (google.api.http) = {
-      get: "/user/{id}"
-    };
-  }
-  rpc GetAll(EmptyUser) returns(GetAllUserResponse) {
-    option (google.api.http) = {
-      get: "/user"
-    };
-  }
-  rpc Insert(RegisterUserRequest) returns(User) {
-    option(google.api.http) = {
-      post: "/user"
-      body: "user"
-    };
-  }
-  rpc Update(UpdateUserRequest) returns(User) {
-    option(google.api.http) = {
-      put: "/user"
-      body: "user"
-    };
-  }
-  rpc SearchProfile(SearchProfileRequest) returns(GetAllUserResponse) {
-    option(google.api.http) = {
-      get: "/user/{param}"
-    };
-  }
+	rpc Get(GetUserRequest) returns(GetUserResponse) {
+		option (google.api.http) = {
+			get: "/user/{id}"
+		};
+	}
+	rpc GetAll(EmptyUser) returns(GetAllUserResponse) {
+		option (google.api.http) = {
+			get: "/user"
+		};
+	}
+	rpc Insert(RegisterUserRequest) returns(User) {
+		option(google.api.http) = {
+			post: "/user"
+			body: "user"
+		};
+	}
+	rpc Update(UpdateUserRequest) returns(User) {
+		option(google.api.http) = {
+			put: "/user"
+			body: "user"
+		};
+	}
+	rpc SearchProfile(SearchProfileRequest) returns(GetAllUserResponse) {
+		option(google.api.http) = {
+			get: "/user/{param}"
+		};
+	}
 }
 
 message EmptyUser {}
 
 
 message GetUserRequest {
-  string id = 1;
+	string id = 1;
 }
 
 message GetUserResponse {
@@ -47,33 +47,39 @@ message GetUserResponse {
 }
 
 message GetAllUserResponse {
-  repeated User users = 1;
+	repeated User users = 1;
 }
 
 enum Gender{
-  Other = 0;
-  Male = 1;
-  Female = 2;
+	Other = 0;
+	Male = 1;
+	Female = 2;
 }
 
 enum UserRole{
-  Regular = 0;
-  Admin = 1;
-  Agent = 2;
+	Regular = 0;
+	Admin = 1;
+	Agent = 2;
 }
 
 message User {
-  string id = 1;
-  string username = 2;
-  string name = 3;
-  string surname = 4;
-  string email = 5;
-  Gender gender = 6;
-  UserRole role = 7;
-  google.protobuf.Timestamp dateOfBirth = 8;
-  string password = 9;
-  bool Public = 10;
-  string contactPhone = 11;
+	string id = 1;
+	string username = 2;
+	string name = 3;
+	string surname = 4;
+	string email = 5;
+	Gender gender = 6;
+	UserRole role = 7;
+	google.protobuf.Timestamp dateOfBirth = 8;
+	string password = 9;
+	bool Public = 10;
+	string contactPhone = 11;
+	repeated Skill skills = 12;
+}
+
+message Skill{
+	string id = 1;
+	string name = 2;
 }
 
 message NewUser {

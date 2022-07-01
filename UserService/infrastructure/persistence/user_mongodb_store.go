@@ -53,7 +53,7 @@ func (store *UserPostgresStore) RemoveInterest(companyId uuid.UUID, userId uuid.
 }
 
 func NewUserPostgresStore(db *gorm.DB) (domain.UserStore, error) {
-	err := db.AutoMigrate(&domain.User{}, &domain.WorkExperience{}, &domain.EducationExperience{}, &domain.LanguageSkill{})
+	err := db.AutoMigrate(&domain.User{}, &domain.WorkExperience{}, &domain.EducationExperience{}, &domain.Skill{})
 	if err != nil {
 		return nil, err
 	}
