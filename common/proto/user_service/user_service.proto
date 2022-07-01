@@ -8,7 +8,7 @@ import "google/api/annotations.proto";
 service UserService{
 	rpc Get(GetUserRequest) returns(GetUserResponse) {
 		option (google.api.http) = {
-			get: "/user/{id}"
+			get: "/user/id/{id}"
 		};
 	}
 	rpc GetAll(EmptyUser) returns(GetAllUserResponse) {
