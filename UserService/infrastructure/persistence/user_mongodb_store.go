@@ -2,6 +2,7 @@ package persistence
 
 import (
 	"UserService/domain"
+
 	uuid "github.com/satori/go.uuid"
 	"gorm.io/gorm"
 )
@@ -11,7 +12,7 @@ type UserPostgresStore struct {
 }
 
 func NewUserPostgresStore(db *gorm.DB) (domain.UserStore, error) {
-	err := db.AutoMigrate(&domain.User{})
+	err := db.AutoMigrate(&domain.User{}, &domain.WorkExperience{}, &domain.EducationExperience{}, &domain.LanguageSkill{})
 	if err != nil {
 		return nil, err
 	}
@@ -57,7 +58,11 @@ func (store *UserPostgresStore) FindByID(uuid uuid.UUID) (user *domain.User, err
 }
 
 func (store *UserPostgresStore) FindByUsername(username string) (user *domain.User, err error) {
-	return nil, nil
+	foundUser := domain.User{}
+	if result := store.db.Model(domain.User{Username: &username}).First(&foundUser); result.Error != nil {
+		return nil, result.Error
+	}
+	return &foundUser, nil
 }
 
 func (store *UserPostgresStore) Search(searchText string) (*[]domain.User, error) {

@@ -34,6 +34,7 @@ func (service *UserService) Insert(user *domain.User) error {
 	return err
 }
 func (service *UserService) Update(uuid uuid.UUID, user *domain.User) error {
+	service.store.Update(user)
 	return nil
 }
 

@@ -7,6 +7,7 @@ import (
 	"fmt"
 
 	pb "github.com/dislinked/common/proto/user_service"
+	uuid "github.com/satori/go.uuid"
 )
 
 type UserHandler struct {
@@ -40,6 +41,24 @@ func (handler *UserHandler) GetAll(ctx context.Context, request *pb.EmptyUser) (
 	return response, nil
 }
 
+func (handler *UserHandler) Get(ctx context.Context, request *pb.GetUserRequest) (*pb.GetUserResponse, error) {
+	// span := tracer.StartSpanFromContextMetadata(ctx, "GetAllAPI")
+	// defer span.Finish()
+
+	// ctx = tracer.ContextWithSpan(context.Background(), span)
+	// users, err := handler.service.GetAll(ctx)
+	println(request.Id)
+	parsedUUID, err := uuid.FromString(request.Id)
+	user, err := handler.service.GetOne(parsedUUID)
+	if err != nil || user == nil {
+		return nil, err
+	}
+	response := &pb.GetUserResponse{
+		User: mapUser(user),
+	}
+	return response, nil
+}
+
 func (handler *UserHandler) Insert(ctx context.Context, request *pb.RegisterUserRequest) (*pb.User, error) {
 	user := mapNewUserPbToDomain(request.User)
 	fmt.Println("mapper zavrsio")
@@ -53,73 +72,21 @@ func (handler *UserHandler) Insert(ctx context.Context, request *pb.RegisterUser
 	return mapUser(user), nil
 }
 
-/*import (
-	"UserService/application"
-	"UserService/domain"
-	"UserService/infrastructure/api"
-	"UserService/infrastructure/persistence"
-	"UserService/startup/config"
-	"fmt"
-	"log"
-	"net"
-
-	userProto "github.com/dislinked/common/proto/user_service"
-	"go.mongodb.org/mongo-driver/mongo"
-	"google.golang.org/grpc"
-)
-
-type Server struct {
-	config *config.Config
-}
-
-func NewServer(config *config.Config) *Server {
-	return &Server{config: config}
-}
-
-func (server *Server) Start() {
-	print("usao u start")
-	mongoClient := server.initMongoClient()
-	print("init mongo client")
-	userStore := server.initUserStore(mongoClient)
-
-	userService := server.initUserService(userStore)
-	userHandler := server.initUserHandler(userService)
-	server.startGrpcServer(userHandler)
-}
-
-func (server *Server) initMongoClient() *mongo.Client {
-	client, err := persistence.GetClient(server.config.UserDBHost, server.config.UserDBPort)
-	println("Na kom sam portuu")
-	fmt.Println(server.config.UserDBHost)
-	if err != nil {
-		log.Fatalln(err)
+func (handler *UserHandler) Update(ctx context.Context, request *pb.UpdateUserRequest) (*pb.User, error) {
+	user := mapNewUserPbToDomain(request.User)
+	foundUser, findErr := handler.service.FindByUsername(*((*user).Username))
+	if findErr != nil {
+		return nil, findErr
 	}
-	return client
-}
-
-
-func (server *Server) initUserStore(client *mongo.Client) domain.UserStore {
-	store := persistence.NewUserPostgresStore(client)
-	return store
-}
-
-func (server *Server) initUserService(store domain.UserStore) *application.UserService {
-	return application.NewUserService(store)
-}
-
-func (server *Server) initUserHandler(service *application.UserService) *api.UserHandler {
-	return api.NewUserHandler(service)
-}
-
-func (server *Server) startGrpcServer(userHandler *api.UserHandler) {
-	listener, err := net.Listen("tcp", fmt.Sprintf(":%s", server.config.Port))
-	if err != nil {
-		log.Fatalf("failed to listen: %v", err)
+	if foundUser == nil {
+		return nil, findErr
 	}
-	grpcServer := grpc.NewServer()
-	userProto.RegisterUserServiceServer(grpcServer, userHandler)
-	if err := grpcServer.Serve(listener); err != nil {
-		log.Fatalf("failed to serve: %s", err)
-		log.Fatalf("failed to serve: %s", err)
+	user.Id = foundUser.Id
+
+	updateErr := handler.service.Update(user.Id, user)
+	if updateErr != nil {
+		return nil, updateErr
 	}
-}*/
+
+	return mapUser(user), nil
+}
