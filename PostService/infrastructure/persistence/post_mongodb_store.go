@@ -18,8 +18,8 @@ type PostMongoDBStore struct {
 }
 
 func (store *PostMongoDBStore) GetAllByUser(uuid string) ([]*domain.Post, error) {
-	//TODO implement me
-	panic("implement me")
+	filter := bson.M{"user_id": uuid}
+	return store.filter(filter)
 }
 
 func (store *PostMongoDBStore) GetAllByConnections(uuids []string) ([]*domain.Post, error) {
@@ -27,7 +27,7 @@ func (store *PostMongoDBStore) GetAllByConnections(uuids []string) ([]*domain.Po
 	panic("implement me")
 }
 
-func (store *PostMongoDBStore) ReactToPost(post *domain.Post, username string) error {
+func (store *PostMongoDBStore) ReactToPost(post *domain.Post, username string, reaction *domain.Reaction) error {
 	//TODO implement me
 	panic("implement me")
 }
@@ -52,16 +52,11 @@ func (store *PostMongoDBStore) GetAll() ([]*domain.Post, error) {
 	return store.filter(filter)
 }
 
-func (store *PostMongoDBStore) GetAllByUserId(uuid string) ([]*domain.Post, error) {
-	filter := bson.M{"user_id": uuid}
-	return store.filter(filter)
-}
-
 func (store *PostMongoDBStore) GetAllByConnectionIds(uuids []string) ([]*domain.Post, error) {
 	var posts []*domain.Post
 
 	for _, uuid := range uuids {
-		postsByUser, err := store.GetAllByUserId(uuid)
+		postsByUser, err := store.GetAllByUser(uuid)
 		posts = append(posts, postsByUser...)
 
 		if err != nil {

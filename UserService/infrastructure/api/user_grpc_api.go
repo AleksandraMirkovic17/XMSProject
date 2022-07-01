@@ -41,12 +41,13 @@ func (handler *UserHandler) GetAll(ctx context.Context, request *pb.EmptyUser) (
 	return response, nil
 }
 
-func (handler *UserHandler) Get(ctx context.Context, request *pb.GetUserRequest) (*pb.GetUserResponse, error) {
+func (handler *UserHandler) Get(ctx context.Context, request *pb.GetUserIdRequest) (*pb.GetUserResponse, error) {
 	// span := tracer.StartSpanFromContextMetadata(ctx, "GetAllAPI")
 	// defer span.Finish()
 
 	// ctx = tracer.ContextWithSpan(context.Background(), span)
 	// users, err := handler.service.GetAll(ctx)
+	print("Searching for user by id")
 	println(request.Id)
 	parsedUUID, err := uuid.FromString(request.Id)
 	user, err := handler.service.GetOne(parsedUUID)
@@ -104,6 +105,19 @@ func (handler *UserHandler) SearchProfile(ctx context.Context, request *pb.Searc
 	for _, user := range *users {
 		current := mapUser(&user)
 		response.Users = append(response.Users, current)
+	}
+	return response, nil
+}
+
+func (handler *UserHandler) FindByUsername(ctx context.Context, request *pb.GetUserUsernameRequest) (*pb.GetUserResponse, error) {
+	print("Searching fo user by username")
+	println("Searching for: " + request.Username)
+	user, err := handler.service.FindByUsername(request.Username)
+	if err != nil || user == nil {
+		return nil, err
+	}
+	response := &pb.GetUserResponse{
+		User: mapUser(user),
 	}
 	return response, nil
 }

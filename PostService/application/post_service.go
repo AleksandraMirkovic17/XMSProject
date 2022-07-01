@@ -46,8 +46,8 @@ func (service *PostService) GetAllByConnections(uuids []string) ([]*domain.Post,
 func (service *PostService) CreateComment(post *domain.Post, comment *domain.Comment) error {
 	return service.store.CreateComment(post, comment)
 }
-func (service *PostService) ReactToPost(post *domain.Post, user string) error {
-	return service.store.ReactToPost(post, user)
+func (service *PostService) ReactToPost(post *domain.Post, user string, reaction *domain.Reaction) error {
+	return service.store.ReactToPost(post, user, reaction)
 }
 func (service *PostService) DeleteAll() {
 	service.store.DeleteAll()

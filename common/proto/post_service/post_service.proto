@@ -18,7 +18,7 @@ service PostService{
   }
   rpc GetByUser(GetByUserRequest) returns(GetAllResponse) {
     option (google.api.http) = {
-      get: "/post/user/{username}"
+      get: "/post/user/{uuid}"
     };
   }
 
@@ -78,7 +78,7 @@ message GetAllResponse {
 }
 
 message GetByUserRequest {
-  string username = 1;
+  string uuid = 1;
 }
 
 message ReactionRequest {

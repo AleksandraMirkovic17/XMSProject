@@ -99,7 +99,9 @@ func (store *UserPostgresStore) FindByID(uuid uuid.UUID) (user *domain.User, err
 }
 
 func (store *UserPostgresStore) FindByUsername(username string) (user *domain.User, err error) {
+	print("Pokusavam da pronadjem po username unutar user_mongodb_store-a")
 	foundUser := domain.User{}
+
 	if result := store.db.Model(domain.User{Username: &username}).First(&foundUser); result.Error != nil {
 		return nil, result.Error
 	}

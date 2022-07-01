@@ -6,9 +6,14 @@ import "google/protobuf/timestamp.proto";
 import "google/api/annotations.proto";
 
 service UserService{
-  rpc Get(GetUserRequest) returns(GetUserResponse) {
+  rpc Get(GetUserIdRequest) returns(GetUserResponse) {
     option (google.api.http) = {
-      get: "/user/{id}"
+      get: "/user/id/{id}"
+    };
+  }
+  rpc FindByUsername(GetUserUsernameRequest) returns(GetUserResponse) {
+    option (google.api.http) = {
+      get: "/user/username/{username}"
     };
   }
   rpc GetAll(EmptyUser) returns(GetAllUserResponse) {
@@ -38,8 +43,12 @@ service UserService{
 message EmptyUser {}
 
 
-message GetUserRequest {
+message GetUserIdRequest {
   string id = 1;
+}
+
+message GetUserUsernameRequest {
+  string username = 1;
 }
 
 message GetUserResponse {

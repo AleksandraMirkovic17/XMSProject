@@ -78,6 +78,7 @@ func (service *UserService) GetOne(uuid uuid.UUID) (*domain.User, error) {
 }
 
 func (service *UserService) FindByUsername(username string) (*domain.User, error) {
+	println("Finding by username in user_service.go")
 	return service.store.FindByUsername(username)
 }
 

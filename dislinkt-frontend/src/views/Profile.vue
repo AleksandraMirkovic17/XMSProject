@@ -68,20 +68,28 @@
 <script>
 import PictureInput from 'vue-picture-input'
 import PostService from '../services/PostService'
+import UserService from "../services/UserService";
 export default {
   name: "Profile",
+  components:{
+    PictureInput
+  },
   data(){
     return{
       postText: '',
       image: '',
       links: new Array(),
-      link: ''
+      link: '',
+      user: '',
+      usersPosts: []
 
     }
   },
-  components:{
-    PictureInput
-  },
+  mounted() {
+  this.user = localStorage.getItem('user')
+
+    },
+
   methods:{
     onChange (image) {
       console.log('New picture selected!')
@@ -92,6 +100,7 @@ export default {
         console.log('FileReader API not supported: use the <form>, Luke!')
       }
     },
+
     addLink(){
       console.log("New link", this.link)
       this.links.push(this.link)

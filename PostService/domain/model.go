@@ -26,7 +26,7 @@ const (
 
 type Post struct {
 	Id        primitive.ObjectID `bson:"_id"`
-	User      string             `bson:"user"`
+	User      string             `bson:"user_id"`
 	PostText  string             `bson:"post_text"`
 	Image     string             `bson:"images"`
 	Links     []string           `bson:"links"`
