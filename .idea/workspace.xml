@@ -5,16 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="73e9022d-bf7f-4b1c-95b0-7a9024d84ed5" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/dislinkt-frontend/src/views/ProfileSearchView.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/UserService/domain/model.go" beforeDir="false" afterPath="$PROJECT_DIR$/UserService/domain/model.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/UserService/infrastructure/api/pb_mapper.go" beforeDir="false" afterPath="$PROJECT_DIR$/UserService/infrastructure/api/pb_mapper.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/common/proto/user_service/user_service.pb.go" beforeDir="false" afterPath="$PROJECT_DIR$/common/proto/user_service/user_service.pb.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/common/proto/user_service/user_service.proto" beforeDir="false" afterPath="$PROJECT_DIR$/common/proto/user_service/user_service.proto" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dislinkt-frontend/src/App.vue" beforeDir="false" afterPath="$PROJECT_DIR$/dislinkt-frontend/src/App.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dislinkt-frontend/src/router/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/dislinkt-frontend/src/router/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dislinkt-frontend/src/services/UserService.js" beforeDir="false" afterPath="$PROJECT_DIR$/dislinkt-frontend/src/services/UserService.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dislinkt-frontend/src/views/Registration.vue" beforeDir="false" afterPath="$PROJECT_DIR$/dislinkt-frontend/src/views/Registration.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dislinkt-frontend/src/views/ProfileSearchView.vue" beforeDir="false" afterPath="$PROJECT_DIR$/dislinkt-frontend/src/views/ProfileSearchView.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
