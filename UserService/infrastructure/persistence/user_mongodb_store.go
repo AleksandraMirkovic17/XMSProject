@@ -33,7 +33,8 @@ func (store *UserPostgresStore) RemoveSkill(skill string, uuid uuid.UUID) error 
 }
 
 func (store *UserPostgresStore) AddInterest(companyId uuid.UUID, userId uuid.UUID) error {
-	
+	//TODO implement me
+	panic("implement me")
 }
 
 func (store *UserPostgresStore) DeleteWorkExperience(experienceId uuid.UUID, userId uuid.UUID) error {
@@ -106,24 +107,30 @@ func (store *UserPostgresStore) FindByUsername(username string) (user *domain.Us
 }
 
 func (store *UserPostgresStore) Search(searchText string) (*[]domain.User, error) {
-	var users *[]domain.User
+	var users []domain.User
 	args := strings.TrimSpace(searchText)
 	splitArgs := strings.Split(args, " ")
 	allUsers, _ := store.GetAll()
 	for _, cuser := range *allUsers {
 		nameSearch := strings.ToLower(cuser.Name)
+		println(nameSearch)
 		surnameSearch := strings.ToLower(cuser.Surname)
+		println(surnameSearch)
 		usernameSearch := strings.ToLower(*cuser.Username)
+		println(usernameSearch)
 		for _, searchParam := range splitArgs {
 			searchParamLower := strings.ToLower(searchParam)
+			println(searchParamLower)
 			if !(strings.Contains(nameSearch, searchParamLower) || strings.Contains(surnameSearch, searchParamLower) || strings.Contains(usernameSearch, searchParamLower)) {
+				println("Does not contain")
 				break
 			}
-			*users = append(*users, cuser)
+			print("User appending")
+			users = append(users, cuser)
 		}
 	}
 
-	return users, nil
+	return &users, nil
 }
 
 func (store *UserPostgresStore) Delete(user *domain.User) error {
