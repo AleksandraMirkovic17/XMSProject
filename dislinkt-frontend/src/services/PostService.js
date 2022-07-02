@@ -1,5 +1,4 @@
 import axios from 'axios';
-import UserService from "./UserService";
 
 const USER_API_BASE_URL = 'http://localhost:4200/';
 

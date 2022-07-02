@@ -4,7 +4,10 @@ const USER_API_BASE_URL = 'http://localhost:4200/user';
 
 class UserService{
 
-    getUser(userId){
+    getUserByUsername(username){
+        return axios.get(USER_API_BASE_URL + '/username/' + username);
+    }
+    getUserById(userId){
        return axios.get(USER_API_BASE_URL + '/id/' + userId);
     }
 

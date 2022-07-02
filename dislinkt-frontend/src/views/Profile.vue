@@ -1,4 +1,5 @@
 <template>
+
 <div style="display: flex; flex-direction: row" >
   <div class="profile-panel">
     <div class="register-show">
@@ -188,7 +189,7 @@ export default {
        );
     },
     loadUserData() {
-        UserService.getUser(this.$route.params.id).then(response => {
+        UserService.getUserByUsername(this.$route.params.id).then(response => {
             this.user = response.data.User
             this.originalUser = this.user
         })

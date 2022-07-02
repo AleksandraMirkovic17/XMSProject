@@ -64,10 +64,11 @@ export default {
         async login(){
             UserService.login(this.user).then(response => {
                 console.log(response.data.token)
+                console.log(response.data.username)
                 if (response.data.token) {
                   console.log("Ovde")
                   localStorage.setItem('user', JSON.stringify(response.data));
-                  this.$router.push("/profile/"+"1")
+                  this.$router.push("/profile/"+response.data.username)
                 }
             })
             .catch(error =>

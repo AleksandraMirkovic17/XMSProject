@@ -6,23 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="73e9022d-bf7f-4b1c-95b0-7a9024d84ed5" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PostService/application/post_service.go" beforeDir="false" afterPath="$PROJECT_DIR$/PostService/application/post_service.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PostService/domain/model.go" beforeDir="false" afterPath="$PROJECT_DIR$/PostService/domain/model.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PostService/domain/post_store.go" beforeDir="false" afterPath="$PROJECT_DIR$/PostService/domain/post_store.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PostService/infrastructure/api/pb_mapper.go" beforeDir="false" afterPath="$PROJECT_DIR$/PostService/infrastructure/api/pb_mapper.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PostService/infrastructure/api/post_grpc_api.go" beforeDir="false" afterPath="$PROJECT_DIR$/PostService/infrastructure/api/post_grpc_api.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PostService/infrastructure/persistence/post_mongodb_store.go" beforeDir="false" afterPath="$PROJECT_DIR$/PostService/infrastructure/persistence/post_mongodb_store.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/UserService/application/user_service.go" beforeDir="false" afterPath="$PROJECT_DIR$/UserService/application/user_service.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/UserService/infrastructure/api/user_grpc_api.go" beforeDir="false" afterPath="$PROJECT_DIR$/UserService/infrastructure/api/user_grpc_api.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/UserService/infrastructure/persistence/user_mongodb_store.go" beforeDir="false" afterPath="$PROJECT_DIR$/UserService/infrastructure/persistence/user_mongodb_store.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/common/proto/post_service/post_service.pb.go" beforeDir="false" afterPath="$PROJECT_DIR$/common/proto/post_service/post_service.pb.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/common/proto/post_service/post_service.pb.gw.go" beforeDir="false" afterPath="$PROJECT_DIR$/common/proto/post_service/post_service.pb.gw.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/common/proto/post_service/post_service.proto" beforeDir="false" afterPath="$PROJECT_DIR$/common/proto/post_service/post_service.proto" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/common/proto/user_service/user_service.pb.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/common/proto/user_service/user_service.pb.gw.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/common/proto/user_service/user_service.proto" beforeDir="false" afterPath="$PROJECT_DIR$/common/proto/user_service/user_service.proto" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/common/proto/user_service/user_service_grpc.pb.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/AuthenticationService/startup/config/config.go" beforeDir="false" afterPath="$PROJECT_DIR$/AuthenticationService/startup/config/config.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dislinkt-frontend/src/services/PostService.js" beforeDir="false" afterPath="$PROJECT_DIR$/dislinkt-frontend/src/services/PostService.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dislinkt-frontend/src/views/Login.vue" beforeDir="false" afterPath="$PROJECT_DIR$/dislinkt-frontend/src/views/Login.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dislinkt-frontend/src/views/Profile.vue" beforeDir="false" afterPath="$PROJECT_DIR$/dislinkt-frontend/src/views/Profile.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
