@@ -11,6 +11,11 @@ service UserService{
 			get: "/user/id/{id}"
 		};
 	}
+	rpc FindByUsername(GetUserByUsernameRequest) returns(GetUserResponse) {
+		option (google.api.http) = {
+			get: "/user/username/{username}"
+		};
+	}
 	rpc GetAll(EmptyUser) returns(GetAllUserResponse) {
 		option (google.api.http) = {
 			get: "/user"
@@ -40,6 +45,10 @@ message EmptyUser {}
 
 message GetUserRequest {
 	string id = 1;
+}
+
+message GetUserByUsernameRequest {
+	string username = 1;
 }
 
 message GetUserResponse {

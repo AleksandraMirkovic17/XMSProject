@@ -41,7 +41,7 @@ func (handler *UserHandler) GetAll(ctx context.Context, request *pb.EmptyUser) (
 	return response, nil
 }
 
-func (handler *UserHandler) Get(ctx context.Context, request *pb.GetUserIdRequest) (*pb.GetUserResponse, error) {
+func (handler *UserHandler) Get(ctx context.Context, request *pb.GetUserRequest) (*pb.GetUserResponse, error) {
 	// span := tracer.StartSpanFromContextMetadata(ctx, "GetAllAPI")
 	// defer span.Finish()
 
@@ -109,7 +109,7 @@ func (handler *UserHandler) SearchProfile(ctx context.Context, request *pb.Searc
 	return response, nil
 }
 
-func (handler *UserHandler) FindByUsername(ctx context.Context, request *pb.GetUserUsernameRequest) (*pb.GetUserResponse, error) {
+func (handler *UserHandler) FindByUsername(ctx context.Context, request *pb.GetUserByUsernameRequest) (*pb.GetUserResponse, error) {
 	print("Searching fo user by username")
 	println("Searching for: " + request.Username)
 	user, err := handler.service.FindByUsername(request.Username)
