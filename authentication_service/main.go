@@ -1,8 +1,10 @@
 package main
 
-import "fmt"
-import "AuthenticationService/startup/config"
-import "AuthenticationService/startup"
+import (
+	"AuthenticationService/startup"
+	"AuthenticationService/startup/config"
+	"fmt"
+)
 
 func main() {
 	config := config.NewConfig()

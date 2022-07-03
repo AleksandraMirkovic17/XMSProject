@@ -4,64 +4,65 @@
   <div class="profile-panel">
     <div class="register-show">
       <h2>{{user.username}}</h2>
-            <div class="row d-flex mt-5">
-                <div class="col-md-12">
-                    <label class="input_label">
-                        <input type="email" name="email" v-model="user.email" disabled=yes required="required" @change="userInfoHasChanged()">
-                        <span class="keep_hovered">EMail</span>
-                    </label>
-                </div>
-            </div>
-            <div class="row d-flex mt-4">
-                <div class="col-md-12">
-                    <label class="input_label">
-                        <input type="email" name="email" v-model="user.username" disabled=yes required="required" @change="userInfoHasChanged()">
-                        <span class="keep_hovered">Username</span>
-                    </label>
-                </div>
-            </div>
-            <div class="row d-flex mt-4" v-if="isUserLoggedIn()">
-                <div class="col-md-4">
-                    <label class="input_label">
-                        <input type="password" name="old-password" v-model="user.oldPasswordGuess" @change="userInfoHasChanged()" :disabled="!(isUserLoggedIn())">
-                        <span class="keep_hovered">Old Password</span>
-                    </label>
-                </div>
-                <div class="col-md-4">
-                    <label class="input_label">
-                        <input type="password" name="new-password" v-model="user.newPassword" @change="userInfoHasChanged()" :disabled="!(isUserLoggedIn())">
-                        <span class="keep_hovered">New Password</span>
-                    </label>
-                </div>
-                <div class="col-md-4">
-                    <label class="input_label">
-                        <input type="password" name="confirm-new-password" v-model="user.newPasswordConfirmation" @change="userInfoHasChanged()" :disabled="!(isUserLoggedIn())">
-                        <span class="keep_hovered">Confirm New Password</span>
-                    </label>
-                </div>
-            </div>
-            <div class="row d-flex mt-4">
-                <div class="col-md-6">
-                    <label class="input_label">
-                        <input type="text" name="first-name" v-model="user.name" required="required" @change="userInfoHasChanged()" :disabled="!(isUserLoggedIn())">
-                        <span class="keep_hovered">First Name</span>
-                    </label>
-                </div>
-                <div class="col-md-6">
-                    <label class="input_label">
-                        <input type="text" name="last-name" v-model="user.surname" required="required" @change="userInfoHasChanged()" :disabled="!(isUserLoggedIn())">
-                        <span class="keep_hovered">Last Name</span>
-                    </label>
-                </div>
-            </div>
-            <div class="row d-flex mt-4">
-                <div class="col-md-12">
-                    <label class="input_label">
-                        <input type="text" name="phone" v-model="user.phone" required="required" @change="userInfoHasChanged()" :disabled="!(isUserLoggedIn())">
-                        <span class="keep_hovered">Contact Phone</span>
-                    </label>
-                </div>
-            </div>
+      <div class="row d-flex mt-5">
+          <div class="col-md-12">
+              <label class="input_label">
+                  <input type="email" name="email" v-model="user.email" disabled=yes required="required" @change="userInfoHasChanged()">
+                  <span class="keep_hovered">EMail</span>
+              </label>
+          </div>
+      </div>
+      <div class="row d-flex mt-4">
+          <div class="col-md-12">
+              <label class="input_label">
+                  <input type="email" name="email" v-model="user.username" disabled=yes required="required" @change="userInfoHasChanged()">
+                  <span class="keep_hovered">Username</span>
+              </label>
+          </div>
+      </div>
+      <div class="row d-flex mt-4" v-if="isUserLoggedIn()">
+          <div class="col-md-4">
+              <label class="input_label">
+                  <input type="password" name="old-password" v-model="user.oldPasswordGuess" @change="userInfoHasChanged()" :disabled="!(isUserLoggedIn())">
+                  <span class="keep_hovered">Old Password</span>
+              </label>
+          </div>
+          <div class="col-md-4">
+              <label class="input_label">
+                  <input type="password" name="new-password" v-model="user.newPassword" @change="userInfoHasChanged()" :disabled="!(isUserLoggedIn())">
+                  <span class="keep_hovered">New Password</span>
+              </label>
+          </div>
+          <div class="col-md-4">
+              <label class="input_label">
+                  <input type="password" name="confirm-new-password" v-model="user.newPasswordConfirmation" @change="userInfoHasChanged()" :disabled="!(isUserLoggedIn())">
+                  <span class="keep_hovered">Confirm New Password</span>
+              </label>
+          </div>
+      </div>
+      <div class="row d-flex mt-4">
+          <div class="col-md-6">
+              <label class="input_label">
+                  <input type="text" name="first-name" v-model="user.name" required="required" @change="userInfoHasChanged()" :disabled="!(isUserLoggedIn())">
+                  <span class="keep_hovered">First Name</span>
+              </label>
+          </div>
+          <div class="col-md-6">
+              <label class="input_label">
+                  <input type="text" name="last-name" v-model="user.surname" required="required" @change="userInfoHasChanged()" :disabled="!(isUserLoggedIn())">
+                  <span class="keep_hovered">Last Name</span>
+              </label>
+          </div>
+      </div>
+      <div class="row d-flex mt-4">
+          <div class="col-md-12">
+              <label class="input_label">
+                  <input type="text" name="phone" v-model="user.phone" required="required" @change="userInfoHasChanged()" :disabled="!(isUserLoggedIn())">
+                  <span class="keep_hovered">Contact Phone</span>
+              </label>
+          </div>
+      </div>
+      <h2 v-if="user.skills">Skills</h2>
       <input type="button" value="Update" v-if="isUserInfoChanged" :disabled="!isAllInputValid()" v-on:click="updateUser()"/>
       <input type="button" value="Reset" v-if="isUserInfoChanged" v-on:click="loadUserData()"/>
     </div>

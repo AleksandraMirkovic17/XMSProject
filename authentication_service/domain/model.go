@@ -1,10 +1,10 @@
 package domain
 
-import uuid "github.com/jackc/pgtype/ext/gofrs-uuid"
+import "go.mongodb.org/mongo-driver/bson/primitive"
 
 type User struct {
-	ID       uuid.UUID `gorm:"index:idx_name,unique"`
-	Username string    `gorm:"unique"`
-	Password string
-	Role     string
+	ID       primitive.ObjectID `bson:"_id"`
+	Username string             `bson:"username"`
+	Password string             `bson:"password"`
+	Role     string             `bson:"role"`
 }
