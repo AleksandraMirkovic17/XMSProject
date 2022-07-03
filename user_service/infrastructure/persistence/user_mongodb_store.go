@@ -41,9 +41,9 @@ func (store *UserMongoDBStore) FindByUsername(username string) (user *domain.Use
 func (store *UserMongoDBStore) FindByUsernameAndNameAndSurname(username string, name string, surname string) (users []*domain.User, err error) {
 	filter := bson.M{
 		"$or": bson.A{
-			bson.M{"username": bson.M{"$regex": username, "$options": "i"}},
-			bson.M{"name": bson.M{"$regex": name, "$options": "i"}},
-			bson.M{"surname": bson.M{"$regex": surname, "$options": "i"}},
+			bson.M{"username": bson.M{"$regex": username, "$options": "i"}, "public": true},
+			bson.M{"name": bson.M{"$regex": name, "$options": "i"}, "public": true},
+			bson.M{"surname": bson.M{"$regex": surname, "$options": "i"}, "public": true},
 		},
 	}
 	return store.filter(filter)
