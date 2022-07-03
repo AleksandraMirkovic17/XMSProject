@@ -61,20 +61,20 @@ func updateField(paths []string, user *domain.User, requestUser *domain.User) (*
 	return user, nil
 }
 
+func (service *UserService) GetOne(uuid primitive.ObjectID) (*domain.User, error) {
+	return service.store.FindByID(uuid)
+}
+
 func (service *UserService) GetAll() ([]*domain.User, error) {
-	// span := tracer.StartSpanFromContext(ctx, "GetAll-Service")
-	// defer span.Finish()
-	//
-	// newCtx := tracer.ContextWithSpan(context.Background(), span)
 	return service.store.GetAll()
+}
+
+func (service *UserService) GetAllByUsernameAndNameAndSurname(username string, name string, surname string) ([]*domain.User, error) {
+	return service.store.FindByUsernameAndNameAndSurname(username, name, surname)
 }
 
 func (service *UserService) Search(searchText string) (*[]domain.User, error) {
 	return service.store.Search(searchText)
-}
-
-func (service *UserService) GetOne(uuid primitive.ObjectID) (*domain.User, error) {
-	return service.store.FindByID(uuid)
 }
 
 func (service *UserService) FindByUsername(username string) (*domain.User, error) {

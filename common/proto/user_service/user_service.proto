@@ -16,7 +16,7 @@ service UserService{
 			get: "/user/username/{username}"
 		};
 	}
-	rpc GetAll(EmptyUser) returns(GetAllUserResponse) {
+	rpc GetAll(GetUserBySearchParamsRequest) returns(GetAllUserResponse) {
 		option (google.api.http) = {
 			get: "/user"
 		};
@@ -33,15 +33,7 @@ service UserService{
 			body: "user"
 		};
 	}
-	rpc SearchProfile(SearchProfileRequest) returns(GetAllUserResponse) {
-		option(google.api.http) = {
-			get: "/user/{param}"
-		};
-	}
 }
-
-message EmptyUser {}
-
 
 message GetUserRequest {
 	string id = 1;
@@ -92,21 +84,21 @@ message Skill{
 }
 
 message NewUser {
-  User user = 1;
+	User user = 1;
 }
 
 message  RegisterUserRequest {
-  NewUser user = 1;
+	NewUser user = 1;
 }
 
 message UpdateUserRequest{
-  NewUser user = 1;
+	NewUser user = 1;
 }
 
-message SearchProfileRequest{
-  string param = 1;
+message GetUserBySearchParamsRequest{
+	string username = 1;
+	string name = 2;
+	string surname = 3;
 }
-
-
 
 

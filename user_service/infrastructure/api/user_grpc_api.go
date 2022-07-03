@@ -18,8 +18,8 @@ func NewUserHandler(service *application.UserService) *UserHandler {
 	return &UserHandler{service: service}
 }
 
-func (handler *UserHandler) GetAll(ctx context.Context, request *pb.EmptyUser) (*pb.GetAllUserResponse, error) {
-	users, err := handler.service.GetAll()
+func (handler *UserHandler) GetAll(ctx context.Context, request *pb.GetUserBySearchParamsRequest) (*pb.GetAllUserResponse, error) {
+	users, err := handler.service.GetAllByUsernameAndNameAndSurname(request.Username, request.Username, request.Username)
 	if err != nil {
 		return nil, err
 	}
@@ -32,12 +32,6 @@ func (handler *UserHandler) GetAll(ctx context.Context, request *pb.EmptyUser) (
 }
 
 func (handler *UserHandler) Get(ctx context.Context, request *pb.GetUserRequest) (*pb.GetUserResponse, error) {
-	// span := tracer.StartSpanFromContextMetadata(ctx, "GetAllAPI")
-	// defer span.Finish()
-
-	// ctx = tracer.ContextWithSpan(context.Background(), span)
-	// users, err := handler.service.GetAll(ctx)
-	print("Searching for user by id")
 	println(request.Id)
 	userId, _ := primitive.ObjectIDFromHex(request.Id)
 	user, err := handler.service.GetOne(userId)
@@ -82,7 +76,7 @@ func (handler *UserHandler) Update(ctx context.Context, request *pb.UpdateUserRe
 	return mapUser(user), nil
 }
 
-func (handler *UserHandler) SearchProfile(ctx context.Context, request *pb.SearchProfileRequest) (*pb.GetAllUserResponse, error) {
+/*func (handler *UserHandler) SearchProfile(ctx context.Context, request *pb.SearchProfileRequest) (*pb.GetAllUserResponse, error) {
 
 	users, err := handler.service.Search(request.GetParam())
 	if err != nil {
@@ -97,7 +91,7 @@ func (handler *UserHandler) SearchProfile(ctx context.Context, request *pb.Searc
 		response.Users = append(response.Users, current)
 	}
 	return response, nil
-}
+}*/
 
 func (handler *UserHandler) FindByUsername(ctx context.Context, request *pb.GetUserByUsernameRequest) (*pb.GetUserResponse, error) {
 	print("Searching fo user by username")

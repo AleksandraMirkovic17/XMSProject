@@ -24,10 +24,9 @@ const _ = grpc.SupportPackageIsVersion7
 type UserServiceClient interface {
 	Get(ctx context.Context, in *GetUserRequest, opts ...grpc.CallOption) (*GetUserResponse, error)
 	FindByUsername(ctx context.Context, in *GetUserByUsernameRequest, opts ...grpc.CallOption) (*GetUserResponse, error)
-	GetAll(ctx context.Context, in *EmptyUser, opts ...grpc.CallOption) (*GetAllUserResponse, error)
+	GetAll(ctx context.Context, in *GetUserBySearchParamsRequest, opts ...grpc.CallOption) (*GetAllUserResponse, error)
 	Insert(ctx context.Context, in *RegisterUserRequest, opts ...grpc.CallOption) (*User, error)
 	Update(ctx context.Context, in *UpdateUserRequest, opts ...grpc.CallOption) (*User, error)
-	SearchProfile(ctx context.Context, in *SearchProfileRequest, opts ...grpc.CallOption) (*GetAllUserResponse, error)
 }
 
 type userServiceClient struct {
@@ -56,7 +55,7 @@ func (c *userServiceClient) FindByUsername(ctx context.Context, in *GetUserByUse
 	return out, nil
 }
 
-func (c *userServiceClient) GetAll(ctx context.Context, in *EmptyUser, opts ...grpc.CallOption) (*GetAllUserResponse, error) {
+func (c *userServiceClient) GetAll(ctx context.Context, in *GetUserBySearchParamsRequest, opts ...grpc.CallOption) (*GetAllUserResponse, error) {
 	out := new(GetAllUserResponse)
 	err := c.cc.Invoke(ctx, "/UserService/GetAll", in, out, opts...)
 	if err != nil {
@@ -83,25 +82,15 @@ func (c *userServiceClient) Update(ctx context.Context, in *UpdateUserRequest, o
 	return out, nil
 }
 
-func (c *userServiceClient) SearchProfile(ctx context.Context, in *SearchProfileRequest, opts ...grpc.CallOption) (*GetAllUserResponse, error) {
-	out := new(GetAllUserResponse)
-	err := c.cc.Invoke(ctx, "/UserService/SearchProfile", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 // UserServiceServer is the server API for UserService service.
 // All implementations must embed UnimplementedUserServiceServer
 // for forward compatibility
 type UserServiceServer interface {
 	Get(context.Context, *GetUserRequest) (*GetUserResponse, error)
 	FindByUsername(context.Context, *GetUserByUsernameRequest) (*GetUserResponse, error)
-	GetAll(context.Context, *EmptyUser) (*GetAllUserResponse, error)
+	GetAll(context.Context, *GetUserBySearchParamsRequest) (*GetAllUserResponse, error)
 	Insert(context.Context, *RegisterUserRequest) (*User, error)
 	Update(context.Context, *UpdateUserRequest) (*User, error)
-	SearchProfile(context.Context, *SearchProfileRequest) (*GetAllUserResponse, error)
 	mustEmbedUnimplementedUserServiceServer()
 }
 
@@ -115,7 +104,7 @@ func (UnimplementedUserServiceServer) Get(context.Context, *GetUserRequest) (*Ge
 func (UnimplementedUserServiceServer) FindByUsername(context.Context, *GetUserByUsernameRequest) (*GetUserResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method FindByUsername not implemented")
 }
-func (UnimplementedUserServiceServer) GetAll(context.Context, *EmptyUser) (*GetAllUserResponse, error) {
+func (UnimplementedUserServiceServer) GetAll(context.Context, *GetUserBySearchParamsRequest) (*GetAllUserResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetAll not implemented")
 }
 func (UnimplementedUserServiceServer) Insert(context.Context, *RegisterUserRequest) (*User, error) {
@@ -123,9 +112,6 @@ func (UnimplementedUserServiceServer) Insert(context.Context, *RegisterUserReque
 }
 func (UnimplementedUserServiceServer) Update(context.Context, *UpdateUserRequest) (*User, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Update not implemented")
-}
-func (UnimplementedUserServiceServer) SearchProfile(context.Context, *SearchProfileRequest) (*GetAllUserResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method SearchProfile not implemented")
 }
 func (UnimplementedUserServiceServer) mustEmbedUnimplementedUserServiceServer() {}
 
@@ -177,7 +163,7 @@ func _UserService_FindByUsername_Handler(srv interface{}, ctx context.Context, d
 }
 
 func _UserService_GetAll_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(EmptyUser)
+	in := new(GetUserBySearchParamsRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -189,7 +175,7 @@ func _UserService_GetAll_Handler(srv interface{}, ctx context.Context, dec func(
 		FullMethod: "/UserService/GetAll",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserServiceServer).GetAll(ctx, req.(*EmptyUser))
+		return srv.(UserServiceServer).GetAll(ctx, req.(*GetUserBySearchParamsRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -230,24 +216,6 @@ func _UserService_Update_Handler(srv interface{}, ctx context.Context, dec func(
 	return interceptor(ctx, in, info, handler)
 }
 
-func _UserService_SearchProfile_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(SearchProfileRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(UserServiceServer).SearchProfile(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/UserService/SearchProfile",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserServiceServer).SearchProfile(ctx, req.(*SearchProfileRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 // UserService_ServiceDesc is the grpc.ServiceDesc for UserService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -274,10 +242,6 @@ var UserService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "Update",
 			Handler:    _UserService_Update_Handler,
-		},
-		{
-			MethodName: "SearchProfile",
-			Handler:    _UserService_SearchProfile_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

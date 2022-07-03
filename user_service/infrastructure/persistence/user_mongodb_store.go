@@ -38,6 +38,17 @@ func (store *UserMongoDBStore) FindByUsername(username string) (user *domain.Use
 	return store.filterOne(filter)
 }
 
+func (store *UserMongoDBStore) FindByUsernameAndNameAndSurname(username string, name string, surname string) (users []*domain.User, err error) {
+	filter := bson.M{
+		"$or": bson.A{
+			bson.M{"username": bson.M{"$regex": username, "$options": "i"}},
+			bson.M{"name": bson.M{"$regex": name, "$options": "i"}},
+			bson.M{"surname": bson.M{"$regex": surname, "$options": "i"}},
+		},
+	}
+	return store.filter(filter)
+}
+
 func (store *UserMongoDBStore) Insert(user *domain.User) error {
 	result, err := store.users.InsertOne(context.TODO(), user)
 	if err != nil {

@@ -10,6 +10,7 @@ type UserStore interface {
 	GetAll() ([]*User, error)
 	FindByID(uuid primitive.ObjectID) (*User, error)
 	FindByUsername(username string) (*User, error)
+	FindByUsernameAndNameAndSurname(username string, name string, surname string) ([]*User, error)
 	Search(searchText string) (*[]User, error)
 	Delete(user *User) error
 }
