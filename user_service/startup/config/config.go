@@ -28,7 +28,7 @@ func NewConfig() *Config {
 		UserDBHost: "localhost",
 		UserDBPort: "5432",
 		UserDBName: "xws_user",
-		UserDBUser: "root",
-		UserDBPass: "root",
+		UserDBUser: "admin",
+		UserDBPass: "ftn",
 	}
 }
