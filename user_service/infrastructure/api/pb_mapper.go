@@ -33,6 +33,29 @@ func mapUser(user *domain.User) *pb.User {
 	return userPb
 }
 
+func mapUserPbToDomain(userPb *pb.NewUser) *domain.User {
+	userD := &domain.User{
+		Id:          primitive.NewObjectID(),
+		Name:        (*userPb).User.Name,
+		Surname:     (*userPb).User.Surname,
+		Username:    (*userPb).User.Username,
+		Email:       (*userPb).User.Email,
+		Password:    (*userPb).User.Password,
+		Gender:      mapGenderPbToDomainGender((*userPb).User.Gender),
+		Role:        domain.Regular,
+		DateOfBirth: (*((*userPb).User.DateOfBirth)).AsTime(),
+		Public:      (*userPb).User.Public,
+	}
+
+	for _, skill := range userPb.User.Skills {
+		userD.Skills = append(userD.Skills, domain.Skill{
+			Id:   primitive.NewObjectID(),
+			Name: skill.Name,
+		})
+	}
+	return userD
+}
+
 func mapRoleToPb(role domain.Role) pb.UserRole {
 	switch role {
 	case domain.Regular:
@@ -55,22 +78,6 @@ func mapGenderToPb(gender domain.Gender) pb.Gender {
 		return pb.Gender_Other
 	}
 	return pb.Gender_Other
-}
-
-func mapNewUserPbToDomain(userPb *pb.NewUser) *domain.User {
-	userD := &domain.User{
-		Id:          primitive.NewObjectID(),
-		Name:        (*userPb).User.Name,
-		Surname:     (*userPb).User.Surname,
-		Username:    (*userPb).User.Username,
-		Email:       (*userPb).User.Email,
-		Password:    (*userPb).User.Password,
-		Gender:      mapGenderPbToDomainGender((*userPb).User.Gender),
-		Role:        domain.Regular,
-		DateOfBirth: (*((*userPb).User.DateOfBirth)).AsTime(),
-		Public:      (*userPb).User.Public,
-	}
-	return userD
 }
 
 func mapGenderPbToDomainGender(gender pb.Gender) domain.Gender {

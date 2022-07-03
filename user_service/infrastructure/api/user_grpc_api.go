@@ -51,7 +51,7 @@ func (handler *UserHandler) Get(ctx context.Context, request *pb.GetUserRequest)
 }
 
 func (handler *UserHandler) Insert(ctx context.Context, request *pb.RegisterUserRequest) (*pb.User, error) {
-	user := mapNewUserPbToDomain(request.User)
+	user := mapUserPbToDomain(request.User)
 	fmt.Println("mapper zavrsio")
 
 	err := handler.service.Insert(user)
@@ -64,7 +64,7 @@ func (handler *UserHandler) Insert(ctx context.Context, request *pb.RegisterUser
 }
 
 func (handler *UserHandler) Update(ctx context.Context, request *pb.UpdateUserRequest) (*pb.User, error) {
-	user := mapNewUserPbToDomain(request.User)
+	user := mapUserPbToDomain(request.User)
 	foundUser, findErr := handler.service.FindByUsername((*user).Username)
 	if findErr != nil {
 		return nil, findErr
