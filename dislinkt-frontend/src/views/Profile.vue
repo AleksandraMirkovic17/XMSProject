@@ -63,11 +63,27 @@
           </div>
       </div>
       <h2 v-if="user.skills">Skills</h2>
-      <div v-for="(skill,index) in user.skills" :key="index">
-        <h4>{{skill.name}}</h4>
+      <div v-for="(skill,index) in user.skills" :key="index" class="row d-flex mt-4">
+        <div class="col-md-10">
+          <h4>{{skill.name}}</h4>
+        </div>
+        <div class="col-md-2">
+          <div class="button_minus" v-on:click="removeSkill(skill.name)" v-if="isUserLoggedIn()"></div>
+        </div>
+      </div>
+      <div class="row d-flex mt-4" v-if="isUserLoggedIn()">
+          <div class="col-md-10">
+              <label class="input_label">
+                  <input type="text" name="new-skill" v-model="newSkill">
+                  <span class="keep_hovered"></span>
+              </label>
+          </div>
+          <div class="col-md-2">
+            <div class="button_plus" v-on:click="addSkill()" v-if="newSkill"></div>
+          </div>
       </div>
       <input type="button" value="Update" v-if="isUserInfoChanged" :disabled="!isAllInputValid()" v-on:click="updateUser()"/>
-      <input type="button" value="Reset" v-if="isUserInfoChanged" v-on:click="loadUserData()"/>
+      <input type="button" value="Reset" v-if="isUserInfoChanged"/>
     </div>
   </div>
   <div class="posts">
@@ -229,6 +245,7 @@ export default {
       originalUser: {},
       usersPosts: new Array(),
       isUserInfoChanged: false,
+      newSkill: "",
     }
   },
   components:{
@@ -296,12 +313,25 @@ export default {
       }
        );
     },
-    loadUserData() {
-    },
     updateUser() {
         UserService.updateUser({ user: this.user}).then(() => {
             this.$router.go();
         });
+    },
+    addSkill(){
+      this.user.skills.push({
+        id: "ObjectID(\"0\")",
+        name: this.newSkill
+      })
+      this.isUserInfoChanged = true
+    },
+    removeSkill(name){
+      for(let index in this.user.skills) {
+        if(this.user.skills[index].name === name) {
+          this.user.skills.splice(index,1)
+        }
+      }
+      this.isUserInfoChanged = true
     },
     userInfoHasChanged() {
         this.isUserInfoChanged = true
@@ -667,68 +697,82 @@ export default {
         transition: all .3s;
     }
 
-    /* GENDER SELECTION */  
-    input[type="radio"] {
-        display: none;
+    /* ADD BUTTON */
+    
+    .button_plus {
+      position: absolute;
+      width: 35px;
+      height: 35px;
+      background: #fff;
+      cursor: pointer;
+      border: 2px solid #08d;
+      border-radius: 20px;
+    }
+    
+    .button_plus:after {
+      content: '';
+      position: absolute;
+      transform: translate(-50%, -50%);
+      height: 4px;
+      width: 50%;
+      background: #08d;
+      top: 50%;
+      left: 50%;
+    }
+    
+    .button_plus:before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: #08d;
+      height: 50%;
+      width: 4px;
+    }
+    
+    .button_plus:hover:before,
+    .button_plus:hover:after {
+      background: #fff;
+      transition: 0.2s;
+    }
+    
+    .button_plus:hover {
+      background-color: #08d;
+      transition: 0.2s;
     }
 
-    input[type="radio"] + label {
-        z-index: 10;
-        margin: 0 10px 10px 0;
-        position: relative;
-        color: #ced4da;
-        text-shadow: 0 1px 0 rgba(255, 255, 255, 0.1);
-        font-weight: bold;
-        background-color: #ffffff;
-        border: 2px solid #ced4da;
-        cursor: pointer;
-        transition: all 200ms ease;
+    /* REMOVE BUTTON */
+    
+    .button_minus {
+      position: absolute;
+      width: 35px;
+      height: 35px;
+      background: #fff;
+      cursor: pointer;
+      border: 2px solid #cc0000;
+      border-radius: 20px;
     }
-
-    input[type="radio"].male_option:hover + label {
-        color: white;
-        background-color: rgb(143, 176, 233);
-        border: 2px solid white;
-        transition: all .3s;
+    
+    .button_minus:after {
+      content: '';
+      position: absolute;
+      transform: translate(-50%, -50%);
+      height: 4px;
+      width: 50%;
+      background: #cc0000;
+      top: 50%;
+      left: 50%;
     }
-
-    input[type="radio"].male_option:checked + label {
-        color: white;
-        background-color: rgba(0,95,255,1);
-        border: 2px solid white;
-        transition: all .3s;
+    
+    .button_minus:hover:before,
+    .button_minus:hover:after {
+      background: #fff;
+      transition: 0.2s;
     }
-
-    input[type="radio"].female_option:hover + label {
-        color: white;
-        background-color: #ffd1d9;
-        border: 2px solid white;
-        transition: all .3s;
+    
+    .button_minus:hover {
+      background-color: #cc0000;
+      transition: 0.2s;
     }
-
-    input[type="radio"].female_option:checked + label {
-        color: white;
-        background-color: #FB9AAC;
-        border: 2px solid white;
-        transition: all .3s;
-    }
-
-    input[type="radio"] + label {
-        padding: 5px 40%;
-        border-radius: 10px;
-    }
-
-    .user-profile-red-button {
-    max-width: 150px;
-    width: 100%;
-    background: rgb(228, 40, 40);
-    color: #f9f9f9;
-    border: none;
-    padding: 10px;
-    border-radius: 10px;
-    text-transform: uppercase;
-    float:right;
-    cursor:pointer;
-}
-
 </style>

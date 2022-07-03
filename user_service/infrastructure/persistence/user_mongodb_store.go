@@ -72,6 +72,7 @@ func (store *UserMongoDBStore) Update(user *domain.User) error {
 			{"$set", bson.D{{"name", user.Name}}},
 			{"$set", bson.D{{"surname", user.Surname}}},
 			{"$set", bson.D{{"phone", user.Phone}}},
+			{"$set", bson.D{{"skills", user.Skills}}},
 		},
 	)
 	if err != nil {
