@@ -16,7 +16,7 @@ class UserService{
     }
 
     searchUsers(param){
-        return axios.get(USER_API_BASE_URL+"/"+ param)
+        return axios.get(USER_API_BASE_URL+"?username="+ param)
     }
 
     registerUser(user){
