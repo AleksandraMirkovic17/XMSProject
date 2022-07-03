@@ -60,126 +60,25 @@ func (store *UserMongoDBStore) Insert(user *domain.User) error {
 }
 
 func (store *UserMongoDBStore) Update(user *domain.User) error {
-	filter := bson.D{{"_id", user.Id}}
-	if user.Name != "" {
-		update := bson.D{
-			{"$set", bson.D{
-				{"name", user.Name},
-			},
-			},
-		}
-
-		_, err := store.users.UpdateOne(context.TODO(), filter, update)
-
-		if err != nil {
-			return err
-		}
+	filter := bson.M{"username": user.Username}
+	oldUser, err := store.filterOne(filter)
+	if err != nil {
+		return err
 	}
-	if user.Surname != "" {
-		update := bson.D{
-			{"$set", bson.D{
-				{"surname", user.Surname},
-			},
-			},
-		}
-
-		_, err := store.users.UpdateOne(context.TODO(), filter, update)
-
-		if err != nil {
-			return err
-		}
+	_, err = store.users.UpdateOne(
+		context.TODO(),
+		bson.M{"_id": oldUser.Id},
+		bson.D{
+			{"$set", bson.D{{"name", user.Name}}},
+			{"$set", bson.D{{"surname", user.Surname}}},
+			{"$set", bson.D{{"phone", user.Phone}}},
+		},
+	)
+	if err != nil {
+		return err
 	}
-	if user.Email != "" {
-		update := bson.D{
-			{"$set", bson.D{
-				{"email", user.Email},
-			},
-			},
-		}
 
-		_, err := store.users.UpdateOne(context.TODO(), filter, update)
-
-		if err != nil {
-			return err
-		}
-	}
-	if user.Username != "" {
-		update := bson.D{
-			{"$set", bson.D{
-				{"username", user.Username},
-			},
-			},
-		}
-
-		_, err := store.users.UpdateOne(context.TODO(), filter, update)
-
-		if err != nil {
-			return err
-		}
-	}
-	if user.Phone != "" {
-		update := bson.D{
-			{"$set", bson.D{
-				{"phone", user.Phone},
-			},
-			},
-		}
-
-		_, err := store.users.UpdateOne(context.TODO(), filter, update)
-
-		if err != nil {
-			return err
-		}
-	}
-	/*if user.DateOfBirth != nil {
-		update := bson.D{
-			{"$set", bson.D{
-				{"date_of_birth", user.DateOfBirth},
-			},
-			},
-		}
-
-		_, err := store.users.UpdateOne(context.TODO(), filter, update)
-
-		if err != nil {
-			return nil, err
-		}
-	}*/
-	if user.Biography != "" {
-		update := bson.D{
-			{"$set", bson.D{
-				{"biography", user.Biography},
-			},
-			},
-		}
-
-		_, err := store.users.UpdateOne(context.TODO(), filter, update)
-
-		if err != nil {
-			return err
-		}
-	}
-	/*if user.EducationExperiences != nil {
-		update := bson.D{
-			{"$set", bson.D{
-				{"education", user.Education},
-			},
-			},
-		}
-
-		_, err := store.users.UpdateOne(context.TODO(), filter, update)
-
-		if err != nil {
-			return nil, err
-		}
-	}*/
-
-	findFilter := bson.D{{"_id", user.Id}}
-	var result domain.User
-
-	err1 := store.users.FindOne(context.TODO(), findFilter).Decode(&result)
-
-	return err1
+	return nil
 }
 
 func (store *UserMongoDBStore) Search(searchText string) (*[]domain.User, error) {

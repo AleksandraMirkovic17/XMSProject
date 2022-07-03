@@ -63,6 +63,9 @@
           </div>
       </div>
       <h2 v-if="user.skills">Skills</h2>
+      <div v-for="(skill,index) in user.skills" :key="index">
+        <h4>{{skill.name}}</h4>
+      </div>
       <input type="button" value="Update" v-if="isUserInfoChanged" :disabled="!isAllInputValid()" v-on:click="updateUser()"/>
       <input type="button" value="Reset" v-if="isUserInfoChanged" v-on:click="loadUserData()"/>
     </div>
@@ -296,7 +299,7 @@ export default {
     loadUserData() {
     },
     updateUser() {
-        UserService.updateUser(this.user).then(() => {
+        UserService.updateUser({ user: this.user}).then(() => {
             this.$router.go();
         });
     },
@@ -308,13 +311,7 @@ export default {
             return false
         if(this.user.lastName == "")
             return false
-        if(this.user.contactPhone == "")
-            return false
-        if(this.user.address == "")
-            return false
-        if(this.user.city == "")
-            return false
-        if(this.user.country == "")
+        if(this.user.phone == "")
             return false
         if((this.user.oldPasswordGuess && (!this.user.newPassword || !this.user.newPasswordConfirmation))
             || (this.user.newPassword && (!this.user.oldPasswordGuess || !this.user.newPasswordConfirmation))
