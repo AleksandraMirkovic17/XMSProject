@@ -2,12 +2,11 @@ package api
 
 import (
 	"UserService/application"
-	"UserService/domain"
 	"context"
 	"fmt"
 
 	pb "github.com/dislinked/common/proto/user_service"
-	uuid "github.com/satori/go.uuid"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 type UserHandler struct {
@@ -20,22 +19,13 @@ func NewUserHandler(service *application.UserService) *UserHandler {
 }
 
 func (handler *UserHandler) GetAll(ctx context.Context, request *pb.EmptyUser) (*pb.GetAllUserResponse, error) {
-	// span := tracer.StartSpanFromContextMetadata(ctx, "GetAllAPI")
-	// defer span.Finish()
-
-	// ctx = tracer.ContextWithSpan(context.Background(), span)
-	// users, err := handler.service.GetAll(ctx)
-	var users *[]domain.User
-	var err error
-	users, err = handler.service.GetAll()
-	if err != nil || *users == nil {
+	users, err := handler.service.GetAll()
+	if err != nil {
 		return nil, err
 	}
-	response := &pb.GetAllUserResponse{
-		Users: []*pb.User{},
-	}
-	for _, user := range *users {
-		current := mapUser(&user)
+	response := &pb.GetAllUserResponse{Users: []*pb.User{}}
+	for _, user := range users {
+		current := mapUser(user)
 		response.Users = append(response.Users, current)
 	}
 	return response, nil
@@ -49,8 +39,8 @@ func (handler *UserHandler) Get(ctx context.Context, request *pb.GetUserRequest)
 	// users, err := handler.service.GetAll(ctx)
 	print("Searching for user by id")
 	println(request.Id)
-	parsedUUID, err := uuid.FromString(request.Id)
-	user, err := handler.service.GetOne(parsedUUID)
+	userId, _ := primitive.ObjectIDFromHex(request.Id)
+	user, err := handler.service.GetOne(userId)
 	if err != nil || user == nil {
 		return nil, err
 	}
@@ -75,7 +65,7 @@ func (handler *UserHandler) Insert(ctx context.Context, request *pb.RegisterUser
 
 func (handler *UserHandler) Update(ctx context.Context, request *pb.UpdateUserRequest) (*pb.User, error) {
 	user := mapNewUserPbToDomain(request.User)
-	foundUser, findErr := handler.service.FindByUsername(*((*user).Username))
+	foundUser, findErr := handler.service.FindByUsername((*user).Username)
 	if findErr != nil {
 		return nil, findErr
 	}

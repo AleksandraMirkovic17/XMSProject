@@ -11,8 +11,8 @@ import (
 	"net"
 
 	userProto "github.com/dislinked/common/proto/user_service"
+	"go.mongodb.org/mongo-driver/mongo"
 	"google.golang.org/grpc"
-	"gorm.io/gorm"
 )
 
 type Server struct {
@@ -36,39 +36,28 @@ const (
 )
 
 func (server *Server) Start() {
-	postgresClient := server.initUserClient()
-	userStore := server.initUserStore(postgresClient)
+	print("usao u start")
+	mongoClient := server.initMongoClient()
+	print("init mongo client")
+	userStore := server.initUserStore(mongoClient)
+
 	userService := server.initUserService(userStore)
 	userHandler := server.initUserHandler(userService)
-
-	//server.initRegisterUserHandler(userService, replyPublisher, commandSubscriber)
-
 	server.startGrpcServer(userHandler)
 }
 
-func (server *Server) initUserClient() *gorm.DB {
-	client, err := persistence.GetClient(
-		server.config.UserDBHost, server.config.UserDBUser,
-		server.config.UserDBPass, server.config.UserDBName,
-		server.config.UserDBPort)
+func (server *Server) initMongoClient() *mongo.Client {
+	client, err := persistence.GetClient(server.config.UserDBHost, server.config.UserDBPort)
+	println("Na kom sam portuu")
+	fmt.Println(server.config.UserDBHost)
 	if err != nil {
-		log.Fatal(err)
+		log.Fatalln(err)
 	}
 	return client
 }
 
-func (server *Server) initUserStore(client *gorm.DB) domain.UserStore {
-	store, err := persistence.NewUserPostgresStore(client)
-	if err != nil {
-		log.Fatal(err)
-	}
-	// store.DeleteAll()
-	// for _, Product := range products {
-	// 	err := store.Register(Product)
-	// 	if err != nil {
-	// 		log.Fatal(err)
-	// 	}
-	// }
+func (server *Server) initUserStore(client *mongo.Client) domain.UserStore {
+	store := persistence.NewUserMongoDBStore(client)
 	return store
 }
 

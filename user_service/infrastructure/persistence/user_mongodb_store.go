@@ -2,114 +2,177 @@ package persistence
 
 import (
 	"UserService/domain"
-	"strings"
+	"context"
 
-	uuid "github.com/satori/go.uuid"
-	"gorm.io/gorm"
+	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
+	"go.mongodb.org/mongo-driver/mongo"
 )
 
-type UserPostgresStore struct {
-	db *gorm.DB
+const (
+	DATABASE   = "user"
+	COLLECTION = "user"
+)
+
+type UserMongoDBStore struct {
+	users *mongo.Collection
 }
 
-func (store *UserPostgresStore) AddWorkExperience(experience *domain.WorkExperience, uuid uuid.UUID) error {
-	//TODO implement me
-	panic("implement me")
+func NewUserMongoDBStore(client *mongo.Client) domain.UserStore {
+	users := client.Database(DATABASE).Collection(COLLECTION)
+	return &UserMongoDBStore{users: users}
 }
 
-func (store *UserPostgresStore) AddEducationExperience(education *domain.EducationExperience, uuuid uuid.UUID) error {
-	//TODO implement me
-	panic("implement me")
+func (store *UserMongoDBStore) GetAll() ([]*domain.User, error) {
+	filter := bson.D{}
+	return store.filter(filter)
 }
 
-func (store *UserPostgresStore) AddSkill(skill string, uuid uuid.UUID) error {
-	//TODO implement me
-	panic("implement me")
+func (store *UserMongoDBStore) FindByID(id primitive.ObjectID) (*domain.User, error) {
+	filter := bson.M{"_id": id}
+	return store.filterOne(filter)
 }
 
-func (store *UserPostgresStore) RemoveSkill(skill string, uuid uuid.UUID) error {
-	//TODO implement me
-	panic("implement me")
+func (store *UserMongoDBStore) FindByUsername(username string) (user *domain.User, err error) {
+	filter := bson.M{"username": username}
+	return store.filterOne(filter)
 }
 
-func (store *UserPostgresStore) AddInterest(companyId uuid.UUID, userId uuid.UUID) error {
-	//TODO implement me
-	panic("implement me")
-}
-
-func (store *UserPostgresStore) DeleteWorkExperience(experienceId uuid.UUID, userId uuid.UUID) error {
-	//TODO implement me
-	panic("implement me")
-}
-
-func (store *UserPostgresStore) DeleteEducationExperience(educationId uuid.UUID, userId uuid.UUID) error {
-	//TODO implement me
-	panic("implement me")
-}
-
-func (store *UserPostgresStore) RemoveInterest(companyId uuid.UUID, userId uuid.UUID) error {
-	//TODO implement me
-	panic("implement me")
-}
-
-func NewUserPostgresStore(db *gorm.DB) (domain.UserStore, error) {
-	err := db.AutoMigrate(&domain.User{}, &domain.WorkExperience{}, &domain.EducationExperience{}, &domain.Skill{})
+func (store *UserMongoDBStore) Insert(user *domain.User) error {
+	result, err := store.users.InsertOne(context.TODO(), user)
 	if err != nil {
-		return nil, err
+		return err
 	}
-	return &UserPostgresStore{db: db}, nil
-}
+	user.Id = result.InsertedID.(primitive.ObjectID)
 
-func (store *UserPostgresStore) Insert(user *domain.User) error {
-	// span := tracer.StartSpanFromContext(ctx, "Register-DB")
-	// defer span.Finish()
-	result := store.db.Create(user)
-	if result.Error != nil {
-		return result.Error
-	}
 	return nil
 }
 
-func (store *UserPostgresStore) Update(user *domain.User) error {
-	// span := tracer.StartSpanFromContext(ctx, "Update-DB")
-	// defer span.Finish()
-	if result := store.db.Save(&user); result.Error != nil {
-		return result.Error
+func (store *UserMongoDBStore) Update(user *domain.User) error {
+	filter := bson.D{{"_id", user.Id}}
+	if user.Name != "" {
+		update := bson.D{
+			{"$set", bson.D{
+				{"name", user.Name},
+			},
+			},
+		}
+
+		_, err := store.users.UpdateOne(context.TODO(), filter, update)
+
+		if err != nil {
+			return err
+		}
 	}
-	return nil
+	if user.Surname != "" {
+		update := bson.D{
+			{"$set", bson.D{
+				{"surname", user.Surname},
+			},
+			},
+		}
+
+		_, err := store.users.UpdateOne(context.TODO(), filter, update)
+
+		if err != nil {
+			return err
+		}
+	}
+	if user.Email != "" {
+		update := bson.D{
+			{"$set", bson.D{
+				{"email", user.Email},
+			},
+			},
+		}
+
+		_, err := store.users.UpdateOne(context.TODO(), filter, update)
+
+		if err != nil {
+			return err
+		}
+	}
+	if user.Username != "" {
+		update := bson.D{
+			{"$set", bson.D{
+				{"username", user.Username},
+			},
+			},
+		}
+
+		_, err := store.users.UpdateOne(context.TODO(), filter, update)
+
+		if err != nil {
+			return err
+		}
+	}
+	if user.Phone != "" {
+		update := bson.D{
+			{"$set", bson.D{
+				{"phone", user.Phone},
+			},
+			},
+		}
+
+		_, err := store.users.UpdateOne(context.TODO(), filter, update)
+
+		if err != nil {
+			return err
+		}
+	}
+	/*if user.DateOfBirth != nil {
+		update := bson.D{
+			{"$set", bson.D{
+				{"date_of_birth", user.DateOfBirth},
+			},
+			},
+		}
+
+		_, err := store.users.UpdateOne(context.TODO(), filter, update)
+
+		if err != nil {
+			return nil, err
+		}
+	}*/
+	if user.Biography != "" {
+		update := bson.D{
+			{"$set", bson.D{
+				{"biography", user.Biography},
+			},
+			},
+		}
+
+		_, err := store.users.UpdateOne(context.TODO(), filter, update)
+
+		if err != nil {
+			return err
+		}
+	}
+	/*if user.EducationExperiences != nil {
+		update := bson.D{
+			{"$set", bson.D{
+				{"education", user.Education},
+			},
+			},
+		}
+
+		_, err := store.users.UpdateOne(context.TODO(), filter, update)
+
+		if err != nil {
+			return nil, err
+		}
+	}*/
+
+	findFilter := bson.D{{"_id", user.Id}}
+	var result domain.User
+
+	err1 := store.users.FindOne(context.TODO(), findFilter).Decode(&result)
+
+	return err1
 }
 
-func (store *UserPostgresStore) GetAll() (*[]domain.User, error) {
-	// span := tracer.StartSpanFromContext(ctx, "GetAll-DB")
-	// defer span.Finish()
-	var users []domain.User
-	result := store.db.Find(&users)
-	if result.Error != nil {
-		return nil, result.Error
-	}
-	return &users, nil
-}
-
-func (store *UserPostgresStore) FindByID(uuid uuid.UUID) (user *domain.User, err error) {
-	foundUser := domain.User{}
-	if result := store.db.First(&foundUser, uuid); result.Error != nil {
-		return nil, result.Error
-	}
-	return &foundUser, nil
-}
-
-func (store *UserPostgresStore) FindByUsername(username string) (user *domain.User, err error) {
-	print("Pokusavam da pronadjem po username unutar user_mongodb_store-a")
-	foundUser := domain.User{}
-
-	if result := store.db.Model(domain.User{Username: &username}).First(&foundUser); result.Error != nil {
-		return nil, result.Error
-	}
-	return &foundUser, nil
-}
-
-func (store *UserPostgresStore) Search(searchText string) (*[]domain.User, error) {
-	var users []domain.User
+func (store *UserMongoDBStore) Search(searchText string) (*[]domain.User, error) {
+	/*var users []domain.User
 	args := strings.TrimSpace(searchText)
 	splitArgs := strings.Split(args, " ")
 	allUsers, _ := store.GetAll()
@@ -132,13 +195,45 @@ func (store *UserPostgresStore) Search(searchText string) (*[]domain.User, error
 		}
 	}
 
-	return &users, nil
+	return &users, nil*/
+	panic("implement me")
 }
 
-func (store *UserPostgresStore) Delete(user *domain.User) error {
-	result := store.db.Delete(user)
+func (store *UserMongoDBStore) Delete(user *domain.User) error {
+	/*result := store.db.Delete(user)
 	if result.Error != nil {
 		return result.Error
 	}
-	return nil
+	return nil*/
+	panic("implement me")
+}
+
+func (store *UserMongoDBStore) filter(filter interface{}) ([]*domain.User, error) {
+	cursor, err := store.users.Find(context.TODO(), filter)
+	defer cursor.Close(context.TODO())
+
+	if err != nil {
+		return nil, err
+	}
+
+	return decode(cursor)
+}
+
+func (store *UserMongoDBStore) filterOne(filter interface{}) (post *domain.User, err error) {
+	result := store.users.FindOne(context.TODO(), filter)
+	err = result.Decode(&post)
+	return
+}
+
+func decode(cursor *mongo.Cursor) (posts []*domain.User, err error) {
+	for cursor.Next(context.TODO()) {
+		var post domain.User
+		err = cursor.Decode(&post)
+		if err != nil {
+			return
+		}
+		posts = append(posts, &post)
+	}
+	err = cursor.Err()
+	return
 }

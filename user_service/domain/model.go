@@ -3,7 +3,7 @@ package domain
 import (
 	"time"
 
-	uuid "github.com/satori/go.uuid"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 type Role int
@@ -39,43 +39,40 @@ const (
 /////////////
 
 type Skill struct {
-	Id     uuid.UUID `gorm:"primaryKey"`
-	Name   string
-	UserId uuid.UUID
+	Id   primitive.ObjectID `bson:"_id"`
+	Name string             `bson:"name"`
 }
 
 type EducationExperience struct {
-	Id              uuid.UUID `gorm:"primaryKey"`
-	InstitutionName string
-	Type            EducationType
-	StartDate       time.Time
-	EndDate         time.Time
-	UserId          uuid.UUID
+	Id              primitive.ObjectID `bson:"_id"`
+	InstitutionName string             `bson:"institution_name"`
+	Type            EducationType      `bson:"type"`
+	StartDate       time.Time          `bson:"start_date"`
+	EndDate         time.Time          `bson:"end_date"`
 }
 
 type WorkExperience struct {
-	Id               uuid.UUID `gorm:"primaryKey"`
-	OrganizationName string
-	PositionName     string
-	StartDate        time.Time
-	EndDate          time.Time
-	UserId           uuid.UUID
+	Id               primitive.ObjectID `bson:"_id"`
+	OrganizationName string             `bson:"organization_name"`
+	PositionName     string             `bson:"position_name"`
+	StartDate        time.Time          `bson:"start_date"`
+	EndDate          time.Time          `bson:"end_date"`
 }
 
 type User struct {
-	Id                   uuid.UUID `gorm:"primaryKey"`
-	Name                 string
-	Surname              string
-	Username             *string `gorm:"unique"`
-	Email                *string `gorm:"unique"`
-	Password             string
-	Phone                string
-	Gender               Gender
-	Role                 Role
-	DateOfBirth          time.Time
-	Public               bool
-	Skills               []Skill               `gorm:"foreignKey:UserId"`
-	EducationExperiences []EducationExperience `gorm:"foreignKey:UserId"`
-	WorkExperience       []WorkExperience      `gorm:"foreignKey:UserId"`
-	Biography            string
+	Id                   primitive.ObjectID    `bson:"_id"`
+	Name                 string                `bson:"name"`
+	Surname              string                `bson:"surname"`
+	Username             string                `bson:"username"`
+	Email                string                `bson:"email"`
+	Password             string                `bson:"password"`
+	Phone                string                `bson:"phone"`
+	Gender               Gender                `bson:"gender"`
+	Role                 Role                  `bson:"role"`
+	DateOfBirth          time.Time             `bson:"date_of_birth"`
+	Public               bool                  `bson:"public"`
+	Skills               []Skill               `bson:"skills"`
+	EducationExperiences []EducationExperience `bson:"education_experience"`
+	WorkExperience       []WorkExperience      `bson:"work_experience"`
+	Biography            string                `bson:"biography"`
 }

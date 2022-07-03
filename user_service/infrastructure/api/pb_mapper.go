@@ -5,7 +5,7 @@ import (
 
 	dislinked "github.com/dislinked/common/proto/user_service"
 	pb "github.com/dislinked/common/proto/user_service"
-	uuid "github.com/satori/go.uuid"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
@@ -14,8 +14,8 @@ func mapUser(user *domain.User) *pb.User {
 		Id:          user.Id.String(),
 		Name:        user.Name,
 		Surname:     user.Surname,
-		Username:    *user.Username,
-		Email:       *user.Email,
+		Username:    user.Username,
+		Email:       user.Email,
 		Gender:      mapGenderToPb(user.Gender),
 		Role:        mapRoleToPb(user.Role),
 		DateOfBirth: timestamppb.New(user.DateOfBirth),
@@ -59,11 +59,11 @@ func mapGenderToPb(gender domain.Gender) pb.Gender {
 
 func mapNewUserPbToDomain(userPb *pb.NewUser) *domain.User {
 	userD := &domain.User{
-		Id:          uuid.NewV4(),
+		Id:          primitive.NewObjectID(),
 		Name:        (*userPb).User.Name,
 		Surname:     (*userPb).User.Surname,
-		Username:    &(*userPb).User.Username,
-		Email:       &(*userPb).User.Email,
+		Username:    (*userPb).User.Username,
+		Email:       (*userPb).User.Email,
 		Password:    (*userPb).User.Password,
 		Gender:      mapGenderPbToDomainGender((*userPb).User.Gender),
 		Role:        domain.Regular,

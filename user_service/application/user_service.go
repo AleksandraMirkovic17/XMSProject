@@ -3,7 +3,7 @@ package application
 import (
 	"UserService/domain"
 
-	uuid "github.com/satori/go.uuid"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 type UserService struct {
@@ -33,13 +33,13 @@ func (service *UserService) Insert(user *domain.User) error {
 	err := service.store.Insert(user)
 	return err
 }
-func (service *UserService) Update(uuid uuid.UUID, user *domain.User) error {
+func (service *UserService) Update(uuid primitive.ObjectID, user *domain.User) error {
 	service.store.Update(user)
 	return nil
 }
 
 func (service *UserService) PatchUser(updatePaths []string, requestUser *domain.User,
-	uuid uuid.UUID) (*domain.User, error) {
+	uuid primitive.ObjectID) (*domain.User, error) {
 	// span := tracer.StartSpanFromContext(ctx, "Update-Service")
 	// defer span.Finish()
 	//
@@ -61,7 +61,7 @@ func updateField(paths []string, user *domain.User, requestUser *domain.User) (*
 	return user, nil
 }
 
-func (service *UserService) GetAll() (*[]domain.User, error) {
+func (service *UserService) GetAll() ([]*domain.User, error) {
 	// span := tracer.StartSpanFromContext(ctx, "GetAll-Service")
 	// defer span.Finish()
 	//
@@ -73,7 +73,7 @@ func (service *UserService) Search(searchText string) (*[]domain.User, error) {
 	return service.store.Search(searchText)
 }
 
-func (service *UserService) GetOne(uuid uuid.UUID) (*domain.User, error) {
+func (service *UserService) GetOne(uuid primitive.ObjectID) (*domain.User, error) {
 	return service.store.FindByID(uuid)
 }
 

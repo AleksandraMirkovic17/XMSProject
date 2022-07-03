@@ -10,9 +10,6 @@ type Config struct {
 	Port       string
 	UserDBHost string
 	UserDBPort string
-	UserDBName string
-	UserDBUser string
-	UserDBPass string
 }
 
 func NewConfig() *Config {
@@ -26,9 +23,6 @@ func NewConfig() *Config {
 	return &Config{
 		Port:       "8089",
 		UserDBHost: "localhost",
-		UserDBPort: "5432",
-		UserDBName: "xws_user",
-		UserDBUser: "admin",
-		UserDBPass: "ftn",
+		UserDBPort: "27017",
 	}
 }
