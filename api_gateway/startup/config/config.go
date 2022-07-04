@@ -14,6 +14,8 @@ type Config struct {
 	UserPort string
 	AuthHost string
 	AuthPort string
+	ConnHost string
+	ConnPort string
 }
 
 func NewConfig() *Config {
@@ -31,6 +33,8 @@ func NewConfig() *Config {
 		UserPort: "8089",
 		AuthHost: "localhost",
 		AuthPort: "4201",
+		ConnHost: "localhost",
+		ConnPort: "8001",
 	}
 
 }
