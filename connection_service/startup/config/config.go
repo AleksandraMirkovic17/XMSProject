@@ -22,7 +22,7 @@ func NewConfig() *Config {
 		Neo4jHost:     "localhost",
 		Neo4jPort:     "7687",
 		Neo4jUsername: "neo4j",
-		Neo4jPassword: "connection",
+		Neo4jPassword: "neo4j",
 
 		UserHost: "localhost",
 		UserPort: "8089",
