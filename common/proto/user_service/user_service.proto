@@ -77,7 +77,7 @@ message User {
 	string email = 5;
 	Gender gender = 6;
 	UserRole role = 7;
-	google.protobuf.Timestamp dateOfBirth = 8;
+	string dateOfBirth = 8;
 	string password = 9;
 	bool Public = 10;
 	string contactPhone = 11;
