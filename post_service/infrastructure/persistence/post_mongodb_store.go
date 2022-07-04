@@ -2,6 +2,7 @@ package persistence
 
 import (
 	"PostService/domain"
+	"PostService/domain/errors"
 	"context"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -17,6 +18,45 @@ type PostMongoDBStore struct {
 	posts *mongo.Collection
 }
 
+func (store *PostMongoDBStore) GetAllLikes(id primitive.ObjectID) ([]*domain.ReactionDetailsDTO, error) {
+	post, _ := store.Get(id)
+	likes := []*domain.ReactionDetailsDTO{}
+	for _, reaction := range post.Reactions {
+		if reaction.Reaction == domain.LIKE {
+			likes = append(likes, &domain.ReactionDetailsDTO{
+				Ahuthor: &domain.Author{
+					UserId:   primitive.ObjectID{},
+					Username: reaction.User,
+					Name:     "",
+					Surname:  "",
+				},
+				PostId: post.Id,
+			})
+		}
+	}
+	return likes, nil
+
+}
+
+func (store *PostMongoDBStore) GetAllDislikes(id primitive.ObjectID) ([]*domain.ReactionDetailsDTO, error) {
+	post, _ := store.Get(id)
+	likes := []*domain.ReactionDetailsDTO{}
+	for _, reaction := range post.Reactions {
+		if reaction.Reaction == domain.DISLIKED {
+			likes = append(likes, &domain.ReactionDetailsDTO{
+				Ahuthor: &domain.Author{
+					UserId:   primitive.ObjectID{},
+					Username: reaction.User,
+					Name:     "",
+					Surname:  "",
+				},
+				PostId: post.Id,
+			})
+		}
+	}
+	return likes, nil
+}
+
 func (store *PostMongoDBStore) GetAllByUser(uuid string) ([]*domain.Post, error) {
 	filter := bson.M{"user_id": uuid}
 	return store.filter(filter)
@@ -27,9 +67,50 @@ func (store *PostMongoDBStore) GetAllByConnections(uuids []string) ([]*domain.Po
 	panic("implement me")
 }
 
-func (store *PostMongoDBStore) ReactToPost(post *domain.Post, username string, reaction *domain.Reaction) error {
-	//TODO implement me
-	panic("implement me")
+func (store *PostMongoDBStore) DeleteReaction(post *domain.Post, username string) (*domain.Post, error) {
+	for index, existingReaction := range post.Reactions {
+		if username == existingReaction.User {
+			post.Reactions = append(post.Reactions[:index], post.Reactions[index+1:]...)
+			return post, nil
+		}
+
+	}
+	return nil, errors.NewCustomError("There is no reaction with " + username + " username!")
+
+}
+
+func (store *PostMongoDBStore) Update(post *domain.Post) error {
+	_, err := store.posts.UpdateOne(context.TODO(), bson.M{"_id": post.Id}, bson.M{"$set": post})
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (store *PostMongoDBStore) ReactToPost(post *domain.Post, username string, reaction domain.ReactionType) (*domain.Post, error) {
+	println("Beforego run .")
+	println("Len of reactions:", len(post.Reactions))
+	if len(post.Reactions) > 0 {
+		for _, existingReaction := range post.Reactions {
+			if (username == existingReaction.User) && (existingReaction.Reaction == reaction) {
+				panic(errors.NewCustomError("Cannot react twice!"))
+			} else if username == existingReaction.User {
+				post, _ = store.DeleteReaction(post, username)
+			}
+		}
+	}
+	newReaction := domain.Reaction{
+		Id:       primitive.NewObjectID(),
+		User:     username,
+		Reaction: reaction,
+	}
+	post.Reactions = append(post.Reactions, &newReaction)
+
+	err := store.Update(post)
+	if err != nil {
+		return post, err
+	}
+	return post, nil
 }
 
 func (store *PostMongoDBStore) DeleteAll() {
@@ -78,7 +159,7 @@ func (store *PostMongoDBStore) Insert(post *domain.Post) error {
 }
 
 func (store *PostMongoDBStore) CreateComment(post *domain.Post, comment *domain.Comment) error {
-	comments := append(post.Comments, *comment)
+	comments := append(post.Comments, comment)
 
 	_, err := store.posts.UpdateOne(context.TODO(), bson.M{"_id": post.Id}, bson.D{
 		{"$set", bson.D{{"comments", comments}}},
@@ -93,7 +174,7 @@ func (store *PostMongoDBStore) CreateComment(post *domain.Post, comment *domain.
 
 func (store *PostMongoDBStore) LikePost(post *domain.Post, username string) error {
 
-	var reactions []domain.Reaction
+	var reactions []*domain.Reaction
 
 	reactionExists := false
 	for _, reaction := range post.Reactions {
@@ -113,7 +194,7 @@ func (store *PostMongoDBStore) LikePost(post *domain.Post, username string) erro
 			User:     username,
 			Reaction: domain.LIKE,
 		}
-		reactions = append(reactions, reaction)
+		reactions = append(reactions, &reaction)
 	}
 
 	_, err := store.posts.UpdateOne(context.TODO(), bson.M{"_id": post.Id}, bson.D{
@@ -128,7 +209,7 @@ func (store *PostMongoDBStore) LikePost(post *domain.Post, username string) erro
 }
 
 func (store *PostMongoDBStore) DislikePost(post *domain.Post, username string) error {
-	var reactions []domain.Reaction
+	var reactions []*domain.Reaction
 
 	reactionExists := false
 	for _, reaction := range post.Reactions {
@@ -148,7 +229,7 @@ func (store *PostMongoDBStore) DislikePost(post *domain.Post, username string) e
 			User:     username,
 			Reaction: domain.DISLIKED,
 		}
-		reactions = append(reactions, reaction)
+		reactions = append(reactions, &reaction)
 	}
 
 	_, err := store.posts.UpdateOne(context.TODO(), bson.M{"_id": post.Id}, bson.D{

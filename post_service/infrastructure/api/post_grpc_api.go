@@ -80,3 +80,85 @@ func (handler *PostHandler) GetByUser(ctx context.Context, request *pb.GetByUser
 	}
 	return response, nil
 }
+
+func (handler *PostHandler) ReactToPost(ctx context.Context, request *pb.ReactionRequest) (*pb.ReactionResponse, error) {
+	id := request.Reaction.PostId
+	println("Id in react+", id)
+	objectId, err := primitive.ObjectIDFromHex(id)
+	if err != nil {
+		return nil, err
+	}
+	post1, err := handler.service.Get(objectId)
+	if err != nil {
+		return nil, err
+	}
+	println("Post that is gotten: ", post1.PostText)
+	postWithReaction, err := handler.service.ReactToPost(post1, request.Reaction.Username, mapPbReactionTypeToDomain(request.Reaction.ReactionType))
+	if err != nil {
+		panic(fmt.Errorf("Invalid reaction"))
+	}
+
+	reactionResponse := pb.ReactionResponse{
+		Post: mapPostFromDomainToPb(postWithReaction),
+	}
+
+	return &reactionResponse, nil
+
+}
+
+func (handler *PostHandler) DeleteReaction(ctx context.Context, request *pb.DeleteReactionRequest) (*pb.ReactionResponse, error) {
+	id := request.PostId
+	objectId, err := primitive.ObjectIDFromHex(id)
+	if err != nil {
+		return nil, err
+	}
+	post, err := handler.service.Get(objectId)
+	if err != nil {
+		return nil, err
+	}
+	post, err = handler.service.DeleteReaction(post, request.Username)
+	if err != nil {
+		return nil, err
+	}
+	postPb := mapPostFromDomainToPb(post)
+	response := &pb.ReactionResponse{
+		Post: postPb,
+	}
+	return response, nil
+}
+
+func (handler *PostHandler) GetLikes(ctx context.Context, request *pb.GetRequest) (*pb.MultipleReactionsResponse, error) {
+	id := request.Id
+	objectId, err := primitive.ObjectIDFromHex(id)
+	if err != nil {
+		return nil, err
+	}
+	likes, err := handler.service.GetLikes(objectId)
+	response := &pb.MultipleReactionsResponse{}
+	for _, like := range likes {
+		response.Owner = append(response.Owner, &pb.Owner{
+			Username: like.Ahuthor.Username,
+			Name:     like.Ahuthor.Name,
+			Surname:  like.Ahuthor.Surname,
+		})
+	}
+	return response, nil
+}
+
+func (handler *PostHandler) GetDislikes(ctx context.Context, request *pb.GetRequest) (*pb.MultipleReactionsResponse, error) {
+	id := request.Id
+	objectId, err := primitive.ObjectIDFromHex(id)
+	if err != nil {
+		return nil, err
+	}
+	dislikes, err := handler.service.GetDislikes(objectId)
+	response := &pb.MultipleReactionsResponse{}
+	for _, like := range dislikes {
+		response.Owner = append(response.Owner, &pb.Owner{
+			Username: like.Ahuthor.Username,
+			Name:     like.Ahuthor.Name,
+			Surname:  like.Ahuthor.Surname,
+		})
+	}
+	return response, nil
+}

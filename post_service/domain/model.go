@@ -13,8 +13,9 @@ type Comment struct {
 }
 
 type Reaction struct {
-	User     string       `bson:"user"`
-	Reaction ReactionType `bson:"reaction_type"`
+	Id       primitive.ObjectID `bson:"_id,omitempty"`
+	User     string             `bson:"user"`
+	Reaction ReactionType       `bson:"reaction_type"`
 }
 
 type ReactionType int
@@ -31,7 +32,7 @@ type Post struct {
 	Image     string             `bson:"images"`
 	Links     []string           `bson:"links"`
 	Date      time.Time          `bson:"date"`
-	Reactions []Reaction         `bson:"reactions"`
-	Comments  []Comment          `bson:"comments"`
+	Reactions []*Reaction        `bson:"reactions"`
+	Comments  []*Comment         `bson:"comments"`
 	IsDeleted bool               `bson:"is_deleted"`
 }

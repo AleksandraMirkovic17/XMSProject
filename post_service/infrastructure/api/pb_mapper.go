@@ -48,13 +48,26 @@ func mapNewPost(postPb *pb.Post) *domain.Post {
 	for _, link := range postPb.Links {
 		post.Links = append(post.Links, link)
 	}
-	post.Comments = []domain.Comment{}
+	post.Reactions = []*domain.Reaction{}
+	for _, reaction := range postPb.Reactions {
+		id, err := primitive.ObjectIDFromHex(reaction.PostId)
+		if err != nil {
+			continue
+		}
+		post.Reactions = append(post.Reactions, &domain.Reaction{
+			Id:       id,
+			User:     reaction.Username,
+			Reaction: mapPbReactionTypeToDomain(reaction.ReactionType),
+		})
+	}
+
+	post.Comments = []*domain.Comment{}
 	for _, comment := range postPb.Comments {
 		id, err := primitive.ObjectIDFromHex(comment.Id)
 		if err != nil {
 			continue
 		}
-		post.Comments = append(post.Comments, domain.Comment{
+		post.Comments = append(post.Comments, &domain.Comment{
 			Id:      id,
 			Content: comment.Content,
 			Date:    comment.Date.AsTime(),
@@ -73,4 +86,14 @@ func mapReactionTypeToPb(reactionType domain.ReactionType) pb.Reaction_ReactionT
 		return pb.Reaction_DISLIKE
 	}
 	return pb.Reaction_LIKE
+}
+
+func mapPbReactionTypeToDomain(reactionType pb.Reaction_ReactionType) domain.ReactionType {
+	switch reactionType {
+	case pb.Reaction_LIKE:
+		return domain.LIKE
+	case pb.Reaction_DISLIKE:
+		return domain.DISLIKED
+	}
+	return domain.LIKE
 }

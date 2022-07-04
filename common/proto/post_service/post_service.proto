@@ -41,12 +41,45 @@ service PostService{
       body: "comment"
     };
   }
+
+  rpc GetLikes(GetRequest) returns(MultipleReactionsResponse) {
+    option (google.api.http) = {
+      get: "/post/{id}/likes"
+    };
+  }
+
+  rpc GetDislikes(GetRequest) returns(MultipleReactionsResponse) {
+    option (google.api.http) = {
+      get: "/post/{id}/dislikes"
+    };
+  }
+
+  rpc DeleteReaction(DeleteReactionRequest) returns(ReactionResponse) {
+    option (google.api.http) = {
+      delete: "/post/{postId}/{username}"
+    };
+  }
+}
+
+message DeleteReactionRequest{
+  string postId = 1;
+  string username = 2;
 }
 
 message Empty {}
 
 message GetMultipleResponse {
   repeated Post posts = 1;
+}
+
+message MultipleReactionsResponse{
+  repeated Owner owner = 1;
+}
+
+message Owner {
+  string username = 1;
+  string name = 2;
+  string surname = 3;
 }
 
 message NewPost {
@@ -86,7 +119,7 @@ message ReactionRequest {
 }
 
 message ReactionResponse {
-  string postId = 1;
+  Post post = 1;
 }
 
 message Reaction {
