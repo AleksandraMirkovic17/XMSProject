@@ -168,7 +168,10 @@ func (store *PostMongoDBStore) CreateComment(post *domain.Post, comment *domain.
 	if err != nil {
 		return nil, err
 	}
-
+	post, err = store.Get(post.Id)
+	if err != nil {
+		return nil, err
+	}
 	return post, nil
 }
 
