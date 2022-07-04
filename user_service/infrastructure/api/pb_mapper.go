@@ -24,6 +24,7 @@ func mapUser(user *domain.User) *pb.User {
 		Interests:            []*dislinked.Interest{},
 		EducationExperiences: []*dislinked.EducationExperience{},
 		WorkExperiences:      []*dislinked.WorkExperience{},
+		Biography:            user.Biography,
 	}
 
 	for _, skill := range user.Skills {
@@ -80,6 +81,7 @@ func mapUserPbToDomain(userPb *pb.NewUser) *domain.User {
 		Interests:            []domain.Interest{},
 		EducationExperiences: []domain.EducationExperience{},
 		WorkExperiences:      []domain.WorkExperience{},
+		Biography:            (*userPb).User.Biography,
 	}
 
 	for _, skill := range userPb.User.Skills {

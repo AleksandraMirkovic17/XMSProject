@@ -74,6 +74,14 @@
         <input type="button" value="Reset" v-if="isUserInfoChanged"/>
       </div>
       <div class="profile-panel">
+        <h2>Biography</h2>
+        <div class="row d-flex mt-4">
+            <div class="col-md-12">
+                <textarea class="biography-textarea" cols="60" rows="20" v-model="user.biography" @change="userInfoHasChanged()" :disabled="!(isUserLoggedIn())"></textarea>
+            </div>
+        </div>
+      </div>
+      <div class="profile-panel">
         <h2>Skills</h2>
         <div v-for="(skill,index) in user.skills" :key="index" class="row d-flex mt-4">
           <div class="col-md-10">
@@ -1135,5 +1143,31 @@ export default {
     .button_minus:hover {
       background-color: #cc0000;
       transition: 0.2s;
+    }
+    .biography-textarea textarea {
+        border:1px solid rgb(143, 176, 233);
+        border-radius: 10px;
+        resize: none;
+        height: 400px;
+        width: 100%;
+        transition: all .3s;
+    }
+
+    .biography-textarea textarea:hover {
+        border:1px solid rgba(0,95,255,1);
+        border-radius: 10px;
+        resize: none;
+        height: 400px;
+        width: 100%;
+        transition: all .3s;
+    }
+
+    .biography-textarea textarea:focus {
+        border:1px solid rgba(0,95,255,1);
+        border-radius: 10px;
+        resize: none;
+        height: 400px;
+        width: 100%;
+        transition: all .3s;
     }
 </style>
