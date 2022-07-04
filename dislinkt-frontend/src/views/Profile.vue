@@ -62,7 +62,7 @@
               </label>
           </div>
       </div>
-      <h2 v-if="user.skills">Skills</h2>
+      <h2>Skills</h2>
       <div v-for="(skill,index) in user.skills" :key="index" class="row d-flex mt-4">
         <div class="col-md-10">
           <h4>{{skill.name}}</h4>
@@ -80,6 +80,26 @@
           </div>
           <div class="col-md-2">
             <div class="button_plus" v-on:click="addSkill()" v-if="newSkill"></div>
+          </div>
+      </div>
+      <h2>Interests</h2>
+      <div v-for="(interest,index) in user.interests" :key="index" class="row d-flex mt-4">
+        <div class="col-md-10">
+          <h4>{{interest.name}}</h4>
+        </div>
+        <div class="col-md-2">
+          <div class="button_minus" v-on:click="removeInterest(interest.name)" v-if="isUserLoggedIn()"></div>
+        </div>
+      </div>
+      <div class="row d-flex mt-4" v-if="isUserLoggedIn()">
+          <div class="col-md-10">
+              <label class="input_label">
+                  <input type="text" name="new-interest" v-model="newInterest">
+                  <span class="keep_hovered"></span>
+              </label>
+          </div>
+          <div class="col-md-2">
+            <div class="button_plus" v-on:click="addInterest()" v-if="newInterest"></div>
           </div>
       </div>
       <input type="button" value="Update" v-if="isUserInfoChanged" :disabled="!isAllInputValid()" v-on:click="updateUser()"/>
@@ -246,6 +266,7 @@ export default {
       usersPosts: new Array(),
       isUserInfoChanged: false,
       newSkill: "",
+      newInterest: "",
     }
   },
   components:{
@@ -329,6 +350,21 @@ export default {
       for(let index in this.user.skills) {
         if(this.user.skills[index].name === name) {
           this.user.skills.splice(index,1)
+        }
+      }
+      this.isUserInfoChanged = true
+    },
+    addInterest(){
+      this.user.interests.push({
+        id: "ObjectID(\"0\")",
+        name: this.newInterest
+      })
+      this.isUserInfoChanged = true
+    },
+    removeInterest(name){
+      for(let index in this.user.interests) {
+        if(this.user.interests[index].name === name) {
+          this.user.interests.splice(index,1)
         }
       }
       this.isUserInfoChanged = true
