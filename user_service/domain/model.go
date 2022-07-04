@@ -43,6 +43,11 @@ type Skill struct {
 	Name string             `bson:"name"`
 }
 
+type Interest struct {
+	Id   primitive.ObjectID `bson:"_id"`
+	Name string             `bson:"name"`
+}
+
 type EducationExperience struct {
 	Id              primitive.ObjectID `bson:"_id"`
 	InstitutionName string             `bson:"institution_name"`
@@ -72,7 +77,8 @@ type User struct {
 	DateOfBirth          time.Time             `bson:"date_of_birth"`
 	Public               bool                  `bson:"public"`
 	Skills               []Skill               `bson:"skills"`
+	Interests            []Interest            `bson:"interests"`
 	EducationExperiences []EducationExperience `bson:"education_experience"`
-	WorkExperience       []WorkExperience      `bson:"work_experience"`
+	WorkExperiences      []WorkExperience      `bson:"work_experience"`
 	Biography            string                `bson:"biography"`
 }

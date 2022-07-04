@@ -4,66 +4,106 @@
   <div class="profile-panel">
     <div class="register-show">
       <h2>{{user.username}}</h2>
-            <div class="row d-flex mt-5">
-                <div class="col-md-12">
-                    <label class="input_label">
-                        <input type="email" name="email" v-model="user.email" disabled=yes required="required" @change="userInfoHasChanged()">
-                        <span class="keep_hovered">EMail</span>
-                    </label>
-                </div>
-            </div>
-            <div class="row d-flex mt-4">
-                <div class="col-md-12">
-                    <label class="input_label">
-                        <input type="email" name="email" v-model="user.username" disabled=yes required="required" @change="userInfoHasChanged()">
-                        <span class="keep_hovered">Username</span>
-                    </label>
-                </div>
-            </div>
-            <div class="row d-flex mt-4" v-if="isUserLoggedIn()">
-                <div class="col-md-4">
-                    <label class="input_label">
-                        <input type="password" name="old-password" v-model="user.oldPasswordGuess" @change="userInfoHasChanged()" :disabled="!(isUserLoggedIn())">
-                        <span class="keep_hovered">Old Password</span>
-                    </label>
-                </div>
-                <div class="col-md-4">
-                    <label class="input_label">
-                        <input type="password" name="new-password" v-model="user.newPassword" @change="userInfoHasChanged()" :disabled="!(isUserLoggedIn())">
-                        <span class="keep_hovered">New Password</span>
-                    </label>
-                </div>
-                <div class="col-md-4">
-                    <label class="input_label">
-                        <input type="password" name="confirm-new-password" v-model="user.newPasswordConfirmation" @change="userInfoHasChanged()" :disabled="!(isUserLoggedIn())">
-                        <span class="keep_hovered">Confirm New Password</span>
-                    </label>
-                </div>
-            </div>
-            <div class="row d-flex mt-4">
-                <div class="col-md-6">
-                    <label class="input_label">
-                        <input type="text" name="first-name" v-model="user.name" required="required" @change="userInfoHasChanged()" :disabled="!(isUserLoggedIn())">
-                        <span class="keep_hovered">First Name</span>
-                    </label>
-                </div>
-                <div class="col-md-6">
-                    <label class="input_label">
-                        <input type="text" name="last-name" v-model="user.surname" required="required" @change="userInfoHasChanged()" :disabled="!(isUserLoggedIn())">
-                        <span class="keep_hovered">Last Name</span>
-                    </label>
-                </div>
-            </div>
-            <div class="row d-flex mt-4">
-                <div class="col-md-12">
-                    <label class="input_label">
-                        <input type="text" name="phone" v-model="user.phone" required="required" @change="userInfoHasChanged()" :disabled="!(isUserLoggedIn())">
-                        <span class="keep_hovered">Contact Phone</span>
-                    </label>
-                </div>
-            </div>
+      <div class="row d-flex mt-5">
+          <div class="col-md-12">
+              <label class="input_label">
+                  <input type="email" name="email" v-model="user.email" disabled=yes required="required" @change="userInfoHasChanged()">
+                  <span class="keep_hovered">EMail</span>
+              </label>
+          </div>
+      </div>
+      <div class="row d-flex mt-4">
+          <div class="col-md-12">
+              <label class="input_label">
+                  <input type="email" name="email" v-model="user.username" disabled=yes required="required" @change="userInfoHasChanged()">
+                  <span class="keep_hovered">Username</span>
+              </label>
+          </div>
+      </div>
+      <div class="row d-flex mt-4" v-if="isUserLoggedIn()">
+          <div class="col-md-4">
+              <label class="input_label">
+                  <input type="password" name="old-password" v-model="user.oldPasswordGuess" @change="userInfoHasChanged()" :disabled="!(isUserLoggedIn())">
+                  <span class="keep_hovered">Old Password</span>
+              </label>
+          </div>
+          <div class="col-md-4">
+              <label class="input_label">
+                  <input type="password" name="new-password" v-model="user.newPassword" @change="userInfoHasChanged()" :disabled="!(isUserLoggedIn())">
+                  <span class="keep_hovered">New Password</span>
+              </label>
+          </div>
+          <div class="col-md-4">
+              <label class="input_label">
+                  <input type="password" name="confirm-new-password" v-model="user.newPasswordConfirmation" @change="userInfoHasChanged()" :disabled="!(isUserLoggedIn())">
+                  <span class="keep_hovered">Confirm New Password</span>
+              </label>
+          </div>
+      </div>
+      <div class="row d-flex mt-4">
+          <div class="col-md-6">
+              <label class="input_label">
+                  <input type="text" name="first-name" v-model="user.name" required="required" @change="userInfoHasChanged()" :disabled="!(isUserLoggedIn())">
+                  <span class="keep_hovered">First Name</span>
+              </label>
+          </div>
+          <div class="col-md-6">
+              <label class="input_label">
+                  <input type="text" name="last-name" v-model="user.surname" required="required" @change="userInfoHasChanged()" :disabled="!(isUserLoggedIn())">
+                  <span class="keep_hovered">Last Name</span>
+              </label>
+          </div>
+      </div>
+      <div class="row d-flex mt-4">
+          <div class="col-md-12">
+              <label class="input_label">
+                  <input type="text" name="phone" v-model="user.phone" required="required" @change="userInfoHasChanged()" :disabled="!(isUserLoggedIn())">
+                  <span class="keep_hovered">Contact Phone</span>
+              </label>
+          </div>
+      </div>
+      <h2>Skills</h2>
+      <div v-for="(skill,index) in user.skills" :key="index" class="row d-flex mt-4">
+        <div class="col-md-10">
+          <h4>{{skill.name}}</h4>
+        </div>
+        <div class="col-md-2">
+          <div class="button_minus" v-on:click="removeSkill(skill.name)" v-if="isUserLoggedIn()"></div>
+        </div>
+      </div>
+      <div class="row d-flex mt-4" v-if="isUserLoggedIn()">
+          <div class="col-md-10">
+              <label class="input_label">
+                  <input type="text" name="new-skill" v-model="newSkill">
+                  <span class="keep_hovered"></span>
+              </label>
+          </div>
+          <div class="col-md-2">
+            <div class="button_plus" v-on:click="addSkill()" v-if="newSkill"></div>
+          </div>
+      </div>
+      <h2>Interests</h2>
+      <div v-for="(interest,index) in user.interests" :key="index" class="row d-flex mt-4">
+        <div class="col-md-10">
+          <h4>{{interest.name}}</h4>
+        </div>
+        <div class="col-md-2">
+          <div class="button_minus" v-on:click="removeInterest(interest.name)" v-if="isUserLoggedIn()"></div>
+        </div>
+      </div>
+      <div class="row d-flex mt-4" v-if="isUserLoggedIn()">
+          <div class="col-md-10">
+              <label class="input_label">
+                  <input type="text" name="new-interest" v-model="newInterest">
+                  <span class="keep_hovered"></span>
+              </label>
+          </div>
+          <div class="col-md-2">
+            <div class="button_plus" v-on:click="addInterest()" v-if="newInterest"></div>
+          </div>
+      </div>
       <input type="button" value="Update" v-if="isUserInfoChanged" :disabled="!isAllInputValid()" v-on:click="updateUser()"/>
-      <input type="button" value="Reset" v-if="isUserInfoChanged" v-on:click="loadUserData()"/>
+      <input type="button" value="Reset" v-if="isUserInfoChanged"/>
     </div>
   </div>
   <div class="posts">
@@ -245,6 +285,8 @@ export default {
       originalUser: {},
       usersPosts: new Array(),
       isUserInfoChanged: false,
+      newSkill: "",
+      newInterest: "",
     }
   },
   components:{
@@ -312,12 +354,40 @@ export default {
       }
        );
     },
-    loadUserData() {
-    },
     updateUser() {
-        UserService.updateUser(this.user).then(() => {
+        UserService.updateUser({ user: this.user}).then(() => {
             this.$router.go();
         });
+    },
+    addSkill(){
+      this.user.skills.push({
+        id: "ObjectID(\"0\")",
+        name: this.newSkill
+      })
+      this.isUserInfoChanged = true
+    },
+    removeSkill(name){
+      for(let index in this.user.skills) {
+        if(this.user.skills[index].name === name) {
+          this.user.skills.splice(index,1)
+        }
+      }
+      this.isUserInfoChanged = true
+    },
+    addInterest(){
+      this.user.interests.push({
+        id: "ObjectID(\"0\")",
+        name: this.newInterest
+      })
+      this.isUserInfoChanged = true
+    },
+    removeInterest(name){
+      for(let index in this.user.interests) {
+        if(this.user.interests[index].name === name) {
+          this.user.interests.splice(index,1)
+        }
+      }
+      this.isUserInfoChanged = true
     },
     userInfoHasChanged() {
         this.isUserInfoChanged = true
@@ -327,13 +397,7 @@ export default {
             return false
         if(this.user.lastName == "")
             return false
-        if(this.user.contactPhone == "")
-            return false
-        if(this.user.address == "")
-            return false
-        if(this.user.city == "")
-            return false
-        if(this.user.country == "")
+        if(this.user.phone == "")
             return false
         if((this.user.oldPasswordGuess && (!this.user.newPassword || !this.user.newPasswordConfirmation))
             || (this.user.newPassword && (!this.user.oldPasswordGuess || !this.user.newPasswordConfirmation))
@@ -689,68 +753,82 @@ export default {
         transition: all .3s;
     }
 
-    /* GENDER SELECTION */  
-    input[type="radio"] {
-        display: none;
+    /* ADD BUTTON */
+    
+    .button_plus {
+      position: absolute;
+      width: 35px;
+      height: 35px;
+      background: #fff;
+      cursor: pointer;
+      border: 2px solid #08d;
+      border-radius: 20px;
+    }
+    
+    .button_plus:after {
+      content: '';
+      position: absolute;
+      transform: translate(-50%, -50%);
+      height: 4px;
+      width: 50%;
+      background: #08d;
+      top: 50%;
+      left: 50%;
+    }
+    
+    .button_plus:before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: #08d;
+      height: 50%;
+      width: 4px;
+    }
+    
+    .button_plus:hover:before,
+    .button_plus:hover:after {
+      background: #fff;
+      transition: 0.2s;
+    }
+    
+    .button_plus:hover {
+      background-color: #08d;
+      transition: 0.2s;
     }
 
-    input[type="radio"] + label {
-        z-index: 10;
-        margin: 0 10px 10px 0;
-        position: relative;
-        color: #ced4da;
-        text-shadow: 0 1px 0 rgba(255, 255, 255, 0.1);
-        font-weight: bold;
-        background-color: #ffffff;
-        border: 2px solid #ced4da;
-        cursor: pointer;
-        transition: all 200ms ease;
+    /* REMOVE BUTTON */
+    
+    .button_minus {
+      position: absolute;
+      width: 35px;
+      height: 35px;
+      background: #fff;
+      cursor: pointer;
+      border: 2px solid #cc0000;
+      border-radius: 20px;
     }
-
-    input[type="radio"].male_option:hover + label {
-        color: white;
-        background-color: rgb(143, 176, 233);
-        border: 2px solid white;
-        transition: all .3s;
+    
+    .button_minus:after {
+      content: '';
+      position: absolute;
+      transform: translate(-50%, -50%);
+      height: 4px;
+      width: 50%;
+      background: #cc0000;
+      top: 50%;
+      left: 50%;
     }
-
-    input[type="radio"].male_option:checked + label {
-        color: white;
-        background-color: rgba(0,95,255,1);
-        border: 2px solid white;
-        transition: all .3s;
+    
+    .button_minus:hover:before,
+    .button_minus:hover:after {
+      background: #fff;
+      transition: 0.2s;
     }
-
-    input[type="radio"].female_option:hover + label {
-        color: white;
-        background-color: #ffd1d9;
-        border: 2px solid white;
-        transition: all .3s;
+    
+    .button_minus:hover {
+      background-color: #cc0000;
+      transition: 0.2s;
     }
-
-    input[type="radio"].female_option:checked + label {
-        color: white;
-        background-color: #FB9AAC;
-        border: 2px solid white;
-        transition: all .3s;
-    }
-
-    input[type="radio"] + label {
-        padding: 5px 40%;
-        border-radius: 10px;
-    }
-
-    .user-profile-red-button {
-    max-width: 150px;
-    width: 100%;
-    background: rgb(228, 40, 40);
-    color: #f9f9f9;
-    border: none;
-    padding: 10px;
-    border-radius: 10px;
-    text-transform: uppercase;
-    float:right;
-    cursor:pointer;
-}
-
 </style>

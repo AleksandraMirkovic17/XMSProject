@@ -58,8 +58,8 @@ func (service *AuthenticationService) Register(user *domain.User) (*domain.User,
 		return nil, err
 	}
 
-	newUser, err := service.store.Create(user)
-	return newUser, err
+	err = service.store.Create(user)
+	return nil, err
 }
 
 func (service *AuthenticationService) IsAuthorized(token *domain.Token) {

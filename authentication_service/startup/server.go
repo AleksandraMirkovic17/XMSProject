@@ -7,11 +7,13 @@ import (
 	"AuthenticationService/infrastructure/persistence"
 	"AuthenticationService/startup/config"
 	"fmt"
-	pb "github.com/dislinked/common/proto/authentication_service"
-	"google.golang.org/grpc"
-	"gorm.io/gorm"
 	"log"
 	"net"
+
+	pb "github.com/dislinked/common/proto/authentication_service"
+
+	"go.mongodb.org/mongo-driver/mongo"
+	"google.golang.org/grpc"
 )
 
 type Server struct {
@@ -24,46 +26,37 @@ func NewServer(config *config.Config) *Server {
 	}
 }
 
-func (server *Server) Start() {
-	postgresClient := server.initPostgresClient()
-	productStore := server.initProductStore(postgresClient)
-	productService := server.initProductService(productStore)
-	productHandler := server.initProductHandler(productService)
+const (
+	QueueGroup = "authentication_service"
+)
 
-	server.startGrpcServer(productHandler)
+func (server *Server) Start() {
+	mongoClient := server.initMongoClient()
+	authenticationStore := server.initAuthenticationStore(mongoClient)
+
+	authenticationService := server.initAuthenticationService(authenticationStore)
+	authenticationHandler := server.initAuthenticationHandler(authenticationService)
+	server.startGrpcServer(authenticationHandler)
 }
 
-func (server *Server) initPostgresClient() *gorm.DB {
-	client, err := persistence.GetClient(
-		server.config.AuthDBHost, server.config.AuthDBUser,
-		server.config.AuthDBPass, server.config.AuthDBName,
-		server.config.AuthDBPort)
+func (server *Server) initMongoClient() *mongo.Client {
+	client, err := persistence.GetClient(server.config.AuthDBHost, server.config.AuthDBPort)
 	if err != nil {
-		log.Fatal(err)
+		log.Fatalln(err)
 	}
 	return client
 }
 
-func (server *Server) initProductStore(client *gorm.DB) domain.UserStore {
-	store, err := persistence.NewAuthenticationPostgresStore(client)
-	if err != nil {
-		log.Fatal(err)
-	}
-	/*store.DeleteAll()
-	for _, Product := range products {
-		err := store.Insert(Product)
-		if err != nil {
-			log.Fatal(err)
-		}
-	}*/
+func (server *Server) initAuthenticationStore(client *mongo.Client) domain.UserStore {
+	store := persistence.NewAuthenticationMongoDBStore(client)
 	return store
 }
 
-func (server *Server) initProductService(store domain.UserStore) *application.AuthenticationService {
+func (server *Server) initAuthenticationService(store domain.UserStore) *application.AuthenticationService {
 	return application.NewAuthenticationService(store)
 }
 
-func (server *Server) initProductHandler(service *application.AuthenticationService) *api.AuthenticationHandler {
+func (server *Server) initAuthenticationHandler(service *application.AuthenticationService) *api.AuthenticationHandler {
 	return api.NewAuthenticationHandler(service)
 }
 
