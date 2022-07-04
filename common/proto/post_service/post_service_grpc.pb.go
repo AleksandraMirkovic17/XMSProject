@@ -27,10 +27,11 @@ type PostServiceClient interface {
 	GetByUser(ctx context.Context, in *GetByUserRequest, opts ...grpc.CallOption) (*GetAllResponse, error)
 	CreatePost(ctx context.Context, in *NewPost, opts ...grpc.CallOption) (*NewPost, error)
 	ReactToPost(ctx context.Context, in *ReactionRequest, opts ...grpc.CallOption) (*ReactionResponse, error)
-	CreateCommentOnPost(ctx context.Context, in *CommentRequest, opts ...grpc.CallOption) (*CommentResponse, error)
 	GetLikes(ctx context.Context, in *GetRequest, opts ...grpc.CallOption) (*MultipleReactionsResponse, error)
 	GetDislikes(ctx context.Context, in *GetRequest, opts ...grpc.CallOption) (*MultipleReactionsResponse, error)
 	DeleteReaction(ctx context.Context, in *DeleteReactionRequest, opts ...grpc.CallOption) (*ReactionResponse, error)
+	CreateCommentOnPost(ctx context.Context, in *CommentRequest, opts ...grpc.CallOption) (*CommentResponse, error)
+	GetComments(ctx context.Context, in *GetRequest, opts ...grpc.CallOption) (*MultipleCommentsResponse, error)
 }
 
 type postServiceClient struct {
@@ -86,15 +87,6 @@ func (c *postServiceClient) ReactToPost(ctx context.Context, in *ReactionRequest
 	return out, nil
 }
 
-func (c *postServiceClient) CreateCommentOnPost(ctx context.Context, in *CommentRequest, opts ...grpc.CallOption) (*CommentResponse, error) {
-	out := new(CommentResponse)
-	err := c.cc.Invoke(ctx, "/PostService/CreateCommentOnPost", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 func (c *postServiceClient) GetLikes(ctx context.Context, in *GetRequest, opts ...grpc.CallOption) (*MultipleReactionsResponse, error) {
 	out := new(MultipleReactionsResponse)
 	err := c.cc.Invoke(ctx, "/PostService/GetLikes", in, out, opts...)
@@ -122,6 +114,24 @@ func (c *postServiceClient) DeleteReaction(ctx context.Context, in *DeleteReacti
 	return out, nil
 }
 
+func (c *postServiceClient) CreateCommentOnPost(ctx context.Context, in *CommentRequest, opts ...grpc.CallOption) (*CommentResponse, error) {
+	out := new(CommentResponse)
+	err := c.cc.Invoke(ctx, "/PostService/CreateCommentOnPost", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *postServiceClient) GetComments(ctx context.Context, in *GetRequest, opts ...grpc.CallOption) (*MultipleCommentsResponse, error) {
+	out := new(MultipleCommentsResponse)
+	err := c.cc.Invoke(ctx, "/PostService/GetComments", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // PostServiceServer is the server API for PostService service.
 // All implementations must embed UnimplementedPostServiceServer
 // for forward compatibility
@@ -131,10 +141,11 @@ type PostServiceServer interface {
 	GetByUser(context.Context, *GetByUserRequest) (*GetAllResponse, error)
 	CreatePost(context.Context, *NewPost) (*NewPost, error)
 	ReactToPost(context.Context, *ReactionRequest) (*ReactionResponse, error)
-	CreateCommentOnPost(context.Context, *CommentRequest) (*CommentResponse, error)
 	GetLikes(context.Context, *GetRequest) (*MultipleReactionsResponse, error)
 	GetDislikes(context.Context, *GetRequest) (*MultipleReactionsResponse, error)
 	DeleteReaction(context.Context, *DeleteReactionRequest) (*ReactionResponse, error)
+	CreateCommentOnPost(context.Context, *CommentRequest) (*CommentResponse, error)
+	GetComments(context.Context, *GetRequest) (*MultipleCommentsResponse, error)
 	mustEmbedUnimplementedPostServiceServer()
 }
 
@@ -157,9 +168,6 @@ func (UnimplementedPostServiceServer) CreatePost(context.Context, *NewPost) (*Ne
 func (UnimplementedPostServiceServer) ReactToPost(context.Context, *ReactionRequest) (*ReactionResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ReactToPost not implemented")
 }
-func (UnimplementedPostServiceServer) CreateCommentOnPost(context.Context, *CommentRequest) (*CommentResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CreateCommentOnPost not implemented")
-}
 func (UnimplementedPostServiceServer) GetLikes(context.Context, *GetRequest) (*MultipleReactionsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetLikes not implemented")
 }
@@ -168,6 +176,12 @@ func (UnimplementedPostServiceServer) GetDislikes(context.Context, *GetRequest) 
 }
 func (UnimplementedPostServiceServer) DeleteReaction(context.Context, *DeleteReactionRequest) (*ReactionResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteReaction not implemented")
+}
+func (UnimplementedPostServiceServer) CreateCommentOnPost(context.Context, *CommentRequest) (*CommentResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateCommentOnPost not implemented")
+}
+func (UnimplementedPostServiceServer) GetComments(context.Context, *GetRequest) (*MultipleCommentsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetComments not implemented")
 }
 func (UnimplementedPostServiceServer) mustEmbedUnimplementedPostServiceServer() {}
 
@@ -272,24 +286,6 @@ func _PostService_ReactToPost_Handler(srv interface{}, ctx context.Context, dec 
 	return interceptor(ctx, in, info, handler)
 }
 
-func _PostService_CreateCommentOnPost_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(CommentRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(PostServiceServer).CreateCommentOnPost(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/PostService/CreateCommentOnPost",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(PostServiceServer).CreateCommentOnPost(ctx, req.(*CommentRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 func _PostService_GetLikes_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GetRequest)
 	if err := dec(in); err != nil {
@@ -344,6 +340,42 @@ func _PostService_DeleteReaction_Handler(srv interface{}, ctx context.Context, d
 	return interceptor(ctx, in, info, handler)
 }
 
+func _PostService_CreateCommentOnPost_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CommentRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PostServiceServer).CreateCommentOnPost(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/PostService/CreateCommentOnPost",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PostServiceServer).CreateCommentOnPost(ctx, req.(*CommentRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _PostService_GetComments_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PostServiceServer).GetComments(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/PostService/GetComments",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PostServiceServer).GetComments(ctx, req.(*GetRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // PostService_ServiceDesc is the grpc.ServiceDesc for PostService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -372,10 +404,6 @@ var PostService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _PostService_ReactToPost_Handler,
 		},
 		{
-			MethodName: "CreateCommentOnPost",
-			Handler:    _PostService_CreateCommentOnPost_Handler,
-		},
-		{
 			MethodName: "GetLikes",
 			Handler:    _PostService_GetLikes_Handler,
 		},
@@ -386,6 +414,14 @@ var PostService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DeleteReaction",
 			Handler:    _PostService_DeleteReaction_Handler,
+		},
+		{
+			MethodName: "CreateCommentOnPost",
+			Handler:    _PostService_CreateCommentOnPost_Handler,
+		},
+		{
+			MethodName: "GetComments",
+			Handler:    _PostService_GetComments_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

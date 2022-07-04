@@ -35,13 +35,6 @@ service PostService{
     };
   }
 
-  rpc CreateCommentOnPost(CommentRequest) returns(CommentResponse){
-    option(google.api.http) = {
-      post: "/post/{postId}/comment"
-      body: "comment"
-    };
-  }
-
   rpc GetLikes(GetRequest) returns(MultipleReactionsResponse) {
     option (google.api.http) = {
       get: "/post/{id}/likes"
@@ -57,6 +50,20 @@ service PostService{
   rpc DeleteReaction(DeleteReactionRequest) returns(ReactionResponse) {
     option (google.api.http) = {
       delete: "/post/{postId}/{username}"
+    };
+  }
+
+
+  rpc CreateCommentOnPost(CommentRequest) returns(CommentResponse){
+    option(google.api.http) = {
+      post: "/post/{postId}/comment"
+      body: "comment"
+    };
+  }
+
+  rpc GetComments(GetRequest) returns(MultipleCommentsResponse) {
+    option (google.api.http) = {
+      get: "/post/{id}/comment"
     };
   }
 }
@@ -76,6 +83,10 @@ message MultipleReactionsResponse{
   repeated Owner owner = 1;
 }
 
+message MultipleCommentsResponse{
+  repeated Comment comment = 1;
+}
+
 message Owner {
   string username = 1;
   string name = 2;
@@ -92,7 +103,7 @@ message CommentRequest {
 }
 
 message CommentResponse {
-  string commentId = 1;
+  Post post=1;
 }
 
 message GetRequest {

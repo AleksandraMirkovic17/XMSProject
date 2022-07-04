@@ -158,7 +158,7 @@ func (store *PostMongoDBStore) Insert(post *domain.Post) error {
 	return nil
 }
 
-func (store *PostMongoDBStore) CreateComment(post *domain.Post, comment *domain.Comment) error {
+func (store *PostMongoDBStore) CreateComment(post *domain.Post, comment *domain.Comment) (*domain.Post, error) {
 	comments := append(post.Comments, comment)
 
 	_, err := store.posts.UpdateOne(context.TODO(), bson.M{"_id": post.Id}, bson.D{
@@ -166,10 +166,16 @@ func (store *PostMongoDBStore) CreateComment(post *domain.Post, comment *domain.
 	},
 	)
 	if err != nil {
-		return err
+		return nil, err
 	}
 
-	return nil
+	return post, nil
+}
+
+func (store *PostMongoDBStore) GetComments(id primitive.ObjectID) ([]*domain.Comment, error) {
+	post, _ := store.Get(id)
+	comments := post.Comments
+	return comments, nil
 }
 
 func (store *PostMongoDBStore) LikePost(post *domain.Post, username string) error {

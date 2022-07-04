@@ -45,11 +45,16 @@ func (service *PostService) GetAllByConnections(uuids []string) ([]*domain.Post,
 	return service.store.GetAllByConnections(uuids)
 }
 
-func (service *PostService) CreateComment(post *domain.Post, comment *domain.Comment) error {
+func (service *PostService) CreateComment(post *domain.Post, comment *domain.Comment) (*domain.Post, error) {
 	return service.store.CreateComment(post, comment)
 }
 func (service *PostService) ReactToPost(post *domain.Post, user string, reaction domain.ReactionType) (*domain.Post, error) {
 	return service.store.ReactToPost(post, user, reaction)
+}
+
+func (service *PostService) GetComments(id primitive.ObjectID) ([]*domain.Comment, error) {
+	return service.store.GetComments(id)
+
 }
 
 func (service *PostService) DeleteReaction(post *domain.Post, user string) (*domain.Post, error) {

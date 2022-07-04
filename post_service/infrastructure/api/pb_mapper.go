@@ -70,12 +70,35 @@ func mapNewPost(postPb *pb.Post) *domain.Post {
 		post.Comments = append(post.Comments, &domain.Comment{
 			Id:      id,
 			Content: comment.Content,
-			Date:    comment.Date.AsTime(),
+			Date:    time.Now(),
 			User:    comment.Username,
 		})
 	}
 
 	return post
+}
+
+func mapDomainCommentsToPbComments(comments []*domain.Comment) *pb.MultipleCommentsResponse {
+	response := &pb.MultipleCommentsResponse{}
+	for _, comment := range comments {
+		response.Comment = append(response.Comment, &pb.Comment{
+			Id:       comment.Id.Hex(),
+			Content:  comment.Content,
+			Date:     timestamppb.New(comment.Date),
+			Username: comment.User,
+		})
+	}
+	return response
+}
+
+func mapNewPbCommentToDomainComment(comment *pb.Comment) *domain.Comment {
+	commentD := &domain.Comment{
+		Id:      primitive.NewObjectID(),
+		Content: comment.Content,
+		Date:    comment.Date.AsTime(),
+		User:    comment.Username,
+	}
+	return commentD
 }
 
 func mapReactionTypeToPb(reactionType domain.ReactionType) pb.Reaction_ReactionType {

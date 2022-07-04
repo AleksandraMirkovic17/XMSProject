@@ -162,3 +162,37 @@ func (handler *PostHandler) GetDislikes(ctx context.Context, request *pb.GetRequ
 	}
 	return response, nil
 }
+
+func (handler *PostHandler) CreateCommentOnPost(ctx context.Context, request *pb.CommentRequest) (*pb.CommentResponse, error) {
+	id := request.PostId
+	objectId, err := primitive.ObjectIDFromHex(id)
+	if err != nil {
+		return nil, err
+	}
+	post, err := handler.service.Get(objectId)
+	if err != nil {
+		return nil, err
+	}
+
+	postD, err := handler.service.CreateComment(post, mapNewPbCommentToDomainComment(request.Comment))
+	if err != nil {
+		return nil, err
+	}
+	response := &pb.CommentResponse{Post: mapPostFromDomainToPb(postD)}
+	return response, nil
+}
+
+func (handler *PostHandler) GetComments(ctx context.Context, request *pb.GetRequest) (*pb.MultipleCommentsResponse, error) {
+	id := request.Id
+	objectId, err := primitive.ObjectIDFromHex(id)
+	if err != nil {
+		return nil, err
+	}
+	comments, error := handler.service.GetComments(objectId)
+	if error != nil {
+		return nil, err
+	}
+	response := mapDomainCommentsToPbComments(comments)
+	return response, nil
+
+}
