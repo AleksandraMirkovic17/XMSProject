@@ -62,6 +62,14 @@
               </label>
           </div>
       </div>
+      <div class="row d-flex mt-4">
+          <div class="col-md-12">
+              <label class="input_label">
+                  <input type="datetime-local" name="dateOfBirth" v-model="user.dateOfBirth" required="required" @change="userInfoHasChanged()" :disabled="!(isUserLoggedIn())">
+                  <span class="keep_hovered">Date Of Birth</span>
+              </label>
+          </div>
+      </div>
       <h2>Skills</h2>
       <div v-for="(skill,index) in user.skills" :key="index" class="row d-flex mt-4">
         <div class="col-md-10">
@@ -410,7 +418,7 @@ export default {
       })
       .catch(err1 =>{
         console.log(err1)
-        alert("User posts are unavailable!")
+        //alert("User posts are unavailable!")
       })
     })
         .catch(err => {

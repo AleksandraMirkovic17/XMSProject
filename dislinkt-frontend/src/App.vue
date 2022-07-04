@@ -2,15 +2,16 @@
   <div id="app">
     <nav class="navMenu navbar-dark bg-dark" style="padding: 1%">
       <a href="/" style="float:left">Homepage</a>
-      <a href="/login">Login</a>
-      <a href="/register">Join us</a>
       <a>
         <input class="form-control" list="datalistOptions" id="exampleDataList" v-model="searchParams" placeholder="Type to search...">
       </a>
       <a>
         <button class="btn-primary" v-on:click="searchProfiles()">Search</button>
       </a>
-
+      <a :href="getUserProfileHref" v-if="user">Profile</a>
+      <a href="/" v-if="user" v-on:click="logout()">Logout</a>
+      <a href="/login" v-if="!user">Login</a>
+      <a href="/register" v-if="!user">Register</a>
     </nav>
 
     <router-view/>
@@ -25,19 +26,39 @@ export default {
   name: 'App',
   data(){
     return {
+      user: {},
       searchParams: ''
     }
   },
   components: {
 
   },
+  mounted: function() {
+      this.setupData()
+  },
+  computed: {
+    getUserProfileHref() {
+      return "/profile/" + (JSON.parse(this.user)).username
+    },
+  },
   methods: {
+    setupData() {
+      this.user = localStorage.getItem('user')
+    },
+    logout() {
+      localStorage.removeItem('user');
+    },
     searchProfiles(){
       if(this.searchParams!=''){
         router.push('/profiles/'+this.searchParams)
       }
     }
   },
+  watch: {
+    $route () {
+      this.setupData()
+    }
+  }
 }
 </script>
 

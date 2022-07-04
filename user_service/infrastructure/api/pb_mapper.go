@@ -2,11 +2,11 @@ package api
 
 import (
 	"UserService/domain"
+	"time"
 
 	dislinked "github.com/dislinked/common/proto/user_service"
 	pb "github.com/dislinked/common/proto/user_service"
 	"go.mongodb.org/mongo-driver/bson/primitive"
-	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
 func mapUser(user *domain.User) *pb.User {
@@ -18,7 +18,7 @@ func mapUser(user *domain.User) *pb.User {
 		Email:                user.Email,
 		Gender:               mapGenderToPb(user.Gender),
 		Role:                 mapRoleToPb(user.Role),
-		DateOfBirth:          timestamppb.New(user.DateOfBirth),
+		DateOfBirth:          user.DateOfBirth.Format("2006-01-02T15:04"),
 		Public:               user.Public,
 		Skills:               []*dislinked.Skill{},
 		Interests:            []*dislinked.Interest{},
@@ -59,6 +59,7 @@ func mapUser(user *domain.User) *pb.User {
 }
 
 func mapUserPbToDomain(userPb *pb.NewUser) *domain.User {
+	dateOfBirth, _ := time.Parse("2006-01-02T15:04", (*userPb).User.DateOfBirth)
 	userD := &domain.User{
 		Id:                   primitive.NewObjectID(),
 		Name:                 (*userPb).User.Name,
@@ -68,7 +69,7 @@ func mapUserPbToDomain(userPb *pb.NewUser) *domain.User {
 		Password:             (*userPb).User.Password,
 		Gender:               mapGenderPbToDomainGender((*userPb).User.Gender),
 		Role:                 domain.Regular,
-		DateOfBirth:          (*((*userPb).User.DateOfBirth)).AsTime(),
+		DateOfBirth:          dateOfBirth,
 		Public:               (*userPb).User.Public,
 		Skills:               []domain.Skill{},
 		Interests:            []domain.Interest{},
