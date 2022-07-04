@@ -73,6 +73,9 @@ func (store *UserMongoDBStore) Update(user *domain.User) error {
 			{"$set", bson.D{{"surname", user.Surname}}},
 			{"$set", bson.D{{"phone", user.Phone}}},
 			{"$set", bson.D{{"skills", user.Skills}}},
+			{"$set", bson.D{{"interests", user.Interests}}},
+			{"$set", bson.D{{"education_experience", user.EducationExperiences}}},
+			{"$set", bson.D{{"work_experience", user.WorkExperiences}}},
 		},
 	)
 	if err != nil {

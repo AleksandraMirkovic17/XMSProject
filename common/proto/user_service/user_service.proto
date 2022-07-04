@@ -63,6 +63,12 @@ enum UserRole{
 	Agent = 2;
 }
 
+enum EducationType{
+	PRIMARY_EDUCATION = 0;
+	SECONDARY_EDUCATION = 1;
+	COLLEGE_EDUCATION = 2;
+}
+
 message User {
 	string id = 1;
 	string username = 2;
@@ -76,11 +82,35 @@ message User {
 	bool Public = 10;
 	string contactPhone = 11;
 	repeated Skill skills = 12;
+	repeated Interest interests = 13;
+	repeated EducationExperience educationExperiences = 14;
+	repeated WorkExperience workExperiences = 15;
 }
 
 message Skill{
 	string id = 1;
 	string name = 2;
+}
+
+message Interest{
+	string id = 1;
+	string name = 2;
+}
+
+message EducationExperience{
+	string 			id = 1;
+	string 			institutionName = 2;
+	EducationType	type = 3;
+	string 			startDate = 4;
+	string 			endDate = 5;
+}
+
+message WorkExperience{
+	string 			id = 1;
+	string 			organizationName = 2;
+	string			positionName = 3;
+	string 			startDate = 4;
+	string 			endDate = 5;
 }
 
 message NewUser {
