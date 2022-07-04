@@ -1,0 +1,197 @@
+syntax = "proto3";
+
+option go_package = "common/proto/connection_service";
+
+package connection_service;
+
+import "google/api/annotations.proto";
+
+service ConnectionService{
+
+  rpc GetFriends(GetRequest) returns(Users) {
+    option (google.api.http) = {
+      get: "/connection/user/{userID}/friends"
+    };
+  }
+
+  rpc GetBlockeds(GetRequest) returns(Users) {
+    option (google.api.http) = {
+      get: "/connection/user/{userID}/blockeds"
+    };
+  }
+
+  rpc GetFriendRequests(GetRequest) returns(Users) {
+    option (google.api.http) = {
+      get: "/connection/user/{userID}/friend-request"
+    };
+  }
+
+  rpc Register(RegisterRequest) returns (ActionResult) {
+    option (google.api.http) = {
+      put: "/connection/register"
+      body:"user"
+    };
+  }
+
+  rpc AddFriend(AddFriendRequest) returns (ActionResult) {
+    option (google.api.http) = {
+      post: "/connection/friend"
+      body:"addFriendDTO"
+    };
+  }
+
+  rpc RemoveFriend(RemoveFriendRequest) returns (ActionResult) {
+    option (google.api.http) = {
+      post: "/connection/remove-friend"
+      body:"removeFriendDTO"
+    };
+  }
+
+  rpc AddBlockUser(AddBlockUserRequest) returns (ActionResult) {
+    option (google.api.http) = {
+      post: "/connection/block"
+      body:"addBlockUserDTO"
+    };
+  }
+
+  rpc UnblockUser(UnblockUserRequest) returns (ActionResult) {
+    option (google.api.http) = {
+      post: "/connection/unblock"
+      body:"unblockUserDTO"
+    };
+  }
+
+  rpc SendFriendRequest(SendFriendRequestRequest) returns (ActionResult) {
+    option (google.api.http) = {
+      post: "/connection/friend-request"
+      body:"sendFriendRequestRequestDTO"
+    };
+  }
+
+  rpc UnsendFriendRequest(UnsendFriendRequestRequest) returns (ActionResult) {
+    option (google.api.http) = {
+      post: "/connection/remove-friend-request"
+      body:"unsendFriendRequestRequestDTO"
+    };
+  }
+
+  rpc GetRecommendation(GetRequest) returns(Users) {
+    option (google.api.http) = {
+      get: "/connection/recommendation/{userID}"
+    };
+  }
+
+  rpc GetConnectionDetail(GetConnectionDetailRequest) returns(ConnectionDetail) {
+    option (google.api.http) = {
+      get: "/connection/{userIDa}/detail/{userIDb}"
+    };
+  }
+
+  rpc ChangePrivacy(ChangePrivacyRequest) returns (ActionResult) {
+    option (google.api.http) = {
+      post: "/connection/privacy"
+      body:"ChangePrivacyBody"
+    };
+  }
+
+  rpc GetMyContacts(GetMyContactsRequest) returns(ContactsResponse) {}
+
+
+}
+
+message GetMyContactsRequest{
+  string userID = 1;
+}
+
+message Contact{
+  string userID = 1;
+  string msgID = 2;
+}
+
+message ContactsResponse{
+  repeated Contact contacts = 1;
+}
+
+message ChangePrivacyRequest{
+    ChangePrivacyBody ChangePrivacyBody = 1;
+}
+
+message ChangePrivacyBody{
+  string userID = 1;
+  bool isPrivate = 2;
+}
+
+message RegisterRequest{
+    User user = 1;
+}
+
+message AddFriendRequest{
+  UserAction addFriendDTO = 1;
+}
+
+message RemoveFriendRequest{
+  UserAction removeFriendDTO = 1;
+}
+
+message SendFriendRequestRequest{
+  UserAction sendFriendRequestRequestDTO = 1;
+}
+
+message UnsendFriendRequestRequest{
+  UserAction unsendFriendRequestRequestDTO = 1;
+}
+
+message AddBlockUserRequest{
+  UserAction addBlockUserDTO = 1;
+}
+
+message UnblockUserRequest{
+  UserAction unblockUserDTO = 1;
+}
+
+
+
+
+message ActionResult{
+  int64 status = 1;
+  string msg = 2;
+}
+
+message GetRequest {
+  string userID = 1;
+}
+
+message UserAction{
+  string userIDa = 1;
+  string userIDb = 2;
+}
+
+message GetConnectionDetailRequest{
+  string userIDa = 1;
+  string userIDb = 2;
+}
+
+message ConnectionDetail{
+  string userIDa = 1;
+  string userIDb = 2;
+  bool isPrivate = 3;
+  string relation = 4;
+  string msgID = 5;
+  string error = 6;
+}
+
+message User {
+  string userID = 1;
+  bool isPrivate = 2;
+}
+
+message Users{
+  repeated User users = 1;
+}
+
+message UsersID{
+  repeated string userID = 1;
+}
+
+
+
