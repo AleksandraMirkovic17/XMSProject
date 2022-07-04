@@ -71,6 +71,10 @@ func (store *PostMongoDBStore) DeleteReaction(post *domain.Post, username string
 	for index, existingReaction := range post.Reactions {
 		if username == existingReaction.User {
 			post.Reactions = append(post.Reactions[:index], post.Reactions[index+1:]...)
+			err := store.Update(post)
+			if err != nil {
+				return nil, err
+			}
 			return post, nil
 		}
 

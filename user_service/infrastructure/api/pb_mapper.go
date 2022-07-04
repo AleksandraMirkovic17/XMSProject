@@ -44,6 +44,9 @@ func mapUser(user *domain.User) *pb.User {
 		userPb.EducationExperiences = append(userPb.EducationExperiences, &dislinked.EducationExperience{
 			Id:              educationExperience.Id.String(),
 			InstitutionName: educationExperience.InstitutionName,
+			Type:            pb.EducationType(educationExperience.Type),
+			StartDate:       educationExperience.StartDate.Format("2006-01-02T15:04"),
+			EndDate:         educationExperience.EndDate.Format("2006-01-02T15:04"),
 		})
 	}
 
@@ -52,6 +55,8 @@ func mapUser(user *domain.User) *pb.User {
 			Id:               workExperience.Id.String(),
 			OrganizationName: workExperience.OrganizationName,
 			PositionName:     workExperience.PositionName,
+			StartDate:        workExperience.StartDate.Format("2006-01-02T15:04"),
+			EndDate:          workExperience.EndDate.Format("2006-01-02T15:04"),
 		})
 	}
 
@@ -92,17 +97,26 @@ func mapUserPbToDomain(userPb *pb.NewUser) *domain.User {
 	}
 
 	for _, educationExperience := range userPb.User.EducationExperiences {
+		startDate, _ := time.Parse("2006-01-02T15:04", educationExperience.StartDate)
+		endDate, _ := time.Parse("2006-01-02T15:04", educationExperience.EndDate)
 		userD.EducationExperiences = append(userD.EducationExperiences, domain.EducationExperience{
 			Id:              primitive.NewObjectID(),
 			InstitutionName: educationExperience.InstitutionName,
+			Type:            domain.EducationType(educationExperience.Type),
+			StartDate:       startDate,
+			EndDate:         endDate,
 		})
 	}
 
 	for _, workExperience := range userPb.User.WorkExperiences {
+		startDate, _ := time.Parse("2006-01-02T15:04", workExperience.StartDate)
+		endDate, _ := time.Parse("2006-01-02T15:04", workExperience.EndDate)
 		userD.WorkExperiences = append(userD.WorkExperiences, domain.WorkExperience{
 			Id:               primitive.NewObjectID(),
 			OrganizationName: workExperience.OrganizationName,
 			PositionName:     workExperience.PositionName,
+			StartDate:        startDate,
+			EndDate:          endDate,
 		})
 	}
 
@@ -145,3 +159,27 @@ func mapGenderPbToDomainGender(gender pb.Gender) domain.Gender {
 	return domain.Other
 
 }
+
+/*func mapEducationTypeToPb(educationType domain.EducationType) pb.EducationType {
+	switch educationType {
+	case domain.PRIMARY_EDUCATION:
+		return pb.EducationType_PRIMARY_EDUCATION
+	case domain.SECONDARY_EDUCATION:
+		return pb.EducationType_SECONDARY_EDUCATION
+	case domain.COLLEGE_EDUCATION:
+		return pb.EducationType_COLLEGE_EDUCATION
+	}
+	return pb.EducationType_PRIMARY_EDUCATION
+}
+
+func mapEducationTypePbToDomain(educationType pb.EducationType) domain.EducationType {
+	switch educationType {
+	case pb.EducationType_PRIMARY_EDUCATION:
+		return domain.PRIMARY_EDUCATION
+	case pb.EducationType_SECONDARY_EDUCATION:
+		return domain.SECONDARY_EDUCATION
+	case pb.EducationType_COLLEGE_EDUCATION:
+		return domain.COLLEGE_EDUCATION
+	}
+	return domain.PRIMARY_EDUCATION
+}*/

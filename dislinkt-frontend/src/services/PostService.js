@@ -32,6 +32,10 @@ class PostService{
         return axios.post(USER_API_BASE_URL+"post/react", reaction)
     }
 
+    deleteReaction(postId, username){
+        return axios.delete(USER_API_BASE_URL+"post/"+postId+"/"+username)
+    }
+
     createComment(newComment, postID){
         return axios.post(USER_API_BASE_URL+"post/"+postID+"/comment", newComment)
     }
