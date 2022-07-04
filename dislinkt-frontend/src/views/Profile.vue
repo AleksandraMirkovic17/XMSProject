@@ -1,6 +1,11 @@
 <template>
 <div>
-  <div style="display: flex; flex-direction: row" >
+  <div v-if="!(loggedUser || user.public)">
+    <div class="profile-panel">
+      Log in to view {{user.name}} {{user.surname}}'s profile
+    </div>
+  </div>
+  <div style="display: flex; flex-direction: row" v-if="loggedUser || user.public">
     <div class="col-md-4">
       <div class="profile-panel">
         <h2>{{user.username}}</h2>
