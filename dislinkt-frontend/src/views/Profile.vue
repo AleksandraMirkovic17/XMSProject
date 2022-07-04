@@ -1,8 +1,8 @@
 <template>
 <div>
 <div style="display: flex; flex-direction: row" >
-  <div class="profile-panel">
-    <div class="register-show">
+  <div class="col-md-4">
+    <div class="profile-panel">
       <h2>{{user.username}}</h2>
       <div class="row d-flex mt-5">
           <div class="col-md-12">
@@ -70,52 +70,11 @@
               </label>
           </div>
       </div>
-      <h2>Skills</h2>
-      <div v-for="(skill,index) in user.skills" :key="index" class="row d-flex mt-4">
-        <div class="col-md-10">
-          <h4>{{skill.name}}</h4>
-        </div>
-        <div class="col-md-2">
-          <div class="button_minus" v-on:click="removeSkill(skill.name)" v-if="isUserLoggedIn()"></div>
-        </div>
-      </div>
-      <div class="row d-flex mt-4" v-if="isUserLoggedIn()">
-          <div class="col-md-10">
-              <label class="input_label">
-                  <input type="text" name="new-skill" v-model="newSkill">
-                  <span class="keep_hovered"></span>
-              </label>
-          </div>
-          <div class="col-md-2">
-            <div class="button_plus" v-on:click="addSkill()" v-if="newSkill"></div>
-          </div>
-      </div>
-      <h2>Interests</h2>
-      <div v-for="(interest,index) in user.interests" :key="index" class="row d-flex mt-4">
-        <div class="col-md-10">
-          <h4>{{interest.name}}</h4>
-        </div>
-        <div class="col-md-2">
-          <div class="button_minus" v-on:click="removeInterest(interest.name)" v-if="isUserLoggedIn()"></div>
-        </div>
-      </div>
-      <div class="row d-flex mt-4" v-if="isUserLoggedIn()">
-          <div class="col-md-10">
-              <label class="input_label">
-                  <input type="text" name="new-interest" v-model="newInterest">
-                  <span class="keep_hovered"></span>
-              </label>
-          </div>
-          <div class="col-md-2">
-            <div class="button_plus" v-on:click="addInterest()" v-if="newInterest"></div>
-          </div>
-      </div>
       <input type="button" value="Update" v-if="isUserInfoChanged" :disabled="!isAllInputValid()" v-on:click="updateUser()"/>
       <input type="button" value="Reset" v-if="isUserInfoChanged"/>
     </div>
   </div>
-  <div class="posts">
-
+  <div class="col-md-4">
     <div class="create-new" v-if="isUserLoggedIn()">
       <div class="head-line" style="display: flex; flex-direction: row">
         <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="white" class="bi bi-file-earmark-post-fill" viewBox="0 0 16 16">
@@ -156,21 +115,15 @@
             <button type="button" class="btn btn-light" style="border-radius: 90%" v-on:click="addLink()">+</button>
           </div>
         </div>
-
       </div>
-
       <div class="footer">
         <button type="button" class="btn btn-primary" v-on:click="CreatePost">Post</button>
-
       </div>
-
-
     </div>
     <div class="view-all-users-posts">
     <h4 style="margin-top: 1%; color: white">Older posts</h4>
       <div v-if="this.usersPosts.length==0">
         <h3>There is no posts yet!</h3>
-
       </div>
       <div v-for="(post, index) in usersPosts" :key="index">
         <div class="post-view">
@@ -187,11 +140,10 @@
             </div>
             <div class="post-view-date" style="margin-left: 50%">
               <h5>{{post.date}}</h5>
-
             </div>
           </div>
           <div class="post-view-image" style="margin: 2%">
-          <img v-bind:src="post.image" style="width: 100%">
+            <img v-bind:src="post.image" style="width: 100%">
           </div>
           <div class="post-txt" style="position:relative;">
             <h6>{{ post.posttext }}</h6>
@@ -200,9 +152,7 @@
             <div v-if="post.links.length==0">no links</div>
             <div v-for="(link, index) in post.links" :key="index">
               <a href="link"><h7>{{ link}}</h7></a>
-
             </div>
-
           </div>
           <div class="post-additiona" style="display: flex; flex-direction: row; width: 100%">
             <div class="likes" style="width: 33%;">
@@ -230,7 +180,6 @@
                   </h5>
                 </div>
               </button>
-
             </div>
             <div class="comments" style="width: 33%;">
               <button style="width: 100%; padding: 2%">
@@ -247,10 +196,104 @@
               </button>
             </div>
           </div>
-
         </div>
-
       </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="profile-panel">
+      <h2>Skills</h2>
+      <div v-for="(skill,index) in user.skills" :key="index" class="row d-flex mt-4">
+        <div class="col-md-10">
+          <h4>{{skill.name}}</h4>
+        </div>
+        <div class="col-md-2">
+          <div class="button_minus" v-on:click="removeSkill(skill.name)" v-if="isUserLoggedIn()"></div>
+        </div>
+      </div>
+      <div class="row d-flex mt-4" v-if="isUserLoggedIn()">
+          <div class="col-md-10">
+              <label class="input_label">
+                  <input type="text" name="new-skill" v-model="newSkill">
+                  <span class="keep_hovered"></span>
+              </label>
+          </div>
+          <div class="col-md-2">
+            <div class="button_plus" v-on:click="addSkill()" v-if="newSkill"></div>
+          </div>
+      </div>
+    </div>
+    <div class="profile-panel">
+      <h2>Interests</h2>
+      <div v-for="(interest,index) in user.interests" :key="index" class="row d-flex mt-4">
+        <div class="col-md-10">
+          <h4>{{interest.name}}</h4>
+        </div>
+        <div class="col-md-2">
+          <div class="button_minus" v-on:click="removeInterest(interest.name)" v-if="isUserLoggedIn()"></div>
+        </div>
+      </div>
+      <div class="row d-flex mt-4" v-if="isUserLoggedIn()">
+          <div class="col-md-10">
+              <label class="input_label">
+                  <input type="text" name="new-interest" v-model="newInterest">
+                  <span class="keep_hovered"></span>
+              </label>
+          </div>
+          <div class="col-md-2">
+            <div class="button_plus" v-on:click="addInterest()" v-if="newInterest"></div>
+          </div>
+      </div>
+    </div>
+    <div class="profile-panel">
+      <h2>Education</h2>
+      <div v-for="(experience,index) in user.educationExperiences" :key="index" class="row d-flex mt-4" style="border-bottom: 1px solid gray">
+        <div class="col-md-6">
+          <p>{{formattedEducationType(experience.type)}}</p>
+          <h4>{{experience.institutionName}}</h4>
+        </div>
+        <div class="col-md-4">
+          <p>{{experience.startDate}} - {{experience.endDate}}</p>
+        </div>
+        <div class="col-md-2">
+          <div class="button_minus" v-on:click="removeEducation(experience.institutionName)" v-if="isUserLoggedIn()"></div>
+        </div>
+      </div>
+      <div class="row d-flex mt-4" v-if="isUserLoggedIn()">
+          <div class="col-md-2">
+              <label class="input_label">
+                  <select v-model="newEducation.type">
+                    <option value="PRIMARY_EDUCATION">Primary</option>
+                    <option value="SECONDARY_EDUCATION">Secondary</option>
+                    <option value="COLLEGE_EDUCATION">College</option>
+                  </select>
+                  <span class="keep_hovered"></span>
+              </label>
+          </div>
+          <div class="col-md-4">
+              <label class="input_label">
+                  <input type="text" name="new-education-institution" v-model="newEducation.institutionName">
+                  <span class="keep_hovered"></span>
+              </label>
+          </div>
+          <div class="col-md-2">
+              <label class="input_label">
+                  <input type="datetime-local" v-model="newEducation.startDate" required="required" @change="userInfoHasChanged()" :disabled="!(isUserLoggedIn())">
+                  <span class="keep_hovered"></span>
+              </label>
+          </div>
+          <div class="col-md-2">
+              <label class="input_label">
+                  <input type="datetime-local" v-model="newEducation.endDate" required="required" @change="userInfoHasChanged()" :disabled="!(isUserLoggedIn())">
+                  <span class="keep_hovered"></span>
+              </label>
+          </div>
+          <div class="col-md-2">
+            <div class="button_plus" v-on:click="addEducation()" v-if="newEducation.type && newEducation.institutionName && newEducation.startDate && newEducation.endDate"></div>
+          </div>
+      </div>
+      <input type="button" value="Update" v-if="isUserInfoChanged" :disabled="!isAllInputValid()" v-on:click="updateUser()"/>
+      <input type="button" value="Reset" v-if="isUserInfoChanged"/>
     </div>
   </div>
 </div>
@@ -295,6 +338,7 @@ export default {
       isUserInfoChanged: false,
       newSkill: "",
       newInterest: "",
+      newEducation: {}
     }
   },
   components:{
@@ -397,6 +441,25 @@ export default {
       }
       this.isUserInfoChanged = true
     },
+    addEducation(){
+      this.user.educationExperiences.push(this.newEducation)
+      this.isUserInfoChanged = true
+    },
+    removeEducation(education){
+      for(let index in this.user.educationExperiences) {
+        if(this.user.educationExperiences[index].institutionName === education) {
+          this.user.educationExperiences.splice(index,1)
+        }
+      }
+      this.isUserInfoChanged = true
+    },
+    formattedEducationType(educationType){
+      if(educationType === "SECONDARY_EDUCTAION")
+        return "Secondary"
+      if(educationType == "COLLEGE_EDUCATION")
+        return "College"
+      return "Primary"
+    },
     userInfoHasChanged() {
         this.isUserInfoChanged = true
     },
@@ -474,11 +537,6 @@ export default {
 .posts .create-new .footer{
   margin-top: 3%;
 }
-
-.post-text{
-
-}
-
 .content2{
   margin: 1%;
   width: 70%;
@@ -499,83 +557,27 @@ export default {
 .posts .view-all-users-posts{
   height: 80%;
 }
-
-    .login-reg-panel{
-        position: relative;
-        top: 50%;
-        transform: translateY(50%);
-        text-align:center;
-        width:50%;
-        right:0;left:0;
-        margin:auto;
-        height:400px;
-        background: rgb(9,53,121);
-        background: linear-gradient(90deg, rgba(9,53,121,1) 0%, rgba(9,51,121,1) 35%, rgba(0,95,255,1) 100%);
-    }
     .profile-panel{
         background-color: rgba(255,255, 255, 1);
+        color:#242424;
         position: relative;
-        top: 20%;
-        right:0;left:0;
-        width:40%;
+        width:80%;
         margin:auto;
-        margin-top: 20px;
-        text-align:center;
+        margin-top: 15px;
+        margin-bottom: 15px;
+        padding: 20px;
+        text-align:left;
         transition:.3s ease-in-out;
         z-index:0;
         box-shadow: 0 0 15px 9px #00000096;
-    }
-    .login-reg-panel input[type="radio"]{
-        position:relative;
-        display:none;
-    }
-    .login-reg-panel{
-        color:#B8B8B8;
-    }
-    .login-reg-panel #label-login, 
-    .login-reg-panel #label-register{
-        border:1px solid white;
-        padding:5px 5px;
-        width:150px;
-        display:block;
         text-align:center;
-        border-radius:10px;
-        cursor:pointer;
-        font-weight: 600;
-        font-size: 18px;
-    }
-    .login-info-box{
-        width:30%;
-        padding:0 50px;
-        top:20%;
-        left:0;
-        position:absolute;
-        text-align:left;
-    }
-    .register-info-box{
-        width:30%;
-        padding:0 50px;
-        top:20%;
-        right:0;
-        position:absolute;
-        text-align:left;
-        color: whitesmoke
-    }
-    .right-log{right:50px !important;}
-
-    .register-show{
-        z-index: 1;
-        transition:0.3s ease-in-out;
-        color:#242424;
-        text-align:left;
-        padding:50px;
     }
     
-    .register-show input[type="button"] {
+    .profile-panel input[type="button"] {
         max-width: 150px;
         width: 100%;
         margin-left: 20px;
-        background: rgba(0,95,255,1);
+        background: #e98074;
         color: #f9f9f9;
         border: none;
         padding: 10px;
@@ -585,8 +587,7 @@ export default {
         cursor:pointer;
         transition: all .3s;
     }
-
-    .register-show input[type="button"]:disabled {
+    .profile-panel input[type="button"]:disabled {
         transform: scale(110%);
         background: rgb(162, 196, 255);
         color: #f9f9f9;
@@ -599,9 +600,9 @@ export default {
         transition: all .3s;
     }
 
-    .register-show input[type="button"]:hover:enabled {
+    .profile-panel input[type="button"]:hover:enabled {
         transform: scale(110%);
-        background: rgba(0,95,255,1);
+        background: #e98074;
         color: #f9f9f9;
         border: none;
         padding: 10px;
@@ -613,10 +614,6 @@ export default {
     }
 
     /* INPUT FIELDS */
-    .wrapper {
-        max-width: 560px;
-        margin: 100px auto;
-    }
     label.input_label {
         position: relative;
         display: block;
@@ -641,7 +638,7 @@ export default {
         position: relative;
         background-color: transparent;
         border: none;
-        border-bottom: 1px solid rgb(143, 176, 233);
+        border-bottom: 1px solid #eea098;
         border-radius: 0;
         outline: none;
         height: 45px;
@@ -653,8 +650,8 @@ export default {
         transition: all .3s;
     }
     label.input_label > input:valid {
-        border-bottom: 1px solid rgba(0,95,255,1);
-        box-shadow: 0 1px 0 0 rgba(0,95,255,1);
+        border-bottom: 1px solid #e98074;
+        box-shadow: 0 1px 0 0 #e98074;
     }
     label.input_label > span {
         color: #9e9e9e;
@@ -668,11 +665,11 @@ export default {
     label.input_label > input:focus + span {
         transform: translateY(-25px) scale(0.8);
         transform-origin: 0;
-        color: rgba(0,95,255,1);
+        color: #e98074;
     }
     label.input_label > input:focus {
-        border-bottom: 1px solid rgba(0,95,255,1);
-        box-shadow: 0 1px 0 0 rgba(0,95,255,1);
+        border-bottom: 1px solid #e98074;
+        box-shadow: 0 1px 0 0 #e98074;
     }   
     label.input_label > select {
         position: relative;
@@ -691,8 +688,8 @@ export default {
         transition: all .3s;
     }
     label.input_label > select:valid {
-        border-bottom: 1px solid rgba(0,95,255,1);
-        box-shadow: 0 1px 0 0 rgba(0,95,255,1);
+        border-bottom: 1px solid #e98074;
+        box-shadow: 0 1px 0 0 #e98074;
     }
     label.input_label > span {
         color: #9e9e9e;
@@ -706,21 +703,21 @@ export default {
     label.input_label > select:focus + span {
         transform: translateY(-25px) scale(0.8);
         transform-origin: 0;
-        color: rgba(0,95,255,1);
+        color: #e98074;
     }
     label.input_label > select:valid + span.keep_hovered {
         transform: translateY(-25px) scale(0.8);
         transform-origin: 0;
-        color: rgba(0,95,255,1);
+        color: #e98074;
     }
     label.input_label > input:valid + span.keep_hovered {
         transform: translateY(-25px) scale(0.8);
         transform-origin: 0;
-        color: rgba(0,95,255,1);
+        color: #e98074;
     }
     label.input_label > select:focus {
-        border-bottom: 1px solid rgba(0,95,255,1);
-        box-shadow: 0 1px 0 0 rgba(0,95,255,1);
+        border-bottom: 1px solid #e98074;
+        box-shadow: 0 1px 0 0 #e98074;
     }
 
     .deletion-request-side-panel{
@@ -735,7 +732,7 @@ export default {
         padding:50px;
     }
     .deletion-request-side-panel textarea {
-        border:1px solid rgb(143, 176, 233);
+        border:1px solid #eea098;
         border-radius: 10px;
         resize: none;
         height: 400px;
@@ -744,7 +741,7 @@ export default {
     }
 
     .deletion-request-side-panel textarea:hover {
-        border:1px solid rgba(0,95,255,1);
+        border:1px solid #e98074;
         border-radius: 10px;
         resize: none;
         height: 400px;
@@ -753,7 +750,7 @@ export default {
     }
 
     .deletion-request-side-panel textarea:focus {
-        border:1px solid rgba(0,95,255,1);
+        border:1px solid #e98074;
         border-radius: 10px;
         resize: none;
         height: 400px;
@@ -769,7 +766,7 @@ export default {
       height: 35px;
       background: #fff;
       cursor: pointer;
-      border: 2px solid #08d;
+      border: 2px solid #157c12;
       border-radius: 20px;
     }
     
@@ -779,7 +776,7 @@ export default {
       transform: translate(-50%, -50%);
       height: 4px;
       width: 50%;
-      background: #08d;
+      background: #157c12;
       top: 50%;
       left: 50%;
     }
@@ -790,7 +787,7 @@ export default {
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      background: #08d;
+      background: #157c12;
       height: 50%;
       width: 4px;
     }
@@ -802,7 +799,7 @@ export default {
     }
     
     .button_plus:hover {
-      background-color: #08d;
+      background-color: #157c12;
       transition: 0.2s;
     }
 
