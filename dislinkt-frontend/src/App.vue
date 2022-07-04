@@ -45,6 +45,9 @@ export default {
     setupData() {
       this.user = localStorage.getItem('user')
     },
+    logout() {
+      localStorage.removeItem('user');
+    },
     searchProfiles(){
       if(this.searchParams!=''){
         router.push('/profiles/'+this.searchParams)
