@@ -250,7 +250,6 @@
                 <textarea class="form-control" placeholder="Write a post..." id="floatingTextarea" style="font-size: 12pt; height: 250px" v-model = "postText"></textarea>
                 <label for="floatingTextarea" style="font-size: 12pt">Post text</label>
               </div>
-  
             </div>
             <div class="post-link" style="display: flex; flex-direction: row">
               <div class="input-field">
@@ -295,7 +294,7 @@
             <div class="post-links">
               <div v-if="post.links.length==0">no links</div>
               <div v-for="(link, index) in post.links" :key="index">
-                <a href="link"><h7>{{ link}}</h7></a>
+                <a :href="link"><h7>{{ link}}</h7></a>
               </div>
             </div>
             <div class="post-additiona" style="display: flex; flex-direction: row; width: 100%">
