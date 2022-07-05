@@ -13,6 +13,8 @@ type Config struct {
 	UserPort string
 	AuthHost string
 	AuthPort string
+	ConnHost string
+	ConnPort string
 }
 
 func NewConfig() *Config {
