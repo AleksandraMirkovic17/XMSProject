@@ -27,14 +27,71 @@ service AuthenticationService{
 }
 
 message Credentials {
-  string username = 1;
-  string password = 2;
+	string username = 1;
+	string password = 2;
 }
 
-message UserCredentials {
-  string username = 1;
-  string password = 2;
-  string role = 3;
+enum Gender{
+	Other = 0;
+	Male = 1;
+	Female = 2;
+}
+
+enum UserRole{
+	Regular = 0;
+	Admin = 1;
+	Agent = 2;
+}
+
+enum EducationType{
+	PRIMARY_EDUCATION = 0;
+	SECONDARY_EDUCATION = 1;
+	COLLEGE_EDUCATION = 2;
+}
+
+message User {
+	string id = 1;
+	string username = 2;
+	string name = 3;
+	string surname = 4;
+	string email = 5;
+	Gender gender = 6;
+	UserRole role = 7;
+	string dateOfBirth = 8;
+	string password = 9;
+	bool Public = 10;
+	string contactPhone = 11;
+	repeated Skill skills = 12;
+	repeated Interest interests = 13;
+	repeated EducationExperience educationExperiences = 14;
+	repeated WorkExperience workExperiences = 15;
+	string biography = 16;
+}
+
+message Skill{
+	string id = 1;
+	string name = 2;
+}
+
+message Interest{
+	string id = 1;
+	string name = 2;
+}
+
+message EducationExperience{
+	string 			id = 1;
+	string 			institutionName = 2;
+	EducationType	type = 3;
+	string 			startDate = 4;
+	string 			endDate = 5;
+}
+
+message WorkExperience{
+	string 			id = 1;
+	string 			organizationName = 2;
+	string			positionName = 3;
+	string 			startDate = 4;
+	string 			endDate = 5;
 }
 
 message Token {
@@ -48,7 +105,7 @@ message LoginRequest {
 }
 
 message RegisterRequest {
-  UserCredentials user = 1;
+  User user = 1;
 }
 
 message RegisterResponse {

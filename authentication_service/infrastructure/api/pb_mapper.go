@@ -6,20 +6,20 @@ import (
 	pb "github.com/dislinked/common/proto/authentication_service"
 )
 
-func mapUserToPB(user *domain.User) *pb.UserCredentials {
-	userPb := &pb.UserCredentials{
+func mapUserToPB(user *domain.User) *pb.User {
+	userPb := &pb.User{
 		Username: user.Username,
 		Password: user.Password,
-		Role:     user.Role,
+		Role:     mapRoleToPb(user.Role),
 	}
 	return userPb
 }
 
-func mapUserToDomain(user *pb.UserCredentials) *domain.User {
+func mapUserToDomain(user *pb.User) *domain.User {
 	userDomain := &domain.User{
 		Username: (*user).Username,
 		Password: (*user).Password,
-		Role:     (*user).Role,
+		Role:     (*user).Role.String(),
 	}
 	return userDomain
 }
@@ -39,4 +39,16 @@ func mapCredentialsToDomain(credentials *pb.Credentials) *domain.Credentials {
 		Password: (*credentials).Password,
 	}
 	return credentialsDomain
+}
+
+func mapRoleToPb(role string) pb.UserRole {
+	switch role {
+	case "REGULAR":
+		return pb.UserRole_Regular
+	case "AGENT":
+		return pb.UserRole_Agent
+	case "ADMIN":
+		return pb.UserRole_Admin
+	}
+	return pb.UserRole_Regular
 }

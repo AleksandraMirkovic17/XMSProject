@@ -46,6 +46,14 @@ func (store *AuthenticationMongoDBStore) GetByUsername(username string) (user *d
 	return store.filterOne(filter)
 }
 
+func (store *AuthenticationMongoDBStore) DeleteById(id primitive.ObjectID) error {
+	_, err := store.users.DeleteOne(context.TODO(), bson.M{"_id": id})
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
 func (store *AuthenticationMongoDBStore) DeleteAll() {
 	panic("implement me")
 }

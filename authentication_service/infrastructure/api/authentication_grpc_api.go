@@ -3,15 +3,17 @@ package api
 import (
 	"AuthenticationService/application"
 	"context"
-	"fmt"
+	"time"
 
 	pb "github.com/dislinked/common/proto/authentication_service"
+	events "github.com/dislinked/common/saga/create_order"
 	"google.golang.org/grpc/status"
 )
 
 type AuthenticationHandler struct {
 	pb.UnimplementedAuthenticationServiceServer
-	service *application.AuthenticationService
+	service                  *application.AuthenticationService
+	RegisterUserOrchestrator *application.RegisterUserOrchestrator
 }
 
 func NewAuthenticationHandler(service *application.AuthenticationService) *AuthenticationHandler {
@@ -33,13 +35,13 @@ func (handler *AuthenticationHandler) Login(ctx context.Context, request *pb.Log
 }
 
 func (handler *AuthenticationHandler) Register(ctx context.Context, request *pb.RegisterRequest) (*pb.RegisterResponse, error) {
-	fmt.Println((*request).User)
 	user := mapUserToDomain(request.User)
-	fmt.Println(user)
 	newUser, err := handler.service.Register(user)
 	if err != nil {
 		return nil, status.Error(400, "Username already exists!")
 	}
+	dateOfBirth, _ := time.Parse("2006-01-02T15:04", request.User.DateOfBirth)
+	handler.RegisterUserOrchestrator.Start(events.UserDetails{Id: user.ID.Hex(), Birthday: dateOfBirth, Name: request.User.Name, Surname: request.User.Surname, Username: request.User.Username, Email: request.User.Email, Gender: request.User.Gender.String(), PhoneNumber: request.User.ContactPhone, IsPrivate: !request.User.Public})
 
 	response := &pb.RegisterResponse{
 		Username: newUser.Username,

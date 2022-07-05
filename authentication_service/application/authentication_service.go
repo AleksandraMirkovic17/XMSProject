@@ -3,6 +3,8 @@ package application
 import (
 	"AuthenticationService/domain"
 	"errors"
+
+	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 type AuthenticationService struct {
@@ -60,6 +62,15 @@ func (service *AuthenticationService) Register(user *domain.User) (*domain.User,
 
 	err = service.store.Create(user)
 	return nil, err
+}
+
+func (service *AuthenticationService) DeleteById(id primitive.ObjectID) error {
+	err := service.store.DeleteById(id)
+	if err != nil {
+		return err
+	} else {
+		return nil
+	}
 }
 
 func (service *AuthenticationService) IsAuthorized(token *domain.Token) {
