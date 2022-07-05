@@ -1,9 +1,8 @@
 package config
 
 import (
-	"flag"
-
-	cfg "github.com/dislinked/common/config"
+	"github.com/joho/godotenv"
+	"os"
 )
 
 type Config struct {
@@ -13,16 +12,14 @@ type Config struct {
 }
 
 func NewConfig() *Config {
-	devEnv := flag.Bool("dev", false, "use dev environment variables")
-	flag.Parse()
-
-	if *devEnv {
-		cfg.LoadEnv()
-	}
-
 	return &Config{
-		Port:       "8089",
-		UserDBHost: "localhost",
-		UserDBPort: "27017",
+		Port:       LoadEnvVariable("USER_SERVICE_PORT"),
+		UserDBHost: LoadEnvVariable("MONGO_DB_HOST"),
+		UserDBPort: LoadEnvVariable("MONGO_DB_PORT"),
 	}
+}
+
+func LoadEnvVariable(key string) string {
+	godotenv.Load("../.env")
+	return os.Getenv(key)
 }

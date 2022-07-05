@@ -5,11 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="73e9022d-bf7f-4b1c-95b0-7a9024d84ed5" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/authentication_service/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.dev.env" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dislinkt-frontend/src/services/PostService.js" beforeDir="false" afterPath="$PROJECT_DIR$/dislinkt-frontend/src/services/PostService.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dislinkt-frontend/src/views/Profile.vue" beforeDir="false" afterPath="$PROJECT_DIR$/dislinkt-frontend/src/views/Profile.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/post_service/infrastructure/persistence/post_mongodb_store.go" beforeDir="false" afterPath="$PROJECT_DIR$/post_service/infrastructure/persistence/post_mongodb_store.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user_service/infrastructure/api/pb_mapper.go" beforeDir="false" afterPath="$PROJECT_DIR$/user_service/infrastructure/api/pb_mapper.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api_gateway/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/api_gateway/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api_gateway/startup/config/config.go" beforeDir="false" afterPath="$PROJECT_DIR$/api_gateway/startup/config/config.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/authentication_service/startup/config/config.go" beforeDir="false" afterPath="$PROJECT_DIR$/authentication_service/startup/config/config.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/post_service/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/post_service/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/post_service/startup/config/config.go" beforeDir="false" afterPath="$PROJECT_DIR$/post_service/startup/config/config.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user_service/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/user_service/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user_service/startup/config/config.go" beforeDir="false" afterPath="$PROJECT_DIR$/user_service/startup/config/config.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

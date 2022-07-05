@@ -1,9 +1,8 @@
 package config
 
 import (
-	"flag"
-
-	cfg "github.com/dislinked/common/config"
+	"github.com/joho/godotenv"
+	"os"
 )
 
 type Config struct {
@@ -17,20 +16,18 @@ type Config struct {
 }
 
 func NewConfig() *Config {
-	devEnv := flag.Bool("dev", false, "use dev environment variables")
-	flag.Parse()
-
-	if *devEnv {
-		cfg.LoadEnv()
-	}
 	return &Config{
-		Port:     "4200",
-		PostHost: "localhost",
-		PostPort: "8081",
-		UserHost: "localhost",
-		UserPort: "8089",
-		AuthHost: "localhost",
-		AuthPort: "4201",
+		Port:     LoadEnvVariable("GATEWAY_PORT"),
+		PostHost: LoadEnvVariable("POST_SERVICE_HOST"),
+		PostPort: LoadEnvVariable("POST_SERVICE_PORT"),
+		UserHost: LoadEnvVariable("USER_SERVICE_HOST"),
+		UserPort: LoadEnvVariable("USER_SERVICE_PORT"),
+		AuthHost: LoadEnvVariable("AUTHENTICATION_SERVICE_HOST"),
+		AuthPort: LoadEnvVariable("AUTHENTICATION_SERVICE_PORT"),
 	}
+}
 
+func LoadEnvVariable(key string) string {
+	godotenv.Load("../.env")
+	return os.Getenv(key)
 }

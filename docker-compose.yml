@@ -1,19 +1,39 @@
 version: "3.8"
 
 services:
+    auth_service:
+        image: auth_service
+        container_name: auth_service
+        build:
+            context: .
+            dockerfile: ./authentication_service/Dockerfile
+        restart: on-failure
+        environment:
+            AUTH_SERVICE_PORT: ${AUTHENTICATION_SERVICE_PORT}
+            MONGO_DB_HOST: ${AUTHENTICATION_MONGO_DB_HOST_DOCKER}
+            MONGO_DB_PORT: ${MONGO_DB_PORT}      
+            USER_SERVICE_HOST: ${USER_SERVICE_HOST_DOCKER}
+            USER_SERVICE_PORT: ${USER_SERVICE_PORT}
+            GATEWAY_HOST: ${GATEWAY_HOST_DOCKER}
+            GATEWAY_PORT: ${GATEWAY_PORT}
+        depends_on:
+          - auth_mongo_db
+        networks:
+          - network
+
     user_service:
         image: user_service
         container_name: user_service
         build:
             context: .
-            dockerfile: ./UserService/Dockerfile
+            dockerfile: ./user_service/Dockerfile
         restart: on-failure
         environment:
-            JOB_DB_HOST: ${USER_DB_HOST}
-            JOB_DB_PORT: ${USER_DB_PORT}
-            JOB_SERVICE_PORT: ${USER_SERVICE_PORT}
+            USER_SERVICE_PORT: ${USER_SERVICE_PORT}
+            MONGO_DB_HOST: ${USER_MONGO_DB_HOST_DOCKER}
+            MONGO_DB_PORT: ${MONGO_DB_PORT}
         depends_on:
-            - user_db
+            - user_mongo_db
         networks:
             - network
       
@@ -22,20 +42,20 @@ services:
         container_name: post_service
         build:
             context: .
-            dockerfile: ./PostService/Dockerfile
+            dockerfile: ./post_service/Dockerfile
         restart: on-failure
         environment:
-            POST_DB_HOST: ${POST_DB_HOST}
-            POST_DB_PORT: ${POST_DB_PORT}
             POST_SERVICE_PORT: ${POST_SERVICE_PORT}
+            MONGO_DB_HOST: ${POST_MONGO_DB_HOST_DOCKER}
+            MONGO_DB_PORT: ${MONGO_DB_PORT}
         depends_on:
-            - post_db
+            - post_mongo_db
         networks:
             - network
 
-    gateway:
-        image: gateway
-        container_name: gateway
+    api_gateway:
+        image: api_gateway
+        container_name: api_gateway
         build:
             context: .
             dockerfile: ./api_gateway/Dockerfile
@@ -44,61 +64,46 @@ services:
             - ${GATEWAY_PORT}:${GATEWAY_PORT}
         environment:
             GATEWAY_PORT: ${GATEWAY_PORT}
-            POST_SERVICE_HOST: ${POST_SERVICE_HOST}
+            POST_SERVICE_HOST: ${POST_SERVICE_HOST_DOCKER}
             POST_SERVICE_PORT: ${POST_SERVICE_PORT}
-            USER_SERVICE_HOST: ${USER_SERVICE_HOST}
+            USER_SERVICE_HOST: ${USER_SERVICE_HOST_DOCKER}
             USER_SERVICE_PORT: ${USER_SERVICE_PORT}
+            AUTH_SERVICE_HOST: ${AUTHENTICATION_SERVICE_HOST_DOCKER}
+            AUTH_SERVICE_PORT: ${AUTHENTICATION_SERVICE_PORT}
         networks:
             - network
 
-    post_db:
+    auth_mongo_db:
         image: mongo
-        container_name: post_db
+        container_name: auth_mongo_db
+        command: mongod --quiet --logpath /dev/null
         restart: on-failure
-        ports:
-            - 27017:27017
         networks:
             - network
-    user_db:
+        logging:
+            driver: none
+
+
+    user_mongo_db:
         image: mongo
-        container_name: job_db
+        container_name: user_mongo_db
+        command: mongod --quiet --logpath /dev/null
         restart: on-failure
-        #ports:
-        # - 27018:27017
         networks:
             - network
-    
-    mongo-express:
-        image: mongo-express
-        restart: always
-        ports:
-            - 8081:8081
-        environment:
-            ME_CONFIG_MONGODB_URL: mongodb://post_db:27017
+        logging:
+            driver: none
+
+    post_mongo_db:
+        image: mongo
+        container_name: post_mongo_db
+        command: mongod --quiet --logpath /dev/null
+        restart: on-failure
         networks:
             - network
-        volumes:
-            - ./mongo_post_db:/data/db
-        
-    mongo-express_job:
-        image: mongo-express
-        restart: always
-        ports:
-            - 8082:8081
-        environment:
-            ME_CONFIG_MONGODB_URL: mongodb://job_db:27017
-        networks:
-            - network
-        volumes:
-            - ./mongo_job_db:/data/db
+        logging:
+            driver: none
 
 networks:
     network:
         driver: bridge
-
-#volumes:
-#    mongo_post_db:
-#        mongo_job_db:
-#web:
-#  env_file:
-#    - dev.env
