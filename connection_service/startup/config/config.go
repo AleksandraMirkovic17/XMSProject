@@ -1,5 +1,10 @@
 package config
 
+import (
+	"github.com/joho/godotenv"
+	"os"
+)
+
 type Config struct {
 	Port          string
 	Host          string
@@ -15,16 +20,21 @@ type Config struct {
 
 func NewConfig() *Config {
 	return &Config{
-		Host: "localhost",
-		Port: "8001",
+		Host: LoadEnvVariable("CONNECTION_SERVICE_HOST"),
+		Port: LoadEnvVariable("CONNECTION_SERVICE_PORT"),
 
-		Neo4jUri:      "bolt",
-		Neo4jHost:     "localhost",
-		Neo4jPort:     "7687",
-		Neo4jUsername: "neo4j",
-		Neo4jPassword: "neo4j",
+		Neo4jUri:      LoadEnvVariable("NEO4J_URI"),
+		Neo4jHost:     LoadEnvVariable("NEO4J_HOST"),
+		Neo4jPort:     LoadEnvVariable("NEO4J_PORT"),
+		Neo4jUsername: LoadEnvVariable("NEO4J_USERNAME"),
+		Neo4jPassword: LoadEnvVariable("NEO4J_PASSWORD"),
 
-		UserHost: "localhost",
-		UserPort: "8089",
+		UserHost: LoadEnvVariable("USER_SERVICE_HOST"),
+		UserPort: LoadEnvVariable("USER_SERVICE_PORT"),
 	}
+}
+
+func LoadEnvVariable(key string) string {
+	godotenv.Load("../.env")
+	return os.Getenv(key)
 }

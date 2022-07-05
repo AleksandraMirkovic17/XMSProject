@@ -12,8 +12,8 @@ import (
 )
 
 const (
-	DATABASE   = "post_db"
-	COLLECTION = "post"
+	DATABASE   = "connections_db"
+	COLLECTION = "connections"
 )
 
 type ConnectionDBStore struct {

@@ -6,6 +6,7 @@ replace github.com/dislinked/common => ../common
 
 require (
 	github.com/dislinked/common v0.0.0-00010101000000-000000000000
+	github.com/joho/godotenv v1.4.0
 	github.com/neo4j/neo4j-go-driver/v4 v4.4.3
 	google.golang.org/genproto v0.0.0-20220617124728-180714bec0ad
 	google.golang.org/grpc v1.47.0
