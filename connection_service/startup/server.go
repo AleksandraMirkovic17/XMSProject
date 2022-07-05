@@ -13,6 +13,8 @@ import (
 	"ConnectionService/startup/config"
 
 	connection "github.com/dislinked/common/proto/connection_service"
+	saga "github.com/dislinked/common/saga/messaging"
+	"github.com/dislinked/common/saga/messaging/nats"
 
 	"github.com/neo4j/neo4j-go-driver/v4/neo4j"
 	"google.golang.org/grpc"
@@ -46,12 +48,32 @@ func (server *Server) Start() {
 	server.startGrpcServer(connectionHandler)
 }
 
-/*func (server *Server) initRegisterUserHandler(connectionService *application.ConnectionService, publisher saga.Publisher, subscriber saga.Subscriber) {
+func (server *Server) initRegisterUserHandler(connectionService *application.ConnectionService, publisher saga.Publisher, subscriber saga.Subscriber) {
 	_, err := api.NewRegisterUserCommandHandler(connectionService, publisher, subscriber)
 	if err != nil {
 		log.Fatal(err)
 	}
-}*/
+}
+
+func (server *Server) initPublisher(subject string) saga.Publisher {
+	publisher, err := nats.NewNATSPublisher(
+		server.config.NatsHost, server.config.NatsPort,
+		server.config.NatsUser, server.config.NatsPass, subject)
+	if err != nil {
+		log.Fatal(err)
+	}
+	return publisher
+}
+
+func (server *Server) initSubscriber(subject, queueGroup string) saga.Subscriber {
+	subscriber, err := nats.NewNATSSubscriber(
+		server.config.NatsHost, server.config.NatsPort,
+		server.config.NatsUser, server.config.NatsPass, subject, queueGroup)
+	if err != nil {
+		log.Fatal(err)
+	}
+	return subscriber
+}
 
 func (server *Server) initNeo4J() *neo4j.Driver {
 	fmt.Println(fmt.Sprintf("%s://%s:%s", server.config.Neo4jUri, server.config.Neo4jHost, server.config.Neo4jPort))

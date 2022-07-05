@@ -1,10 +1,11 @@
 package api
 
-/*import (
+import (
+	"ConnectionService/application"
 	"fmt"
-	events "github.com/XWS-BSEP-TIM2/dislinkt-backend/common/saga/create_order"
-	saga "github.com/XWS-BSEP-TIM2/dislinkt-backend/common/saga/messaging"
-	"github.com/XWS-BSEP-TIM2/dislinkt-backend/connection_service/application"
+
+	events "github.com/dislinked/common/saga/create_order"
+	saga "github.com/dislinked/common/saga/messaging"
 )
 
 type RegisterUserCommandHandler struct {
@@ -47,4 +48,4 @@ func (handler *RegisterUserCommandHandler) handle(command *events.RegisterUserCo
 	if reply.Type != events.UnknownReply {
 		_ = handler.replyPublisher.Publish(reply)
 	}
-}*/
+}
