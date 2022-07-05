@@ -53,6 +53,28 @@ services:
         networks:
             - network
 
+    connection_service:
+        image: connection_service
+        container_name: connection_service
+        build:
+            context: .
+            dockerfile: ./connection_service/Dockerfile
+        restart: on-failure
+        environment:
+            CONNECTION_SERVICE_HOST: ${CONNECTION_SERVICE_HOST_DOCKER}
+            CONNECTION_SERVICE_PORT: ${CONNECTION_SERVICE_PORT}
+            NEO4J_URI: ${NEO4J_URI}
+            NEO4J_HOST: ${NEO4J_HOST_DOCKER}
+            NEO4J_PORT: ${NEO4J_PORT}
+            NEO4J_USERNAME: ${NEO4J_USERNAME}
+            NEO4J_PASSWORD: ${NEO4J_PASSWORD}
+            USER_SERVICE_HOST: ${USER_SERVICE_HOST_DOCKER}
+            USER_SERVICE_PORT: ${USER_SERVICE_PORT}
+        depends_on:
+            - neo4j
+        networks:
+            - network
+
     api_gateway:
         image: api_gateway
         container_name: api_gateway
@@ -103,6 +125,20 @@ services:
             - network
         logging:
             driver: none
+
+    neo4j:
+        image: neo4j:4.3.3
+        container_name: neo4j
+        hostname: neo4j
+        restart: on-failure
+        ports:
+            - ${NEO4J_PORT}:${NEO4J_PORT}
+            - ${NEO4J_PORT_2}:${NEO4J_PORT_2}
+        environment:
+            NEO4J_AUTH: none
+            NEO4J_dbms_allow__upgrade: 'true'
+        networks:
+            - network
 
 networks:
     network:
