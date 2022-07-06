@@ -12,7 +12,6 @@ require (
 )
 
 require (
-	github.com/XWS-BSEP-TIM2/dislinkt-backend/common v0.0.0-20220705071529-74b898abad7c // indirect
 	github.com/golang/protobuf v1.5.2 // indirect
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.10.3 // indirect
 	github.com/klauspost/compress v1.15.7 // indirect
