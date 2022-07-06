@@ -18,17 +18,19 @@ type AuthenticationMongoDBStore struct {
 	users *mongo.Collection
 }
 
-func NewAuthenticationMongoDBStore(client *mongo.Client) domain.UserStore {
+func NewAuthenticationMongoDBStore(client *mongo.Client) *AuthenticationMongoDBStore {
 	users := client.Database(DATABASE).Collection(COLLECTION)
-	return &AuthenticationMongoDBStore{users: users}
+	return &AuthenticationMongoDBStore{
+		users: users,
+	}
 }
 
-func (store *AuthenticationMongoDBStore) Create(user *domain.User) error {
+func (store *AuthenticationMongoDBStore) Create(user *domain.User) (primitive.ObjectID, error) {
 	_, err := store.users.InsertOne(context.TODO(), user)
 	if err != nil {
-		return err
+		return primitive.ObjectID{}, err
 	}
-	return nil
+	return user.ID, nil
 }
 
 func (store *AuthenticationMongoDBStore) GetAll() ([]*domain.User, error) {

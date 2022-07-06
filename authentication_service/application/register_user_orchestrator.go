@@ -24,7 +24,7 @@ func NewRegisterUserOrchestrator(publisher saga.Publisher, subscriber saga.Subsc
 
 func (o *RegisterUserOrchestrator) Start(userDetails events.UserDetails) error {
 	event := &events.RegisterUserCommand{
-		Type:  events.CreateUserProfile,
+		Type:  events.AuthenticationServiceUpdate,
 		Order: userDetails,
 	}
 
@@ -41,16 +41,23 @@ func (o *RegisterUserOrchestrator) handle(reply *events.RegisterUserReply) {
 
 func (o *RegisterUserOrchestrator) nextCommandType(reply events.RegisterUserReplyType) events.RegisterUserCommandType {
 	switch reply {
-	case events.UserCredentialsCreated:
-		return events.CreateUserProfile
 	case events.UserProfileCreated:
-		return events.CreateNodeInConnectionBase
+		return events.AuthenticationServiceUpdate
 	case events.UserProfileNotCreated:
-		return events.RollbackCreateUserCredentials
+		return events.CancelRegistration
+
+	case events.AuthenticationServiceUpdated:
+		return events.CreateUserNode
+	case events.AuthenticationServiceNotUpdated:
+		return events.RollebackUserProfile
+	case events.AuthenticationServiceRolledBack:
+		return events.RollebackUserProfile
+
+	case events.UserNodeCreated:
+		return events.ApproveRegistration
 	case events.UserNodeFailedToCreate:
-		return events.RollbackCreateUserProfile
-	case events.DoneRollbackOfProfile:
-		return events.RollbackCreateUserCredentials
+		return events.RollbackAuthenticationService
+
 	default:
 		return events.UnknownCommand
 	}

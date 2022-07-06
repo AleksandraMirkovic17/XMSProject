@@ -3,7 +3,6 @@ package application
 import (
 	"AuthenticationService/domain"
 	"errors"
-
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
@@ -46,21 +45,17 @@ func (service *AuthenticationService) Login(credentials *domain.Credentials) (*d
 	return &token, nil
 }
 
-func (service *AuthenticationService) Register(user *domain.User) (*domain.User, error) {
+func (service *AuthenticationService) Register(user *domain.User) (primitive.ObjectID, error) {
 	dbUser, _ := service.store.GetByUsername((*user).Username)
 	if (*dbUser).Username != "" {
 		err := errors.New("username already exists")
-		return nil, err
+		return primitive.ObjectID{}, err
 	}
-
-	var err error
+	err := service.store.Create(user)
 	if err != nil {
-		err := errors.New("error in hashing password")
-		return nil, err
+		return primitive.ObjectID{}, err
 	}
-
-	err = service.store.Create(user)
-	return nil, err
+	return user.ID, err
 }
 
 func (service *AuthenticationService) DeleteById(id primitive.ObjectID) error {

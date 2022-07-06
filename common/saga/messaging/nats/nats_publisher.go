@@ -1,7 +1,7 @@
 package nats
 
 import (
-	saga "github.com/common/saga/messaging"
+	saga "github.com/dislinked/common/saga/messaging"
 	"github.com/nats-io/nats.go"
 )
 

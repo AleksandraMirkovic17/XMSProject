@@ -3,6 +3,7 @@ package api
 import (
 	"AuthenticationService/application"
 	"context"
+	"net/http"
 	"time"
 
 	pb "github.com/dislinked/common/proto/authentication_service"
@@ -36,21 +37,27 @@ func (handler *AuthenticationHandler) Login(ctx context.Context, request *pb.Log
 
 func (handler *AuthenticationHandler) Register(ctx context.Context, request *pb.RegisterRequest) (*pb.RegisterResponse, error) {
 	user := mapUserToDomain(request.User)
-	newUser, err := handler.service.Register(user)
+	_, err := handler.service.Register(user) //registruje se prosledjeni user
 	if err != nil {
-		return nil, status.Error(400, "Username already exists!")
+		return nil, status.Error(http.StatusBadRequest, "Username already exists!")
 	}
 	dateOfBirth, _ := time.Parse("2006-01-02T15:04", request.User.DateOfBirth)
-	handler.RegisterUserOrchestrator.Start(events.UserDetails{Id: user.ID.Hex(), Birthday: dateOfBirth,
-		Name:     request.User.Name,
-		Surname:  request.User.Surname,
-		Username: request.User.Username,
-		Email:    request.User.Email, Gender: request.User.Gender.String(),
+	handler.RegisterUserOrchestrator.Start(events.UserDetails{
+		Id:          request.User.Id,
+		Name:        request.User.Name,
+		Surname:     request.User.Surname,
+		Username:    request.User.Username,
+		Password:    request.User.Username,
+		Email:       request.User.Email,
+		Birthday:    dateOfBirth,
+		Gender:      mapAuthGenderToCreateOrderGender(request.User.Gender),
+		Role:        mapAuthRoleToCreateOrderRole(request.User.Role),
 		PhoneNumber: request.User.ContactPhone,
-		IsPublic:    request.User.Public})
+		IsPublic:    request.User.Public,
+	})
 
 	response := &pb.RegisterResponse{
-		Username: newUser.Username,
+		Username: request.User.Username,
 	}
 	return response, nil
 }

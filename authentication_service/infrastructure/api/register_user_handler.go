@@ -34,19 +34,26 @@ func (handler *CreateOrderCommandHandler) handle(command *events.RegisterUserCom
 	if err != nil {
 		return
 	}
-	order := &domain.User{ID: id}
+	order := &domain.User{ID: id} //ovde se postavlja id
 
 	reply := events.RegisterUserReply{Order: command.Order}
 
 	switch command.Type {
+	case events.AuthenticationServiceUpdate:
+		_, err := handler.orderService.Register(mapCommandToAuthUser(command))
+		if err != nil {
+			reply.Type = events.AuthenticationServiceNotUpdated
+			return
+		}
+		reply.Type = events.AuthenticationServiceUpdated
 
-	case events.RollbackCreateUserProfile:
-		fmt.Println("Auth service:Rollback kredencijala")
+	case events.RollbackAuthenticationService:
+		fmt.Println("Auth service:Rollback authentication servisa")
 		err := handler.orderService.DeleteById(order.ID)
 		if err != nil {
 			return
 		}
-		reply.Type = events.UserNotRegistered
+		reply.Type = events.AuthenticationServiceRolledBack
 	default:
 		reply.Type = events.UnknownReply
 	}

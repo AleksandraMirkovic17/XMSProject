@@ -2,6 +2,7 @@ package api
 
 import (
 	"AuthenticationService/domain"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 
 	pb "github.com/dislinked/common/proto/authentication_service"
 )
@@ -16,7 +17,12 @@ func mapUserToPB(user *domain.User) *pb.User {
 }
 
 func mapUserToDomain(user *pb.User) *domain.User {
+	id, err := primitive.ObjectIDFromHex((*user).Id)
+	if err != nil {
+		return nil
+	}
 	userDomain := &domain.User{
+		ID:       id,
 		Username: (*user).Username,
 		Password: (*user).Password,
 		Role:     (*user).Role.String(),

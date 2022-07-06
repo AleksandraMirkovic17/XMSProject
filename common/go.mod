@@ -1,4 +1,4 @@
-module github.com/common
+module github.com/dislinked/common
 
 go 1.18
 
