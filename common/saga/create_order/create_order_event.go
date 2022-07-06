@@ -11,7 +11,7 @@ type UserDetails struct {
 	Birthday    time.Time
 	Gender      string
 	PhoneNumber string
-	IsPrivate   bool
+	IsPublic    bool
 }
 
 type RegisterUserCommandType int8
@@ -38,8 +38,8 @@ const (
 	UserCredentialsCreated RegisterUserReplyType = iota
 	UserProfileCreated
 	UserProfileNotCreated
-	NodeInConnectionBaseCreated
-	NodeInConnectionBaseNotCreated
+	UserNodeCreated
+	UserNodeFailedToCreate
 	DoneRollbackOfProfile
 	UserNotRegistered
 	UnknownReply

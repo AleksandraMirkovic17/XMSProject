@@ -37,9 +37,9 @@ func (handler *RegisterUserCommandHandler) handle(command *events.RegisterUserCo
 		err, _ := handler.connectionService.Register(command.Order.Id, command.Order.IsPrivate)
 		if err.Status != 201 {
 			fmt.Println("Connection service:Ne mogu da kreiram node")
-			reply.Type = events.NodeInConnectionBaseNotCreated
+			reply.Type = events.UserNodeFailedToCreate
 		} else {
-			reply.Type = events.NodeInConnectionBaseCreated
+			reply.Type = events.UserNodeCreated
 		}
 	default:
 		reply.Type = events.UnknownReply

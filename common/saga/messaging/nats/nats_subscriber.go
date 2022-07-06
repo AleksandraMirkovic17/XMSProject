@@ -1,7 +1,7 @@
 package nats
 
 import (
-	saga "github.com/XWS-BSEP-TIM2/dislinkt-backend/common/saga/messaging"
+	saga "github.com/common/saga/messaging"
 	"github.com/nats-io/nats.go"
 )
 

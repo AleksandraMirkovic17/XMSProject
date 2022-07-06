@@ -16,10 +16,6 @@ func NewJwtManager() *JwtManager {
 	}
 }
 
-func (manager *JwtManager) GenerateHashPassword(password string) (string, error) {
-	return password, nil
-}
-
 func (manager *JwtManager) GenerateJWT(username, role string) (string, error) {
 	var mySigningKey = []byte(manager.secretKey)
 	token := jwt.New(jwt.SigningMethodHS256)
@@ -39,6 +35,6 @@ func (manager *JwtManager) GenerateJWT(username, role string) (string, error) {
 	return tokenString, nil
 }
 
-func (manager *JwtManager) CheckPasswordHash(password, hash string) bool {
-	return password == hash
+func (manager *JwtManager) CheckPasswordHash(password, dbPass string) bool {
+	return password == dbPass
 }

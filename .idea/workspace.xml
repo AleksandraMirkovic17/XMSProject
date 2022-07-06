@@ -5,12 +5,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="73e9022d-bf7f-4b1c-95b0-7a9024d84ed5" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/connection_service/Dockerfile" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/common/proto/connection_service/connection_service.pb.go" beforeDir="false" afterPath="$PROJECT_DIR$/common/proto/connection_service/connection_service.pb.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/common/proto/connection_service/connection_service.pb.gw.go" beforeDir="false" afterPath="$PROJECT_DIR$/common/proto/connection_service/connection_service.pb.gw.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/common/proto/connection_service/connection_service_grpc.pb.go" beforeDir="false" afterPath="$PROJECT_DIR$/common/proto/connection_service/connection_service_grpc.pb.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/authentication_service/application/authentication_service.go" beforeDir="false" afterPath="$PROJECT_DIR$/authentication_service/application/authentication_service.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/authentication_service/application/jwt_manager.go" beforeDir="false" afterPath="$PROJECT_DIR$/authentication_service/application/jwt_manager.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/authentication_service/application/register_user_orchestrator.go" beforeDir="false" afterPath="$PROJECT_DIR$/authentication_service/application/register_user_orchestrator.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/authentication_service/infrastructure/api/authentication_grpc_api.go" beforeDir="false" afterPath="$PROJECT_DIR$/authentication_service/infrastructure/api/authentication_grpc_api.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/common/go.mod" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/common/go.sum" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/proto/authentication_service/authentication_service.proto" beforeDir="false" afterPath="$PROJECT_DIR$/common/proto/authentication_service/authentication_service.proto" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/saga/create_order/create_order_event.go" beforeDir="false" afterPath="$PROJECT_DIR$/common/saga/create_order/create_order_event.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/saga/messaging/nats/nats_publisher.go" beforeDir="false" afterPath="$PROJECT_DIR$/common/saga/messaging/nats/nats_publisher.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/saga/messaging/nats/nats_subscriber.go" beforeDir="false" afterPath="$PROJECT_DIR$/common/saga/messaging/nats/nats_subscriber.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/connection_service/infrastructure/api/register_user_handler.go" beforeDir="false" afterPath="$PROJECT_DIR$/connection_service/infrastructure/api/register_user_handler.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

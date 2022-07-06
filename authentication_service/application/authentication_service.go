@@ -54,7 +54,6 @@ func (service *AuthenticationService) Register(user *domain.User) (*domain.User,
 	}
 
 	var err error
-	(*user).Password, err = service.jwtManager.GenerateHashPassword((*user).Password)
 	if err != nil {
 		err := errors.New("error in hashing password")
 		return nil, err

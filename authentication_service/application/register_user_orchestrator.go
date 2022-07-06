@@ -47,7 +47,7 @@ func (o *RegisterUserOrchestrator) nextCommandType(reply events.RegisterUserRepl
 		return events.CreateNodeInConnectionBase
 	case events.UserProfileNotCreated:
 		return events.RollbackCreateUserCredentials
-	case events.NodeInConnectionBaseNotCreated:
+	case events.UserNodeFailedToCreate:
 		return events.RollbackCreateUserProfile
 	case events.DoneRollbackOfProfile:
 		return events.RollbackCreateUserCredentials

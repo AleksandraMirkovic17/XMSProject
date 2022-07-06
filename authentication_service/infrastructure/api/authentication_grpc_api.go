@@ -41,7 +41,13 @@ func (handler *AuthenticationHandler) Register(ctx context.Context, request *pb.
 		return nil, status.Error(400, "Username already exists!")
 	}
 	dateOfBirth, _ := time.Parse("2006-01-02T15:04", request.User.DateOfBirth)
-	handler.RegisterUserOrchestrator.Start(events.UserDetails{Id: user.ID.Hex(), Birthday: dateOfBirth, Name: request.User.Name, Surname: request.User.Surname, Username: request.User.Username, Email: request.User.Email, Gender: request.User.Gender.String(), PhoneNumber: request.User.ContactPhone, IsPrivate: !request.User.Public})
+	handler.RegisterUserOrchestrator.Start(events.UserDetails{Id: user.ID.Hex(), Birthday: dateOfBirth,
+		Name:     request.User.Name,
+		Surname:  request.User.Surname,
+		Username: request.User.Username,
+		Email:    request.User.Email, Gender: request.User.Gender.String(),
+		PhoneNumber: request.User.ContactPhone,
+		IsPublic:    request.User.Public})
 
 	response := &pb.RegisterResponse{
 		Username: newUser.Username,

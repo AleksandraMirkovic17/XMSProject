@@ -43,12 +43,6 @@ enum UserRole{
 	Agent = 2;
 }
 
-enum EducationType{
-	PRIMARY_EDUCATION = 0;
-	SECONDARY_EDUCATION = 1;
-	COLLEGE_EDUCATION = 2;
-}
-
 message User {
 	string id = 1;
 	string username = 2;
