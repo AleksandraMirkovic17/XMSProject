@@ -1,14 +1,18 @@
 package com.agentska.model;
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.persistence.*;
 
 import com.agentska.dto.UserDTO;
+import com.agentska.model.Role;
 
 @Entity
 @Table(name = "user_table")
 public class User {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private long id;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	protected Integer id;
 	
 	@Column(name = "username")
 	private String username;
@@ -17,9 +21,17 @@ public class User {
 	@Column(name = "password")
 	private String password;
 	
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(	name = "user_roles", 
+				joinColumns = @JoinColumn(name = "user_id"), 
+				inverseJoinColumns = @JoinColumn(name = "role_id"))
+	private Set<Role> roles = new HashSet<>();
+	
+	boolean activated = false;
+	
 	public User() {
 	}
-	
+
 	public User(String username, String email, String password) {
 		this.username = username;
 		this.email = email;
@@ -32,7 +44,7 @@ public class User {
 		this.password = userDTO.getPassword();
 	}
 	
-	public long getId() {
+	public Integer getId() {
 		return id;
 	}
 	public String getUsername() {
@@ -53,6 +65,19 @@ public class User {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+	public Set<Role> getRoles() {
+		return roles;
+	}
+	public void setRoles(Set<Role> roles) {
+		this.roles = roles;
+	}
+	public boolean isActivated() {
+		return activated;
+	}
+	public void setActivated(boolean activated) {
+		this.activated = activated;
+	}
+
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", username=" + username + ", email=" + email + ", password=" + password + "]";

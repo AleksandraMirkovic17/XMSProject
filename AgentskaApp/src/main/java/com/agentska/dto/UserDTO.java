@@ -5,6 +5,8 @@ public class UserDTO {
 	private String email;
 	private String password;
 	
+	public UserDTO() {}
+	
 	public UserDTO(String username, String email, String password) {
 		super();
 		this.username = username;

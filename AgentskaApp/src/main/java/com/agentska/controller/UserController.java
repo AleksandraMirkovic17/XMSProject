@@ -1,14 +1,18 @@
 package com.agentska.controller;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.crypto.password.PasswordEncoder;
 //import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -25,6 +29,10 @@ import com.agentska.dto.UserDTO;
 import com.agentska.model.User;
 import com.agentska.repository.UserRepository;
 import com.agentska.service.UserService;
+import com.agentska.repository.TokenRepository;
+import com.agentska.model.VerificationToken;
+import com.agentska.event.OnRegistrationCompleteEvent;
+import com.agentska.jwt.JwtUtils;
 
 @CrossOrigin(origins = "http://localhost:8081")
 @RestController
@@ -33,7 +41,17 @@ public class UserController {
 	@Autowired
 	UserService userService;
 	@Autowired
+	PasswordEncoder encoder;
+	@Autowired
+	JwtUtils jwtUtils;
+	@Autowired
 	UserRepository UserRepository; // TODO: Remove
+	@Autowired
+	TokenRepository tokenRepository;
+	
+	@Autowired
+	ApplicationEventPublisher eventPublisher;
+	
 	@GetMapping("/users")
 	public ResponseEntity<List<User>> getAllUsers(@RequestParam(required = false) String username) {
 		try {
@@ -70,10 +88,12 @@ public class UserController {
 		}
 	}
 	
-	@PostMapping("/register")
-	//@PreAuthorize("not(isAuthenticated())")
+	
+	@PostMapping("users/register")
+	@PreAuthorize("not(isAuthenticated())")
 	public ResponseEntity<String> register(@RequestBody UserDTO signUpRequest, HttpServletRequest request)
 	{
+		System.out.println("here1");
 		if (userService.findByEmail(signUpRequest.getEmail()) != null) {
 			return ResponseEntity
 					.badRequest()
@@ -84,14 +104,14 @@ public class UserController {
 					.badRequest()
 					.body("Error: Username is already taken!");
 		}
-		//signUpRequest.setPassword(encoder.encode(signUpRequest.getPassword())); // TODO: Add encoder
+		signUpRequest.setPassword(encoder.encode(signUpRequest.getPassword())); // TODO: Add encoder
 		signUpRequest.setPassword(signUpRequest.getPassword());
 		User registeredUser = new User(signUpRequest);
 		userService.registerUser(registeredUser);
 		
 		String appUrl = request.getContextPath();
-        //eventPublisher.publishEvent(new OnRegistrationCompleteEvent(registeredUser,  // WTF je ovo
-        //  request.getLocale(), appUrl));
+        eventPublisher.publishEvent(new OnRegistrationCompleteEvent(registeredUser,
+          request.getLocale(), appUrl));
 		return new ResponseEntity<>(
 			      "Registration successful!", 
 			      HttpStatus.OK);
@@ -128,18 +148,28 @@ public class UserController {
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
-	/*
-	@GetMapping("/users/published")
-	public ResponseEntity<List<User>> findByPublished() {
-		try {
-			List<User> Users = UserRepository.findByPublished(true);
-			if (Users.isEmpty()) {
-				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-			}
-			return new ResponseEntity<>(Users, HttpStatus.OK);
-		} catch (Exception e) {
-			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-		}
+	@GetMapping("user/registration_confirm")
+	public ResponseEntity<String> confirmRegistration(@RequestParam("token") String token) {
+		
+	    VerificationToken verificationToken = tokenRepository.findByToken(token).orElse(null);
+	    if (verificationToken == null) {
+	    	return new ResponseEntity<>(
+				      "Verification token not found!", 
+				      HttpStatus.NOT_FOUND);
+	    }
+	    
+	    User user = verificationToken.getUser();
+	    Calendar cal = Calendar.getInstance();
+	    if ((verificationToken.getExpiryDate().getTime() - cal.getTime().getTime()) <= 0) {
+	    	return new ResponseEntity<>(
+				      "Verification token expired!", 
+				      HttpStatus.BAD_REQUEST);
+	    } 
+	    
+	    user.setActivated(true); 
+	    userService.save(user); 
+	    return new ResponseEntity<>(
+			      "Successful verification!", 
+			      HttpStatus.OK);
 	}
-	*/
 }
