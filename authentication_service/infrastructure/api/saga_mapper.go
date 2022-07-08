@@ -31,23 +31,23 @@ func mapCommandRoleToAuthRole(role create_order.Role) string {
 	return "Regular"
 }
 
-func mapAuthRoleToCreateOrderRole(role pb.UserRole) events.Role {
+func mapAuthRoleToCreateOrderRole(role pb.UserRoleAuth) events.Role {
 	switch role {
-	case pb.UserRole_Regular:
+	case pb.UserRoleAuth_RegularAuth:
 		return events.Regular
-	case pb.UserRole_Admin:
+	case pb.UserRoleAuth_AdminAuth:
 		return events.Admin
-	case pb.UserRole_Agent:
-		return events.Regular
+	case pb.UserRoleAuth_AgentAuth:
+		return events.Agent
 	}
 	return events.Regular
 
 }
-func mapAuthGenderToCreateOrderGender(gender pb.Gender) events.Gender {
+func mapAuthGenderToCreateOrderGender(gender pb.GenderAuth) events.Gender {
 	switch gender {
-	case pb.Gender_Male:
+	case pb.GenderAuth_MaleAuth:
 		return events.MALE
-	case pb.Gender_Female:
+	case pb.GenderAuth_FemaleAuth:
 		return events.FEMALE
 	}
 	return events.Empty

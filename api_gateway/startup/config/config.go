@@ -26,6 +26,8 @@ func NewConfig() *Config {
 		UserPort: LoadEnvVariable("USER_SERVICE_PORT"),
 		AuthHost: LoadEnvVariable("AUTHENTICATION_SERVICE_HOST"),
 		AuthPort: LoadEnvVariable("AUTHENTICATION_SERVICE_PORT"),
+		ConnHost: LoadEnvVariable("CONNECTION_SERVICE_HOST"),
+		ConnPort: LoadEnvVariable("CONNECTION_SERVICE_PORT"),
 	}
 }
 

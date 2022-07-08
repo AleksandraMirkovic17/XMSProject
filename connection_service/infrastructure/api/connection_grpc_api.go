@@ -20,6 +20,13 @@ func NewConnectionHandler(service *application.ConnectionService) *ConnectionHan
 	}
 }
 
+func (handler *ConnectionHandler) Register(ctx context.Context, request *pb.RegisterRequest) (*pb.ActionResult, error) {
+	fmt.Println("[ConnectionHandler]:Register")
+	userID := request.User.UserID
+	isPublic := !request.User.IsPrivate
+	return handler.service.Register(userID, isPublic)
+}
+
 func (handler *ConnectionHandler) GetFriends(ctx context.Context, request *pb.GetRequest) (*pb.Users, error) {
 
 	fmt.Println("[ConnectionHandler]:GetFriends")
@@ -69,12 +76,6 @@ func (handler *ConnectionHandler) GetFriendRequests(ctx context.Context, request
 	return response, nil
 }
 
-func (handler *ConnectionHandler) Register(ctx context.Context, request *pb.RegisterRequest) (*pb.ActionResult, error) {
-	fmt.Println("[ConnectionHandler]:Register")
-	userID := request.User.UserID
-	isPrivate := request.User.IsPrivate
-	return handler.service.Register(userID, isPrivate)
-}
 func (handler *ConnectionHandler) AddFriend(ctx context.Context, request *pb.AddFriendRequest) (*pb.ActionResult, error) {
 	fmt.Println("[ConnectionHandler]:AddFriend")
 	userIDa := request.AddFriendDTO.UserIDa

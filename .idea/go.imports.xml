@@ -3,6 +3,7 @@
   <component name="GoImports">
     <option name="excludedPackages">
       <array>
+        <option value="context" />
         <option value="errors" />
       </array>
     </option>

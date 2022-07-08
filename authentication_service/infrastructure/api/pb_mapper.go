@@ -7,8 +7,8 @@ import (
 	pb "github.com/dislinked/common/proto/authentication_service"
 )
 
-func mapUserToPB(user *domain.User) *pb.User {
-	userPb := &pb.User{
+func mapUserToPB(user *domain.User) *pb.UserAuth {
+	userPb := &pb.UserAuth{
 		Username: user.Username,
 		Password: user.Password,
 		Role:     mapRoleToPb(user.Role),
@@ -16,7 +16,7 @@ func mapUserToPB(user *domain.User) *pb.User {
 	return userPb
 }
 
-func mapUserToDomain(user *pb.User) *domain.User {
+func mapUserToDomain(user *pb.UserAuth) *domain.User {
 	id, err := primitive.ObjectIDFromHex((*user).Id)
 	if err != nil {
 		return nil
@@ -47,14 +47,14 @@ func mapCredentialsToDomain(credentials *pb.Credentials) *domain.Credentials {
 	return credentialsDomain
 }
 
-func mapRoleToPb(role string) pb.UserRole {
+func mapRoleToPb(role string) pb.UserRoleAuth {
 	switch role {
 	case "REGULAR":
-		return pb.UserRole_Regular
+		return pb.UserRoleAuth_RegularAuth
 	case "AGENT":
-		return pb.UserRole_Agent
+		return pb.UserRoleAuth_AgentAuth
 	case "ADMIN":
-		return pb.UserRole_Admin
+		return pb.UserRoleAuth_AdminAuth
 	}
-	return pb.UserRole_Regular
+	return pb.UserRoleAuth_RegularAuth
 }

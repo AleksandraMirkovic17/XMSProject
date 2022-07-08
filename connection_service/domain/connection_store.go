@@ -7,9 +7,9 @@ import (
 )
 
 type ConnectionStore interface {
+	Register(userID string, isPublic bool) (*pb.ActionResult, error)
 	GetFriends(id string) ([]UserConn, error)
 	GetBlockeds(userID string) ([]UserConn, error)
-	Register(userID string, isPublic bool) (*pb.ActionResult, error)
 	AddFriend(userIDa, userIDb string) (*pb.ActionResult, error)
 	AddBlockUser(userIDa, userIDb string) (*pb.ActionResult, error)
 	RemoveFriend(userIDa, userIDb string) (*pb.ActionResult, error)

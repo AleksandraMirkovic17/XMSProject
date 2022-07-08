@@ -170,7 +170,7 @@ func getFriendsOfFriendsButNotBlockedRecommendation(userID string, transaction n
 
 	var recommendation []*domain.UserConn
 	for result.Next() {
-		recommendation = append(recommendation, &domain.UserConn{UserID: result.Record().Values[0].(string), IsPrivate: result.Record().Values[1].(bool)})
+		recommendation = append(recommendation, &domain.UserConn{UserID: result.Record().Values[0].(string), IsPublic: result.Record().Values[1].(bool)})
 	}
 	return recommendation, nil
 }
@@ -193,7 +193,7 @@ func getFriendRecommendation(userID string, transaction neo4j.Transaction) ([]*d
 
 	var recommendation []*domain.UserConn
 	for result.Next() {
-		recommendation = append(recommendation, &domain.UserConn{UserID: result.Record().Values[0].(string), IsPrivate: result.Record().Values[1].(bool)})
+		recommendation = append(recommendation, &domain.UserConn{UserID: result.Record().Values[0].(string), IsPublic: result.Record().Values[1].(bool)})
 	}
 	return recommendation, nil
 }

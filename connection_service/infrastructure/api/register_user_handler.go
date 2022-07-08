@@ -2,8 +2,6 @@ package api
 
 import (
 	"ConnectionService/application"
-	"fmt"
-
 	events "github.com/dislinked/common/saga/create_order"
 	saga "github.com/dislinked/common/saga/messaging"
 )
@@ -30,13 +28,11 @@ func NewRegisterUserCommandHandler(connectionService *application.ConnectionServ
 func (handler *RegisterUserCommandHandler) handle(command *events.RegisterUserCommand) {
 
 	reply := events.RegisterUserReply{Order: command.Order}
-
 	switch command.Type {
 
-	case events.CreateNodeInConnectionBase:
-		err, _ := handler.connectionService.Register(command.Order.Id, command.Order.IsPrivate)
+	case events.CreateUserNode:
+		err, _ := handler.connectionService.Register(command.Order.Id, command.Order.IsPublic)
 		if err.Status != 201 {
-			fmt.Println("Connection service:Ne mogu da kreiram node")
 			reply.Type = events.UserNodeFailedToCreate
 		} else {
 			reply.Type = events.UserNodeCreated

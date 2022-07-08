@@ -51,7 +51,7 @@ func (service *AuthenticationService) Register(user *domain.User) (primitive.Obj
 		err := errors.New("username already exists")
 		return primitive.ObjectID{}, err
 	}
-	err := service.store.Create(user)
+	_, err := service.store.Create(user)
 	if err != nil {
 		return primitive.ObjectID{}, err
 	}

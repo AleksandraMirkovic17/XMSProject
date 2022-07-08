@@ -55,16 +55,19 @@ func (store *ConnectionDBStore) GetFriends(userID string) ([]domain.UserConn, er
 
 	friends, err := session.ReadTransaction(func(transaction neo4j.Transaction) (interface{}, error) {
 		result, err := transaction.Run(
-			"MATCH (this_user:USER) -[:FRIEND]-> (my_friend:USER) WHERE this_user.userID=$uID RETURN my_friend.userID, my_friend.isPrivate",
+			"MATCH (this_user:USER) -[:FRIEND]-> (my_friend:USER) "+
+				"WHERE this_user.userID=$uID RETURN my_friend.userID, my_friend.isPrivate",
 			map[string]interface{}{"uID": userID})
-
+		println("tu sam 1")
 		if err != nil {
 			return nil, err
 		}
-
+		println("tu sam 2")
 		var friends []domain.UserConn
 		for result.Next() {
-			friends = append(friends, domain.UserConn{UserID: result.Record().Values[0].(string), IsPrivate: result.Record().Values[1].(bool)})
+			println("dodavanje")
+			friends = append(friends, domain.UserConn{UserID: result.Record().Values[0].(string),
+				IsPublic: !result.Record().Values[1].(bool)})
 		}
 		return friends, nil
 
@@ -91,7 +94,7 @@ func (store *ConnectionDBStore) GetBlockeds(userID string) ([]domain.UserConn, e
 
 		var friends []domain.UserConn
 		for result.Next() {
-			friends = append(friends, domain.UserConn{UserID: result.Record().Values[0].(string), IsPrivate: result.Record().Values[1].(bool)})
+			friends = append(friends, domain.UserConn{UserID: result.Record().Values[0].(string), IsPublic: !result.Record().Values[1].(bool)})
 		}
 		return friends, nil
 
@@ -110,7 +113,7 @@ func (store *ConnectionDBStore) GetFriendRequests(userID string) ([]domain.UserC
 
 	friendsRequest, err := session.ReadTransaction(func(transaction neo4j.Transaction) (interface{}, error) {
 		result, err := transaction.Run(
-			"MATCH (this_user:USER) <-[:REQUEST]- (user_requester:USER) WHERE this_user.userID=$uID RETURN user_requester.userID, user_requester.isPrivate",
+			"MATCH (this_user:USER) <-[:REQUEST]- (user_requester:USER) WHERE this_user.userID=$uID RETURN user_requester.userID, user_requester.isPublic",
 			map[string]interface{}{"uID": userID})
 
 		if err != nil {
@@ -119,7 +122,7 @@ func (store *ConnectionDBStore) GetFriendRequests(userID string) ([]domain.UserC
 
 		var friendsRequest []domain.UserConn
 		for result.Next() {
-			friendsRequest = append(friendsRequest, domain.UserConn{UserID: result.Record().Values[0].(string), IsPrivate: result.Record().Values[1].(bool)})
+			friendsRequest = append(friendsRequest, domain.UserConn{UserID: result.Record().Values[0].(string), IsPublic: result.Record().Values[1].(bool)})
 		}
 		return friendsRequest, nil
 
@@ -131,8 +134,8 @@ func (store *ConnectionDBStore) GetFriendRequests(userID string) ([]domain.UserC
 	return friendsRequest.([]domain.UserConn), nil
 }
 
-func (store *ConnectionDBStore) Register(userID string, isPrivate bool) (*pb.ActionResult, error) {
-
+func (store *ConnectionDBStore) Register(userID string, isPublic bool) (*pb.ActionResult, error) {
+	fmt.Println("Creating user node!")
 	session := (*store.connectionDB).NewSession(neo4j.SessionConfig{AccessMode: neo4j.AccessModeWrite})
 	defer session.Close()
 
@@ -147,8 +150,8 @@ func (store *ConnectionDBStore) Register(userID string, isPrivate bool) (*pb.Act
 		}
 
 		_, err := transaction.Run(
-			"CREATE (new_user:USER{userID:$userID, isPrivate:$isPrivate})",
-			map[string]interface{}{"userID": userID, "isPrivate": isPrivate})
+			"CREATE (new_user:USER{userID:$userID, isPublic:$isPublic})",
+			map[string]interface{}{"userID": userID, "isPrivate": isPublic})
 
 		if err != nil {
 			actionResult.Msg = "error while creating new node with ID:" + userID
@@ -156,7 +159,7 @@ func (store *ConnectionDBStore) Register(userID string, isPrivate bool) (*pb.Act
 			return actionResult, err
 		}
 
-		actionResult.Msg = "successfully created new node with ID:" + userID
+		actionResult.Msg = "Successfully created new node with ID:" + userID
 		actionResult.Status = 201
 
 		return actionResult, err
@@ -195,7 +198,7 @@ func (store *ConnectionDBStore) AddFriend(userIDa, userIDb string) (*pb.ActionRe
 				return actionResult, nil
 			} else {
 				if checkIfBlockExist(userIDa, userIDb, transaction) || checkIfBlockExist(userIDb, userIDa, transaction) {
-					actionResult.Msg = "block already exist"
+					actionResult.Msg = "User is blocked"
 					actionResult.Status = 400 //bad request
 					return actionResult, nil
 				} else {
@@ -219,38 +222,6 @@ func (store *ConnectionDBStore) AddFriend(userIDa, userIDb string) (*pb.ActionRe
 						}
 					}
 
-					// dodavanje prijatelja
-
-					// create chet for them
-					/*chatReq := &pbMessage.CreateChatRequest{UserIDa: userIDa, UserIDb: userIDb}
-					createChatResponse, errCreateChat := store.MessageService.CreateChat(context.TODO(), chatReq)
-					if errCreateChat != nil {
-						actionResult.Msg = errCreateChat.Error()
-						return actionResult, errCreateChat
-					}
-					if createChatResponse.Status != 200 || createChatResponse.MsgID == "" {
-						actionResult.Msg = createChatResponse.Msg
-						return actionResult, nil
-					}
-					dateNow := time.Now().Local().Unix()
-					result, err := transaction.Run(
-						"MATCH (u1:USER) WHERE u1.userID=$uIDa "+
-							"MATCH (u2:USER) WHERE u2.userID=$uIDb "+
-							"CREATE (u1)-[r1:FRIEND {date: $dateNow, msgID: $msgID}]->(u2) "+
-							"CREATE (u2)-[r2:FRIEND {date: $dateNow, msgID: $msgID}]->(u1) "+
-							"RETURN r1.date, r2.date",
-						map[string]interface{}{"uIDa": userIDa, "uIDb": userIDb, "dateNow": dateNow, "msgID": createChatResponse.MsgID})
-
-					if err != nil || result == nil {
-						actionResult.Msg = "error while creating new friends IDa:" + userIDa + " and IDb:" + userIDb
-						actionResult.Status = 501
-						return actionResult, err
-					}*/
-
-					// brisanje zahteva za prijateljstvo za slucaj kada:
-					// userA je privatan, i dobija request od userB
-					// userA nije odgovorio na request, al je promenio svoj nalog iz private u public
-					// u slucaju da mogu da se dodaju kao prijatelji onda treba obrisati ove veze
 					if checkIfFriendRequestExist(userIDa, userIDb, transaction) {
 						removeFriendRequest(userIDa, userIDb, transaction)
 					}

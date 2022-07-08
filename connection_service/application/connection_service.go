@@ -23,6 +23,10 @@ func NewConnectionService(store domain.ConnectionStore, c *config.Config) *Conne
 	}
 }
 
+func (service *ConnectionService) Register(userID string, isPublic bool) (*pb.ActionResult, error) {
+	return service.store.Register(userID, isPublic)
+}
+
 func (service *ConnectionService) GetFriends(id string) ([]*domain.UserConn, error) {
 
 	var friendsRetVal []*domain.UserConn
@@ -32,7 +36,7 @@ func (service *ConnectionService) GetFriends(id string) ([]*domain.UserConn, err
 		return nil, nil
 	}
 	for _, s := range friends {
-		friendsRetVal = append(friendsRetVal, &domain.UserConn{UserID: s.UserID, IsPrivate: s.IsPrivate})
+		friendsRetVal = append(friendsRetVal, &domain.UserConn{UserID: s.UserID, IsPublic: s.IsPublic})
 	}
 	return friendsRetVal, nil
 }
@@ -46,17 +50,13 @@ func (service *ConnectionService) GetBlockeds(id string) ([]*domain.UserConn, er
 		return nil, nil
 	}
 	for _, s := range friends {
-		friendsRetVal = append(friendsRetVal, &domain.UserConn{UserID: s.UserID, IsPrivate: s.IsPrivate})
+		friendsRetVal = append(friendsRetVal, &domain.UserConn{UserID: s.UserID, IsPublic: s.IsPublic})
 	}
 	return friendsRetVal, nil
 }
 
 func (service *ConnectionService) GetFriendRequests(userID string) ([]domain.UserConn, error) {
 	return service.store.GetFriendRequests(userID)
-}
-
-func (service *ConnectionService) Register(userID string, isPublic bool) (*pb.ActionResult, error) {
-	return service.store.Register(userID, isPublic)
 }
 
 func (service *ConnectionService) AddFriend(userIDa, userIDb string) (*pb.ActionResult, error) {

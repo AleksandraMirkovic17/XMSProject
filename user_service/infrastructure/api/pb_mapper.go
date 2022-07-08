@@ -2,6 +2,7 @@ package api
 
 import (
 	"UserService/domain"
+	events "github.com/dislinked/common/saga/create_order"
 	"time"
 
 	dislinked "github.com/dislinked/common/proto/user_service"
@@ -159,6 +160,54 @@ func mapGenderPbToDomainGender(gender pb.Gender) domain.Gender {
 		return domain.Other
 	}
 	return domain.Other
+
+}
+
+func mapCommandRoleToDomainRole(role events.Role) domain.Role {
+	switch role {
+	case events.Agent:
+		return domain.Agent
+	case events.Admin:
+		return domain.Admin
+	case events.Regular:
+		return domain.Regular
+
+	}
+	return domain.Regular
+}
+
+func mapCommandGenderToDomainGender(gender events.Gender) domain.Gender {
+	switch gender {
+	case events.MALE:
+		return domain.MALE
+	case events.FEMALE:
+		return domain.FEMALE
+	case events.Empty:
+		return domain.Other
+	}
+	return domain.Other
+
+}
+
+func mapCommandToUser(command *events.RegisterUserCommand) *domain.User {
+	id, err := primitive.ObjectIDFromHex(command.Order.Id)
+	if err != nil {
+		return nil
+	}
+	user := &domain.User{
+		Id:          id,
+		Name:        command.Order.Name,
+		Surname:     command.Order.Surname,
+		Username:    command.Order.Username,
+		Email:       command.Order.Email,
+		Password:    command.Order.Password,
+		Phone:       command.Order.PhoneNumber,
+		Gender:      mapCommandGenderToDomainGender(command.Order.Gender),
+		Role:        mapCommandRoleToDomainRole(command.Order.Role),
+		DateOfBirth: command.Order.Birthday,
+		Public:      command.Order.IsPublic,
+	}
+	return user
 
 }
 

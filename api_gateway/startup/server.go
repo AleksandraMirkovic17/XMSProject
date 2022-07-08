@@ -30,8 +30,15 @@ func NewServer(config *cfg.Config) *Server {
 		mux:    runtime.NewServeMux(),
 	}
 	server.initHandlers()
+	//server.initCustomHandlers()
 	return server
 }
+
+/*func (server *Server) initCustomHandlers() {
+	postEndpoint := fmt.Sprintf("%s:%s", server.config.PostHost, server.config.PostPort)
+	connectionEndpoint := fmt.Sprintf("%s:%s", server.config.ConnHost, server.config.ConnPort)
+
+}*/
 
 func (server *Server) initHandlers() {
 	opts := []grpc.DialOption{grpc.WithTransportCredentials(insecure.NewCredentials())}
@@ -40,6 +47,7 @@ func (server *Server) initHandlers() {
 	if err != nil {
 		panic(err)
 	}
+
 	authEndpoint := fmt.Sprintf("%s:%s", server.config.AuthHost, server.config.AuthPort)
 	err = authGw.RegisterAuthenticationServiceHandlerFromEndpoint(context.TODO(), server.mux, authEndpoint, opts)
 	if err != nil {
