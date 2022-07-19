@@ -11,9 +11,9 @@ import (
 func mapCommandToAuthUser(command *events.RegisterUserCommand) *domain.User {
 	var userD = &domain.User{
 		ID:       primitive.ObjectID{},
-		Username: command.Order.Username,
-		Password: command.Order.Password,
-		Role:     mapCommandRoleToAuthRole(command.Order.Role),
+		Username: command.User.Username,
+		Password: command.User.Password,
+		Role:     mapCommandRoleToAuthRole(command.User.Role),
 	}
 	return userD
 }

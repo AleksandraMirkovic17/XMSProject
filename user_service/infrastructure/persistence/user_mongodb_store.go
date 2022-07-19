@@ -50,6 +50,7 @@ func (store *UserMongoDBStore) FindByUsernameAndNameAndSurname(username string, 
 }
 
 func (store *UserMongoDBStore) Insert(user *domain.User) error {
+	println("Insertovanje usera implementacija user_mongodb_store.go")
 	result, err := store.users.InsertOne(context.TODO(), user)
 	if err != nil {
 		return err

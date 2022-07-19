@@ -32,6 +32,11 @@ type UserDetails struct {
 	IsPublic    bool
 }
 
+type ConnectionUserDetails struct {
+	Id       string
+	IsPublic bool
+}
+
 type RegisterUserCommandType int8
 
 const (
@@ -48,8 +53,13 @@ const (
 )
 
 type RegisterUserCommand struct {
-	Order UserDetails
-	Type  RegisterUserCommandType
+	User UserDetails
+	Type RegisterUserCommandType
+}
+
+type RegisterConnectionUserCommand struct {
+	User ConnectionUserDetails
+	Type RegisterUserCommandType
 }
 
 type RegisterUserReplyType int8
@@ -59,21 +69,23 @@ const (
 	UserProfileCreated
 	UserProfileNotCreated
 	UserProfileRolledBack
-
 	UserNodeCreated
 	UserNodeFailedToCreate
 	ConnectionsRolledBack
-
 	AuthenticationServiceUpdated
 	AuthenticationServiceNotUpdated
 	AuthenticationServiceRolledBack
 	RegistrationCancelled
 	RegistrationApproved
-
 	UnknownReply
 )
 
 type RegisterUserReply struct {
-	Order UserDetails
-	Type  RegisterUserReplyType
+	User UserDetails
+	Type RegisterUserReplyType
+}
+
+type RegisterUserConnectionReply struct {
+	User ConnectionUserDetails
+	Type RegisterUserReplyType
 }

@@ -142,24 +142,27 @@ func (store *ConnectionDBStore) Register(userID string, isPublic bool) (*pb.Acti
 	result, err := session.WriteTransaction(func(transaction neo4j.Transaction) (interface{}, error) {
 
 		actionResult := &pb.ActionResult{}
-
-		if checkIfUserExist(userID, transaction) {
+		println("Here is " + userID)
+		/*if checkIfUserExist(userID, transaction) {
 			actionResult.Status = 406
 			actionResult.Msg = "error user with ID:" + userID + " already exist"
+			println("Already existing user!")
 			return actionResult, nil
-		}
+		}*/
 
 		_, err := transaction.Run(
-			"CREATE (new_user:USER{userID:$userID, isPublic:$isPublic})",
-			map[string]interface{}{"userID": userID, "isPrivate": isPublic})
+			"CREATE (new_user:USER{userID:$userID, isPrivate:$isPrivate})",
+			map[string]interface{}{"userID": userID, "isPrivate": !isPublic})
 
 		if err != nil {
+			println("error while creating new node with ID:" + userID)
 			actionResult.Msg = "error while creating new node with ID:" + userID
 			actionResult.Status = 501
 			return actionResult, err
 		}
 
 		actionResult.Msg = "Successfully created new node with ID:" + userID
+		println("Successfully created new node with ID:" + userID)
 		actionResult.Status = 201
 
 		return actionResult, err

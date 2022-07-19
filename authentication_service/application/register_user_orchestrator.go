@@ -24,15 +24,15 @@ func NewRegisterUserOrchestrator(publisher saga.Publisher, subscriber saga.Subsc
 
 func (o *RegisterUserOrchestrator) Start(userDetails events.UserDetails) error {
 	event := &events.RegisterUserCommand{
-		Type:  events.AuthenticationServiceUpdate,
-		Order: userDetails,
+		Type: events.AuthenticationServiceUpdate,
+		User: userDetails,
 	}
 
 	return o.commandPublisher.Publish(event)
 }
 
 func (o *RegisterUserOrchestrator) handle(reply *events.RegisterUserReply) {
-	command := events.RegisterUserCommand{Order: reply.Order}
+	command := events.RegisterUserCommand{User: reply.User}
 	command.Type = o.nextCommandType(reply.Type)
 	if command.Type != events.UnknownCommand {
 		_ = o.commandPublisher.Publish(command)

@@ -32,18 +32,27 @@ func NewServer(config *config.Config) *Server {
 }
 
 const (
-	QueueGroup = "connection_service"
+	QueueGroupConnection = "connection_service_connection"
+	QueueGroup           = "connection_service"
 )
 
 func (server *Server) Start() {
-
+	fmt.Println("starting connection service server")
 	neo4jClient := server.initNeo4J()
+
+	//commandPublisher := server.initPublisher(server.config.ConnectionNotificationCommandSubject)
+	//replySubscriber := server.initSubscriber(server.config.ConnectionNotificationReplySubject, QueueGroupConnection)
+	//orchestrator := server.initOrchestrator(commandPublisher, replySubscriber) //Za sada ne treba
 
 	connectionStore := server.initConnectionStore(neo4jClient)
 
 	connectionService := server.initConnectionService(connectionStore)
 
 	connectionHandler := server.initConnectionHandler(connectionService)
+
+	commandSubscriber := server.initSubscriber(server.config.RegisterUserCommandSubject, QueueGroupConnection)
+	replyPublisher := server.initPublisher(server.config.RegisterUserReplySubject)
+	server.initRegisterUserHandler(connectionService, replyPublisher, commandSubscriber)
 
 	server.startGrpcServer(connectionHandler)
 }

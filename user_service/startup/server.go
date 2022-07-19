@@ -4,6 +4,8 @@ import (
 	"UserService/application"
 	"UserService/domain"
 	"UserService/infrastructure/api"
+	"UserService/infrastructure/handlers"
+	"UserService/infrastructure/orchestrators"
 	"UserService/infrastructure/persistence"
 	"UserService/startup/config"
 	"fmt"
@@ -35,9 +37,16 @@ const (
 func (server *Server) Start() {
 	mongoClient := server.initMongoClient()
 	userStore := server.initUserStore(mongoClient)
-	userService := server.initUserService(userStore)
+
+	//orchestrator
+	commandPublisher := server.initPublisher(server.config.RegisterUserCommandSubject)
+	replySubscriber := server.initSubscriber(server.config.RegisterUserReplySubject, QueueGroup)
+	orchestrator := server.InitOrchestrator(commandPublisher, replySubscriber)
+
+	userService := server.initUserService(userStore, orchestrator)
 	userHandler := server.initUserHandler(userService)
 
+	//handler
 	commandSubscriber := server.initSubscriber(server.config.RegisterUserCommandSubject, QueueGroup)
 	replyPublisher := server.initPublisher(server.config.RegisterUserReplySubject)
 	server.initRegisterUserHandler(userService, replyPublisher, commandSubscriber)
@@ -45,8 +54,16 @@ func (server *Server) Start() {
 	server.startGrpcServer(userHandler)
 }
 
+func (server *Server) InitOrchestrator(publisher saga.Publisher, subscriber saga.Subscriber) *orchestrators.UserOrchestrator {
+	orchestrator, err := orchestrators.NewUserOrchestrator(publisher, subscriber)
+	if err != nil {
+		log.Fatal(err)
+	}
+	return orchestrator
+}
+
 func (server *Server) initRegisterUserHandler(userService *application.UserService, publisher saga.Publisher, subscriber saga.Subscriber) {
-	_, err := api.NewRegisterUserCommandHandler(userService, publisher, subscriber)
+	_, err := handlers.NewRegisterUserCommandHandler(userService, publisher, subscriber)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -86,8 +103,8 @@ func (server *Server) initUserStore(client *mongo.Client) domain.UserStore {
 	return store
 }
 
-func (server *Server) initUserService(store domain.UserStore) *application.UserService {
-	return application.NewUserService(store)
+func (server *Server) initUserService(store domain.UserStore, orchestrator *orchestrators.UserOrchestrator) *application.UserService {
+	return application.NewUserService(store, orchestrator)
 }
 
 func (server *Server) initUserHandler(service *application.UserService) *api.UserHandler {

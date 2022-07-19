@@ -18,12 +18,14 @@ type Config struct {
 	UserHost string
 	UserPort string
 
-	NatsHost                   string
-	NatsPort                   string
-	NatsUser                   string
-	NatsPass                   string
-	RegisterUserCommandSubject string
-	RegisterUserReplySubject   string
+	NatsHost                             string
+	NatsPort                             string
+	NatsUser                             string
+	NatsPass                             string
+	RegisterUserCommandSubject           string
+	RegisterUserReplySubject             string
+	ConnectionNotificationCommandSubject string
+	ConnectionNotificationReplySubject   string
 }
 
 func NewConfig() *Config {

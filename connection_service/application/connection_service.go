@@ -24,6 +24,7 @@ func NewConnectionService(store domain.ConnectionStore, c *config.Config) *Conne
 }
 
 func (service *ConnectionService) Register(userID string, isPublic bool) (*pb.ActionResult, error) {
+	println("Pozivanje registracije!")
 	return service.store.Register(userID, isPublic)
 }
 

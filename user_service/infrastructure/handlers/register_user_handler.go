@@ -1,7 +1,8 @@
-package api
+package handlers
 
 import (
 	"UserService/application"
+	"UserService/infrastructure/mappers"
 	"fmt"
 	events "github.com/dislinked/common/saga/create_order"
 	saga "github.com/dislinked/common/saga/messaging"
@@ -27,11 +28,13 @@ func NewRegisterUserCommandHandler(orderService *application.UserService, publis
 	return o, nil
 }
 
+//treba da se nalazi u connection servisu
+//treba orkestrator umesto ovoga
 func (handler *CreateOrderCommandHandler) handle(command *events.RegisterUserCommand) {
 
-	order := mapCommandToUser(command) //ovde se postavlja id
+	order := mappers.MapCommandToUser(command) //ovde se postavlja id
 
-	reply := events.RegisterUserReply{Order: command.Order}
+	reply := events.RegisterUserReply{User: command.User}
 
 	switch command.Type {
 	case events.UserProfileCreate:
@@ -44,7 +47,7 @@ func (handler *CreateOrderCommandHandler) handle(command *events.RegisterUserCom
 
 	case events.RollebackUserProfile:
 		fmt.Println("Auth service:Rollback authentication servisa")
-		id, err := primitive.ObjectIDFromHex(command.Order.Id)
+		id, err := primitive.ObjectIDFromHex(command.User.Id)
 		if err != nil {
 			return
 		}

@@ -30,13 +30,13 @@ func NewRegisterUserCommandHandler(orderService *application.AuthenticationServi
 }
 
 func (handler *CreateOrderCommandHandler) handle(command *events.RegisterUserCommand) {
-	id, err := primitive.ObjectIDFromHex(command.Order.Id)
+	id, err := primitive.ObjectIDFromHex(command.User.Id)
 	if err != nil {
 		return
 	}
 	order := &domain.User{ID: id} //ovde se postavlja id
 
-	reply := events.RegisterUserReply{Order: command.Order}
+	reply := events.RegisterUserReply{User: command.User}
 
 	switch command.Type {
 	case events.AuthenticationServiceUpdate:

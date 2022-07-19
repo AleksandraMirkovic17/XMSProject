@@ -1,16 +1,15 @@
-package api
+package mappers
 
 import (
 	"UserService/domain"
-	events "github.com/dislinked/common/saga/create_order"
-	"time"
-
 	dislinked "github.com/dislinked/common/proto/user_service"
 	pb "github.com/dislinked/common/proto/user_service"
+	events "github.com/dislinked/common/saga/create_order"
 	"go.mongodb.org/mongo-driver/bson/primitive"
+	"time"
 )
 
-func mapUser(user *domain.User) *pb.User {
+func MapUser(user *domain.User) *pb.User {
 	var userPb = &pb.User{
 		Id:                   user.Id.String(),
 		Name:                 user.Name,
@@ -65,7 +64,7 @@ func mapUser(user *domain.User) *pb.User {
 	return userPb
 }
 
-func mapUserPbToDomain(userPb *pb.NewUser) *domain.User {
+func MapUserPbToDomain(userPb *pb.NewUser) *domain.User {
 	dateOfBirth, _ := time.Parse("2006-01-02T15:04", (*userPb).User.DateOfBirth)
 	userD := &domain.User{
 		Id:                   primitive.NewObjectID(),
@@ -189,26 +188,56 @@ func mapCommandGenderToDomainGender(gender events.Gender) domain.Gender {
 
 }
 
-func mapCommandToUser(command *events.RegisterUserCommand) *domain.User {
-	id, err := primitive.ObjectIDFromHex(command.Order.Id)
+func MapCommandToUser(command *events.RegisterUserCommand) *domain.User {
+	id, err := primitive.ObjectIDFromHex(command.User.Id)
 	if err != nil {
 		return nil
 	}
 	user := &domain.User{
 		Id:          id,
-		Name:        command.Order.Name,
-		Surname:     command.Order.Surname,
-		Username:    command.Order.Username,
-		Email:       command.Order.Email,
-		Password:    command.Order.Password,
-		Phone:       command.Order.PhoneNumber,
-		Gender:      mapCommandGenderToDomainGender(command.Order.Gender),
-		Role:        mapCommandRoleToDomainRole(command.Order.Role),
-		DateOfBirth: command.Order.Birthday,
-		Public:      command.Order.IsPublic,
+		Name:        command.User.Name,
+		Surname:     command.User.Surname,
+		Username:    command.User.Username,
+		Email:       command.User.Email,
+		Password:    command.User.Password,
+		Phone:       command.User.PhoneNumber,
+		Gender:      mapCommandGenderToDomainGender(command.User.Gender),
+		Role:        mapCommandRoleToDomainRole(command.User.Role),
+		DateOfBirth: command.User.Birthday,
+		Public:      command.User.IsPublic,
 	}
 	return user
 
+}
+
+func MapDomainUserToCommandUser(user *domain.User) *events.UserDetails {
+	id := user.Id.Hex()
+
+	command := events.UserDetails{
+		Id:          id,
+		Name:        user.Name,
+		Surname:     user.Surname,
+		Username:    user.Username,
+		Password:    user.Password,
+		Email:       user.Email,
+		Birthday:    time.Time{},
+		Gender:      0,
+		Role:        0,
+		PhoneNumber: user.Phone,
+		IsPublic:    user.Public,
+	}
+	return &command
+}
+
+func MapDomainUserToConnectionCommandUser(user *domain.User) *events.ConnectionUserDetails {
+	id := user.Id.Hex()
+
+	command := events.ConnectionUserDetails{
+		Id:       id,
+		IsPublic: user.Public,
+	}
+
+	return &command
 }
 
 /*func mapEducationTypeToPb(educationType domain.EducationType) pb.EducationType {

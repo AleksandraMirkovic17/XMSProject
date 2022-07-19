@@ -2,9 +2,9 @@ package api
 
 import (
 	"UserService/application"
+	"UserService/infrastructure/mappers"
 	"context"
 	"fmt"
-
 	pb "github.com/dislinked/common/proto/user_service"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
@@ -25,7 +25,7 @@ func (handler *UserHandler) GetAll(ctx context.Context, request *pb.GetUserBySea
 	}
 	response := &pb.GetAllUserResponse{Users: []*pb.User{}}
 	for _, user := range users {
-		current := mapUser(user)
+		current := mappers.MapUser(user)
 		response.Users = append(response.Users, current)
 	}
 	return response, nil
@@ -39,13 +39,13 @@ func (handler *UserHandler) Get(ctx context.Context, request *pb.GetUserRequest)
 		return nil, err
 	}
 	response := &pb.GetUserResponse{
-		User: mapUser(user),
+		User: mappers.MapUser(user),
 	}
 	return response, nil
 }
 
 func (handler *UserHandler) Insert(ctx context.Context, request *pb.RegisterUserRequest) (*pb.User, error) {
-	user := mapUserPbToDomain(request.User)
+	user := mappers.MapUserPbToDomain(request.User)
 	fmt.Println("mapper zavrsio")
 
 	err := handler.service.Insert(user)
@@ -54,11 +54,12 @@ func (handler *UserHandler) Insert(ctx context.Context, request *pb.RegisterUser
 		return nil, err
 	}
 
-	return mapUser(user), nil
+	return mappers.MapUser(user), nil
 }
 
 func (handler *UserHandler) Update(ctx context.Context, request *pb.UpdateUserRequest) (*pb.User, error) {
-	user := mapUserPbToDomain(request.User)
+
+	user := mappers.MapUserPbToDomain(request.User)
 	foundUser, findErr := handler.service.FindByUsername((*user).Username)
 	if findErr != nil {
 		return nil, findErr
@@ -73,7 +74,7 @@ func (handler *UserHandler) Update(ctx context.Context, request *pb.UpdateUserRe
 		return nil, updateErr
 	}
 
-	return mapUser(user), nil
+	return mappers.MapUser(user), nil
 }
 
 /*func (handler *UserHandler) SearchProfile(ctx context.Context, request *pb.SearchProfileRequest) (*pb.GetAllUserResponse, error) {
@@ -101,7 +102,7 @@ func (handler *UserHandler) FindByUsername(ctx context.Context, request *pb.GetU
 		return nil, err
 	}
 	response := &pb.GetUserResponse{
-		User: mapUser(user),
+		User: mappers.MapUser(user),
 	}
 	return response, nil
 }

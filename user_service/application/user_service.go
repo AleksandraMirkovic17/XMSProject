@@ -2,17 +2,19 @@ package application
 
 import (
 	"UserService/domain"
-
+	"UserService/infrastructure/orchestrators"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 type UserService struct {
-	store domain.UserStore
+	store        domain.UserStore
+	orchestrator *orchestrators.UserOrchestrator
 }
 
-func NewUserService(store domain.UserStore) *UserService {
+func NewUserService(store domain.UserStore, orchestrator *orchestrators.UserOrchestrator) *UserService {
 	return &UserService{
-		store: store,
+		store:        store,
+		orchestrator: orchestrator,
 	}
 }
 
@@ -21,7 +23,8 @@ func (service *UserService) Register(user *domain.User) error {
 	// defer span.Finish()
 	//
 	// newCtx := tracer.ContextWithSpan(context.Background(), span)
-
+	println("Registracija usera user_service.go")
+	service.store.Insert(user)
 	return nil
 }
 
@@ -30,7 +33,26 @@ func (service *UserService) Insert(user *domain.User) error {
 	// defer span.Finish()
 	//
 	// newCtx := tracer.ContextWithSpan(context.Background(), span)
+	println("Insertovanje usera user_service.go")
 	err := service.store.Insert(user)
+	if err != nil {
+		println("Greska se desila prilikom inserta")
+		return err
+	}
+	err = service.orchestrator.CreateUser(user)
+	if err != nil {
+		println("Greska se desila prilikom pozivanja orkestratora 1!")
+		return err
+	}
+	println("Nije se desila greska prilikom pozivanja orkestratora 1")
+
+	err = service.orchestrator.CreateConnectionUser(user)
+	if err != nil {
+		println("Greska se desila prilikom pozivanja orkestratora 2!")
+		return err
+	}
+	println("posle publishovanja")
+
 	return err
 }
 func (service *UserService) Update(uuid primitive.ObjectID, user *domain.User) error {
