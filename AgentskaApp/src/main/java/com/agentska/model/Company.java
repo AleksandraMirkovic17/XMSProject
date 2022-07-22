@@ -9,6 +9,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.agentska.dto.CompanyDTO;
+import com.agentska.dto.CompanyRegisterDTO;
+
 @Entity
 @Table(name = "company")
 public class Company {
@@ -27,14 +30,24 @@ public class Company {
 	@Column(length=100)
 	private String contactInfo;
 	
+	private boolean validated = false;
+	
 	public Company() {}
 	
-	public Company(Integer id, User owner, String name, String description, String contactInfo) {
+	public Company(Integer id, User owner, String name, String description, String contactInfo, boolean validated) {
 		this.id = id;
 		this.owner = owner;
 		this.name = name;
 		this.description = description;
 		this.contactInfo = contactInfo;
+		this.validated = validated;
+	}
+	
+	public Company(CompanyRegisterDTO companyDTO, User owner) {
+		this.owner = owner;
+		this.name = companyDTO.getName();
+		this.description = companyDTO.getDescription();
+		this.contactInfo = companyDTO.getContactInfo();
 	}
 	
 	public Integer getId() {
@@ -67,4 +80,11 @@ public class Company {
 	public void setContactInfo(String contactInfo) {
 		this.contactInfo = contactInfo;
 	}
+	public boolean isValidated() {
+		return validated;
+	}
+	public void setValidated(boolean validated) {
+		this.validated = validated;
+	}
+	
 }

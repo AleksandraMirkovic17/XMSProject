@@ -42,6 +42,15 @@ public class UserService {
 			return foundUser.get();
 	}
 	
+	public User findById(Integer id)
+	{
+		Optional<User> foundUser = userRepository.findById(id);
+		if(foundUser.isEmpty())
+			return null;
+		else
+			return foundUser.get();
+	}
+	
     public void createVerificationTokenForUser(final User user, final String token) {
         final VerificationToken myToken = new VerificationToken(token, user);
         tokenRepository.save(myToken);
