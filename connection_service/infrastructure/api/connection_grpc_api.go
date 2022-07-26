@@ -24,7 +24,8 @@ func (handler *ConnectionHandler) Register(ctx context.Context, request *pb.Regi
 	fmt.Println("[ConnectionHandler]:Register")
 	userID := request.User.UserID
 	isPublic := !request.User.IsPrivate
-	return handler.service.Register(userID, isPublic)
+	username := request.User.Username
+	return handler.service.Register(userID, username, isPublic)
 }
 
 func (handler *ConnectionHandler) GetFriends(ctx context.Context, request *pb.GetRequest) (*pb.Users, error) {

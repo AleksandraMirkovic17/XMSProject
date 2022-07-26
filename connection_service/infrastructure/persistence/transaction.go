@@ -139,6 +139,20 @@ func removeFriendRequest(userIDa, userIDb string, transaction neo4j.Transaction)
 	return false
 }
 
+func createFriendship(userIDa, userIDb string, transaction neo4j.Transaction) bool {
+	_, err := transaction.Run(
+		"MATCH (u1:USER) WHERE u1.userID=$uIDa "+
+			"MATCH (u2:USER) WHERE u2.userID=$uIDb "+
+			"CREATE (u1)-[r:FRIEND]->(u2)"+
+			"CREATE (u2)-[r2:FRIEND]->(u1)",
+		map[string]interface{}{"uIDa": userIDa, "uIDb": userIDb})
+	if err != nil {
+		fmt.Println(err)
+		return false
+	}
+	return true
+}
+
 func unblockUser(userIDa, userIDb string, transaction neo4j.Transaction) bool {
 	result, err := transaction.Run(
 		"MATCH (u1:USER{userID: $uIDa})-[r:BLOCK]->(u2:USER{userID: $uIDb}) DELETE r RETURN u1.userID",
@@ -207,7 +221,16 @@ func clearGraphDB(transaction neo4j.Transaction) error {
 
 func initGraphDB(transaction neo4j.Transaction) error {
 	_, err := transaction.Run(
-		"CREATE  (fedor:USER{userID: \"62c22d86cd5a19cfe6b7e6c7\", username: \"fedor\", isPrivate : false}),  (andrea:USER{userID: \"62c22d86cd5a19cfe6b7e6c8\", username: \"andrea\", isPrivate : false}),  (saska:USER{userID: \"62c22d86cd5a19cfe6b7e6c9\", username: \"saska\", isPrivate : false}),  (igor:USER{userID: \"62c22d86cd5a19cfe6b7e6c0\", username: \"igor\", isPrivate : false}),      (fedor) -[:FRIEND{msgID:\"12022d86cd5a19cfe6b7e6c0\"}]-> (andrea),  (andrea) <-[:FRIEND{msgID:\"23022d86cd5a19cfe6b7e6c0\"}]- (fedor),  (fedor) -[:FRIEND{msgID:\"33022d86cd5a19cfe6b7e6c0\"}]-> (igor),  (igor) <-[:FRIEND{msgID:\"43022d86cd5a19cfe6b7e6c0\"}]- (fedor),    (fedor) -[:BLOCK]-> (saska),  (andrea) -[:BLOCK]-> (saska)  ",
+		"CREATE  (fedor:USER{userID: \"62c22d86cd5a19cfe6b7e6c7\", username: \"fedor\", isPrivate : false}),  "+
+			"(andrea:USER{userID: \"62c22d86cd5a19cfe6b7e6c8\", username: \"andrea\", isPrivate : false}),  "+
+			"(saska:USER{userID: \"62c22d86cd5a19cfe6b7e6c9\", username: \"saska\", isPrivate : false}),  "+
+			"(igor:USER{userID: \"62c22d86cd5a19cfe6b7e6c0\", username: \"igor\", isPrivate : false}),      "+
+			"(fedor) -[:FRIEND{msgID:\"12022d86cd5a19cfe6b7e6c0\"}]-> (andrea), "+
+			" (andrea) <-[:FRIEND{msgID:\"23022d86cd5a19cfe6b7e6c0\"}]- (fedor),  "+
+			"(fedor) -[:FRIEND{msgID:\"33022d86cd5a19cfe6b7e6c0\"}]-> (igor), "+
+			" (igor) <-[:FRIEND{msgID:\"43022d86cd5a19cfe6b7e6c0\"}]- (fedor),   "+
+			" (fedor) -[:BLOCK]-> (saska),  "+
+			"(andrea) -[:BLOCK]-> (saska)  ",
 		map[string]interface{}{})
 	return err
 }

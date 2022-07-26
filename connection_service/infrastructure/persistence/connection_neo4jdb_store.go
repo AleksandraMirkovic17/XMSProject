@@ -134,8 +134,9 @@ func (store *ConnectionDBStore) GetFriendRequests(userID string) ([]domain.UserC
 	return friendsRequest.([]domain.UserConn), nil
 }
 
-func (store *ConnectionDBStore) Register(userID string, isPublic bool) (*pb.ActionResult, error) {
+func (store *ConnectionDBStore) Register(userID string, username string, isPublic bool) (*pb.ActionResult, error) {
 	fmt.Println("Creating user node!")
+	//priprema za pisanje
 	session := (*store.connectionDB).NewSession(neo4j.SessionConfig{AccessMode: neo4j.AccessModeWrite})
 	defer session.Close()
 
@@ -143,16 +144,16 @@ func (store *ConnectionDBStore) Register(userID string, isPublic bool) (*pb.Acti
 
 		actionResult := &pb.ActionResult{}
 		println("Here is " + userID)
-		/*if checkIfUserExist(userID, transaction) {
+		if checkIfUserExist(userID, transaction) {
 			actionResult.Status = 406
 			actionResult.Msg = "error user with ID:" + userID + " already exist"
 			println("Already existing user!")
 			return actionResult, nil
-		}*/
+		}
 
 		_, err := transaction.Run(
-			"CREATE (new_user:USER{userID:$userID, isPrivate:$isPrivate})",
-			map[string]interface{}{"userID": userID, "isPrivate": !isPublic})
+			"CREATE (new_user:USER{userID:$userID, isPrivate:$isPrivate, username:$username})",
+			map[string]interface{}{"userID": userID, "isPrivate": !isPublic, "username": username})
 
 		if err != nil {
 			println("error while creating new node with ID:" + userID)
@@ -197,17 +198,20 @@ func (store *ConnectionDBStore) AddFriend(userIDa, userIDb string) (*pb.ActionRe
 		if checkIfUserExist(userIDa, transaction) && checkIfUserExist(userIDb, transaction) {
 			if checkIfFriendExist(userIDa, userIDb, transaction) || checkIfFriendExist(userIDb, userIDa, transaction) {
 				actionResult.Msg = "users are already friends"
+				println("Users are already friends")
 				actionResult.Status = 400 //bad request
 				return actionResult, nil
 			} else {
 				if checkIfBlockExist(userIDa, userIDb, transaction) || checkIfBlockExist(userIDb, userIDa, transaction) {
 					actionResult.Msg = "User is blocked"
+					println("User is blocked")
 					actionResult.Status = 400 //bad request
 					return actionResult, nil
 				} else {
 
 					isPrivate, err := isUserPrivate(userIDb, transaction)
 					if err != nil {
+						println("Error gretting weather the profile is private")
 						fmt.Println(err.Error())
 						actionResult.Msg = err.Error()
 						actionResult.Status = 400 //bad request
@@ -217,8 +221,10 @@ func (store *ConnectionDBStore) AddFriend(userIDa, userIDb string) (*pb.ActionRe
 						// ako je profil privatan, onda uspeva samo ako je ovaj profil vec poslao zahtev pre
 						if checkIfFriendRequestExist(userIDb, userIDa, transaction) {
 							//ok postoji zahtev, mozemo spajati
+							println("Ako postoji zahtev mozemo ispajati")
 							removeFriendRequest(userIDb, userIDa, transaction)
 						} else {
+							println("Ako ne postoji zahtev ne mozemo spajati")
 							actionResult.Msg = "error UserIDb:" + userIDb + " are private profile and do not exist friend request"
 							actionResult.Status = 400 //bad request
 							return actionResult, nil
@@ -226,10 +232,22 @@ func (store *ConnectionDBStore) AddFriend(userIDa, userIDb string) (*pb.ActionRe
 					}
 
 					if checkIfFriendRequestExist(userIDa, userIDb, transaction) {
+						println("Provera da li postoji zahtev izmedju a i b")
 						removeFriendRequest(userIDa, userIDb, transaction)
 					}
 					if checkIfFriendRequestExist(userIDb, userIDa, transaction) {
+						println("Provera da li postoji zahtev izmedju b i a")
 						removeFriendRequest(userIDb, userIDa, transaction)
+					}
+
+					println("spajanje")
+					if (createFriendship(userIDa, userIDb, transaction)) {
+						println("success")
+					} else {
+						actionResult.Msg = "Transaction performing error while crating friendship!"
+						actionResult.Status = 400 //bad request
+						return actionResult, nil
+
 					}
 				}
 			}

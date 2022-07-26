@@ -34,6 +34,7 @@ type UserDetails struct {
 
 type ConnectionUserDetails struct {
 	Id       string
+	Username string
 	IsPublic bool
 }
 

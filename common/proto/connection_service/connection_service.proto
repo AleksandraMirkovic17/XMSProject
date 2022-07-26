@@ -183,6 +183,7 @@ message ConnectionDetail{
 message User {
   string userID = 1;
   bool isPrivate = 2;
+  string username = 3;
 }
 
 message Users{

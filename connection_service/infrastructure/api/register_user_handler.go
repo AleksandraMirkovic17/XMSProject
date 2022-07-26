@@ -38,7 +38,7 @@ func (handler *RegisterUserCommandHandler) handle(command *events.RegisterConnec
 
 	case events.UserProfileCreate:
 		println("event u register_user_handler je UserProfileCreate")
-		err, _ := handler.connectionService.Register(command.User.Id, command.User.IsPublic)
+		err, _ := handler.connectionService.Register(command.User.Id, command.User.Username, command.User.IsPublic)
 		if err.Status != 201 {
 			reply.Type = events.UserNodeFailedToCreate
 			println("Failed to create register_user_handler " + string(err.Status))

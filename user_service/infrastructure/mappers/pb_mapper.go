@@ -235,6 +235,7 @@ func MapDomainUserToConnectionCommandUser(user *domain.User) *events.ConnectionU
 	command := events.ConnectionUserDetails{
 		Id:       id,
 		IsPublic: user.Public,
+		Username: user.Username,
 	}
 
 	return &command
