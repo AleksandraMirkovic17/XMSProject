@@ -1,14 +1,39 @@
 <template>
 <div>
-  <div v-if="!(loggedUser || user.public)">
+  <div v-if="!(loggedUser || user.Public)">
     <div class="profile-panel">
       Log in to view {{user.name}} {{user.surname}}'s profile
     </div>
   </div>
-  <div style="display: flex; flex-direction: row" v-if="loggedUser || user.public">
+  <div v-if="(loggedUser && !loggedUserFollows && loggedUserDetails.username!=user.username)">
+    <div class="profile-panel">
+
+      Follow to view {{user.name}} {{user.surname}}'s profile
+      <br>
+      <button v-if="connectionStatus=='NO_RELATION'" type="button" class="btn btn-light" style=" right: 10%" v-on:click="follow()">+ Send request to follow</button>
+      <button v-if="connectionStatus=='PENDING'" type="button" class="btn btn-light" style=" right: 10%" v-on:click="unsendRequest">✔ Friend request sent</button>
+
+
+    </div>
+  </div>
+  <div style="display: flex; flex-direction: row" v-if="loggedUserFollows || user.Public">
     <div class="col-md-4">
       <div class="profile-panel">
-        <h2>{{user.username}}</h2>
+        <div style="display: flex; flex-direction: row; margin: 5%">
+          <div>
+            <h2>{{user.username}}</h2>
+          </div>
+          <div v-if="loggedUserDetails.username!=user.username" >
+            <div v-if="this.loggedUserFollows==false">
+
+              <button type="button" class="btn btn-light" style="position: absolute; right: 10%" v-on:click="follow()">+ Follow</button>
+            </div>
+            <div v-if="loggedUserFollows==true">
+              <button type="button" class="btn btn-light" style="position: absolute; right: 10%">✔ Following</button>
+            </div>
+          </div>
+        </div>
+
         <div class="row d-flex mt-5">
             <div class="col-md-12">
                 <label class="input_label">
@@ -506,6 +531,7 @@
 import PictureInput from 'vue-picture-input'
 import PostService from '../services/PostService'
 import UserService from '../services/UserService'
+import ConnectionService from '../services/ConnectionService'
 export default {
   name: "Profile",
   data(){
@@ -516,6 +542,9 @@ export default {
       link: '',
       user: {},
       loggedUser: {},
+      loggedUserDetails : {},
+      loggedUserFollows: false,
+      connectionStatus: '',
       originalUser: {},
       usersPosts: new Array(),
       isUserInfoChanged: false,
@@ -537,14 +566,21 @@ export default {
   },
   mounted: function() {
     this.loggedUser = localStorage.getItem('user')
+
+
     UserService.getUserByUsername(this.$route.params.id).then(response => {
       this.user = response.data.User
+      console.log("this user: ", this.user)
       this.originalUser = this.user
+      console.log("follows",this.loggedUserFollows)
+
       PostService.getAllPostsByUser(this.user.id).then(response1 =>{
         this.usersPosts = response1.data.posts;
         console.log("UserPosts", this.usersPosts)
         if(this.usersPosts.length>0){
           this.selectedPost = this.usersPosts[0]
+          this.isUserInfoChanged = false
+
           //updatedSelectedPost()
 
         }
@@ -554,17 +590,68 @@ export default {
         console.log(err1)
         //alert("User posts are unavailable!")
       })
+      if (this.loggedUser)
+      {
+        console.log("logged user before: ", this.loggedUser, JSON.parse(this.loggedUser).username)
+        UserService.getUserByUsername(JSON.parse(this.loggedUser).username).then(response2 => {
+          this.loggedUserDetails = response2.data.User
+          console.log("logged user after: ", this.loggedUserDetails)
+          if(this.loggedUserDetails.id!= this.user.id)
+          {
+            ConnectionService.GetConnectionDetail(this.loggedUserDetails.id, this.user.id)
+                .then(response3 =>{
+                  console.log(response3.data.relation)
+                  this.connectionStatus = response3.data.relation
+                  if(response3.data.relation == "CONNECTED"){
+                    this.loggedUserFollows = true
+                    console.log("connected", this.loggedUserFollows)
+                  } else{
+                    this.loggedUserFollows = false
+                    console.log("not connected", this.loggedUserFollows)
+                  }
+                })
+                .catch(err3 =>{
+                  console.log("Connection details unavailable", err3)
+                  alert("Connection details are unavailable!")
+                })
+          }
+
+        })
+            .catch(err2 =>{
+              console.log(err2)
+              alert("Logged user unavailable!")
+            })
+
+      }
     })
         .catch(err => {
           console.error(err);
           if(err.response.status == 403)
             this.$router.push("/unauthorized")
         })
-    this.isUserInfoChanged = false
 
 
   },
   methods:{
+    getConnectionDetails(){
+      ConnectionService.GetConnectionDetail(this.loggedUserDetails.id, this.user.id)
+          .then(response3 =>{
+            console.log(response3.data.relation)
+            this.connectionStatus = response3.data.relation
+            if(response3.data.relation == "CONNECTED"){
+              this.loggedUserFollows = true
+              console.log("logged user follows changed to ", this.loggedUserFollows)
+            } else{
+              this.loggedUserFollows = false
+              console.log("logged user follows changed to ", this.loggedUserFollows)
+
+            }
+          })
+          .catch(err3 =>{
+            console.log("Connection details unavailable", err3)
+            alert("Connection details are unavailable!")
+          })
+    },
     deleteReaction(){
       console.log("Deleting reacion")
       PostService.deleteReaction(this.selectedPost.id, JSON.parse(this.loggedUser).username )
@@ -620,6 +707,46 @@ export default {
         }
       }
       this.userDisliked = false;
+    },
+    unsendRequest(){
+      ConnectionService.UnsendFriendRequest(this.loggedUserDetails.id, this.user.id)
+      .then( response => {
+        console.log("connecting:", response);
+        this.getConnectionDetails()
+      })
+          .catch(err => {
+                console.log(err)
+                alert("Error unsending request!")
+              }
+          )
+
+    },
+    follow(){
+      if(this.user.Public){
+        ConnectionService.Connect(this.loggedUserDetails.id, this.user.id)
+            .then( response => {
+              console.log("connecting:", response);
+              this.getConnectionDetails()
+            })
+            .catch(err => {
+                  console.log(err)
+                  alert("Error creating connection!")
+                }
+            )
+      } else{
+        ConnectionService.SendFriendRequest(this.loggedUserDetails.id, this.user.id)
+            .then( response => {
+              console.log("connecting:", response);
+              this.getConnectionDetails()
+            })
+            .catch(err => {
+                  console.log(err)
+                  alert("Error sending request!")
+                }
+            )
+      }
+
+
     },
     commentOnPost(){
       console.log(this.loggedUser)

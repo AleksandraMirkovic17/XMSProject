@@ -13,8 +13,10 @@
       <a href="/login" v-if="!user">Login</a>
       <a href="/register" v-if="!user">Register</a>
     </nav>
+      <router-view/>
 
-    <router-view/>
+
+
   </div>
 </template>
 
