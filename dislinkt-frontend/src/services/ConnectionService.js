@@ -23,6 +23,15 @@ class ConnectionService{
             {"userIDa" : ConvertObjectIdToHexId(idA),
                 "userIDb" : ConvertObjectIdToHexId(idB)})
     }
+
+    GetFriends(id){
+        return axios.get(USER_API_BASE_URL + "connection/user/"+ConvertObjectIdToHexId(id)+"/friends")
+    }
+
+    GetFriendRequests(id){
+        console.log(USER_API_BASE_URL + "connection/user/" +ConvertObjectIdToHexId(id) + "/friend-requests")
+        return axios.get(USER_API_BASE_URL + "connection/user/" +ConvertObjectIdToHexId(id) + "/friend-request")
+    }
 }
 
 function ConvertObjectIdToHexId(objectId){

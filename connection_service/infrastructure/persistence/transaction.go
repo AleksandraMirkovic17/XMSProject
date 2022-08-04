@@ -124,6 +124,15 @@ func removeFriend(userIDa, userIDb string, transaction neo4j.Transaction) bool {
 	return false
 }
 
+func addFriendRequest(userIDa, userIDb string, transaction neo4j.Transaction) error {
+	_, err := transaction.Run(
+		"MATCH (u1:USER) WHERE u1.userID=$uIDa "+
+			"MATCH (u2:USER) WHERE u2.userID=$uIDb "+
+			"CREATE (u1)-[r:REQUEST]->(u2) ",
+		map[string]interface{}{"uIDa": userIDa, "uIDb": userIDb})
+	return err
+}
+
 func removeFriendRequest(userIDa, userIDb string, transaction neo4j.Transaction) bool {
 	result, err := transaction.Run(
 		"MATCH (u1:USER{userID: $uIDa})-[r:REQUEST]->(u2:USER{userID: $uIDb}) DELETE r RETURN u1.userID",
@@ -228,7 +237,7 @@ func initGraphDB(transaction neo4j.Transaction) error {
 			"(fedor) -[:FRIEND{msgID:\"12022d86cd5a19cfe6b7e6c0\"}]-> (andrea), "+
 			" (andrea) <-[:FRIEND{msgID:\"23022d86cd5a19cfe6b7e6c0\"}]- (fedor),  "+
 			"(fedor) -[:FRIEND{msgID:\"33022d86cd5a19cfe6b7e6c0\"}]-> (igor), "+
-			" (igor) <-[:FRIEND{msgID:\"43022d86cd5a19cfe6b7e6c0\"}]- (fedor),   "+
+			" (igor) -[:FRIEND{msgID:\"43022d86cd5a19cfe6b7e6c0\"}]-> (fedor),   "+
 			" (fedor) -[:BLOCK]-> (saska),  "+
 			"(andrea) -[:BLOCK]-> (saska)  ",
 		map[string]interface{}{})

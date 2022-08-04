@@ -97,7 +97,7 @@ func (server *Server) initNeo4J() *neo4j.Driver {
 
 func (server *Server) initConnectionStore(client *neo4j.Driver) domain.ConnectionStore {
 	store := persistence.NewConnectionDBStore(client)
-	store.Init()
+	//store.Init()
 	return store
 }
 

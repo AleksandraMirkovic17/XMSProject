@@ -9,6 +9,7 @@
         <button class="btn-primary" v-on:click="searchProfiles()">Search</button>
       </a>
       <a :href="getUserProfileHref" v-if="user">Profile</a>
+      <a href="/connections" v-if="user">Friends</a>
       <a href="/" v-if="user" v-on:click="logout()">Logout</a>
       <a href="/login" v-if="!user">Login</a>
       <a href="/register" v-if="!user">Register</a>

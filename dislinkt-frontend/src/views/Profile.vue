@@ -16,7 +16,7 @@
 
     </div>
   </div>
-  <div style="display: flex; flex-direction: row" v-if="loggedUserFollows || user.Public">
+  <div style="display: flex; flex-direction: row" v-if="loggedUserFollows || user.Public || loggedUserDetails.username == user.username">
     <div class="col-md-4">
       <div class="profile-panel">
         <div style="display: flex; flex-direction: row; margin: 5%">

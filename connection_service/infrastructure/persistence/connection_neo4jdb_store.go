@@ -3,7 +3,6 @@ package persistence
 import (
 	"context"
 	"fmt"
-	"time"
 
 	"ConnectionService/domain"
 
@@ -32,10 +31,6 @@ func (store *ConnectionDBStore) Init() {
 	defer session.Close()
 
 	_, err := session.WriteTransaction(func(transaction neo4j.Transaction) (interface{}, error) {
-		errClear := clearGraphDB(transaction)
-		if errClear != nil {
-			return nil, errClear
-		}
 		errInit := initGraphDB(transaction)
 		return nil, errInit
 	})
@@ -108,12 +103,15 @@ func (store *ConnectionDBStore) GetBlockeds(userID string) ([]domain.UserConn, e
 }
 
 func (store *ConnectionDBStore) GetFriendRequests(userID string) ([]domain.UserConn, error) {
+	print("User id is: ", userID)
 	session := (*store.connectionDB).NewSession(neo4j.SessionConfig{AccessMode: neo4j.AccessModeWrite})
 	defer session.Close()
 
 	friendsRequest, err := session.ReadTransaction(func(transaction neo4j.Transaction) (interface{}, error) {
 		result, err := transaction.Run(
-			"MATCH (this_user:USER) <-[:REQUEST]- (user_requester:USER) WHERE this_user.userID=$uID RETURN user_requester.userID, user_requester.isPublic",
+			"MATCH (this_user:USER) <-[:REQUEST]- (user_requester:USER) "+
+				"WHERE this_user.userID=$uID "+
+				"RETURN user_requester.userID, user_requester.isPrivate",
 			map[string]interface{}{"uID": userID})
 
 		if err != nil {
@@ -122,7 +120,8 @@ func (store *ConnectionDBStore) GetFriendRequests(userID string) ([]domain.UserC
 
 		var friendsRequest []domain.UserConn
 		for result.Next() {
-			friendsRequest = append(friendsRequest, domain.UserConn{UserID: result.Record().Values[0].(string), IsPublic: result.Record().Values[1].(bool)})
+			print("result record", result.Record().Values[0].(string), result.Record().Values[1].(bool))
+			friendsRequest = append(friendsRequest, domain.UserConn{UserID: result.Record().Values[0].(string), IsPublic: !(result.Record().Values[1].(bool))})
 		}
 		return friendsRequest, nil
 
@@ -241,7 +240,7 @@ func (store *ConnectionDBStore) AddFriend(userIDa, userIDb string) (*pb.ActionRe
 					}
 
 					println("spajanje")
-					if (createFriendship(userIDa, userIDb, transaction)) {
+					if createFriendship(userIDa, userIDb, transaction) {
 						println("success")
 					} else {
 						actionResult.Msg = "Transaction performing error while crating friendship!"
@@ -532,15 +531,9 @@ func (store *ConnectionDBStore) SendFriendRequest(userIDa, userIDb string) (*pb.
 						}
 
 						if isPrivate {
-							dateNow := time.Now().Local().Unix()
-							result, err := transaction.Run(
-								"MATCH (u1:USER) WHERE u1.userID=$uIDa "+
-									"MATCH (u2:USER) WHERE u2.userID=$uIDb "+
-									"CREATE (u1)-[r1:REQUEST {date: $dateNow}]->(u2) "+
-									"RETURN r1.date",
-								map[string]interface{}{"uIDa": userIDa, "uIDb": userIDb, "dateNow": dateNow})
+							err := addFriendRequest(userIDa, userIDb, transaction)
 
-							if err != nil || result == nil {
+							if err != nil {
 								actionResult.Msg = "error while creating new friends IDa:" + userIDa + " and IDb:" + userIDb
 								actionResult.Status = 501
 								return actionResult, err

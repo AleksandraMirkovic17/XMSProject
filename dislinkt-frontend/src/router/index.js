@@ -5,6 +5,7 @@ import Registration from "../views/Registration";
 import Home from "../views/Home";
 import ProfileSearchView from "../views/ProfileSearchView";
 import Profile from "../views/Profile";
+import Connections from "../views/Connections";
 
 Vue.use(VueRouter)
 
@@ -38,6 +39,11 @@ const routes = [
     name: 'Profile',
     component: Profile
   },
+  {
+    path: '/connections',
+    name: 'Connections',
+    component: Connections
+  }
 ]
 
 const router = new VueRouter({
