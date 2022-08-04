@@ -1,27 +1,16 @@
 <template>
-  <nav class = "navbar navbar-expand-lg bg-dark navbar-dark mainavbar" style="height: 8%">
-    <div class="container">
-      <a v-if="user === null" href="/home" class="navbar-brand">Adventureland</a>
-    </div>
-  </nav>
-    <router-view/>
+  <img alt="Vue logo" src="./assets/logo.png">
+  <HelloWorld msg="Welcome to Your Vue.js App"/>
 </template>
 
 <script>
-//import {useStore} from "vuex"
-//import axios from 'axios'
-//import axios from "axios";
-//import {devServer} from "../vue.config";
-export default{
-  data(){
-    return{
-      user: null,
-      loggedUser: null
-    }
-  },
-  watch: {
+import HelloWorld from './components/HelloWorld.vue'
 
-}
+export default {
+  name: 'App',
+  components: {
+    HelloWorld
+  }
 }
 </script>
 
@@ -30,12 +19,8 @@ export default{
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  text-align: center;
   color: #2c3e50;
-}
-.mainavbar{
-  position: fixed;
-  z-index: 10;
-  width: 100%;
-  margin-bottom: 1%;
+  margin-top: 60px;
 }
 </style>
