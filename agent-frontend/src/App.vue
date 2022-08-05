@@ -1,15 +1,46 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <nav class = "navbar navbar-expand-lg bg-dark navbar-dark mainavbar" style="height: 8%">
+    <div class="container">
+      <a  class="navbar-brand" href="/home">Agent application</a>
+      <div class="collapse navbar-collapse">
+        <ul class ="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="/home" v-on:click="logOut">Log out</a>
+
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+    <router-view/>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+//import {useStore} from "vuex"
+//import axios from 'axios'
+//import axios from "axios";
+//import {devServer} from "../vue.config";
+export default{
+  data(){
+    return{
+ 
+    }
+  },
+  watch: {
 
-export default {
-  name: 'App',
-  components: {
-    HelloWorld
+},
+  
+  mounted(){
+
+  },
+  methods:{
+    logOut(){
+      let router = this.$router;
+      localStorage.removeItem('token');
+      localStorage.clear();
+      router.push("/login");
+      return;
+    }
   }
 }
 </script>
@@ -19,8 +50,12 @@ export default {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+}
+.mainavbar{
+  position: fixed;
+  z-index: 10;
+  width: 100%;
+  margin-bottom: 1%;
 }
 </style>
