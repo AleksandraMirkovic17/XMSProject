@@ -5,18 +5,37 @@
       Log in to view {{user.name}} {{user.surname}}'s profile
     </div>
   </div>
-  <div v-if="(loggedUser && !loggedUserFollows && loggedUserDetails.username!=user.username)">
+  <div v-if="loggedUser && connectionStatus=='B_BLOCK_A'">
+    <div class="profile-panel">
+      You cannot view this user, because you are blocked by them
+    </div>
+  </div>
+  <div v-if="loggedUser && connectionStatus=='A_BLOCK_B'">
+    <div class="profile-panel">
+      You cannot view this user, because you blocked them
+      <div v-if="connectionStatus=='A_BLOCK_B'">
+        <button  type="button" class="btn btn-light" style=" right: 10%; margin-top: 2%; margin-left: 0.5%; border: 1pt black solid;" v-on:click="unblockUser">Unblock user</button>
+      </div>
+    </div>
+
+  </div>
+  <div v-if="(loggedUser && !loggedUserFollows && loggedUserDetails.username!=user.username && connectionStatus!='ACCEPT' && !user.Public && connectionStatus!='A_BLOCK_B' && connectionStatus!='B_BLOCK_A')">
     <div class="profile-panel">
 
       Follow to view {{user.name}} {{user.surname}}'s profile
       <br>
-      <button v-if="connectionStatus=='NO_RELATION'" type="button" class="btn btn-light" style=" right: 10%" v-on:click="follow()">+ Send request to follow</button>
-      <button v-if="connectionStatus=='PENDING'" type="button" class="btn btn-light" style=" right: 10%" v-on:click="unsendRequest">✔ Friend request sent</button>
+      <button v-if="connectionStatus=='NO_RELATION' && !user.Public" type="button" class="btn btn-light" style=" right: 10%; margin-top: 2%; margin-left: 0.5%; border: 1pt black solid;" v-on:click="follow()">+ Send request to follow</button>
+      <button v-if="connectionStatus=='PENDING'" type="button" class="btn btn-light" style=" right: 10%; margin-top: 2%; margin-left: 0.5%; border: 1pt black solid;" v-on:click="unsendRequest">✔ Friend request sent</button>
+      <div v-if="connectionStatus == 'ACCEPT'" style="display: flex; flex-direction: row;  margin: auto; margin-left: 35%; margin-top: 2%">
+        <button  type="button" class="btn btn-light" style=" right: 10%; border: 1pt black solid;" v-on:click="follow"> ✔ Accept request</button>
+        <button  type="button" class="btn btn-light" style=" right: 10%; margin-left: 0.5%; border: 1pt black solid;" v-on:click="RemoveFriendRequest"> ✖ Decline request</button>
+      </div>
+
 
 
     </div>
   </div>
-  <div style="display: flex; flex-direction: row" v-if="loggedUserFollows || user.Public || loggedUserDetails.username == user.username">
+  <div style="display: flex; flex-direction: row" v-if="(loggedUserFollows || user.Public || loggedUserDetails.username == user.username) && connectionStatus!='A_BLOCK_B' && connectionStatus!='B_BLOCK_A' ">
     <div class="col-md-4">
       <div class="profile-panel">
         <div style="display: flex; flex-direction: row; margin: 5%">
@@ -24,12 +43,19 @@
             <h2>{{user.username}}</h2>
           </div>
           <div v-if="loggedUserDetails.username!=user.username" >
-            <div v-if="this.loggedUserFollows==false">
+            <div v-if="this.loggedUserFollows==false && connectionStatus!='ACCEPT'">
 
               <button type="button" class="btn btn-light" style="position: absolute; right: 10%" v-on:click="follow()">+ Follow</button>
             </div>
+            <div v-if="connectionStatus=='ACCEPT'">
+              <div v-if="connectionStatus == 'ACCEPT'" style="display: flex; flex-direction: row; margin-left: 2%; margin-top: 2%">
+                <button  type="button" class="btn btn-light" style=" right: 2%; border: 1pt black solid;" v-on:click="follow"> ✔Accept</button>
+                <button  type="button" class="btn btn-light" style=" right: 2%; margin-left: 0.5%; border: 1pt black solid;" v-on:click="RemoveFriendRequest"> ✖Decline</button>
+              </div>
+
+            </div>
             <div v-if="loggedUserFollows==true">
-              <button type="button" class="btn btn-light" style="position: absolute; right: 10%">✔ Following</button>
+              <button type="button" class="btn btn-light" style="position: absolute; right: 10%" v-on:click="deleteFriend">✔ Following</button>
             </div>
           </div>
         </div>
@@ -246,6 +272,11 @@
             <div class="button_plus" v-on:click="addWork()" v-if="newWork.positionName && newWork.organizationName && newWork.startDate && newWork.endDate"></div>
           </div>
         </div>
+      </div>
+      <div class="profile-panel">
+        <h4>Block user</h4>
+        <p>When you block a member on Dislinkt, here's what will happen: You won't be able to access each other's profiles on Dislinkt. You won't be able to message each other on Dislinkt. You won't be able to see each other's shared content.</p>
+        <button  type="button" class="btn btn-light" style=" right: 10%; margin-top: 2%; margin-left: 0.5%; border: 1pt black solid;" v-on:click="blockUser">Block user</button>
       </div>
     </div>
     <div class="col-md-8">
@@ -652,6 +683,7 @@ export default {
             alert("Connection details are unavailable!")
           })
     },
+
     deleteReaction(){
       console.log("Deleting reacion")
       PostService.deleteReaction(this.selectedPost.id, JSON.parse(this.loggedUser).username )
@@ -721,8 +753,32 @@ export default {
           )
 
     },
+    RemoveFriendRequest(){
+      ConnectionService.DeclineFriendRequest(this.loggedUserDetails.id, this.user.id)
+      .then(response => {
+        console.log("declining friend request: ", response);
+        this.getConnectionDetails()
+      })
+      .catch(err => {
+        console.log(err)
+        alert("Error declining request!")
+      })
+
+    },
+    deleteFriend(){
+      ConnectionService.RemoveFriend(this.loggedUserDetails.id, this.user.id)
+      .then(response => {
+        console.log("deleting friend: ", response)
+        this.getConnectionDetails()
+      })
+      .catch(err => {
+        console.log(err)
+        alert("Error deleting friend!")
+      })
+
+    },
     follow(){
-      if(this.user.Public){
+      if(this.user.Public || this.connectionStatus == 'ACCEPT'){
         ConnectionService.Connect(this.loggedUserDetails.id, this.user.id)
             .then( response => {
               console.log("connecting:", response);
@@ -747,6 +803,35 @@ export default {
       }
 
 
+    },
+    unblockUser(){
+      if(this.connectionStatus == 'A_BLOCK_B'){
+        ConnectionService.UnblockUser(this.loggedUserDetails.id, this.user.id)
+            .then( response => {
+              console.log("unblocking:", response);
+              this.getConnectionDetails()
+            })
+            .catch(err => {
+                  console.log(err)
+                  alert("Error unblocking user!")
+                }
+            )
+      }
+
+    },
+    blockUser(){
+      if (this.connectionStatus!='A_BLOCK_B' && this.connectionStatus!='B_BLOCK_A'){
+        ConnectionService.BlockUser(this.loggedUserDetails.id, this.user.id)
+            .then( response => {
+              console.log("blocking:", response);
+              this.getConnectionDetails()
+            })
+            .catch(err => {
+                  console.log(err)
+                  alert("Error blocking user!")
+                }
+            )
+      }
     },
     commentOnPost(){
       console.log(this.loggedUser)
@@ -916,7 +1001,7 @@ export default {
     isSomeoneLoggedIn(){
       console.log("In checking is someone logged",this.loggedUser)
       return this.loggedUser && JSON.parse(this.loggedUser).username!=null;
-    }
+    },
 
   }
 

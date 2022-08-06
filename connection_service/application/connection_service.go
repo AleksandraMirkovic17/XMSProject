@@ -77,7 +77,7 @@ func (service *ConnectionService) UnblockUser(userIDa, userIDb string) (*pb.Acti
 	return service.store.UnblockUser(userIDa, userIDb)
 }
 
-func (service *ConnectionService) GetRecommendation(userID string) ([]*domain.UserConn, error) {
+func (service *ConnectionService) GetRecommendation(userID string) ([]*domain.UserRecommendation, error) {
 	return service.store.GetRecommendation(userID)
 }
 
@@ -88,6 +88,10 @@ func (service *ConnectionService) SendFriendRequest(userIDa, userIDb string) (*p
 
 func (service *ConnectionService) UnsendFriendRequest(userIDa, userIDb string) (*pb.ActionResult, error) {
 	return service.store.UnsendFriendRequest(userIDa, userIDb)
+}
+
+func (service *ConnectionService) DeclineFriendRequest(userIDa, userIDb string) (*pb.ActionResult, error) {
+	return service.store.DeclineFriendRequest(userIDa, userIDb)
 }
 
 func (service *ConnectionService) GetConnectionDetail(userIDa, userIDb string) (*pb.ConnectionDetail, error) {

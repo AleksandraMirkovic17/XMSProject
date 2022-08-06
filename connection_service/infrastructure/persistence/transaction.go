@@ -177,35 +177,42 @@ func unblockUser(userIDa, userIDb string, transaction neo4j.Transaction) bool {
 	return false
 }
 
-func getFriendsOfFriendsButNotBlockedRecommendation(userID string, transaction neo4j.Transaction) ([]*domain.UserConn, error) {
+func getFriendsOfFriends(userID string, transaction neo4j.Transaction) ([]*domain.UserRecommendation, error) {
 	result, err := transaction.Run(
 		"MATCH (u1:USER)-[:FRIEND]->(u2:USER)<-[:FRIEND]-(u3:USER) "+
-			"WHERE u1.userID=$uID AND u3.userID<>$uID "+
+			"MATCH (u1:USER)-[:FRIEND]->(u4:USER)<-[:FRIEND]-(u3:USER) "+
+			"WHERE u1.userID=$uID AND u3.userID<>$uID AND u4.userID<>$uID AND u4.userID<>u3.userID "+
 			"AND NOT exists((u1)-[:FRIEND]-(u3)) "+
 			"AND NOT exists((u1)-[:BLOCK]-(u3)) "+
-			"RETURN distinct u3.userID, u3.isPrivate "+
+			"RETURN distinct u1.username as komePreporucujem ,u3.userID, u3.isPrivate, u3.username, count(u2) as mutual "+
+			"ORDER BY mutual "+
 			"LIMIT 20 ",
 		map[string]interface{}{"uID": userID})
 
 	if err != nil {
 		return nil, err
 	}
-
-	var recommendation []*domain.UserConn
+	var recommendation []*domain.UserRecommendation
 	for result.Next() {
-		recommendation = append(recommendation, &domain.UserConn{UserID: result.Record().Values[0].(string), IsPublic: result.Record().Values[1].(bool)})
+		recommendation = append(recommendation, &domain.UserRecommendation{
+			UserID:   result.Record().Values[1].(string),
+			Username: result.Record().Values[3].(string),
+			IsPublic: !(result.Record().Values[2].(bool)),
+			IsMutual: true,
+			Mutual:   int(result.Record().Values[4].(int64)),
+		})
 	}
 	return recommendation, nil
 }
 
-func getFriendRecommendation(userID string, transaction neo4j.Transaction) ([]*domain.UserConn, error) {
+func getFriendRecommendation(userID string, transaction neo4j.Transaction) ([]*domain.UserRecommendation, error) {
 	result, err := transaction.Run(
 		"MATCH (u1:USER) "+
-			"MATCH (u2:USER)-[r:FRIEND]->(:USER) "+ //TODO: umesto (u2:USER)-[r:FRIEND]->(:USER) samo (u2:USER)
+			"MATCH (u2:USER)-[r:FRIEND]->(:USER) "+
 			"WHERE u1.userID=$uID AND u2.userID<>$uID "+
 			"AND NOT exists((u1)-[:FRIEND]-(u2)) "+
 			"AND NOT exists((u1)-[:BLOCK]-(u2)) "+
-			"RETURN distinct u2.userID, u2.isPrivate, COUNT(r) as num_of_friends "+
+			"RETURN distinct u2.userID, u2.isPrivate, u2.username, COUNT(r) as num_of_friends "+
 			"ORDER BY num_of_friends DESC "+
 			"LIMIT 20 ",
 		map[string]interface{}{"uID": userID})
@@ -214,9 +221,16 @@ func getFriendRecommendation(userID string, transaction neo4j.Transaction) ([]*d
 		return nil, err
 	}
 
-	var recommendation []*domain.UserConn
+	var recommendation []*domain.UserRecommendation
 	for result.Next() {
-		recommendation = append(recommendation, &domain.UserConn{UserID: result.Record().Values[0].(string), IsPublic: result.Record().Values[1].(bool)})
+		recommendation = append(recommendation, &domain.UserRecommendation{
+			UserID:   result.Record().Values[0].(string),
+			Username: result.Record().Values[2].(string),
+			IsPublic: !(result.Record().Values[1].(bool)),
+			IsMutual: false,
+			Mutual:   int(result.Record().Values[3].(int64)),
+		})
+		//&domain.UserConn{UserID: result.Record().Values[0].(string), IsPublic: result.Record().Values[1].(bool)})
 	}
 	return recommendation, nil
 }
