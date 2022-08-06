@@ -32,7 +32,8 @@ type ConnectionServiceClient interface {
 	UnblockUser(ctx context.Context, in *UnblockUserRequest, opts ...grpc.CallOption) (*ActionResult, error)
 	SendFriendRequest(ctx context.Context, in *SendFriendRequestRequest, opts ...grpc.CallOption) (*ActionResult, error)
 	UnsendFriendRequest(ctx context.Context, in *UnsendFriendRequestRequest, opts ...grpc.CallOption) (*ActionResult, error)
-	GetRecommendation(ctx context.Context, in *GetRequest, opts ...grpc.CallOption) (*Users, error)
+	DeclineFriendRequest(ctx context.Context, in *DeclineFriendRequestRequest, opts ...grpc.CallOption) (*ActionResult, error)
+	GetRecommendation(ctx context.Context, in *GetRequest, opts ...grpc.CallOption) (*RecommendedUsers, error)
 	GetConnectionDetail(ctx context.Context, in *GetConnectionDetailRequest, opts ...grpc.CallOption) (*ConnectionDetail, error)
 	ChangePrivacy(ctx context.Context, in *ChangePrivacyRequest, opts ...grpc.CallOption) (*ActionResult, error)
 	GetMyContacts(ctx context.Context, in *GetMyContactsRequest, opts ...grpc.CallOption) (*ContactsResponse, error)
@@ -136,8 +137,17 @@ func (c *connectionServiceClient) UnsendFriendRequest(ctx context.Context, in *U
 	return out, nil
 }
 
-func (c *connectionServiceClient) GetRecommendation(ctx context.Context, in *GetRequest, opts ...grpc.CallOption) (*Users, error) {
-	out := new(Users)
+func (c *connectionServiceClient) DeclineFriendRequest(ctx context.Context, in *DeclineFriendRequestRequest, opts ...grpc.CallOption) (*ActionResult, error) {
+	out := new(ActionResult)
+	err := c.cc.Invoke(ctx, "/connection_service.ConnectionService/DeclineFriendRequest", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *connectionServiceClient) GetRecommendation(ctx context.Context, in *GetRequest, opts ...grpc.CallOption) (*RecommendedUsers, error) {
+	out := new(RecommendedUsers)
 	err := c.cc.Invoke(ctx, "/connection_service.ConnectionService/GetRecommendation", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -186,7 +196,8 @@ type ConnectionServiceServer interface {
 	UnblockUser(context.Context, *UnblockUserRequest) (*ActionResult, error)
 	SendFriendRequest(context.Context, *SendFriendRequestRequest) (*ActionResult, error)
 	UnsendFriendRequest(context.Context, *UnsendFriendRequestRequest) (*ActionResult, error)
-	GetRecommendation(context.Context, *GetRequest) (*Users, error)
+	DeclineFriendRequest(context.Context, *DeclineFriendRequestRequest) (*ActionResult, error)
+	GetRecommendation(context.Context, *GetRequest) (*RecommendedUsers, error)
 	GetConnectionDetail(context.Context, *GetConnectionDetailRequest) (*ConnectionDetail, error)
 	ChangePrivacy(context.Context, *ChangePrivacyRequest) (*ActionResult, error)
 	GetMyContacts(context.Context, *GetMyContactsRequest) (*ContactsResponse, error)
@@ -227,7 +238,10 @@ func (UnimplementedConnectionServiceServer) SendFriendRequest(context.Context, *
 func (UnimplementedConnectionServiceServer) UnsendFriendRequest(context.Context, *UnsendFriendRequestRequest) (*ActionResult, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UnsendFriendRequest not implemented")
 }
-func (UnimplementedConnectionServiceServer) GetRecommendation(context.Context, *GetRequest) (*Users, error) {
+func (UnimplementedConnectionServiceServer) DeclineFriendRequest(context.Context, *DeclineFriendRequestRequest) (*ActionResult, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeclineFriendRequest not implemented")
+}
+func (UnimplementedConnectionServiceServer) GetRecommendation(context.Context, *GetRequest) (*RecommendedUsers, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetRecommendation not implemented")
 }
 func (UnimplementedConnectionServiceServer) GetConnectionDetail(context.Context, *GetConnectionDetailRequest) (*ConnectionDetail, error) {
@@ -432,6 +446,24 @@ func _ConnectionService_UnsendFriendRequest_Handler(srv interface{}, ctx context
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ConnectionService_DeclineFriendRequest_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeclineFriendRequestRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ConnectionServiceServer).DeclineFriendRequest(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/connection_service.ConnectionService/DeclineFriendRequest",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ConnectionServiceServer).DeclineFriendRequest(ctx, req.(*DeclineFriendRequestRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _ConnectionService_GetRecommendation_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GetRequest)
 	if err := dec(in); err != nil {
@@ -550,6 +582,10 @@ var ConnectionService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UnsendFriendRequest",
 			Handler:    _ConnectionService_UnsendFriendRequest_Handler,
+		},
+		{
+			MethodName: "DeclineFriendRequest",
+			Handler:    _ConnectionService_DeclineFriendRequest_Handler,
 		},
 		{
 			MethodName: "GetRecommendation",

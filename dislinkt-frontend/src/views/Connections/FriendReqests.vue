@@ -5,17 +5,24 @@
     </div>
     <div class="friends">
       <div v-for="(user,index) in requests" :key="index">
-        <div class="profile-container" v-on:click="redirectToProfile(user)" style="cursor: pointer">
-          <div class="profile-icon" style="width: 10%">
-            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16">
-              <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
-            </svg>
+        <div class="profile-container" >
+          <div class="profile-informations" v-on:click="redirectToProfile(user)" style="cursor: pointer">
+            <div class="profile-icon" style="width: 10%">
+              <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16">
+                <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+              </svg>
+            </div>
+            <div class="info" style="display: flex; flex-direction: row;width: 90%">
+              <h3 style="margin-left: 1%">{{user.name}} {{user.surname}} </h3>
+              <h3>({{user.username}})</h3>
+            </div>
           </div>
-          <div class="info" style="display: flex; flex-direction: row;width: 90%">
-            <h3 style="margin-left: 1%">{{user.name}} {{user.surname}} </h3>
-            <h3>({{user.username}})</h3>
+          <div  style="display: flex; flex-direction: row;  margin: auto; margin-left: 20%; margin-top: 2%">
+            <button  type="button" class="btn btn-light" style=" right: 10%; border: 1pt black solid;" v-on:click="Connect(user, index)"> ✔ Accept request</button>
+            <button  type="button" class="btn btn-light" style=" right: 10%; margin-left: 0.5%; border: 1pt black solid;" v-on:click="RemoveFriendRequest(user, index)"> ✖ Decline request</button>
           </div>
         </div>
+
 
       </div>
     </div>
@@ -65,8 +72,34 @@ export default {
 
   },
   methods:{
+
     redirectToProfile(user){
       this.$router.push("/profile/"+user.username)
+    },
+    RemoveFriendRequest(user, index){
+      ConnectionService.DeclineFriendRequest(this.loggedUserDetails.id, user.id)
+      .then(response => {
+        console.log("removing friend request", response)
+        this.requests.splice(index,1)
+      })
+          .catch(err => {
+                console.log(err)
+                alert("Error declining request!")
+              }
+          )
+
+    },
+    Connect(user, index){
+      ConnectionService.Connect(this.loggedUserDetails.id, user.id)
+          .then( response => {
+            console.log("connecting:", response);
+            this.requests.splice(index,1)
+          })
+          .catch(err => {
+                console.log(err)
+                alert("Error creating connection!")
+              }
+          )
     }
 }
 }
@@ -81,10 +114,15 @@ export default {
   backround-color: white;
   padding: 1%;
   color: #e5e5e5;
+
+}
+
+.profile-informations{
   display: flex;
   flex-direction: row;
   horiz-align: center;
   vertical-align: center;
+
 }
 
 </style>

@@ -14,3 +14,15 @@ func mapUserConn(userConn *domain.UserConn) *pb.User {
 
 	return userConnPb
 }
+
+func mapDomainUserToPbRecommendedUser(user *domain.UserRecommendation) *pb.RecommendedUser {
+	recommendedUser := &pb.RecommendedUser{
+		UserID:    user.UserID,
+		IsPrivate: !user.IsPublic,
+		Username:  user.Username,
+		IsMutual:  user.IsMutual,
+		Mutual:    int32(user.Mutual),
+	}
+	return recommendedUser
+
+}

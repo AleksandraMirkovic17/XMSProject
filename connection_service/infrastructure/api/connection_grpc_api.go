@@ -104,7 +104,7 @@ func (handler *ConnectionHandler) UnblockUser(ctx context.Context, request *pb.U
 	return handler.service.UnblockUser(userIDa, userIDb)
 }
 
-func (handler *ConnectionHandler) GetRecommendation(ctx context.Context, request *pb.GetRequest) (*pb.Users, error) {
+func (handler *ConnectionHandler) GetRecommendation(ctx context.Context, request *pb.GetRequest) (*pb.RecommendedUsers, error) {
 	fmt.Println("[ConnectionHandler]:GetRecommendation")
 
 	id := request.UserID
@@ -112,9 +112,9 @@ func (handler *ConnectionHandler) GetRecommendation(ctx context.Context, request
 	if err != nil {
 		return nil, err
 	}
-	response := &pb.Users{}
+	response := &pb.RecommendedUsers{}
 	for _, user := range recommendation {
-		response.Users = append(response.Users, mapUserConn(user))
+		response.Users = append(response.Users, mapDomainUserToPbRecommendedUser(user))
 	}
 	return response, nil
 }
@@ -130,6 +130,13 @@ func (handler *ConnectionHandler) UnsendFriendRequest(ctx context.Context, reque
 	userIDa := request.UnsendFriendRequestRequestDTO.UserIDa
 	userIDb := request.UnsendFriendRequestRequestDTO.UserIDb
 	return handler.service.UnsendFriendRequest(userIDa, userIDb)
+}
+
+func (handler *ConnectionHandler) DeclineFriendRequest(ctx context.Context, request *pb.DeclineFriendRequestRequest) (*pb.ActionResult, error) {
+	fmt.Println("[ConnectionHandler]:DeclineFriendRequest")
+	userIDa := request.DeclineRequestDTO.UserIDa
+	userIDb := request.DeclineRequestDTO.UserIDb
+	return handler.service.DeclineFriendRequest(userIDa, userIDb)
 }
 
 func (handler *ConnectionHandler) GetConnectionDetail(ctx context.Context, request *pb.GetConnectionDetailRequest) (*pb.ConnectionDetail, error) {

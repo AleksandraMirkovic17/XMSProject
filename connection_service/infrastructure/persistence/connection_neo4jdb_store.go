@@ -430,17 +430,12 @@ func (store *ConnectionDBStore) UnblockUser(userIDa, userIDb string) (*pb.Action
 	}
 }
 
-func (store *ConnectionDBStore) GetRecommendation(userID string) ([]*domain.UserConn, error) {
+func (store *ConnectionDBStore) GetRecommendation(userID string) ([]*domain.UserRecommendation, error) {
 
 	/*
-		useru koji salje zahtevm, preporucicemo mu 20 prijatelje njegovih prijatelja
-		ali necemo mu preporuciti one koje je on blokirao ili koji su njega blokirali
-
-		takodje dobice jos do 20 preporuka ostlaih usera koji se ne nalaze u prvom skupu
-
-		Metoda GetRecommendation vraca ukupno do 40 disjunktih preporuka
-			- do 20 preporuka na osnovu prijatelja
-			- do 20 preporuka random
+		Korisnik koji salje zahtev dobija maksimalno 40 preporuka za prijatelje
+			- 20 preporuka na osnovu zajednickih prijatelja, dobija informaciju o broju zajednickih prijatelja
+			- do 20 preporuka popularnih profila
 
 	*/
 
@@ -449,9 +444,9 @@ func (store *ConnectionDBStore) GetRecommendation(userID string) ([]*domain.User
 
 	recommendation, err := session.ReadTransaction(func(transaction neo4j.Transaction) (interface{}, error) {
 
-		var recommendation []*domain.UserConn
+		var recommendation []*domain.UserRecommendation
 
-		friendsOfFriends, err1 := getFriendsOfFriendsButNotBlockedRecommendation(userID, transaction)
+		friendsOfFriends, err1 := getFriendsOfFriends(userID, transaction)
 		if err1 != nil {
 			return recommendation, err1
 		}
@@ -469,7 +464,7 @@ func (store *ConnectionDBStore) GetRecommendation(userID string) ([]*domain.User
 		for _, recommend := range famousRecom {
 			addNewRecommend = true
 			for _, r := range recommendation {
-				if recommend.UserID == r.UserID {
+				if recommend.UserID == r.UserID { //ako je vec ubaceno
 					addNewRecommend = false
 					break
 				}
@@ -486,7 +481,7 @@ func (store *ConnectionDBStore) GetRecommendation(userID string) ([]*domain.User
 		return nil, err
 	}
 
-	return recommendation.([]*domain.UserConn), nil
+	return recommendation.([]*domain.UserRecommendation), nil
 }
 
 func (store *ConnectionDBStore) SendFriendRequest(userIDa, userIDb string) (*pb.ActionResult, error) {
@@ -564,6 +559,56 @@ func (store *ConnectionDBStore) SendFriendRequest(userIDa, userIDb string) (*pb.
 		res := result.(*pb.ActionResult)
 		return res, err
 	}
+}
+
+func (store *ConnectionDBStore) DeclineFriendRequest(userIDa string, userIDb string) (*pb.ActionResult, error) {
+	//TODO implement me
+	/*
+		UserA moze da odbije zahtev za prijateljstvo samo ako ga poseduje
+	*/
+	if userIDa == userIDb {
+		return &pb.ActionResult{Msg: "userIDa is same as userIDb", Status: 400}, nil
+	}
+	session := (*store.connectionDB).NewSession(neo4j.SessionConfig{AccessMode: neo4j.AccessModeWrite})
+	defer session.Close()
+
+	result, err := session.WriteTransaction(func(transaction neo4j.Transaction) (interface{}, error) {
+
+		actionResult := &pb.ActionResult{Msg: "msg", Status: 0}
+
+		if checkIfUserExist(userIDa, transaction) && checkIfUserExist(userIDb, transaction) {
+			if checkIfBlockExist(userIDa, userIDb, transaction) || checkIfBlockExist(userIDb, userIDa, transaction) {
+				actionResult.Msg = "Users UserIDa:" + userIDa + " and UserIDb:" + userIDb + " are blocked"
+				actionResult.Status = 400 //bad request
+				return actionResult, nil
+			} else {
+				if checkIfFriendRequestExist(userIDb, userIDa, transaction) {
+					removeFriendRequest(userIDb, userIDa, transaction)
+					actionResult.Msg = "Users UserIDa:" + userIDa + " declined friend request from UserIDb:" + userIDb
+					actionResult.Status = 200
+					return actionResult, nil
+				} else {
+					actionResult.Msg = "friend request do not exist"
+					actionResult.Status = 400 //bad request
+					return actionResult, nil
+				}
+			}
+		} else {
+			actionResult.Msg = "user does not exist"
+			actionResult.Status = 400 //bad request
+			return actionResult, nil
+		}
+
+		return actionResult, nil
+	})
+
+	if result == nil {
+		return &pb.ActionResult{Msg: "error", Status: 500}, err
+	} else {
+		res := result.(*pb.ActionResult)
+		return res, err
+	}
+
 }
 
 func (store *ConnectionDBStore) UnsendFriendRequest(userIDa, userIDb string) (*pb.ActionResult, error) {

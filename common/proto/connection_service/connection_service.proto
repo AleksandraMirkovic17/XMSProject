@@ -47,6 +47,8 @@ service ConnectionService{
     };
   }
 
+
+
   rpc AddBlockUser(AddBlockUserRequest) returns (ActionResult) {
     option (google.api.http) = {
       post: "/connection/block"
@@ -75,7 +77,14 @@ service ConnectionService{
     };
   }
 
-  rpc GetRecommendation(GetRequest) returns(Users) {
+  rpc DeclineFriendRequest(DeclineFriendRequestRequest) returns (ActionResult){
+    option(google.api.http) ={
+      post: "/connection/decline-request"
+      body: "declineRequestDTO"
+    };
+  }
+
+  rpc GetRecommendation(GetRequest) returns(RecommendedUsers) {
     option (google.api.http) = {
       get: "/connection/recommendation/{userID}"
     };
@@ -133,6 +142,10 @@ message RemoveFriendRequest{
   UserAction removeFriendDTO = 1;
 }
 
+message DeclineFriendRequestRequest{
+  UserAction declineRequestDTO = 1;
+}
+
 message SendFriendRequestRequest{
   UserAction sendFriendRequestRequestDTO = 1;
 }
@@ -188,6 +201,18 @@ message User {
 
 message Users{
   repeated User users = 1;
+}
+
+message RecommendedUser {
+  string userID = 1;
+  bool isPrivate = 2;
+  string username = 3;
+  bool isMutual = 4;
+  int32 Mutual =5;
+}
+
+message RecommendedUsers{
+  repeated RecommendedUser users = 1;
 }
 
 message UsersID{
