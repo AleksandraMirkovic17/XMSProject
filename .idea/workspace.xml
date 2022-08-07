@@ -5,23 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="73e9022d-bf7f-4b1c-95b0-7a9024d84ed5" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/api_gateway/infrastructure/handlers/FeedHandler.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/api_gateway/infrastructure/handlers/PostHandler.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api_gateway/domain/model.go" beforeDir="false" afterPath="$PROJECT_DIR$/api_gateway/domain/model.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api_gateway/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/api_gateway/go.mod" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api_gateway/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/api_gateway/go.sum" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api_gateway/infrastructure/services/client.go" beforeDir="false" afterPath="$PROJECT_DIR$/api_gateway/infrastructure/services/client.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/api_gateway/startup/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/api_gateway/startup/server.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/common/proto/connection_service/connection_service.pb.go" beforeDir="false" afterPath="$PROJECT_DIR$/common/proto/connection_service/connection_service.pb.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/common/proto/connection_service/connection_service.pb.gw.go" beforeDir="false" afterPath="$PROJECT_DIR$/common/proto/connection_service/connection_service.pb.gw.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/common/proto/connection_service/connection_service_grpc.pb.go" beforeDir="false" afterPath="$PROJECT_DIR$/common/proto/connection_service/connection_service_grpc.pb.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/connection_service/application/connection_service.go" beforeDir="false" afterPath="$PROJECT_DIR$/connection_service/application/connection_service.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/connection_service/infrastructure/api/connection_grpc_api.go" beforeDir="false" afterPath="$PROJECT_DIR$/connection_service/infrastructure/api/connection_grpc_api.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/connection_service/infrastructure/api/pb_mapper.go" beforeDir="false" afterPath="$PROJECT_DIR$/connection_service/infrastructure/api/pb_mapper.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/connection_service/infrastructure/persistence/connection_neo4jdb_store.go" beforeDir="false" afterPath="$PROJECT_DIR$/connection_service/infrastructure/persistence/connection_neo4jdb_store.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dislinkt-frontend/src/services/PostService.js" beforeDir="false" afterPath="$PROJECT_DIR$/dislinkt-frontend/src/services/PostService.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dislinkt-frontend/src/views/Home.vue" beforeDir="false" afterPath="$PROJECT_DIR$/dislinkt-frontend/src/views/Home.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/post_service/domain/dto.go" beforeDir="false" afterPath="$PROJECT_DIR$/post_service/domain/dto.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

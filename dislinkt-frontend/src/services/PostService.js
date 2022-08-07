@@ -44,6 +44,10 @@ class PostService{
         return axios.post(USER_API_BASE_URL+"post/"+postID+"/comment", newComment)
     }
 
+    getPostByIdWithUsername(postID){
+        return axios.get(USER_API_BASE_URL +"post/username/"+postID)
+    }
+
 }
 
 export default new PostService()

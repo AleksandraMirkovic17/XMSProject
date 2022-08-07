@@ -43,6 +43,9 @@ func (server *Server) initCustomHandlers() {
 	feedHandler := handlers1.NewFeedHandler(server.config)
 	feedHandler.Init(server.mux)
 
+	postHandler := handlers1.NewPostHandler(server.config)
+	postHandler.Init(server.mux)
+
 }
 
 func (server *Server) initHandlers() {

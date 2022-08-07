@@ -26,7 +26,7 @@
           <h3>There is no posts yet!</h3>
         </div>
         <div v-for="(post, index) in feedPosts" :key="index">
-          <div class="post-view" v-on:mouseover="changeSelectedPost(post)">
+          <div class="post-view" v-on:mouseover="changeSelectedPost(post.Id)">
             <div class="post-view-nav" style="display: flex; flex-direction: row">
               <div class="post-view-person-icon">
                 <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26"
@@ -82,7 +82,7 @@
                 </button>
               </div>
               <div class="comments" style="width: 33%;">
-                <button style="width: 100%; padding: 2%" data-bs-toggle="modal" data-bs-target="#commentsModal" v-on:click="changeSelectedPost(post)">
+                <button style="width: 100%; padding: 2%" data-bs-toggle="modal" data-bs-target="#commentsModal" v-on:click="changeSelectedPost(post.Id)">
                   <div class="likes-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat-right-dots" viewBox="0 0 16 16">
                       <path d="M2 1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h9.586a2 2 0 0 1 1.414.586l2 2V2a1 1 0 0 0-1-1H2zm12-1a2 2 0 0 1 2 2v12.793a.5.5 0 0 1-.854.353l-2.853-2.853a1 1 0 0 0-.707-.293H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h12z"/>
@@ -275,7 +275,7 @@ export default {
       if (this.feedPosts.length>0){
         console.log("selecting post")
         console.log("Selected", this.feedPosts[0])
-       this.changeSelectedPost(this.feedPosts[0])
+       this.changeSelectedPost(this.feedPosts[0].Id)
       }
     })
     .catch( err => {
@@ -319,7 +319,7 @@ export default {
         "reactionType": 2
       })
           .then( respo =>{
-            this.changeSelectedPost(respo.data.post)
+            this.changeSelectedPost(respo.data.post.id)
           })
     },
     dislikePost(){
@@ -329,7 +329,8 @@ export default {
         "reactionType": 1
       })
           .then( respo =>{
-            this.changeSelectedPost(respo.data.post)
+            console.log(respo.data.post)
+            this.changeSelectedPost(respo.data.post.id)
           })
     },
     commentOnPost(){
@@ -340,7 +341,7 @@ export default {
         "username": JSON.parse(this.loggedUser).username
       }, this.selectedPost.Id)
           .then( response =>{
-            this.changeSelectedPost(response.data.post)
+            this.changeSelectedPost(response.data.post.id)
             this.newCommentContent = ""
           })
           .catch( err => {
@@ -349,37 +350,45 @@ export default {
               }
           )
     },
-    changeSelectedPost(post){
-      this.selectedPost = post
-      console.log("changing selected", this.selectedPost)
-      PostService.getLikes(this.selectedPost.Id)
-          .then(response =>{
-            this.selectedPostLikes = response.data.owner;
-            console.log("Selected posts likes: ", this.selectedPostLikes)
-            this.checkUserLiked()
-          })
-          .catch(err =>{
-            alert("It is impossible to get likes!")
-            console.log(err)
-          })
-      PostService.getDislikes(this.selectedPost.Id)
-          .then(response =>{
-            this.selectedPostDislikes = response.data.owner
-            this.checkUserDisliked()
-          })
-          .catch(err =>{
-            alert("It is impossible to get dislikes!")
-            console.log(err)
-          })
-      PostService.getComments(this.selectedPost.Id)
-          .then(response =>{
-            this.selectedPostComments = response.data.comment
-            console.log("comments", this.selectedPostComments)
-          })
-          .catch(err =>{
-            alert("It is impossible to get comments!")
-            console.log(err)
-          })
+    changeSelectedPost(postID){
+      PostService.getPostByIdWithUsername(postID)
+      .then(resp =>{
+        this.selectedPost = resp.data
+        console.log("changing selected", this.selectedPost)
+        PostService.getLikes(this.selectedPost.Id)
+            .then(response =>{
+              this.selectedPostLikes = response.data.owner;
+              console.log("Selected posts likes: ", this.selectedPostLikes)
+              this.checkUserLiked()
+            })
+            .catch(err =>{
+              alert("It is impossible to get likes!")
+              console.log(err)
+            })
+        PostService.getDislikes(this.selectedPost.Id)
+            .then(response =>{
+              this.selectedPostDislikes = response.data.owner
+              this.checkUserDisliked()
+            })
+            .catch(err =>{
+              alert("It is impossible to get dislikes!")
+              console.log(err)
+            })
+        PostService.getComments(this.selectedPost.Id)
+            .then(response =>{
+              this.selectedPostComments = response.data.comment
+              console.log("comments", this.selectedPostComments)
+            })
+            .catch(err =>{
+              alert("It is impossible to get comments!")
+              console.log(err)
+            })
+      })
+      .catch(err =>{
+        console.log("Error while getting post ", err)
+        alert("It is impossible to get post by id with username!")
+      })
+
     },
   }
 }
@@ -475,8 +484,8 @@ export default {
 }
 
 .view-all-users-posts{
-  margin-left: 15%;
-  margin-right: 15%;
+  margin-left: 25%;
+  margin-right: 25%;
 }
 
 
