@@ -13,3 +13,7 @@ type Author struct {
 	Name     string
 	Surname  string
 }
+
+type FeedPostsResponseDto struct {
+	Feed []Post
+}

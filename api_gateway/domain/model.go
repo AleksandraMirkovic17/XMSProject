@@ -1,30 +1,39 @@
 package domain
 
 import (
-	"time"
+	"go.mongodb.org/mongo-driver/bson/primitive"
+	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
 type Comment struct {
-	Id      string
-	Content string
-	Date    time.Time
-	User    string
+	Id      primitive.ObjectID    `bson:"_id"`
+	Content string                `bson:"content"`
+	Date    timestamppb.Timestamp `bson:"date"`
+	User    string                `bson:"user"`
 }
 
 type Reaction struct {
-	User     string
-	Reaction int
+	Id       primitive.ObjectID `bson:"_id,omitempty"`
+	User     string             `bson:"user"`
+	Reaction ReactionType       `bson:"reaction_type"`
 }
 
-type Post struct {
-	Id        string
-	User      string
-	PostText  string
-	Images    string
-	Links     []string
-	Date      time.Time
-	Reactions []Reaction
+type ReactionType int
 
-	Comments  []Comment
-	IsDeleted bool
+const (
+	LIKE = iota
+	DISLIKED
+)
+
+type Post struct {
+	Id        primitive.ObjectID    `bson:"_id"`
+	User      string                `bson:"username"`
+	UserID    string                `bson:"userID"`
+	PostText  string                `bson:"post_text"`
+	Image     string                `bson:"images"`
+	Links     []string              `bson:"links"`
+	Date      timestamppb.Timestamp `bson:"date"`
+	Reactions []*Reaction           `bson:"reactions"`
+	Comments  []*Comment            `bson:"comments"`
+	IsDeleted bool                  `bson:"is_deleted"`
 }

@@ -39,7 +39,7 @@ func (handler *ConnectionHandler) GetFriends(ctx context.Context, request *pb.Ge
 	}
 	response := &pb.Users{}
 	for _, user := range friends {
-		fmt.Println("User", id, "is friend with", user.UserID)
+		fmt.Println("User", id, "is friend with", user.UserID, user.Username)
 		response.Users = append(response.Users, mapUserConn(user))
 	}
 	return response, nil

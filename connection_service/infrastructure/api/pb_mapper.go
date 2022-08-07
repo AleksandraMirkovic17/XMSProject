@@ -7,9 +7,11 @@ import (
 )
 
 func mapUserConn(userConn *domain.UserConn) *pb.User {
+	println("Username in mapper", userConn.Username)
 	userConnPb := &pb.User{
 		UserID:    userConn.UserID,
 		IsPrivate: !userConn.IsPublic,
+		Username:  userConn.Username,
 	}
 
 	return userConnPb

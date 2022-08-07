@@ -7,6 +7,7 @@ import (
 	"log"
 	"net/http"
 
+	handlers1 "github.com/dislinked/api_gateway/infrastructure/handlers"
 	cfg "github.com/dislinked/api_gateway/startup/config"
 	authGw "github.com/dislinked/common/proto/authentication_service"
 	connGw "github.com/dislinked/common/proto/connection_service"
@@ -30,15 +31,19 @@ func NewServer(config *cfg.Config) *Server {
 		mux:    runtime.NewServeMux(),
 	}
 	server.initHandlers()
-	//server.initCustomHandlers()
+	server.initCustomHandlers()
 	return server
 }
 
-/*func (server *Server) initCustomHandlers() {
-	postEndpoint := fmt.Sprintf("%s:%s", server.config.PostHost, server.config.PostPort)
-	connectionEndpoint := fmt.Sprintf("%s:%s", server.config.ConnHost, server.config.ConnPort)
+//endpointi iz api_gateway-a
+func (server *Server) initCustomHandlers() {
+	/*postEndpoint := fmt.Sprintf("%s:%s", server.config.PostHost, server.config.PostPort)
+	connectionEndpoint := fmt.Sprintf("%s:%s", server.config.ConnHost, server.config.ConnPort)*/
 
-}*/
+	feedHandler := handlers1.NewFeedHandler(server.config)
+	feedHandler.Init(server.mux)
+
+}
 
 func (server *Server) initHandlers() {
 	opts := []grpc.DialOption{grpc.WithTransportCredentials(insecure.NewCredentials())}

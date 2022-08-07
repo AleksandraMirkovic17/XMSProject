@@ -13,7 +13,7 @@ import (
 func NewPostClient(address string) postGw.PostServiceClient {
 	conn, err := getConnection(address)
 	if err != nil {
-		log.Fatalf("Failed to start gRPC connection to User service: %v", err)
+		log.Fatalf("Failed to start gRPC connection to Post service: %v", err)
 	}
 	return postGw.NewPostServiceClient(conn)
 }
@@ -29,7 +29,7 @@ func NewUserClient(serviceAddress string) userGw.UserServiceClient {
 func NewConnectionClient(address string) connGw.ConnectionServiceClient {
 	conn, err := getConnection(address)
 	if err != nil {
-		log.Fatalf("Failed to start gRPC connection to User service: %v", err)
+		log.Fatalf("Failed to start gRPC connection to Connection service: %v", err)
 	}
 	return connGw.NewConnectionServiceClient(conn)
 }

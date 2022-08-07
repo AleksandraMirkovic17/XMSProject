@@ -51,7 +51,7 @@ func (store *ConnectionDBStore) GetFriends(userID string) ([]domain.UserConn, er
 	friends, err := session.ReadTransaction(func(transaction neo4j.Transaction) (interface{}, error) {
 		result, err := transaction.Run(
 			"MATCH (this_user:USER) -[:FRIEND]-> (my_friend:USER) "+
-				"WHERE this_user.userID=$uID RETURN my_friend.userID, my_friend.isPrivate",
+				"WHERE this_user.userID=$uID RETURN my_friend.userID, my_friend.isPrivate, my_friend.username",
 			map[string]interface{}{"uID": userID})
 		println("tu sam 1")
 		if err != nil {
@@ -60,9 +60,10 @@ func (store *ConnectionDBStore) GetFriends(userID string) ([]domain.UserConn, er
 		println("tu sam 2")
 		var friends []domain.UserConn
 		for result.Next() {
-			println("dodavanje")
+			println("dodavanje username je", result.Record().Values[2].(string))
 			friends = append(friends, domain.UserConn{UserID: result.Record().Values[0].(string),
-				IsPublic: !result.Record().Values[1].(bool)})
+				IsPublic: !result.Record().Values[1].(bool),
+				Username: result.Record().Values[2].(string)})
 		}
 		return friends, nil
 

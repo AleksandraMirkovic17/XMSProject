@@ -7,6 +7,10 @@ class PostService{
         return axios.get(USER_API_BASE_URL+"post")
     }
 
+    getFeedForUser(username){
+        return axios.get(USER_API_BASE_URL+"user/"+username+"/feed")
+    }
+
     getAllPostsByUser(userId){
         return axios.get(USER_API_BASE_URL+"post/user/"+userId)
     }
