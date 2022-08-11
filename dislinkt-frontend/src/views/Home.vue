@@ -1,23 +1,32 @@
 <template>
   <div>
-    <div v-if="!loggedUser" class="main-home">
-      <div class="img-home">
-        <img src="../assets/slika1.jpg" style="border-radius: 20px; width: 100%; height: 100%">
-      </div>
-      <div class="text-home">
-        <h1>Welcome to dislinkt!</h1>
-        <p style="font-size: 12pt">
-          Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-        </p>
-        <button type="button" class="btn btn-dark" style="width: 80%" onclick="window.location.href='/register'">Register</button>
-        <br>
-        <br>
-        <p style="font-size: 12pt">
-          Already have an account?
-        </p>
-        <button type="button" class="btn btn-dark" style="width: 80%" onclick="window.location.href='/login'">Log in</button>
-      </div>
+    <div>
+      <div class="page-header clear-filter" filter-color="red">
+        <parallax
+            class="page-header-image"
+            style="background-image:url('img/mountain.jpg')"
+        >
 
+        </parallax>
+        <div class="container">
+          <div class="content-center brand">
+            <img style="width: 300px" class="n-logo" src="../assets/icons8-d-67.png" alt="../assets/icons8-d-67.jpg" />
+            <h1 style="font-weight: bolder; color: #242424">Dislinkt</h1>
+            <h3>Widen your horizons.</h3>
+            <div v-if="!loggedUser">
+            <button type="button" class="btn btn-dark" style="width: 50%" onclick="window.location.href='/register'">Register</button>
+              <br>
+              <br>
+              <p style="font-size: 12pt">
+                Already have an account?
+              </p>
+              <button type="button" class="btn btn-dark" style="width: 50%" onclick="window.location.href='/login'">Log in</button>
+            </div>
+          </div>
+          <h6 class="category category-absolute">
+          </h6>
+        </div>
+      </div>
     </div>
     <div v-if="loggedUser">
       <div class="view-all-users-posts">
@@ -255,8 +264,15 @@
 
 <script>
 import PostService from "../services/PostService";
+import { Parallax } from '@/components';
+
 export default {
   name: "Home",
+  bodyClass: 'index-page',
+  components: {
+    Parallax,
+
+  },
   data(){
     return{
       loggedUser: "",

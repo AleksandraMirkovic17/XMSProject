@@ -5,11 +5,22 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="73e9022d-bf7f-4b1c-95b0-7a9024d84ed5" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/api_gateway/infrastructure/handlers/PostHandler.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/dislinkt-frontend/public/img/icons8-d-67.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/dislinkt-frontend/public/img/img.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/dislinkt-frontend/public/img/mountain.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/dislinkt-frontend/src/views/Profile2.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api_gateway/startup/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/api_gateway/startup/server.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dislinkt-frontend/src/services/PostService.js" beforeDir="false" afterPath="$PROJECT_DIR$/dislinkt-frontend/src/services/PostService.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dislinkt-frontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/dislinkt-frontend/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dislinkt-frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/dislinkt-frontend/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dislinkt-frontend/public/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/dislinkt-frontend/public/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dislinkt-frontend/src/App.vue" beforeDir="false" afterPath="$PROJECT_DIR$/dislinkt-frontend/src/App.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dislinkt-frontend/src/assets/logo.png" beforeDir="false" afterPath="$PROJECT_DIR$/dislinkt-frontend/src/assets/logo.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dislinkt-frontend/src/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/dislinkt-frontend/src/main.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dislinkt-frontend/src/router/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/dislinkt-frontend/src/router/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dislinkt-frontend/src/views/Home.vue" beforeDir="false" afterPath="$PROJECT_DIR$/dislinkt-frontend/src/views/Home.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dislinkt-frontend/src/views/Login.vue" beforeDir="false" afterPath="$PROJECT_DIR$/dislinkt-frontend/src/views/Login.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dislinkt-frontend/src/views/Profile.vue" beforeDir="false" afterPath="$PROJECT_DIR$/dislinkt-frontend/src/views/Profile.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dislinkt-frontend/src/views/Registration.vue" beforeDir="false" afterPath="$PROJECT_DIR$/dislinkt-frontend/src/views/Registration.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -40,26 +51,26 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;DefaultGoTemplateProperty&quot;: &quot;Go File&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.go.format.on.save.advertiser.fired&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.go.formatter.settings.were.checked&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.go.migrated.go.modules.settings&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.go.modules.go.list.on.any.changes.was.set&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.go.watchers.conflict.with.on.save.actions.check.performed&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;go.import.settings.migrated&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/PC/Desktop/xml/XMSProject/common/proto/authentication_service&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "DefaultGoTemplateProperty": "Go File",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.go.format.on.save.advertiser.fired": "true",
+    "RunOnceActivity.go.formatter.settings.were.checked": "true",
+    "RunOnceActivity.go.migrated.go.modules.settings": "true",
+    "RunOnceActivity.go.modules.go.list.on.any.changes.was.set": "true",
+    "RunOnceActivity.go.watchers.conflict.with.on.save.actions.check.performed": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "go.import.settings.migrated": "true",
+    "last_opened_file_path": "C:/Users/PC/Desktop/xml/dislinkt-backend",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\PC\Desktop\xml\XMSProject\common\proto\authentication_service" />

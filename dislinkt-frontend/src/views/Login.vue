@@ -1,57 +1,85 @@
 <template>
-    <div class="limiter">
-        <div class="container-login100" style="background-image: /*savepage-url=images/bg-01.jpg*/ var(--savepage-url-15);">
-            <div class="wrap-login100">
-                <form class="login100-form validate-form">
-                    <!--<span class="login100-form-logo">
-                        <i class="zmdi zmdi-landscape"></i>
-                    </span>-->
-                    <span class="login100-form-title p-b-34 p-t-27">
+  <div>
+    <div class="page-header clear-filter" filter-color="orange">
+      <div
+          class="page-header-image"
+          style="background-image: url('img/mountain.jpg')"
+      ></div>
+      <div style="width: 150%">
+        <div class="container">
+          <div class="col-md-12" style="width: 100%">
+            <card type="login" plain>
+              <div class="limiter">
+                <div class="container-login100" style="background-image: /*savepage-url=images/bg-01.jpg*/ var(--savepage-url-15);">
+                  <div class="wrap-login100">
+                    <form class="login100-form validate-form">
+                      <!--<span class="login100-form-logo">
+                          <i class="zmdi zmdi-landscape"></i>
+                      </span>-->
+                      <span class="login100-form-title p-b-34 p-t-27">
                         <strong>Log in</strong>
                     </span>
-                    <div class="wrap-input100 validate-input" data-validate="Enter username">
+                      <div class="wrap-input100 validate-input" data-validate="Enter username">
                         <input class="input100" type="text" name="username" placeholder="Username" value="" v-model="user.username">
                         <span class="focus-input100" data-placeholder=""></span>
-                    </div>
-                    <div class="wrap-input100 validate-input" data-validate="Enter password">
+                      </div>
+                      <div class="wrap-input100 validate-input" data-validate="Enter password">
                         <input class="input100" type="password" name="pass" placeholder="Password" value="" v-model="user.password">
                         <span class="focus-input100" data-placeholder=""></span>
-                    </div>
-                    <!--<div class="contact100-form-checkbox">
-                        <input class="input-checkbox100" id="ckb1" type="checkbox" name="remember-me">
-                        <label class="label-checkbox100" for="ckb1">
-                            Remember me
-                        </label>
-                    </div>-->
-                    <div class="container-login100-form-btn">
+                      </div>
+                      <!--<div class="contact100-form-checkbox">
+                          <input class="input-checkbox100" id="ckb1" type="checkbox" name="remember-me">
+                          <label class="label-checkbox100" for="ckb1">
+                              Remember me
+                          </label>
+                      </div>-->
+                      <div class="container-login100-form-btn">
                         <button class="login100-form-btn" type="button" v-on:click="login()">
-                            <strong>Login</strong>
+                          <strong>Login</strong>
                         </button>
-                    </div>
-                    <div class="text-center p-t-90">
+                      </div>
+                      <div class="text-center p-t-90">
                         <a class="txt1" href="#">
-                        Forgot Password?
+                          Forgot Password?
                         </a>
                         <br>
-                      <p class="txt1">
-                        Don't have an account?
-                        <a href="/register">
-                          Register.
-                        </a>
-                      </p>
-                    </div>
-                </form>
-            </div>
+                        <p class="txt1">
+                          Don't have an account?
+                          <a href="/register">
+                            Register.
+                          </a>
+                        </p>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </card>
+          </div>
         </div>
+      </div>
+      <main-footer></main-footer>
     </div>
+
+
+  </div>
 </template>
 
 <script>
 
 import UserService from '../services/UserService';
+import { Card, Button, FormGroupInput } from '@/components';
+import MainFooter from '@/layout/MainFooter';
 
 export default {
     name: 'Login',
+  bodyClass: 'login-page',
+  components: {
+    Card,
+    MainFooter,
+    [Button.name]: Button,
+    [FormGroupInput.name]: FormGroupInput
+  },
     data(){
         return {
             user: {
@@ -86,9 +114,8 @@ export default {
 [ RESTYLE TAG ]*/
 
 * {
-	margin: 0px; 
-	padding: 0px; 
-	box-sizing: border-box;
+	margin: 0px;
+	padding: 0px;
 }
 
 body, html {
@@ -107,9 +134,7 @@ a {
   -moz-transition: all 0.4s;
 }
 
-a:focus {
-	outline: none !important;
-}
+
 
 a:hover {
 	text-decoration: none;
@@ -208,8 +233,7 @@ iframe {
 }
 
 .container-login100 {
-  width: 100%;  
-  min-height: 100vh;
+  width: 120%;
   display: -webkit-box;
   display: -webkit-flex;
   display: -moz-box;
@@ -218,13 +242,14 @@ iframe {
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-  padding: 15px;
+  margin-left: 35%;
+  margin-top: 35%;
 
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
   position: relative;
-  z-index: 1;  
+  z-index: 2;
 }
 
 .container-login100::before {
@@ -241,15 +266,15 @@ iframe {
 
 .wrap-login100 {
   width: 500px;
-  border-radius: 10px;
   overflow: hidden;
+  border: 1pt whitesmoke solid;
   padding: 55px 55px 37px 55px;
 
   background: #e85a4f;
-  background: -webkit-linear-gradient(to top, #e85a4f, #e98074);
-  background: -o-linear-gradient(to top, #e85a4f, #e98074);
-  background: -moz-linear-gradient(to top, #e85a4f, #e98074);
-  background: linear-gradient(to top, #e85a4f, #e98074);
+  background: -webkit-linear-gradient(to top, #d56161, #756261);
+  background: -o-linear-gradient(to top, #d56161, #756261);
+  background: -moz-linear-gradient(to top, #d56161, #756261);
+  background: linear-gradient(to top, #d56161, #756261);
 }
 
 
@@ -261,7 +286,7 @@ iframe {
 }
 
 .login100-form-logo {
-  font-size: 60px; 
+  font-size: 60px;
   color: #333333;
 
   display: -webkit-box;
@@ -311,7 +336,7 @@ iframe {
   padding: 0 5px 0 38px;
 }
 
-/*---------------------------------------------*/ 
+/*---------------------------------------------*/
 .focus-input100 {
   position: absolute;
   display: block;

@@ -1,5 +1,208 @@
 <template>
 <div>
+  <div>
+    <div class="page-header clear-filter" filter-color="orange">
+      <parallax
+          class="page-header-image"
+          style="background-image:url('../assets/mountain.jpg')"
+      >
+      </parallax>
+      <div class="container">
+        <div class="photo-container" style="background-color: #b7b7b7; align-content: center; vertical-align: center">
+          <h1 style="position: relative; align-content: center; margin-top: 30%;">
+            {{user.name.charAt(0).toUpperCase()}}{{user.surname.charAt(0).toUpperCase()}}
+          </h1>
+        </div>
+        <h3 class="title">{{user.name}} {{user.surname}}</h3>
+        <p class="category">@{{user.username.toLowerCase()}}</p>
+        <div class="content">
+          <div class="social-description">
+            <h2>26</h2>
+            <p>Connections</p>
+          </div>
+          <div class="social-description">
+            <h2>{{usersPosts.length}}</h2>
+            <p>Posts</p>
+          </div>
+          <div class="social-description">
+            <h2>26</h2>
+            <p>Job offers</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="section" style="display: flex; flex-direction: row">
+      <nav >
+        <div class="d-flex flex-column flex-shrink-0 p-3 bg-light" style="width: 280px;" >
+          <ul id="sidebar" class="nav nav-pills flex-column mb-auto">
+            <li v-on:click="displayFeed">
+              <a href="#" class="nav-link link-dark" aria-current="page">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-house-door-fill" viewBox="0 0 16 16">
+                  <path d="M6.5 14.5v-3.505c0-.245.25-.495.5-.495h2c.25 0 .5.25.5.5v3.5a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5z"/>
+                </svg>
+                Feed
+              </a>
+            </li>
+            <li v-on:click="displayChat">
+              <a href="#" class="nav-link link-dark" aria-current="page">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat" viewBox="0 0 16 16">
+                <path d="M2.678 11.894a1 1 0 0 1 .287.801 10.97 10.97 0 0 1-.398 2c1.395-.323 2.247-.697 2.634-.893a1 1 0 0 1 .71-.074A8.06 8.06 0 0 0 8 14c3.996 0 7-2.807 7-6 0-3.192-3.004-6-7-6S1 4.808 1 8c0 1.468.617 2.83 1.678 3.894zm-.493 3.905a21.682 21.682 0 0 1-.713.129c-.2.032-.352-.176-.273-.362a9.68 9.68 0 0 0 .244-.637l.003-.01c.248-.72.45-1.548.524-2.319C.743 11.37 0 9.76 0 8c0-3.866 3.582-7 8-7s8 3.134 8 7-3.582 7-8 7a9.06 9.06 0 0 1-2.347-.306c-.52.263-1.639.742-3.468 1.105z"/>
+              </svg>
+                Chat
+              </a>
+            </li>
+            <li  v-on:click="displayConnections">
+              <a href="#" class="nav-link link-dark">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-globe2" viewBox="0 0 16 16">
+                  <path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm7.5-6.923c-.67.204-1.335.82-1.887 1.855-.143.268-.276.56-.395.872.705.157 1.472.257 2.282.287V1.077zM4.249 3.539c.142-.384.304-.744.481-1.078a6.7 6.7 0 0 1 .597-.933A7.01 7.01 0 0 0 3.051 3.05c.362.184.763.349 1.198.49zM3.509 7.5c.036-1.07.188-2.087.436-3.008a9.124 9.124 0 0 1-1.565-.667A6.964 6.964 0 0 0 1.018 7.5h2.49zm1.4-2.741a12.344 12.344 0 0 0-.4 2.741H7.5V5.091c-.91-.03-1.783-.145-2.591-.332zM8.5 5.09V7.5h2.99a12.342 12.342 0 0 0-.399-2.741c-.808.187-1.681.301-2.591.332zM4.51 8.5c.035.987.176 1.914.399 2.741A13.612 13.612 0 0 1 7.5 10.91V8.5H4.51zm3.99 0v2.409c.91.03 1.783.145 2.591.332.223-.827.364-1.754.4-2.741H8.5zm-3.282 3.696c.12.312.252.604.395.872.552 1.035 1.218 1.65 1.887 1.855V11.91c-.81.03-1.577.13-2.282.287zm.11 2.276a6.696 6.696 0 0 1-.598-.933 8.853 8.853 0 0 1-.481-1.079 8.38 8.38 0 0 0-1.198.49 7.01 7.01 0 0 0 2.276 1.522zm-1.383-2.964A13.36 13.36 0 0 1 3.508 8.5h-2.49a6.963 6.963 0 0 0 1.362 3.675c.47-.258.995-.482 1.565-.667zm6.728 2.964a7.009 7.009 0 0 0 2.275-1.521 8.376 8.376 0 0 0-1.197-.49 8.853 8.853 0 0 1-.481 1.078 6.688 6.688 0 0 1-.597.933zM8.5 11.909v3.014c.67-.204 1.335-.82 1.887-1.855.143-.268.276-.56.395-.872A12.63 12.63 0 0 0 8.5 11.91zm3.555-.401c.57.185 1.095.409 1.565.667A6.963 6.963 0 0 0 14.982 8.5h-2.49a13.36 13.36 0 0 1-.437 3.008zM14.982 7.5a6.963 6.963 0 0 0-1.362-3.675c-.47.258-.995.482-1.565.667.248.92.4 1.938.437 3.008h2.49zM11.27 2.461c.177.334.339.694.482 1.078a8.368 8.368 0 0 0 1.196-.49 7.01 7.01 0 0 0-2.275-1.52c.218.283.418.597.597.932zm-.488 1.343a7.765 7.765 0 0 0-.395-.872C9.835 1.897 9.17 1.282 8.5 1.077V4.09c.81-.03 1.577-.13 2.282-.287z"/>
+                </svg>
+                Connections
+              </a>
+            </li>
+            <li v-on:click="displayJobOffers">
+              <a href="#" class="nav-link link-dark">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-briefcase-fill" viewBox="0 0 16 16">
+                  <path d="M6.5 1A1.5 1.5 0 0 0 5 2.5V3H1.5A1.5 1.5 0 0 0 0 4.5v1.384l7.614 2.03a1.5 1.5 0 0 0 .772 0L16 5.884V4.5A1.5 1.5 0 0 0 14.5 3H11v-.5A1.5 1.5 0 0 0 9.5 1h-3zm0 1h3a.5.5 0 0 1 .5.5V3H6v-.5a.5.5 0 0 1 .5-.5z"/>
+                  <path d="M0 12.5A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5V6.85L8.129 8.947a.5.5 0 0 1-.258 0L0 6.85v5.65z"/>
+                </svg>
+                Job offers
+              </a>
+            </li>
+            <li v-on:click="displayMyJobOffers">
+              <a href="#" class="nav-link link-dark">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark" viewBox="0 0 16 16">
+                  <path d="M14 4.5V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5.5L14 4.5zm-3 0A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5h-2z"/>
+                </svg>
+                My job offers
+              </a>
+            </li>
+            <li  v-on:click="displayProfile">
+              <a href="#" class="nav-link link-dark">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16">
+                  <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+                </svg>
+                My profile
+              </a>
+            </li>
+            <li  v-on:click="displaySettings">
+              <a href="#" class="nav-link link-dark">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-gear-fill" viewBox="0 0 16 16">
+                  <path d="M9.405 1.05c-.413-1.4-2.397-1.4-2.81 0l-.1.34a1.464 1.464 0 0 1-2.105.872l-.31-.17c-1.283-.698-2.686.705-1.987 1.987l.169.311c.446.82.023 1.841-.872 2.105l-.34.1c-1.4.413-1.4 2.397 0 2.81l.34.1a1.464 1.464 0 0 1 .872 2.105l-.17.31c-.698 1.283.705 2.686 1.987 1.987l.311-.169a1.464 1.464 0 0 1 2.105.872l.1.34c.413 1.4 2.397 1.4 2.81 0l.1-.34a1.464 1.464 0 0 1 2.105-.872l.31.17c1.283.698 2.686-.705 1.987-1.987l-.169-.311a1.464 1.464 0 0 1 .872-2.105l.34-.1c1.4-.413 1.4-2.397 0-2.81l-.34-.1a1.464 1.464 0 0 1-.872-2.105l.17-.31c.698-1.283-.705-2.686-1.987-1.987l-.311.169a1.464 1.464 0 0 1-2.105-.872l-.1-.34zM8 10.93a2.929 2.929 0 1 1 0-5.86 2.929 2.929 0 0 1 0 5.858z"/>
+                </svg>
+                Settings
+              </a>
+            </li>
+
+          </ul>
+        </div>
+      </nav>
+      <div class="container" style="border: 2pt pink dashed">
+        <div class="button-container" v-if="loggedUserDetails.username!=user.username">
+          <a v-if="this.loggedUserFollows==false && connectionStatus!='ACCEPT'" href="#button" class="btn btn-primary btn-round btn-lg" v-on:click="follow">Connect</a>
+          <a v-if="connectionStatus=='ACCEPT'" href="#button" class="btn btn-primary btn-round btn-lg" v-on:click="follow">✔ Accept</a>
+          <a v-if="connectionStatus=='ACCEPT'" href="#button" class="btn btn-default btn-round btn-lg" v-on:click="RemoveFriendRequest">✖ Decline</a>
+          <a v-if="loggedUserFollows==true" href="#button" class="btn btn-primary btn-round btn-lg" v-on:click="deleteFriend">✔ Connected</a>
+        </div>
+        <h3 class="title" v-if="user.biography!=''">About me</h3>
+        <h5 class="description" v-if="user.biography!=''">
+          {{user.biography}}
+        </h5>
+        <h3 class="title">Basic information</h3>
+        <div style="display: flex; flex-direction: row">
+          <i slot="label"  class="now-ui-icons ui-1_calendar-60" style="position:absolute; margin-left: 40%"></i>
+          <h5 class="description">
+            {{user.dateOfBirth}}
+          </h5>
+
+        </div>
+        <div style="display: flex; flex-direction: row; margin-top: 0" v-if="user.contactPhone!=''">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" style="position:absolute; margin-left: 40%" height="16" fill="currentColor" class="bi bi-telephone-fill" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M1.885.511a1.745 1.745 0 0 1 2.61.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.678.678 0 0 0 .178.643l2.457 2.457a.678.678 0 0 0 .644.178l2.189-.547a1.745 1.745 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.634 18.634 0 0 1-7.01-4.42 18.634 18.634 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877L1.885.511z"/>
+          </svg>
+            <h5 class="description">
+              {{user.contactPhone}}
+            </h5>
+        </div>
+
+        <div style="display: flex; flex-direction: row; margin-top: 0" v-if="user.email!=''">
+          <svg xmlns="http://www.w3.org/2000/svg" style="position:absolute; margin-left: 45%" width="16" height="16" fill="currentColor" class="bi bi-envelope-fill" viewBox="0 0 16 16">
+            <path d="M.05 3.555A2 2 0 0 1 2 2h12a2 2 0 0 1 1.95 1.555L8 8.414.05 3.555ZM0 4.697v7.104l5.803-3.558L0 4.697ZM6.761 8.83l-6.57 4.027A2 2 0 0 0 2 14h12a2 2 0 0 0 1.808-1.144l-6.57-4.027L8 9.586l-1.239-.757Zm3.436-.586L16 11.801V4.697l-5.803 3.546Z"/>
+          </svg>
+          <h5 class="description">
+            {{user.email}}
+          </h5>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6 ml-auto mr-auto">
+            <h4 class="title text-center">My Portfolio</h4>
+          </div>
+          <tabs
+              pills
+              class="nav-align-center"
+              tab-content-classes="gallery"
+              tab-nav-classes="nav-pills-just-icons"
+              type="primary"
+          >
+            <tab-pane title="Profile">
+              <i slot="label" class="now-ui-icons design_image"></i>
+
+              <div class="col-md-10 ml-auto mr-auto">
+                <div class="row collections">
+                  <div class="col-md-6">
+                    <img src="img/bg6.jpg" class="img-raised" />
+                    <img src="img/bg11.jpg" alt="" class="img-raised" />
+                  </div>
+                  <div class="col-md-6">
+                    <img src="img/bg7.jpg" alt="" class="img-raised" />
+                    <img src="img/bg8.jpg" alt="" class="img-raised" />
+                  </div>
+                </div>
+              </div>
+            </tab-pane>
+
+            <tab-pane title="Home">
+              <i slot="label" class="now-ui-icons location_world"></i>
+
+              <div class="col-md-10 ml-auto mr-auto">
+                <div class="row collections">
+                  <div class="col-md-6">
+                    <img src="img/bg1.jpg" alt="" class="img-raised" />
+                    <img src="img/bg3.jpg" alt="" class="img-raised" />
+                  </div>
+                  <div class="col-md-6">
+                    <img src="img/bg8.jpg" alt="" class="img-raised" />
+                    <img src="img/bg7.jpg" alt="" class="img-raised" />
+                  </div>
+                </div>
+              </div>
+            </tab-pane>
+
+            <tab-pane title="Messages">
+              <i slot="label" class="now-ui-icons sport_user-run"></i>
+
+              <div class="col-md-10 ml-auto mr-auto">
+                <div class="row collections">
+                  <div class="col-md-6">
+                    <img src="img/bg3.jpg" alt="" class="img-raised" />
+                    <img src="img/bg8.jpg" alt="" class="img-raised" />
+                  </div>
+                  <div class="col-md-6">
+                    <img src="img/bg7.jpg" alt="" class="img-raised" />
+                    <img src="img/bg6.jpg" class="img-raised" />
+                  </div>
+                </div>
+              </div>
+            </tab-pane>
+          </tabs>
+        </div>
+      </div>
+      <div class="d-flex flex-column flex-shrink-0 p-3 bg-light" style="width: 280px;">
+        <Recommendation></Recommendation>
+      </div>
+    </div>
+  </div>
+
   <div v-if="!(loggedUser || user.Public)">
     <div class="profile-panel">
       Log in to view {{user.name}} {{user.surname}}'s profile
@@ -563,8 +766,29 @@ import PictureInput from 'vue-picture-input'
 import PostService from '../services/PostService'
 import UserService from '../services/UserService'
 import ConnectionService from '../services/ConnectionService'
+import { Tabs, TabPane } from '@/components';
+import $ from 'jquery'
+import Recommendation from "./Connections/Recommendation";
+
+window.addEventListener('scroll', HandleScroll )
+
+function HandleScroll(){
+  var el =document.getElementById('sidebar');
+  var isPositionFixed = (getComputedStyle(el).getPropertyValue('position') == 'fixed');
+  if ($(this).scrollTop() > 550 && !isPositionFixed){
+    el.style.position= 'fixed'
+    el.style.top='0';
+    el.style.marginTop='4.5%'
+  }
+  if ($(this).scrollTop() < 600 && isPositionFixed){
+    el.style.position ='sticky'
+    el.style.marginTop='0'
+  }
+}
+
 export default {
   name: "Profile",
+  bodyClass: 'profile-page',
   data(){
     return{
       postText: '',
@@ -589,13 +813,19 @@ export default {
       selectedPostDislikes: [],
       newCommentContent: '',
       userLiked: false,
-      userDisliked: false
+      userDisliked: false,
+      display: 'profile'
     }
   },
   components:{
-    PictureInput
+    PictureInput,
+    Tabs,
+    TabPane,
+    Recommendation
   },
   mounted: function() {
+
+
     this.loggedUser = localStorage.getItem('user')
 
 
@@ -660,11 +890,30 @@ export default {
           if(err.response.status == 403)
             this.$router.push("/unauthorized")
         })
-
-
   },
   methods:{
-    getConnectionDetails(){
+    DisplayFeed: function(){
+      this.display='feed'
+    },
+     DisplayConnections: function(){
+      this.display='connections'
+    },
+    DisplayChat: function(){
+      this.display='chat'
+    },
+    DisplayJobOffers: function(){
+      this.display='joboffers'
+    },
+    DisplayMyJobOffers: function(){
+      this.display='myjoboffers'
+    },
+    DisplayProfile: function(){
+      this.display='profile'
+    },
+    DisplaySettings: function(){
+      this.display ='settings'
+    },
+    getConnectionDetails: function(){
       ConnectionService.GetConnectionDetail(this.loggedUserDetails.id, this.user.id)
           .then(response3 =>{
             console.log(response3.data.relation)
@@ -1003,7 +1252,7 @@ export default {
       return this.loggedUser && JSON.parse(this.loggedUser).username!=null;
     },
 
-  }
+}
 
 }
 </script>
@@ -1042,6 +1291,12 @@ export default {
   width: 70%;
   height: 100%;
 }
+
+#sidebar{
+  position:sticky;
+  z-index:110;
+}
+
 
 .posts .create-new{
   height: 20%;
@@ -1386,4 +1641,26 @@ export default {
         width: 100%;
         transition: all .3s;
     }
+    #dkkd{
+
+    }
+/*!
+ * Bootstrap v4.3.1 (https://getbootstrap.com/)
+ * Copyright 2011-2019 The Bootstrap Authors
+ * Copyright 2011-2019 Twitter, Inc.
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+ */
+
+
+.customactive{
+  background-color: #999999;
+  color: white;
+  font-weight: bold;
+  border-radius: 20px;
+}
+
+
+
+
+
 </style>
