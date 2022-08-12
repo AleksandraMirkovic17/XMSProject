@@ -33,7 +33,7 @@
       <div>
       <h1>Dont have an account?</h1>
       <p class="lead my-4"></p>
-      <a type="button" class = "btn btn-primary btn-lg"  href="/clientRegistration">Register
+      <a type="button" class = "btn btn-primary btn-lg"  href="/userRegistration">Register
       </a>
       </div>
       <div>
@@ -59,10 +59,6 @@ export default {
 
   mounted(){
           
-    localStorage.removeItem('token');
-    this.user = this.$store.state.userType
-    if(this.user == 'Client')
-      window.location.href = "/clientHomePage";
   },
 
 
