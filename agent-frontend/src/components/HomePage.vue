@@ -9,26 +9,9 @@
       <div>
       <h1>Log in to your account</h1>
       <p class="lead my-4"> </p>
-      <a type="button" class = "btn btn-primary btn-lg"  href="/login">Login
+      <a type="button" class = "btn btn-primary btn-lg"  href="/userLogin">Login
       </a>
-<div class="modal fade" id="login" tabindex="-1" role="dialog" aria-labelledby="login" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="loginn">Modal title</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div>
-    </div>
-  </div>
-</div>
+
       </div>
       <div>
       <h1>Dont have an account?</h1>

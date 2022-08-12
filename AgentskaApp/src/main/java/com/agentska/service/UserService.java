@@ -4,6 +4,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.agentska.model.User;
@@ -69,5 +70,8 @@ public class UserService {
 	public User save(User user)
 	{
 		return userRepository.save(user);
+	}
+	public User getLoggedUser() {
+		return (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 	}
 }
