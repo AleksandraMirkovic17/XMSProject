@@ -72,6 +72,8 @@ public class UserService {
 		return userRepository.save(user);
 	}
 	public User getLoggedUser() {
-		return (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		String currentUserEmail = SecurityContextHolder.getContext().getAuthentication().getName();
+		System.out.print(currentUserEmail);
+		return findByEmail(currentUserEmail);
 	}
 }

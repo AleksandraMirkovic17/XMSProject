@@ -49,7 +49,7 @@ export default{
       this.CheckIfFieldsAreFilled();
 
       if(this.fieldsFilled && this.passwordValid){
-        axios.post('http://localhost:8080/register/userRegistration',
+        axios.post('http://localhost:8080/api/userRegistration',
             {
               "username": this.username,
               "email": this.email,

@@ -28,7 +28,7 @@ import com.agentska.jwt.JwtUtils;
 
 @RestController
 @RequestMapping(
-		value = {"/register"},
+		value = {"/api"},
 		produces = {"application/json"}
 )
 public class UserController {
@@ -111,6 +111,9 @@ public class UserController {
 		userService.registerUser(registeredUser);
 		
 		String appUrl = request.getContextPath();
+
+		System.out.print(appUrl);
+
         eventPublisher.publishEvent(new OnRegistrationCompleteEvent(registeredUser,
           request.getLocale(), appUrl));
 		return new ResponseEntity<>(

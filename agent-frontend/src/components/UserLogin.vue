@@ -69,7 +69,7 @@ export default{
                 }
                     localStorage.setItem('token', JSON.stringify(response.data.accessToken));
                     let token = localStorage.getItem('token').substring(1, localStorage.getItem('token').length-1);
-                     axios.get('http://localhost:8080/auth//userData', {
+                     axios.get('http://localhost:8080/auth/userData', {
                     headers: {
                     'Authorization' : 'Bearer ' + token,
                   }

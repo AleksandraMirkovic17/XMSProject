@@ -55,6 +55,8 @@ public class AuthController {
 		Authentication authentication = authenticationManager.authenticate(
 				new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
 		User user = userRepository.findByEmail(loginRequest.getEmail()).orElse(null);
+
+
 		if(user == null || !user.isActivated())
 			return new ResponseEntity<>(
 				      "User not authenticated or does not exist!", 
@@ -83,6 +85,8 @@ public class AuthController {
 	)
 	public ResponseEntity<User> getUserData() {
 		System.out.println("-----------------get user data-----------");
+	User user=this.userService.getLoggedUser();
+	System.out.println(user.toString());
 
 		try {
 			return ResponseEntity.ok(this.userService.getLoggedUser());
