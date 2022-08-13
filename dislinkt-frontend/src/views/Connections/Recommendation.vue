@@ -1,21 +1,24 @@
 <template>
-<div v-if="loggedUser" class="recommendations-main">
-  <div class="title">
-    <h6 style="color: white; font-weight: bolder; margin: 2%">Add recommended friends({{recommendations.length}})</h6>
-  </div>
+<div v-if="loggedUser" class="recommendations-main container">
+    <h6>People you might know({{recommendations.length}})</h6>
+  <hr>
   <div class="recommendations" style="margin-top: 2%;">
     <div v-for="(user,index) in recommendations" :key="index">
-      <div class="profile-recommendation" style="margin-top: 2%; width: 100%">
-        <div class="profile-view" v-on:click="redirectToProfile(user)" style="cursor: pointer">
-          <div class="profile-icon" style="width: 10%">
-            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16">
-              <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
-            </svg>
+      <div class="panel profile-card-small" style="">
+        <div class="profile-view" v-on:click="redirectToProfile(user)" style="cursor: pointer; display: flex; flex-direction: row" >
+          <div class="profile-icon" style="width: 20%">
+            <div class="photo-container-small">
+              <p style="position: relative; align-content: center; margin: 13%;" v-if="user && user.name && user.surname">
+                {{user.name.charAt(0).toUpperCase()}}{{user.surname.charAt(0).toUpperCase()}}
+              </p>
+            </div>
           </div>
-          <div class="info" style="display: flex; flex-direction: row; margin-left: 2%; margin-top: 2%">
-            <p style="margin-left: 1%; font-size: 130%">{{user.name}}  </p>
+          <div class="info">
+          <div  style="display: flex; flex-direction: row;  margin-top: 2%">
+            <p style="margin-left: 1%; font-size: 130%;">{{user.name}}  </p>
             <p style="margin-left: 1%; font-size: 130%">{{user.surname}}</p>
-            <p style="margin-left: 1%; font-size: 130%">({{user.username}})</p>
+          </div>
+            <p class="username">@{{user.username}}</p>
           </div>
 
         </div>
@@ -30,11 +33,11 @@
 
         </div>
         <div class="profile-respond">
-          <button v-if="user.connectionStatus=='NO_RELATION'" type="button" class="btn btn-light" style="right: 10%" v-on:click="follow(user)">+ Follow</button>
-          <button v-if="user.connectionStatus=='PENDING'" type="button" class="btn btn-light" style="right: 10%" v-on:click="unsendRequest(user)">✔ Friend request sent</button>
+          <button v-if="user.connectionStatus=='NO_RELATION'" type="button" class="btn btn-round" style="right: 10%" v-on:click="follow(user)">+ Follow</button>
+          <button v-if="user.connectionStatus=='PENDING'" type="button" class="btn btn-round" style="right: 10%" v-on:click="unsendRequest(user)">✔ Friend request sent</button>
           <div v-if="user.connectionStatus=='ACCEPT'">
-            <button  type="button" class="btn btn-light" style=" right: 10%; border: 1pt black solid;" v-on:click="follow(user)"> ✔ Accept request</button>
-            <button  type="button" class="btn btn-light" style=" right: 10%; margin-left: 0.5%; border: 1pt black solid;" v-on:click="RemoveFriendRequest(user)"> ✖ Decline request</button>
+            <button  type="button" class="btn btn-round" style=" right: 10%; border: 1pt black solid;" v-on:click="follow(user)"> ✔ Accept request</button>
+            <button  type="button" class="btn btn-round" style=" right: 10%; margin-left: 0.5%; border: 1pt black solid;" v-on:click="RemoveFriendRequest(user)"> ✖ Decline request</button>
           </div>
         </div>
 
@@ -43,6 +46,8 @@
     </div>
 
   </div>
+  <h6 style="margin-top: 10%">Jobs for you({{jobs4u.length}})</h6>
+  <hr>
 
 </div>
 </template>
@@ -58,6 +63,7 @@ export default {
       loggedUser: "",
       loggedUserDetails: "",
       recommendations: new Array(),
+      jobs4u: new Array()
 
     }
   },
@@ -66,7 +72,7 @@ export default {
     UserService.getUserByUsername(JSON.parse(this.loggedUser).username).then(response =>{
       this.loggedUserDetails = response.data.User
       ConnectionService.GetRecommenadations(this.loggedUserDetails.id).then(response1 =>{
-        console.log("recommendations:", response1.data.users)
+        //console.log("recommendations:", response1.data.users)
         var friendNodes =  response1.data.users
         for (var f of friendNodes){
           this.pushNewRecommendation(f)
@@ -88,15 +94,15 @@ export default {
     pushNewRecommendation(f){
       UserService.getUserById(f.userID)
           .then(response2 =>{
-            console.log(response2.data)
+           // console.log(response2.data)
             let recommendedUser = {id: f.userID, name: response2.data.User.name, surname: response2.data.User.surname,
               username: response2.data.User.username,
               isMutualFriends: f.isMutual, MutualFriends: f.Mutual, connectionStatus: 'NO_RELATION', Public: !f.isPrivate}
             ConnectionService.GetConnectionDetail(this.loggedUserDetails.id, response2.data.User.id)
             .then(response3 =>{
-              console.log("Connection details between recommended and logged user:", response3.data)
+             // console.log("Connection details between recommended and logged user:", response3.data)
               recommendedUser.connectionStatus = response3.data.relation
-              console.log("recommended user",recommendedUser)
+             // console.log("recommended user",recommendedUser)
               this.recommendations.push(recommendedUser)
             })
                 .catch(err2 =>{
@@ -115,7 +121,7 @@ export default {
       this.$router.push("/profile/"+user.username)
     },
     follow(user){
-      console.log(user, this.loggedUserDetails)
+     // console.log(user, this.loggedUserDetails)
       if(user.Public || user.connectionStatus == 'ACCEPT'){
         ConnectionService.Connect(this.loggedUserDetails.id, user.id)
             .then( response => {
@@ -123,7 +129,7 @@ export default {
               this.getNewRecommendations()
             })
             .catch(err => {
-                  console.log(err)
+                 console.log(err)
                   alert("Error creating connection!")
                 }
             )
@@ -170,7 +176,7 @@ export default {
     getNewRecommendations() {
       this.recommendations = new Array()
       ConnectionService.GetRecommenadations(this.loggedUserDetails.id).then(response1 =>{
-        console.log("recommendations:", response1.data.users)
+       // console.log("recommendations:", response1.data.users)
         var friendNodes =  response1.data.users
         for (var f of friendNodes){
           this.pushNewRecommendation(f)
@@ -190,40 +196,15 @@ export default {
 
 .profile-view{
   margin-top: 2%;
-  backround-color: white;
   padding: 1%;
-  color: #e5e5e5;
   display: flex;
   flex-direction: row;
   horiz-align: center;
   vertical-align: center;
 }
 
-.recommendations{
-  background-color: #333333;
-  padding: 3%;
-  border-radius: 15px;
-}
-
-.profile-recommendation{
-  padding: 3%;
-  padding-top: 0%;
-  border-style: solid;
-  border-width: 1pt;
-  border-color: #e5e5e5;
-}
-
-.profile-view{
-  padding: 3%;
-}
-
 .recommendations-main{
-  margin-right: 0;
-  width: 100%;
-}
 
-.info-mutual{
-  color: white;
 }
 
 </style>
