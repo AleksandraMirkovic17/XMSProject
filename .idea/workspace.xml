@@ -5,9 +5,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="73e9022d-bf7f-4b1c-95b0-7a9024d84ed5" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dislinkt-frontend/src/assets/scss/now-ui-kit/_example-pages.scss" beforeDir="false" afterPath="$PROJECT_DIR$/dislinkt-frontend/src/assets/scss/now-ui-kit/_example-pages.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dislinkt-frontend/src/views/Connections/Recommendation.vue" beforeDir="false" afterPath="$PROJECT_DIR$/dislinkt-frontend/src/views/Connections/Recommendation.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dislinkt-frontend/src/views/Profile.vue" beforeDir="false" afterPath="$PROJECT_DIR$/dislinkt-frontend/src/views/Profile.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />

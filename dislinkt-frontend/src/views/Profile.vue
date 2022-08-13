@@ -105,286 +105,289 @@
           </ul>
         </div>
       </nav>
-      <div class="container">
-        <div class="button-container" v-if="loggedUserDetails.username!=user.username">
-          <a v-if="this.loggedUserFollows==false && connectionStatus!='ACCEPT'" href="#button" class="btn btn-primary btn-round btn-lg" v-on:click="follow">Connect</a>
-          <a v-if="connectionStatus=='ACCEPT'" href="#button" class="btn btn-primary btn-round btn-lg" v-on:click="follow">✔ Accept</a>
-          <a v-if="connectionStatus=='ACCEPT'" href="#button" class="btn btn-default btn-round btn-lg" v-on:click="RemoveFriendRequest">✖ Decline</a>
-          <a v-if="loggedUserFollows==true" href="#button" class="btn btn-primary btn-round btn-lg" v-on:click="deleteFriend">✔ Connected</a>
-        </div>
-        <div>
-          <h3 class="title" v-if="user.biography!=''">About me</h3>
-          <h5 class="description" v-if="user.biography!=''">
-            {{user.biography}}
-          </h5>
-          <h3 class="title">Basic information</h3>
-          <div class="prinf" style="align-content: center; justify-content: center; horiz-align: center;">
-            <div style="align-content: center; horiz-align: center; text-align: center; align-items: center;">
-
-            <i slot="label"   class="now-ui-icons ui-1_calendar-60" style="width: 25pt; height:25pt;"></i>
-</div>
-      <div style="text-align: center;">
-  <h5 style="align-content: center; justify-content: center; margin: 0">
-    {{user.dateOfBirth}}
-  </h5>
-</div>
+      <div  class="container">
+        <div v-if="display=='profile'">
+          <div class="button-container" v-if="loggedUserDetails.username!=user.username">
+            <a v-if="this.loggedUserFollows==false && connectionStatus!='ACCEPT'" href="#button" class="btn btn-primary btn-round btn-lg" v-on:click="follow">Connect</a>
+            <a v-if="connectionStatus=='ACCEPT'" href="#button" class="btn btn-primary btn-round btn-lg" v-on:click="follow">✔ Accept</a>
+            <a v-if="connectionStatus=='ACCEPT'" href="#button" class="btn btn-default btn-round btn-lg" v-on:click="RemoveFriendRequest">✖ Decline</a>
+            <a v-if="loggedUserFollows==true" href="#button" class="btn btn-primary btn-round btn-lg" v-on:click="deleteFriend">✔ Connected</a>
           </div>
-          <div class="prinf" style=" margin-top: 0; text-align: center; align-content: center" v-if="user.contactPhone!=''">
-            <div style="align-content: center; horiz-align: center; text-align: center; align-items: center;">
-
-            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" style=" " fill="currentColor" class="bi bi-telephone-fill" viewBox="0 0 16 16">
-              <path fill-rule="evenodd" d="M1.885.511a1.745 1.745 0 0 1 2.61.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.678.678 0 0 0 .178.643l2.457 2.457a.678.678 0 0 0 .644.178l2.189-.547a1.745 1.745 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.634 18.634 0 0 1-7.01-4.42 18.634 18.634 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877L1.885.511z"/>
-            </svg>
-              </div>
-            <div style="text-align: center;">
-            <h5 style="align-content: center; justify-content: center; margin: 0">
-              {{user.contactPhone}}
+          <div>
+            <h3 class="title" v-if="user.biography!=''">About me</h3>
+            <h5 class="description" v-if="user.biography!=''">
+              {{user.biography}}
             </h5>
-              </div>
-          </div>
+            <h3 class="title">Basic information</h3>
+            <div class="prinf" style="align-content: center; justify-content: center; horiz-align: center;">
+              <div style="align-content: center; horiz-align: center; text-align: center; align-items: center;">
 
-          <div class="prinf" style="margin-top: 0; margin-bottom: 10%" v-if="user.email!=''">
-            <div style="align-content: center; horiz-align: center; text-align: center; align-items: center;">
-              <svg xmlns="http://www.w3.org/2000/svg" style=" " width="25" height="25" fill="currentColor" class="bi bi-envelope-fill" viewBox="0 0 16 16">
-                <path d="M.05 3.555A2 2 0 0 1 2 2h12a2 2 0 0 1 1.95 1.555L8 8.414.05 3.555ZM0 4.697v7.104l5.803-3.558L0 4.697ZM6.761 8.83l-6.57 4.027A2 2 0 0 0 2 14h12a2 2 0 0 0 1.808-1.144l-6.57-4.027L8 9.586l-1.239-.757Zm3.436-.586L16 11.801V4.697l-5.803 3.546Z"/>
-              </svg>
+                <i slot="label"   class="now-ui-icons ui-1_calendar-60" style="width: 25pt; height:25pt;"></i>
+              </div>
+              <div style="text-align: center;">
+                <h5 style="align-content: center; justify-content: center; margin: 0">
+                  {{user.dateOfBirth}}
+                </h5>
+              </div>
             </div>
-            <div style="text-align: center;">
-            <h5 style="align-content: center; justify-content: center; margin: 0">
-              {{user.email}}
-            </h5>
+            <div class="prinf" style=" margin-top: 0; text-align: center; align-content: center" v-if="user.contactPhone!=''">
+              <div style="align-content: center; horiz-align: center; text-align: center; align-items: center;">
+
+                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" style=" " fill="currentColor" class="bi bi-telephone-fill" viewBox="0 0 16 16">
+                  <path fill-rule="evenodd" d="M1.885.511a1.745 1.745 0 0 1 2.61.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.678.678 0 0 0 .178.643l2.457 2.457a.678.678 0 0 0 .644.178l2.189-.547a1.745 1.745 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.634 18.634 0 0 1-7.01-4.42 18.634 18.634 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877L1.885.511z"/>
+                </svg>
               </div>
-          </div>
-        </div>
-        <div class="additional-info" style="display: flex; flex-direction: row; width: 100%">
-        <div class="experience profile-panel" style="width: 55%; margin: 2%;">
-          <h3>Experience</h3>
-          <h4 class="description" style="text-align: left">
-            Education
-          </h4>
-          <div v-if="user.educationExperiences && user.educationExperiences.length>0">
-            <div class="education-profile" v-for="(experience,index) in user.educationExperiences" :key="index" >
-              <div style="display: flex; flex-direction: row; margin-bottom: 2%">
-                <div class="diploma" style="width: 20%; margin: 5%;">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="45" height="45" fill="currentColor" class="bi bi-mortarboard-fill" viewBox="0 0 16 16">
-                    <path d="M8.211 2.047a.5.5 0 0 0-.422 0l-7.5 3.5a.5.5 0 0 0 .025.917l7.5 3a.5.5 0 0 0 .372 0L14 7.14V13a1 1 0 0 0-1 1v2h3v-2a1 1 0 0 0-1-1V6.739l.686-.275a.5.5 0 0 0 .025-.917l-7.5-3.5Z"/>
-                    <path d="M4.176 9.032a.5.5 0 0 0-.656.327l-.5 1.7a.5.5 0 0 0 .294.605l4.5 1.8a.5.5 0 0 0 .372 0l4.5-1.8a.5.5 0 0 0 .294-.605l-.5-1.7a.5.5 0 0 0-.656-.327L8 10.466 4.176 9.032Z"/>
-                  </svg>
-                </div>
-                <div class="experience information">
-                <p style="margin-bottom: 1%; font-size: 11pt; text-align: left">{{formattedEducationType(experience.type)}}</p>
-                  <h5 style="margin-top: 1%; margin-bottom: 1%; text-align: left">{{experience.institutionName}}</h5>
-                  <p style="margin-bottom: 1%; font-size: 11pt; text-align: left">{{experience.startDate}} - {{experience.endDate}}</p>
-              </div>
-
-            </div>
-              </div>
-
-          </div>
-          <div v-if="user.educationExperiences.length==0">
-            <p class="nav-pills-warning">No information about education.</p>
-          </div>
-
-          <hr>
-          <h4 class="description" style="text-align: left">
-            Work
-          </h4>
-          <div v-if="user.workExperiences && user.workExperiences.length>0">
-            <div  v-for="(experience,index) in user.workExperiences" :key="index">
-              <div style="display: flex; flex-direction: row; margin-bottom: 2%">
-                <div class="diploma" style="width: 20%; margin: 5%;">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="45" height="45" fill="currentColor" class="bi bi-briefcase-fill" viewBox="0 0 16 16">
-                    <path d="M6.5 1A1.5 1.5 0 0 0 5 2.5V3H1.5A1.5 1.5 0 0 0 0 4.5v1.384l7.614 2.03a1.5 1.5 0 0 0 .772 0L16 5.884V4.5A1.5 1.5 0 0 0 14.5 3H11v-.5A1.5 1.5 0 0 0 9.5 1h-3zm0 1h3a.5.5 0 0 1 .5.5V3H6v-.5a.5.5 0 0 1 .5-.5z"/>
-                    <path d="M0 12.5A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5V6.85L8.129 8.947a.5.5 0 0 1-.258 0L0 6.85v5.65z"/>
-                  </svg>
-                </div>
-                <div class="experience information">
-                  <h5 style=" margin-bottom: 1%; text-align: left">{{experience.organizationName}}</h5>
-
-                  <p style="margin-top: 1%; margin-bottom: 1%; font-size: 11pt; text-align: left">{{experience.positionName}}</p>
-                  <p style="margin-bottom: 1%; font-size: 11pt; text-align: left">{{experience.startDate}} - {{experience.endDate}}</p>
-                </div>
-
+              <div style="text-align: center;">
+                <h5 style="align-content: center; justify-content: center; margin: 0">
+                  {{user.contactPhone}}
+                </h5>
               </div>
             </div>
 
+            <div class="prinf" style="margin-top: 0; margin-bottom: 10%" v-if="user.email!=''">
+              <div style="align-content: center; horiz-align: center; text-align: center; align-items: center;">
+                <svg xmlns="http://www.w3.org/2000/svg" style=" " width="25" height="25" fill="currentColor" class="bi bi-envelope-fill" viewBox="0 0 16 16">
+                  <path d="M.05 3.555A2 2 0 0 1 2 2h12a2 2 0 0 1 1.95 1.555L8 8.414.05 3.555ZM0 4.697v7.104l5.803-3.558L0 4.697ZM6.761 8.83l-6.57 4.027A2 2 0 0 0 2 14h12a2 2 0 0 0 1.808-1.144l-6.57-4.027L8 9.586l-1.239-.757Zm3.436-.586L16 11.801V4.697l-5.803 3.546Z"/>
+                </svg>
+              </div>
+              <div style="text-align: center;">
+                <h5 style="align-content: center; justify-content: center; margin: 0">
+                  {{user.email}}
+                </h5>
+              </div>
+            </div>
           </div>
-          <div v-if="user.workExperiences.length ==0">
-            <p class="nav-pills-warning">No information about job positions.</p>
-          </div>
-        </div>
-        <div class="skills profile-panel" style="width: 35%; margin: 2%;">
-          <h3 style="text-align: left">Skills({{user.skills.length}})</h3>
-          <div v-if="user.skills.length>0" style="text-align: left">
-            <badge type="primary"  style="margin-right: 1%" v-for="(skill,index) in user.skills" :key="index" class="primary">
-              {{skill.name}}
-            </badge>
+          <div class="additional-info" style="display: flex; flex-direction: row; width: 100%">
+            <div class="experience profile-panel" style="width: 55%; margin: 2%;">
+              <h3>Experience</h3>
+              <h4 class="description" style="text-align: left">
+                Education
+              </h4>
+              <div v-if="user.educationExperiences && user.educationExperiences.length>0">
+                <div class="education-profile" v-for="(experience,index) in user.educationExperiences" :key="index" >
+                  <div style="display: flex; flex-direction: row; margin-bottom: 2%">
+                    <div class="diploma" style="width: 20%; margin: 5%;">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="45" height="45" fill="currentColor" class="bi bi-mortarboard-fill" viewBox="0 0 16 16">
+                        <path d="M8.211 2.047a.5.5 0 0 0-.422 0l-7.5 3.5a.5.5 0 0 0 .025.917l7.5 3a.5.5 0 0 0 .372 0L14 7.14V13a1 1 0 0 0-1 1v2h3v-2a1 1 0 0 0-1-1V6.739l.686-.275a.5.5 0 0 0 .025-.917l-7.5-3.5Z"/>
+                        <path d="M4.176 9.032a.5.5 0 0 0-.656.327l-.5 1.7a.5.5 0 0 0 .294.605l4.5 1.8a.5.5 0 0 0 .372 0l4.5-1.8a.5.5 0 0 0 .294-.605l-.5-1.7a.5.5 0 0 0-.656-.327L8 10.466 4.176 9.032Z"/>
+                      </svg>
+                    </div>
+                    <div class="experience information">
+                      <p style="margin-bottom: 1%; font-size: 11pt; text-align: left">{{formattedEducationType(experience.type)}}</p>
+                      <h5 style="margin-top: 1%; margin-bottom: 1%; text-align: left">{{experience.institutionName}}</h5>
+                      <p style="margin-bottom: 1%; font-size: 11pt; text-align: left">{{experience.startDate}} - {{experience.endDate}}</p>
+                    </div>
 
-          </div>
-          <hr>
-          <h3 style="text-align: left">Interests({{user.interests.length}})</h3>
-          <div v-if="user.skills.length>0" style="text-align: left">
-            <badge type="info" style="margin-right: 1%" v-for="(interest,index) in user.interests" :key="index" >
-              {{interest.name}}
-            </badge>
-
-          </div>
-        </div>
-        </div>
-        <div class="row">
-          <tabs
-              pills
-              class="nav-align-center"
-              tab-content-classes="gallery"
-              tab-nav-classes="nav-pills-just-icons"
-              type="primary"
-          >
-            <a id="anchor1"></a>
-
-            <tab-pane title="Posts">
-
-              <i slot="label" class="now-ui-icons education_paper"></i>
-              <div>
-                <h3>Posts</h3>
-                <div class="create-new" style="border: 0.2pt solid #e95e38; padding: 2%; " v-if="isUserLoggedIn()">
-                  <div class="head-line" style="display: flex; flex-direction: row">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="white" class="bi bi-file-earmark-post-fill" viewBox="0 0 16 16">
-                      <path d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0zM9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1zm-5-.5H7a.5.5 0 0 1 0 1H4.5a.5.5 0 0 1 0-1zm0 3h7a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-.5.5h-7a.5.5 0 0 1-.5-.5v-7a.5.5 0 0 1 .5-.5z"/>
-                    </svg>
-                    <h4 class="description" style="margin-left: 1%; margin-top: 0.2%; ">New post</h4>
                   </div>
-                  <div class="post-content" style="display: flex; flex-direction: row" >
-                    <div class="hello" style="margin-top: 1%">
-                      <picture-input
-                          ref="pictureInput"
-                          width="250"
-                          height="220"
-                          margin="16"
-                          accept="image/jpeg,image/png"
-                          size="10"
-                          button-class="btn"
-                          :custom-strings="{
+                </div>
+
+              </div>
+              <div v-if="user.educationExperiences.length==0">
+                <p class="nav-pills-warning">No information about education.</p>
+              </div>
+
+              <hr>
+              <h4 class="description" style="text-align: left">
+                Work
+              </h4>
+              <div v-if="user.workExperiences && user.workExperiences.length>0">
+                <div  v-for="(experience,index) in user.workExperiences" :key="index">
+                  <div style="display: flex; flex-direction: row; margin-bottom: 2%">
+                    <div class="diploma" style="width: 20%; margin: 5%;">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="45" height="45" fill="currentColor" class="bi bi-briefcase-fill" viewBox="0 0 16 16">
+                        <path d="M6.5 1A1.5 1.5 0 0 0 5 2.5V3H1.5A1.5 1.5 0 0 0 0 4.5v1.384l7.614 2.03a1.5 1.5 0 0 0 .772 0L16 5.884V4.5A1.5 1.5 0 0 0 14.5 3H11v-.5A1.5 1.5 0 0 0 9.5 1h-3zm0 1h3a.5.5 0 0 1 .5.5V3H6v-.5a.5.5 0 0 1 .5-.5z"/>
+                        <path d="M0 12.5A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5V6.85L8.129 8.947a.5.5 0 0 1-.258 0L0 6.85v5.65z"/>
+                      </svg>
+                    </div>
+                    <div class="experience information">
+                      <h5 style=" margin-bottom: 1%; text-align: left">{{experience.organizationName}}</h5>
+
+                      <p style="margin-top: 1%; margin-bottom: 1%; font-size: 11pt; text-align: left">{{experience.positionName}}</p>
+                      <p style="margin-bottom: 1%; font-size: 11pt; text-align: left">{{experience.startDate}} - {{experience.endDate}}</p>
+                    </div>
+
+                  </div>
+                </div>
+
+              </div>
+              <div v-if="user.workExperiences.length ==0">
+                <p class="nav-pills-warning">No information about job positions.</p>
+              </div>
+            </div>
+            <div class="skills profile-panel" style="width: 35%; margin: 2%;">
+              <h3 style="text-align: left">Skills({{user.skills.length}})</h3>
+              <div v-if="user.skills.length>0" style="text-align: left">
+                <badge type="primary"  style="margin-right: 1%" v-for="(skill,index) in user.skills" :key="index" class="primary">
+                  {{skill.name}}
+                </badge>
+
+              </div>
+              <hr>
+              <h3 style="text-align: left">Interests({{user.interests.length}})</h3>
+              <div v-if="user.skills.length>0" style="text-align: left">
+                <badge type="info" style="margin-right: 1%" v-for="(interest,index) in user.interests" :key="index" >
+                  {{interest.name}}
+                </badge>
+
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <tabs
+                pills
+                class="nav-align-center"
+                tab-content-classes="gallery"
+                tab-nav-classes="nav-pills-just-icons"
+                type="primary"
+            >
+              <a id="anchor1"></a>
+
+              <tab-pane title="Posts">
+
+                <i slot="label" class="now-ui-icons education_paper"></i>
+                <div>
+                  <h3>Posts</h3>
+                  <div class="create-new" style="border: 0.2pt solid #e95e38; padding: 2%; " v-if="isUserLoggedIn()">
+                    <div class="head-line" style="display: flex; flex-direction: row">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="white" class="bi bi-file-earmark-post-fill" viewBox="0 0 16 16">
+                        <path d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0zM9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1zm-5-.5H7a.5.5 0 0 1 0 1H4.5a.5.5 0 0 1 0-1zm0 3h7a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-.5.5h-7a.5.5 0 0 1-.5-.5v-7a.5.5 0 0 1 .5-.5z"/>
+                      </svg>
+                      <h4 class="description" style="margin-left: 1%; margin-top: 0.2%; ">New post</h4>
+                    </div>
+                    <div class="post-content" style="display: flex; flex-direction: row" >
+                      <div class="hello" style="margin-top: 1%">
+                        <picture-input
+                            ref="pictureInput"
+                            width="250"
+                            height="220"
+                            margin="16"
+                            accept="image/jpeg,image/png"
+                            size="10"
+                            button-class="btn"
+                            :custom-strings="{
                 upload: '<h1>Bummer!</h1>',
                 drag: 'Drag or click to select photo',
                 remove: 'Remove photo'
               }"
-                          @change="onChange">
-                      </picture-input>
+                            @change="onChange">
+                        </picture-input>
+                      </div>
+                      <div class="content2">
+                        <div class="post-text">
+                          <div class="form-floating">
+                            <textarea class="form-control" placeholder="Write a post..." id="floatingTextarea" style="font-size: 12pt; height: 180px" v-model = "postText"></textarea>
+                            <label for="floatingTextarea" style="font-size: 12pt">Post text</label>
+                          </div>
+                        </div>
+                        <div class="post-link" style="display: flex; flex-direction: row">
+                          <div class="input-field">
+                            <input type="text" class="form-control" id="exampleFormControlInput1" v-model="link" placeholder="Add link">
+                          </div>
+                          <button type="button" class="btn btn-light" style="border-radius: 90%" v-on:click="addLink()">+</button>
+                        </div>
+                        <p v-for="(link, index) in links" :key="index" class="link-dark" style="text-align: left">
+                          <a>{{link}}</a>
+                        </p>
+                      </div>
                     </div>
-                    <div class="content2">
-                      <div class="post-text">
-                        <div class="form-floating">
-                          <textarea class="form-control" placeholder="Write a post..." id="floatingTextarea" style="font-size: 12pt; height: 180px" v-model = "postText"></textarea>
-                          <label for="floatingTextarea" style="font-size: 12pt">Post text</label>
-                        </div>
-                      </div>
-                      <div class="post-link" style="display: flex; flex-direction: row">
-                        <div class="input-field">
-                          <input type="text" class="form-control" id="exampleFormControlInput1" v-model="link" placeholder="Add link">
-                        </div>
-                        <button type="button" class="btn btn-light" style="border-radius: 90%" v-on:click="addLink()">+</button>
-                      </div>
-                      <p v-for="(link, index) in links" :key="index" class="link-dark" style="text-align: left">
-                        <a>{{link}}</a>
-                      </p>
+                    <div class="footer">
+                      <button type="button" class="btn btn-primary" v-on:click="CreatePost">Post</button>
                     </div>
                   </div>
-                  <div class="footer">
-                    <button type="button" class="btn btn-primary" v-on:click="CreatePost">Post</button>
-                  </div>
-                </div>
 
-                <div class="view-all-users-posts">
-                  <div v-if="usersPosts && usersPosts.length==0">
-                    <h4 class="description">There is no posts yet. Come back later!</h4>
-                  </div>
-                  <div v-for="(post, index) in usersPosts" :key="index">
-                    <div class="post-view" v-on:mouseover="changeSelectedPost(post)">
-                      <div class="post-view-nav" style="display: flex; flex-direction: row">
-                        <div class="post-view-person-icon">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26"
-                               fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
-                            <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
-                            <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
-                          </svg>
+                  <div class="view-all-users-posts">
+                    <div v-if="usersPosts && usersPosts.length==0">
+                      <h4 class="description">There is no posts yet. Come back later!</h4>
+                    </div>
+                    <div v-for="(post, index) in usersPosts" :key="index">
+                      <div class="post-view" v-on:mouseover="changeSelectedPost(post)">
+                        <div class="post-view-nav" style="display: flex; flex-direction: row">
+                          <div class="post-view-person-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26"
+                                 fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
+                              <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+                              <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
+                            </svg>
+                          </div>
+                          <div class="post-view-username">
+                            <h5>{{user.username}}</h5>
+                          </div>
+                          <div class="post-view-date" style="margin-left: 50%">
+                            <h5>{{post.date}}</h5>
+                          </div>
                         </div>
-                        <div class="post-view-username">
-                          <h5>{{user.username}}</h5>
+                        <div class="post-view-image" style="margin: 2%">
+                          <img v-bind:src="post.image" style="width: 100%">
                         </div>
-                        <div class="post-view-date" style="margin-left: 50%">
-                          <h5>{{post.date}}</h5>
+                        <div class="post-txt" style="position:relative;">
+                          <p>{{ post.posttext }}</p>
                         </div>
-                      </div>
-                      <div class="post-view-image" style="margin: 2%">
-                        <img v-bind:src="post.image" style="width: 100%">
-                      </div>
-                      <div class="post-txt" style="position:relative;">
-                        <p>{{ post.posttext }}</p>
-                      </div>
-                      <div class="post-links" style="margin-bottom: 3%">
-                        <div v-if="post.links.length==0">no links</div>
-                        <div v-for="(link, index) in post.links" :key="index">
-                          <a :href="link"><h6>{{ link}}</h6></a>
+                        <div class="post-links" style="margin-bottom: 3%">
+                          <div v-if="post.links.length==0">no links</div>
+                          <div v-for="(link, index) in post.links" :key="index">
+                            <a :href="link"><h6>{{ link}}</h6></a>
+                          </div>
                         </div>
-                      </div>
-                      <div class="post-additiona" style="display: flex; flex-direction: row; width: 100%">
-                        <div>
-                          <button type="primary" class="btn-default" style="border: 0pt" data-bs-toggle="modal" data-bs-target="#likesModal">
+                        <div class="post-additiona" style="display: flex; flex-direction: row; width: 100%">
+                          <div>
+                            <button type="primary" class="btn-default" style="border: 0pt" data-bs-toggle="modal" data-bs-target="#likesModal">
                               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-hand-thumbs-up-fill" viewBox="0 0 16 16">
                                 <path d="M6.956 1.745C7.021.81 7.908.087 8.864.325l.261.066c.463.116.874.456 1.012.965.22.816.533 2.511.062 4.51a9.84 9.84 0 0 1 .443-.051c.713-.065 1.669-.072 2.516.21.518.173.994.681 1.2 1.273.184.532.16 1.162-.234 1.733.058.119.103.242.138.363.077.27.113.567.113.856 0 .289-.036.586-.113.856-.039.135-.09.273-.16.404.169.387.107.819-.003 1.148a3.163 3.163 0 0 1-.488.901c.054.152.076.312.076.465 0 .305-.089.625-.253.912C13.1 15.522 12.437 16 11.5 16H8c-.605 0-1.07-.081-1.466-.218a4.82 4.82 0 0 1-.97-.484l-.048-.03c-.504-.307-.999-.609-2.068-.722C2.682 14.464 2 13.846 2 13V9c0-.85.685-1.432 1.357-1.615.849-.232 1.574-.787 2.132-1.41.56-.627.914-1.28 1.039-1.639.199-.575.356-1.539.428-2.59z"/>
                               </svg>
                               <br>
                               <h5 style="margin-top: 2%">
-                                 Like
+                                Like
                               </h5>
-                          </button>
-                        </div>
-                        <div>
-                          <button type="primary" class="btn-default" style="border: 0pt" data-bs-toggle="modal" data-bs-target="#dislikesModal">
-                            <div class="likes-icon">
-                              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-hand-thumbs-down-fill" viewBox="0 0 16 16">
-                                <path d="M6.956 14.534c.065.936.952 1.659 1.908 1.42l.261-.065a1.378 1.378 0 0 0 1.012-.965c.22-.816.533-2.512.062-4.51.136.02.285.037.443.051.713.065 1.669.071 2.516-.211.518-.173.994-.68 1.2-1.272a1.896 1.896 0 0 0-.234-1.734c.058-.118.103-.242.138-.362.077-.27.113-.568.113-.856 0-.29-.036-.586-.113-.857a2.094 2.094 0 0 0-.16-.403c.169-.387.107-.82-.003-1.149a3.162 3.162 0 0 0-.488-.9c.054-.153.076-.313.076-.465a1.86 1.86 0 0 0-.253-.912C13.1.757 12.437.28 11.5.28H8c-.605 0-1.07.08-1.466.217a4.823 4.823 0 0 0-.97.485l-.048.029c-.504.308-.999.61-2.068.723C2.682 1.815 2 2.434 2 3.279v4c0 .851.685 1.433 1.357 1.616.849.232 1.574.787 2.132 1.41.56.626.914 1.28 1.039 1.638.199.575.356 1.54.428 2.591z"/>
-                              </svg>
-                              <br>
-                              <h5 style="margin-top: 2%">
-                                Dislike
-                              </h5>
-                            </div>
-                          </button>
-                        </div>
-                        <div>
-                          <button type="primary" class="btn-default" style="border: 0pt" data-bs-toggle="modal" data-bs-target="#commentsModal" v-on:click="changeSelectedPost(post)">
-                            <div class="likes-icon">
-                              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat-right-dots" viewBox="0 0 16 16">
-                                <path d="M2 1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h9.586a2 2 0 0 1 1.414.586l2 2V2a1 1 0 0 0-1-1H2zm12-1a2 2 0 0 1 2 2v12.793a.5.5 0 0 1-.854.353l-2.853-2.853a1 1 0 0 0-.707-.293H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h12z"/>
-                                <path d="M5 6a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
-                              </svg>
-                              <br>
-                              <h5 style="margin-top: 2%">
-                                Comments
-                              </h5>
-                            </div>
-                          </button>
+                            </button>
+                          </div>
+                          <div>
+                            <button type="primary" class="btn-default" style="border: 0pt" data-bs-toggle="modal" data-bs-target="#dislikesModal">
+                              <div class="likes-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-hand-thumbs-down-fill" viewBox="0 0 16 16">
+                                  <path d="M6.956 14.534c.065.936.952 1.659 1.908 1.42l.261-.065a1.378 1.378 0 0 0 1.012-.965c.22-.816.533-2.512.062-4.51.136.02.285.037.443.051.713.065 1.669.071 2.516-.211.518-.173.994-.68 1.2-1.272a1.896 1.896 0 0 0-.234-1.734c.058-.118.103-.242.138-.362.077-.27.113-.568.113-.856 0-.29-.036-.586-.113-.857a2.094 2.094 0 0 0-.16-.403c.169-.387.107-.82-.003-1.149a3.162 3.162 0 0 0-.488-.9c.054-.153.076-.313.076-.465a1.86 1.86 0 0 0-.253-.912C13.1.757 12.437.28 11.5.28H8c-.605 0-1.07.08-1.466.217a4.823 4.823 0 0 0-.97.485l-.048.029c-.504.308-.999.61-2.068.723C2.682 1.815 2 2.434 2 3.279v4c0 .851.685 1.433 1.357 1.616.849.232 1.574.787 2.132 1.41.56.626.914 1.28 1.039 1.638.199.575.356 1.54.428 2.591z"/>
+                                </svg>
+                                <br>
+                                <h5 style="margin-top: 2%">
+                                  Dislike
+                                </h5>
+                              </div>
+                            </button>
+                          </div>
+                          <div>
+                            <button type="primary" class="btn-default" style="border: 0pt" data-bs-toggle="modal" data-bs-target="#commentsModal" v-on:click="changeSelectedPost(post)">
+                              <div class="likes-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat-right-dots" viewBox="0 0 16 16">
+                                  <path d="M2 1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h9.586a2 2 0 0 1 1.414.586l2 2V2a1 1 0 0 0-1-1H2zm12-1a2 2 0 0 1 2 2v12.793a.5.5 0 0 1-.854.353l-2.853-2.853a1 1 0 0 0-.707-.293H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h12z"/>
+                                  <path d="M5 6a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
+                                </svg>
+                                <br>
+                                <h5 style="margin-top: 2%">
+                                  Comments
+                                </h5>
+                              </div>
+                            </button>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
+
                 </div>
+              </tab-pane>
 
-              </div>
-            </tab-pane>
+              <tab-pane title="Job offers">
+                <a id="anchor2"></a>
 
-            <tab-pane title="Job offers">
-              <a id="anchor2"></a>
+                <i slot="label" class="now-ui-icons business_briefcase-24"></i>
+                <div>
+                  <h3>Job offers</h3>
+                </div>
+              </tab-pane>
 
-              <i slot="label" class="now-ui-icons business_briefcase-24"></i>
-              <div>
-                <h3>Job offers</h3>
-              </div>
-            </tab-pane>
-
-          </tabs>
+            </tabs>
+          </div>
         </div>
+
 
 
 
@@ -439,7 +442,6 @@
           </div>
           <div v-if="loggedUserDetails.username!=user.username" >
             <div v-if="this.loggedUserFollows==false && connectionStatus!='ACCEPT'">
-
               <button type="button" class="btn btn-light" style="position: absolute; right: 10%" v-on:click="follow()">+ Follow</button>
             </div>
             <div v-if="connectionStatus=='ACCEPT'">
@@ -672,131 +674,6 @@
         <h4>Block user</h4>
         <p>When you block a member on Dislinkt, here's what will happen: You won't be able to access each other's profiles on Dislinkt. You won't be able to message each other on Dislinkt. You won't be able to see each other's shared content.</p>
         <button  type="button" class="btn btn-light" style=" right: 10%; margin-top: 2%; margin-left: 0.5%; border: 1pt black solid;" v-on:click="blockUser">Block user</button>
-      </div>
-    </div>
-    <div class="col-md-8">
-      <div class="create-new" v-if="isUserLoggedIn()">
-        <div class="head-line" style="display: flex; flex-direction: row">
-          <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="white" class="bi bi-file-earmark-post-fill" viewBox="0 0 16 16">
-            <path d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0zM9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1zm-5-.5H7a.5.5 0 0 1 0 1H4.5a.5.5 0 0 1 0-1zm0 3h7a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-.5.5h-7a.5.5 0 0 1-.5-.5v-7a.5.5 0 0 1 .5-.5z"/>
-          </svg>
-          <h4 style="margin-left: 1%; margin-top: 0.2%; font-weight: bolder; font-style: italic; color: white">Create new post</h4>
-        </div>
-        <div class="post-content" style="display: flex; flex-direction: row" >
-        <div class="hello" style="margin-top: 1%">
-          <picture-input
-              ref="pictureInput"
-              width="350"
-              height="350"
-              margin="16"
-              accept="image/jpeg,image/png"
-              size="10"
-              button-class="btn"
-              :custom-strings="{
-                upload: '<h1>Bummer!</h1>',
-                drag: 'Drag or click to select photo',
-                remove: 'Remove photo'
-              }"
-              @change="onChange">
-          </picture-input>
-        </div>
-          <div class="content2">
-            <div class="post-text">
-              <div class="form-floating">
-                <textarea class="form-control" placeholder="Write a post..." id="floatingTextarea" style="font-size: 12pt; height: 250px" v-model = "postText"></textarea>
-                <label for="floatingTextarea" style="font-size: 12pt">Post text</label>
-              </div>
-            </div>
-            <div class="post-link" style="display: flex; flex-direction: row">
-              <div class="input-field">
-                <input type="text" class="form-control" id="exampleFormControlInput1" v-model="link" placeholder="Add link">
-              </div>
-              <button type="button" class="btn btn-light" style="border-radius: 90%" v-on:click="addLink()">+</button>
-            </div>
-          </div>
-        </div>
-        <div class="footer">
-          <button type="button" class="btn btn-primary" v-on:click="CreatePost">Post</button>
-        </div>
-      </div>
-      <div class="view-all-users-posts">
-      <h4 style="margin-top: 1%; color: white">Older posts</h4>
-        <div v-if="this.usersPosts.length==0">
-          <h3>There is no posts yet!</h3>
-        </div>
-        <div v-for="(post, index) in usersPosts" :key="index">
-          <div class="post-view" v-on:mouseover="changeSelectedPost(post)">
-            <div class="post-view-nav" style="display: flex; flex-direction: row">
-              <div class="post-view-person-icon">
-                <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26"
-                     fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
-                  <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
-                  <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
-                </svg>
-              </div>
-              <div class="post-view-username">
-                <h5>{{user.username}}</h5>
-              </div>
-              <div class="post-view-date" style="margin-left: 50%">
-                <h5>{{post.date}}</h5>
-              </div>
-            </div>
-            <div class="post-view-image" style="margin: 2%">
-              <img v-bind:src="post.image" style="width: 100%">
-            </div>
-            <div class="post-txt" style="position:relative;">
-              <h6>{{ post.posttext }}</h6>
-            </div>
-            <div class="post-links">
-              <div v-if="post.links.length==0">no links</div>
-              <div v-for="(link, index) in post.links" :key="index">
-                <a :href="link"><h7>{{ link}}</h7></a>
-              </div>
-            </div>
-            <div class="post-additiona" style="display: flex; flex-direction: row; width: 100%">
-              <div class="likes" style="width: 33%;" >
-                <button type="button" style="width: 100%; padding: 2%" data-bs-toggle="modal" data-bs-target="#likesModal">
-                  <div class="likes-icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-hand-thumbs-up-fill" viewBox="0 0 16 16">
-                      <path d="M6.956 1.745C7.021.81 7.908.087 8.864.325l.261.066c.463.116.874.456 1.012.965.22.816.533 2.511.062 4.51a9.84 9.84 0 0 1 .443-.051c.713-.065 1.669-.072 2.516.21.518.173.994.681 1.2 1.273.184.532.16 1.162-.234 1.733.058.119.103.242.138.363.077.27.113.567.113.856 0 .289-.036.586-.113.856-.039.135-.09.273-.16.404.169.387.107.819-.003 1.148a3.163 3.163 0 0 1-.488.901c.054.152.076.312.076.465 0 .305-.089.625-.253.912C13.1 15.522 12.437 16 11.5 16H8c-.605 0-1.07-.081-1.466-.218a4.82 4.82 0 0 1-.97-.484l-.048-.03c-.504-.307-.999-.609-2.068-.722C2.682 14.464 2 13.846 2 13V9c0-.85.685-1.432 1.357-1.615.849-.232 1.574-.787 2.132-1.41.56-.627.914-1.28 1.039-1.639.199-.575.356-1.539.428-2.59z"/>
-                    </svg>
-                    <br>
-                    <h5 style="margin-top: 2%">
-                      Like
-                    </h5>
-                  </div>
-                </button>
-              </div>
-              <div class="dislikes" style="width: 33%;">
-                <button style="width: 100%; padding: 2%" data-bs-toggle="modal" data-bs-target="#dislikesModal">
-                  <div class="likes-icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-hand-thumbs-down-fill" viewBox="0 0 16 16">
-                      <path d="M6.956 14.534c.065.936.952 1.659 1.908 1.42l.261-.065a1.378 1.378 0 0 0 1.012-.965c.22-.816.533-2.512.062-4.51.136.02.285.037.443.051.713.065 1.669.071 2.516-.211.518-.173.994-.68 1.2-1.272a1.896 1.896 0 0 0-.234-1.734c.058-.118.103-.242.138-.362.077-.27.113-.568.113-.856 0-.29-.036-.586-.113-.857a2.094 2.094 0 0 0-.16-.403c.169-.387.107-.82-.003-1.149a3.162 3.162 0 0 0-.488-.9c.054-.153.076-.313.076-.465a1.86 1.86 0 0 0-.253-.912C13.1.757 12.437.28 11.5.28H8c-.605 0-1.07.08-1.466.217a4.823 4.823 0 0 0-.97.485l-.048.029c-.504.308-.999.61-2.068.723C2.682 1.815 2 2.434 2 3.279v4c0 .851.685 1.433 1.357 1.616.849.232 1.574.787 2.132 1.41.56.626.914 1.28 1.039 1.638.199.575.356 1.54.428 2.591z"/>
-                    </svg>
-                    <br>
-                    <h5 style="margin-top: 2%">
-                      Dislike
-                    </h5>
-                  </div>
-                </button>
-              </div>
-              <div class="comments" style="width: 33%;">
-                <button style="width: 100%; padding: 2%" data-bs-toggle="modal" data-bs-target="#commentsModal" v-on:click="changeSelectedPost(post)">
-                  <div class="likes-icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat-right-dots" viewBox="0 0 16 16">
-                      <path d="M2 1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h9.586a2 2 0 0 1 1.414.586l2 2V2a1 1 0 0 0-1-1H2zm12-1a2 2 0 0 1 2 2v12.793a.5.5 0 0 1-.854.353l-2.853-2.853a1 1 0 0 0-.707-.293H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h12z"/>
-                      <path d="M5 6a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
-                    </svg>
-                    <br>
-                    <h5 style="margin-top: 2%">
-                      Comments
-                    </h5>
-                  </div>
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
   </div>
