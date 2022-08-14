@@ -5,7 +5,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="73e9022d-bf7f-4b1c-95b0-7a9024d84ed5" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/dislinkt-frontend/src/views/Profile.vue" beforeDir="false" afterPath="$PROJECT_DIR$/dislinkt-frontend/src/views/Profile.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/common/proto/job_service/google/api/annotations.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/common/proto/job_service/google/api/field_behavior.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/common/proto/job_service/google/api/http.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/common/proto/job_service/google/api/httpbody.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/common/proto/job_service/job_service.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/job_service/Dockerfile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/job_service/application/job_service.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/job_service/domain/job_store.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/job_service/domain/model.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/job_service/main.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/job_service/persistence/job_store.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/job_service/.idea/jobService.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/job_service/.idea/modules.xml" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -48,7 +61,7 @@
     "RunOnceActivity.go.watchers.conflict.with.on.save.actions.check.performed": "true",
     "WebServerToolWindowFactoryState": "false",
     "go.import.settings.migrated": "true",
-    "last_opened_file_path": "C:/Users/PC/Desktop/xml/dislinkt-backend",
+    "last_opened_file_path": "C:/Users/PC/Desktop/xml/XMSProject/common/proto/job_offer",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -58,6 +71,7 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\PC\Desktop\xml\XMSProject\common\proto\job_offer" />
       <recent name="C:\Users\PC\Desktop\xml\XMSProject\common\proto\authentication_service" />
     </key>
     <key name="MoveFile.RECENT_KEYS">

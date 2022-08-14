@@ -1,0 +1,121 @@
+syntax = "proto3";
+
+option go_package = "common/proto/job_service";
+
+package job_service;
+
+import "google/api/annotations.proto";
+service JobService{
+  rpc GetJobOffer(GetJobRequest) returns (GetJobResponse){
+    option (google.api.http) = {
+      get: "/job/{jobID}"
+    };
+  }
+
+  rpc GetAllJobs(EmptyJobRequest) returns (GetAllJobsResponse){
+    option (google.api.http) = {
+      get: "/job"
+    };
+  }
+
+  rpc CreateJob(CreateJobRequest) returns(CreateJobResponse){
+    option (google.api.http) = {
+      post: "/job"
+      body: "job"
+    };
+  }
+
+  rpc UpdateJob(CreateJobRequest) returns(CreateJobResponse){
+    option (google.api.http)={
+      put: "/job"
+      body: "job"
+    };
+  }
+
+  rpc SearchJob(SearchJobRequest) returns(GetAllJobsResponse){
+    option (google.api.http)={
+      get: "/job/search/{param}"
+    };
+  }
+
+  rpc GetUserJobs(CreateUserRequest) returns(GetAllJobsResponse){
+    option (google.api.http)={
+      put: "/job/user/{userID}"
+    };
+  }
+
+  rpc DeleteJob(GetJobRequest) returns(EmptyJobResponse) {
+    option (google.api.http)={
+      delete: "/job/{jobID}"
+    };
+  }
+
+  rpc CreateUser(CreateUserRequest) returns(ActionResult){
+
+  }
+
+  rpc UpdateUserSkills(UpdateSkillsRequest) returns(ActionResult){}
+
+  rpc GetRecommendationJob(GetRecommendedJobsRequest) returns(GetAllJobsResponse){}
+}
+
+message EmptyJobResponse{
+
+}
+
+message EmptyJobRequest{
+
+}
+
+message GetJobRequest{
+  string jobID = 1;
+}
+
+message GetJobResponse{
+  Job job =1;
+}
+
+message GetAllJobsResponse{
+  repeated Job jobs=1;
+}
+
+message CreateJobRequest{
+  Job job = 1;
+}
+
+message CreateJobResponse{
+  Job job = 1;
+}
+
+message SearchJobRequest{
+  string param = 1;
+}
+
+message CreateUserRequest{
+  string userID = 1;
+}
+
+message UpdateSkillsRequest{
+  string userID = 1;
+  repeated string skills = 2;
+}
+
+message ActionResult{
+  int64 status =1;
+  string msg = 2;
+}
+
+message GetRecommendedJobsRequest{
+  string userID = 1;
+}
+
+message Job{
+  string jobID = 1;
+  string publisherId =2;
+  repeated string requiredSkills =3;
+  string datePosted = 4;
+  string dateValid =5;
+  string companyName =6;
+  string position =7;
+  string jobDescription =8;
+}
