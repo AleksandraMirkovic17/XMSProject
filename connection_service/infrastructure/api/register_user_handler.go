@@ -32,11 +32,12 @@ func (handler *RegisterUserCommandHandler) handle(command *events.RegisterConnec
 	//ovde bi trebala konverzija jednog usera u drugi user
 
 	reply := events.RegisterUserConnectionReply{User: command.User}
-	println("Id je" + command.User.Id + " , a public je: ")
+	println("Username: "+command.User.Username+", id: ", command.User.Id+", public:")
 	println("Command type je" + string(command.Type))
+	println(command.Type)
 	switch command.Type {
 
-	case events.UserProfileCreate:
+	case events.CreateUserNode:
 		println("event u register_user_handler je UserProfileCreate")
 		err, _ := handler.connectionService.Register(command.User.Id, command.User.Username, command.User.IsPublic)
 		if err.Status != 201 {
@@ -46,7 +47,9 @@ func (handler *RegisterUserCommandHandler) handle(command *events.RegisterConnec
 			reply.Type = events.UserNodeCreated
 			println("created register_user_handler ")
 		}
+
 	default:
+		println("Unknown reply je u pitanju")
 		reply.Type = events.UnknownReply
 	}
 

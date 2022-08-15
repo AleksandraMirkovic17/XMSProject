@@ -56,7 +56,7 @@ func (p PostHandler) GetPostWithUsername(w http.ResponseWriter, r *http.Request,
 		println("get post by id error")
 		return
 	}
-	println("User id is ", strings.Split(post.Post.User, "\"")[1])
+	println("UserAuthentication id is ", strings.Split(post.Post.User, "\"")[1])
 	user, err := userService.Get(context.TODO(), &userPb.GetUserRequest{Id: strings.Split(post.Post.User, "\"")[1]})
 	if err != nil {
 		println("find by id user error")

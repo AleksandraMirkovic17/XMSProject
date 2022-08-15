@@ -31,13 +31,14 @@ func NewRegisterUserCommandHandler(orderService *application.UserService, publis
 //treba da se nalazi u connection servisu
 //treba orkestrator umesto ovoga
 func (handler *CreateOrderCommandHandler) handle(command *events.RegisterUserCommand) {
-
+	println("Nalazim se u hendleru user servisa")
 	order := mappers.MapCommandToUser(command) //ovde se postavlja id
 
 	reply := events.RegisterUserReply{User: command.User}
 
 	switch command.Type {
 	case events.UserProfileCreate:
+		println("komanda jr userProfileCreate")
 		err := handler.userService.Register(order)
 		if err != nil {
 			reply.Type = events.UserProfileNotCreated
@@ -60,5 +61,6 @@ func (handler *CreateOrderCommandHandler) handle(command *events.RegisterUserCom
 
 	if reply.Type != events.UnknownReply {
 		_ = handler.replyPublisher.Publish(reply)
+		println("Reply je publisovan")
 	}
 }

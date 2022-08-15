@@ -1,4 +1,4 @@
-package api
+package mappers
 
 import (
 	"AuthenticationService/domain"
@@ -8,17 +8,17 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
-func mapCommandToAuthUser(command *events.RegisterUserCommand) *domain.User {
-	var userD = &domain.User{
+func MapCommandToAuthUser(command *events.RegisterUserCommand) *domain.UserAuthentication {
+	var userD = &domain.UserAuthentication{
 		ID:       primitive.ObjectID{},
 		Username: command.User.Username,
 		Password: command.User.Password,
-		Role:     mapCommandRoleToAuthRole(command.User.Role),
+		Role:     MapCommandRoleToAuthRole(command.User.Role),
 	}
 	return userD
 }
 
-func mapCommandRoleToAuthRole(role create_order.Role) string {
+func MapCommandRoleToAuthRole(role create_order.Role) string {
 	switch role {
 	case create_order.Agent:
 		return "Agent"
@@ -31,7 +31,7 @@ func mapCommandRoleToAuthRole(role create_order.Role) string {
 	return "Regular"
 }
 
-func mapAuthRoleToCreateOrderRole(role pb.UserRoleAuth) events.Role {
+func MapAuthRoleToCreateOrderRole(role pb.UserRoleAuth) events.Role {
 	switch role {
 	case pb.UserRoleAuth_RegularAuth:
 		return events.Regular
@@ -43,7 +43,7 @@ func mapAuthRoleToCreateOrderRole(role pb.UserRoleAuth) events.Role {
 	return events.Regular
 
 }
-func mapAuthGenderToCreateOrderGender(gender pb.GenderAuth) events.Gender {
+func MapAuthGenderToCreateOrderGender(gender pb.GenderAuth) events.Gender {
 	switch gender {
 	case pb.GenderAuth_MaleAuth:
 		return events.MALE

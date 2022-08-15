@@ -38,6 +38,12 @@ type ConnectionUserDetails struct {
 	IsPublic bool
 }
 
+type JobUserDetails struct {
+	UserID   string
+	Username string
+	Skills   []string
+}
+
 type RegisterUserCommandType int8
 
 const (
@@ -48,6 +54,8 @@ const (
 	RollebackConnectionNode
 	AuthenticationServiceUpdate
 	RollbackAuthenticationService
+	CreateJobNode
+	RollbackJobNode
 	ApproveRegistration
 	CancelRegistration
 	UnknownCommand
@@ -58,8 +66,18 @@ type RegisterUserCommand struct {
 	Type RegisterUserCommandType
 }
 
+type RegisterAuthenticationUserCommand struct {
+	User UserDetails
+	Type RegisterUserCommandType
+}
+
 type RegisterConnectionUserCommand struct {
 	User ConnectionUserDetails
+	Type RegisterUserCommandType
+}
+
+type RegisterJobUserCommand struct {
+	User JobUserDetails
 	Type RegisterUserCommandType
 }
 
@@ -76,6 +94,9 @@ const (
 	AuthenticationServiceUpdated
 	AuthenticationServiceNotUpdated
 	AuthenticationServiceRolledBack
+	JobNodeCreated
+	JobNodeFailedToCreate
+	JobNodeRolledBack
 	RegistrationCancelled
 	RegistrationApproved
 	UnknownReply
@@ -86,7 +107,17 @@ type RegisterUserReply struct {
 	Type RegisterUserReplyType
 }
 
+type RegisterUserAuthenticationReply struct {
+	User UserDetails
+	Type RegisterUserReplyType
+}
+
 type RegisterUserConnectionReply struct {
 	User ConnectionUserDetails
+	Type RegisterUserReplyType
+}
+
+type RegisterJobUserReply struct {
+	User JobUserDetails
 	Type RegisterUserReplyType
 }

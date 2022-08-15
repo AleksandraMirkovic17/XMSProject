@@ -5,10 +5,10 @@ import (
 )
 
 type UserStore interface {
-	Create(user *User) (primitive.ObjectID, error)
-	GetAll() ([]*User, error)
-	GetById(id primitive.ObjectID) (*User, error)
+	Create(user *UserAuthentication) (primitive.ObjectID, error)
+	GetAll() ([]*UserAuthentication, error)
+	GetById(id primitive.ObjectID) (*UserAuthentication, error)
 	DeleteById(id primitive.ObjectID) error
 	DeleteAll()
-	GetByUsername(username string) (*User, error)
+	GetByUsername(username string) (*UserAuthentication, error)
 }

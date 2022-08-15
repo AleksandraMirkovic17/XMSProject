@@ -2,19 +2,22 @@ package application
 
 import (
 	"AuthenticationService/domain"
+	orchestrators "AuthenticationService/infrastructure/orchestrator"
 	"errors"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 type AuthenticationService struct {
-	store      domain.UserStore
-	jwtManager JwtManager
+	store        domain.UserStore
+	orchestrator *orchestrators.RegisterUserOrchestrator
+	jwtManager   JwtManager
 }
 
-func NewAuthenticationService(store domain.UserStore) *AuthenticationService {
+func NewAuthenticationService(store domain.UserStore, orchestrator *orchestrators.RegisterUserOrchestrator) *AuthenticationService {
 	return &AuthenticationService{
-		store:      store,
-		jwtManager: *NewJwtManager(),
+		store:        store,
+		jwtManager:   *NewJwtManager(),
+		orchestrator: orchestrator,
 	}
 }
 
@@ -45,16 +48,19 @@ func (service *AuthenticationService) Login(credentials *domain.Credentials) (*d
 	return &token, nil
 }
 
-func (service *AuthenticationService) Register(user *domain.User) (primitive.ObjectID, error) {
+func (service *AuthenticationService) Register(user *domain.UserAuthentication) (primitive.ObjectID, error) {
 	dbUser, _ := service.store.GetByUsername((*user).Username)
-	if (*dbUser).Username != "" {
+	if dbUser != nil && (*dbUser).Username != "" {
 		err := errors.New("username already exists")
+		println("Desio se error: username already exists")
 		return primitive.ObjectID{}, err
 	}
 	_, err := service.store.Create(user)
 	if err != nil {
+		println("desio se neki error")
 		return primitive.ObjectID{}, err
 	}
+	println("Sve je ok proslo u metodu register")
 	return user.ID, err
 }
 

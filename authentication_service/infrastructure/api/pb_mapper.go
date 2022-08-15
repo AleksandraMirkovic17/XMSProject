@@ -7,7 +7,7 @@ import (
 	pb "github.com/dislinked/common/proto/authentication_service"
 )
 
-func mapUserToPB(user *domain.User) *pb.UserAuth {
+func mapUserToPB(user *domain.UserAuthentication) *pb.UserAuth {
 	userPb := &pb.UserAuth{
 		Username: user.Username,
 		Password: user.Password,
@@ -16,12 +16,12 @@ func mapUserToPB(user *domain.User) *pb.UserAuth {
 	return userPb
 }
 
-func mapUserToDomain(user *pb.UserAuth) *domain.User {
+func mapUserToDomain(user *pb.UserAuth) *domain.UserAuthentication {
 	id, err := primitive.ObjectIDFromHex((*user).Id)
 	if err != nil {
 		return nil
 	}
-	userDomain := &domain.User{
+	userDomain := &domain.UserAuthentication{
 		ID:       id,
 		Username: (*user).Username,
 		Password: (*user).Password,

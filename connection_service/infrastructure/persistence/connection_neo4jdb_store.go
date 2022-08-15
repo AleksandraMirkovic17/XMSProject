@@ -104,7 +104,7 @@ func (store *ConnectionDBStore) GetBlockeds(userID string) ([]domain.UserConn, e
 }
 
 func (store *ConnectionDBStore) GetFriendRequests(userID string) ([]domain.UserConn, error) {
-	print("User id is: ", userID)
+	print("UserAuthentication id is: ", userID)
 	session := (*store.connectionDB).NewSession(neo4j.SessionConfig{AccessMode: neo4j.AccessModeWrite})
 	defer session.Close()
 
@@ -203,8 +203,8 @@ func (store *ConnectionDBStore) AddFriend(userIDa, userIDb string) (*pb.ActionRe
 				return actionResult, nil
 			} else {
 				if checkIfBlockExist(userIDa, userIDb, transaction) || checkIfBlockExist(userIDb, userIDa, transaction) {
-					actionResult.Msg = "User is blocked"
-					println("User is blocked")
+					actionResult.Msg = "UserAuthentication is blocked"
+					println("UserAuthentication is blocked")
 					actionResult.Status = 400 //bad request
 					return actionResult, nil
 				} else {
@@ -548,7 +548,7 @@ func (store *ConnectionDBStore) SendFriendRequest(userIDa, userIDb string) (*pb.
 			return actionResult, nil
 		}
 
-		actionResult.Msg = "User UserIDa:" + userIDa + " successfully send request to UserIDb:" + userIDb
+		actionResult.Msg = "UserAuthentication UserIDa:" + userIDa + " successfully send request to UserIDb:" + userIDb
 		actionResult.Status = 201
 
 		return actionResult, nil

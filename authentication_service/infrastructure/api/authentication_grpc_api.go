@@ -2,6 +2,8 @@ package api
 
 import (
 	"AuthenticationService/application"
+	"AuthenticationService/infrastructure/mappers"
+	"AuthenticationService/infrastructure/orchestrator"
 	"context"
 	"net/http"
 	"time"
@@ -14,7 +16,7 @@ import (
 type AuthenticationHandler struct {
 	pb.UnimplementedAuthenticationServiceServer
 	service                  *application.AuthenticationService
-	RegisterUserOrchestrator *application.RegisterUserOrchestrator
+	RegisterUserOrchestrator *orchestrator.RegisterUserOrchestrator
 }
 
 func NewAuthenticationHandler(service *application.AuthenticationService) *AuthenticationHandler {
@@ -50,8 +52,8 @@ func (handler *AuthenticationHandler) Register(ctx context.Context, request *pb.
 		Password:    request.User.Username,
 		Email:       request.User.Email,
 		Birthday:    dateOfBirth,
-		Gender:      mapAuthGenderToCreateOrderGender(request.User.Gender),
-		Role:        mapAuthRoleToCreateOrderRole(request.User.Role),
+		Gender:      mappers.MapAuthGenderToCreateOrderGender(request.User.Gender),
+		Role:        mappers.MapAuthRoleToCreateOrderRole(request.User.Role),
 		PhoneNumber: request.User.ContactPhone,
 		IsPublic:    request.User.Public,
 	})

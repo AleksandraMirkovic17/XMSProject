@@ -10,17 +10,15 @@ require (
 )
 
 require (
-	github.com/XWS-BSEP-TIM2/dislinkt-backend/common v0.0.0-20220705071529-74b898abad7c // indirect
 	github.com/go-stack/stack v1.8.0 // indirect
 	github.com/golang/snappy v0.0.1 // indirect
-	github.com/klauspost/compress v1.13.6 // indirect
-	github.com/minio/highwayhash v1.0.2 // indirect
+	github.com/klauspost/compress v1.14.4 // indirect
 	github.com/nats-io/jwt/v2 v2.3.0 // indirect
+	github.com/nats-io/nats-server/v2 v2.8.1 // indirect
 	github.com/nats-io/nats.go v1.16.0 // indirect
 	github.com/nats-io/nkeys v0.3.0 // indirect
 	github.com/nats-io/nuid v1.0.1 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
-	github.com/satori/go.uuid v1.2.0 // indirect
 	github.com/xdg-go/pbkdf2 v1.0.0 // indirect
 	github.com/xdg-go/scram v1.0.2 // indirect
 	github.com/xdg-go/stringprep v1.0.2 // indirect

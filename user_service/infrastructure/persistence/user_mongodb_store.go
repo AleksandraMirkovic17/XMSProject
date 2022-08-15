@@ -50,12 +50,13 @@ func (store *UserMongoDBStore) FindByUsernameAndNameAndSurname(username string, 
 }
 
 func (store *UserMongoDBStore) Insert(user *domain.User) error {
-	println("Insertovanje usera implementacija user_mongodb_store.go")
+	println("pre insertovanja id je: ", user.Id.Hex())
 	result, err := store.users.InsertOne(context.TODO(), user)
 	if err != nil {
 		return err
 	}
 	user.Id = result.InsertedID.(primitive.ObjectID)
+	println("posle insertovanja id je: ", user.Id.Hex())
 
 	return nil
 }
@@ -89,7 +90,7 @@ func (store *UserMongoDBStore) Update(user *domain.User) error {
 }
 
 func (store *UserMongoDBStore) Search(searchText string) (*[]domain.User, error) {
-	/*var users []domain.User
+	/*var users []domain.UserAuthentication
 	args := strings.TrimSpace(searchText)
 	splitArgs := strings.Split(args, " ")
 	allUsers, _ := store.GetAll()

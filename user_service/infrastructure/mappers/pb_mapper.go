@@ -241,6 +241,20 @@ func MapDomainUserToConnectionCommandUser(user *domain.User) *events.ConnectionU
 	return &command
 }
 
+func MapDomainUserToJobCommandUser(user *domain.User) *events.JobUserDetails {
+	id := user.Id.Hex()
+
+	command := events.JobUserDetails{
+		UserID:   id,
+		Username: user.Username,
+	}
+	for _, skill := range user.Skills {
+		command.Skills = append(command.Skills, skill.Name)
+	}
+
+	return &command
+}
+
 /*func mapEducationTypeToPb(educationType domain.EducationType) pb.EducationType {
 	switch educationType {
 	case domain.PRIMARY_EDUCATION:

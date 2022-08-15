@@ -46,11 +46,11 @@ func (service *UserService) Insert(user *domain.User) error {
 	}
 	println("Nije se desila greska prilikom pozivanja orkestratora 1")
 
-	err = service.orchestrator.CreateConnectionUser(user)
+	/*err = service.orchestrator.CreateConnectionUser(user)
 	if err != nil {
 		println("Greska se desila prilikom pozivanja orkestratora 2!")
 		return err
-	}
+	}*/
 	println("posle publishovanja")
 
 	return err
