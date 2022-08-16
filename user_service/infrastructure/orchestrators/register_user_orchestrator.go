@@ -3,7 +3,6 @@ package orchestrators
 import (
 	"UserService/domain"
 	"UserService/infrastructure/mappers"
-	"fmt"
 	events "github.com/dislinked/common/saga/create_order"
 	saga "github.com/dislinked/common/saga/messaging"
 )
@@ -20,10 +19,6 @@ func NewUserOrchestrator(publisher saga.Publisher, subscriber saga.Subscriber) (
 	}
 	err := o.replySubscriber.Subscribe(o.handle) //slusa odgovore
 	println("slusa dgovore ")
-	if err != nil {
-		return nil, err
-	}
-	err = o.replySubscriber.Subscribe(o.handleConnection) //slusa odgovore connection servisa nadam se
 	if err != nil {
 		return nil, err
 	}
@@ -83,18 +78,6 @@ func (o *UserOrchestrator) nextCommandType(reply events.RegisterUserReplyType) e
 	}
 }
 
-func (o *UserOrchestrator) handleConnection(reply *events.RegisterUserConnectionReply) events.RegisterUserReplyType {
-	//TODO:We check what is the next command type
-	//TODO:handle rollback if needed
-	fmt.Println("Reply type is", reply.Type)
-	switch reply.Type {
-	case events.UserProfileCreated:
-
-	}
-	return events.UnknownReply
-
-}
-
 func (o *UserOrchestrator) CreateUser(user *domain.User) error {
 	events := &events.RegisterUserCommand{
 		Type: events.UserProfileCreate,
@@ -105,7 +88,7 @@ func (o *UserOrchestrator) CreateUser(user *domain.User) error {
 
 func (o *UserOrchestrator) CreateConnectionUser(user *domain.User) error {
 	println("Kreiranje connection usera")
-	event := &events.RegisterConnectionUserCommand{
+	event := &events.RegisterUserCommand{
 		User: *(mappers.MapDomainUserToConnectionCommandUser(user)),
 		Type: events.CreateUserNode,
 	}
@@ -115,7 +98,7 @@ func (o *UserOrchestrator) CreateConnectionUser(user *domain.User) error {
 
 func (o *UserOrchestrator) CreateJobUser(user *domain.User) error {
 	println("Kreiranje job usera")
-	event := &events.RegisterJobUserCommand{
+	event := &events.RegisterUserCommand{
 		User: *(mappers.MapDomainUserToJobCommandUser(user)),
 		Type: events.CreateJobNode,
 	}

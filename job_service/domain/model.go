@@ -10,3 +10,9 @@ type JobOffer struct {
 	Position       string
 	JobDescription string
 }
+
+type UserJobNode struct {
+	UserID   string
+	Username string
+	Skills   []string
+}

@@ -5,26 +5,28 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="73e9022d-bf7f-4b1c-95b0-7a9024d84ed5" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/job_service/infrastructure/handlers/JobCommandHandler.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/job_service/application/adapter.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/job_service/infrastructure/api/JobHandler.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/job_service/infrastructure/handlers/RegisterUserCommandHandler.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/job_service/persistence/Client.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/job_service/persistence/transaction.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/job_service/startup/config/config.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/job_service/startup/server.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api_gateway/infrastructure/handlers/PostHandler.go" beforeDir="false" afterPath="$PROJECT_DIR$/api_gateway/infrastructure/handlers/PostHandler.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/authentication_service/application/authentication_service.go" beforeDir="false" afterPath="$PROJECT_DIR$/authentication_service/application/authentication_service.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/authentication_service/application/register_user_orchestrator.go" beforeDir="false" afterPath="$PROJECT_DIR$/authentication_service/infrastructure/orchestrator/register_user_orchestrator.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/authentication_service/domain/authentication_store.go" beforeDir="false" afterPath="$PROJECT_DIR$/authentication_service/domain/authentication_store.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/authentication_service/domain/model.go" beforeDir="false" afterPath="$PROJECT_DIR$/authentication_service/domain/model.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/authentication_service/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/authentication_service/go.mod" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/authentication_service/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/authentication_service/go.sum" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/authentication_service/infrastructure/api/authentication_grpc_api.go" beforeDir="false" afterPath="$PROJECT_DIR$/authentication_service/infrastructure/api/authentication_grpc_api.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/authentication_service/infrastructure/api/pb_mapper.go" beforeDir="false" afterPath="$PROJECT_DIR$/authentication_service/infrastructure/api/pb_mapper.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/authentication_service/infrastructure/api/register_user_handler.go" beforeDir="false" afterPath="$PROJECT_DIR$/authentication_service/infrastructure/handlers/register_user_handler.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/authentication_service/infrastructure/api/saga_mapper.go" beforeDir="false" afterPath="$PROJECT_DIR$/authentication_service/infrastructure/mappers/saga_mapper.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/authentication_service/infrastructure/persistence/user_mongodb_store.go" beforeDir="false" afterPath="$PROJECT_DIR$/authentication_service/infrastructure/persistence/user_mongodb_store.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/authentication_service/startup/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/authentication_service/startup/server.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/authentication_service/infrastructure/orchestrator/register_user_orchestrator.go" beforeDir="false" afterPath="$PROJECT_DIR$/authentication_service/infrastructure/orchestrator/register_user_orchestrator.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/common/saga/create_order/create_order_event.go" beforeDir="false" afterPath="$PROJECT_DIR$/common/saga/create_order/create_order_event.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/connection_service/application/connection_service.go" beforeDir="false" afterPath="$PROJECT_DIR$/connection_service/application/connection_service.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/connection_service/infrastructure/api/register_user_handler.go" beforeDir="false" afterPath="$PROJECT_DIR$/connection_service/infrastructure/api/register_user_handler.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/connection_service/infrastructure/persistence/connection_neo4jdb_store.go" beforeDir="false" afterPath="$PROJECT_DIR$/connection_service/infrastructure/persistence/connection_neo4jdb_store.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user_service/application/user_service.go" beforeDir="false" afterPath="$PROJECT_DIR$/user_service/application/user_service.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/job_service/application/job_service.go" beforeDir="false" afterPath="$PROJECT_DIR$/job_service/application/job_service.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/job_service/domain/job_store.go" beforeDir="false" afterPath="$PROJECT_DIR$/job_service/domain/job_store.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/job_service/domain/model.go" beforeDir="false" afterPath="$PROJECT_DIR$/job_service/domain/model.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/job_service/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/job_service/go.mod" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/job_service/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/job_service/go.sum" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/job_service/infrastructure/handlers/JobCommandHandler.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/job_service/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/job_service/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/job_service/persistence/job_store.go" beforeDir="false" afterPath="$PROJECT_DIR$/job_service/persistence/job_neo4jdb_store.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/post_service/startup/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/post_service/startup/server.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/user_service/infrastructure/handlers/register_user_handler.go" beforeDir="false" afterPath="$PROJECT_DIR$/user_service/infrastructure/handlers/register_user_handler.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/user_service/infrastructure/mappers/pb_mapper.go" beforeDir="false" afterPath="$PROJECT_DIR$/user_service/infrastructure/mappers/pb_mapper.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/user_service/infrastructure/orchestrators/register_user_orchestrator.go" beforeDir="false" afterPath="$PROJECT_DIR$/user_service/infrastructure/orchestrators/register_user_orchestrator.go" afterDir="false" />
@@ -51,7 +53,7 @@
     <option name="stateVersion" value="1" />
   </component>
   <component name="ProblemsViewState">
-    <option name="selectedTabId" value="CurrentFile" />
+    <option name="selectedTabId" value="ProjectErrors" />
   </component>
   <component name="ProjectId" id="29IBzKzDINW69cNYdjN5W421eIN" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -59,28 +61,29 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;DefaultGoTemplateProperty&quot;: &quot;Go File&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.go.format.on.save.advertiser.fired&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.go.formatter.settings.were.checked&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.go.migrated.go.modules.settings&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.go.modules.go.list.on.any.changes.was.set&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.go.watchers.conflict.with.on.save.actions.check.performed&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;go.import.settings.migrated&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/PC/Desktop/xml/XMSProject/common/proto/job_offer&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "DefaultGoTemplateProperty": "Go File",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.go.format.on.save.advertiser.fired": "true",
+    "RunOnceActivity.go.formatter.settings.were.checked": "true",
+    "RunOnceActivity.go.migrated.go.modules.settings": "true",
+    "RunOnceActivity.go.modules.go.list.on.any.changes.was.set": "true",
+    "RunOnceActivity.go.watchers.conflict.with.on.save.actions.check.performed": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "go.import.settings.migrated": "true",
+    "last_opened_file_path": "C:/Users/PC/Desktop/xml/XMSProject/job_service/startup/config",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\PC\Desktop\xml\XMSProject\job_service\startup\config" />
       <recent name="C:\Users\PC\Desktop\xml\XMSProject\common\proto\job_offer" />
       <recent name="C:\Users\PC\Desktop\xml\XMSProject\common\proto\authentication_service" />
     </key>
@@ -163,6 +166,11 @@
           <url>file://$PROJECT_DIR$/connection_service/infrastructure/persistence/transaction.go</url>
           <line>171</line>
           <option name="timeStamp" value="8" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/connection_service/main.go</url>
+          <line>8</line>
+          <option name="timeStamp" value="9" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

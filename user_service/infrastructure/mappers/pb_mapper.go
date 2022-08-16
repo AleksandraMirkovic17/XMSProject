@@ -226,13 +226,18 @@ func MapDomainUserToCommandUser(user *domain.User) *events.UserDetails {
 		PhoneNumber: user.Phone,
 		IsPublic:    user.Public,
 	}
+
+	for _, skill := range user.Skills {
+		command.Skills = append(command.Skills, skill.Name)
+	}
+
 	return &command
 }
 
-func MapDomainUserToConnectionCommandUser(user *domain.User) *events.ConnectionUserDetails {
+func MapDomainUserToConnectionCommandUser(user *domain.User) *events.UserDetails {
 	id := user.Id.Hex()
 
-	command := events.ConnectionUserDetails{
+	command := events.UserDetails{
 		Id:       id,
 		IsPublic: user.Public,
 		Username: user.Username,
@@ -241,11 +246,11 @@ func MapDomainUserToConnectionCommandUser(user *domain.User) *events.ConnectionU
 	return &command
 }
 
-func MapDomainUserToJobCommandUser(user *domain.User) *events.JobUserDetails {
+func MapDomainUserToJobCommandUser(user *domain.User) *events.UserDetails {
 	id := user.Id.Hex()
 
-	command := events.JobUserDetails{
-		UserID:   id,
+	command := events.UserDetails{
+		Id:       id,
 		Username: user.Username,
 	}
 	for _, skill := range user.Skills {

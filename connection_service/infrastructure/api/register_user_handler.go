@@ -26,12 +26,12 @@ func NewRegisterUserCommandHandler(connectionService *application.ConnectionServ
 	return o, nil
 }
 
-func (handler *RegisterUserCommandHandler) handle(command *events.RegisterConnectionUserCommand) {
+func (handler *RegisterUserCommandHandler) handle(command *events.RegisterUserCommand) {
 
 	fmt.Println("usao u user command handler connection servisa")
 	//ovde bi trebala konverzija jednog usera u drugi user
 
-	reply := events.RegisterUserConnectionReply{User: command.User}
+	reply := events.RegisterUserReply{User: command.User}
 	println("Username: "+command.User.Username+", id: ", command.User.Id+", public:")
 	println("Command type je" + string(command.Type))
 	println(command.Type)

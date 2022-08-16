@@ -32,12 +32,12 @@ func (o *RegisterUserOrchestrator) Start(userDetails events.UserDetails) error {
 }
 
 func (o *RegisterUserOrchestrator) handle(reply *events.RegisterUserReply) {
-	println("U register user servisu orchestraatoru authentication servisa")
+	/*println("U register user servisu orchestraatoru authentication servisa")
 	command := events.RegisterUserCommand{User: reply.User}
 	command.Type = o.nextCommandType(reply.Type)
 	if command.Type != events.UnknownCommand {
 		_ = o.commandPublisher.Publish(command)
-	}
+	}*/
 }
 
 func (o *RegisterUserOrchestrator) nextCommandType(reply events.RegisterUserReplyType) events.RegisterUserCommandType {

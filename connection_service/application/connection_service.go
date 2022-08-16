@@ -34,7 +34,7 @@ func (service *ConnectionService) GetFriends(id string) ([]*domain.UserConn, err
 
 	friends, err := service.store.GetFriends(id)
 	if err != nil {
-		return nil, nil
+		return nil, err
 	}
 	for _, s := range friends {
 		friendsRetVal = append(friendsRetVal, &domain.UserConn{UserID: s.UserID, IsPublic: s.IsPublic, Username: s.Username})

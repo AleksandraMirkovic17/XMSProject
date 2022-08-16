@@ -118,12 +118,12 @@ func (store *UserMongoDBStore) Search(searchText string) (*[]domain.User, error)
 }
 
 func (store *UserMongoDBStore) Delete(user *domain.User) error {
-	/*result := store.db.Delete(user)
-	if result.Error != nil {
-		return result.Error
+	println("brisanje usera iz user store")
+	err := store.Delete(user)
+	if err != nil {
+		return err
 	}
-	return nil*/
-	panic("implement me")
+	return nil
 }
 
 func (store *UserMongoDBStore) filter(filter interface{}) ([]*domain.User, error) {

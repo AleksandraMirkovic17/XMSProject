@@ -30,6 +30,7 @@ type UserDetails struct {
 	Role        Role
 	PhoneNumber string
 	IsPublic    bool
+	Skills      []string
 }
 
 type ConnectionUserDetails struct {
@@ -66,21 +67,6 @@ type RegisterUserCommand struct {
 	Type RegisterUserCommandType
 }
 
-type RegisterAuthenticationUserCommand struct {
-	User UserDetails
-	Type RegisterUserCommandType
-}
-
-type RegisterConnectionUserCommand struct {
-	User ConnectionUserDetails
-	Type RegisterUserCommandType
-}
-
-type RegisterJobUserCommand struct {
-	User JobUserDetails
-	Type RegisterUserCommandType
-}
-
 type RegisterUserReplyType int8
 
 const (
@@ -104,20 +90,5 @@ const (
 
 type RegisterUserReply struct {
 	User UserDetails
-	Type RegisterUserReplyType
-}
-
-type RegisterUserAuthenticationReply struct {
-	User UserDetails
-	Type RegisterUserReplyType
-}
-
-type RegisterUserConnectionReply struct {
-	User ConnectionUserDetails
-	Type RegisterUserReplyType
-}
-
-type RegisterJobUserReply struct {
-	User JobUserDetails
 	Type RegisterUserReplyType
 }

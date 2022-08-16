@@ -55,6 +55,10 @@ func (handler *CreateOrderCommandHandler) handle(command *events.RegisterUserCom
 		toDelete, _ := handler.userService.GetOne(id)
 		handler.userService.Delete(toDelete)
 		reply.Type = events.UserProfileRolledBack
+	case events.ApproveRegistration:
+		fmt.Println("Approve registration")
+		reply.Type = events.RegistrationApproved
+
 	default:
 		reply.Type = events.UnknownReply
 	}
