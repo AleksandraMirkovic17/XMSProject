@@ -85,6 +85,7 @@ message CreateJobRequest{
 
 message CreateJobResponse{
   Job job = 1;
+  string message = 2;
 }
 
 message SearchJobRequest{

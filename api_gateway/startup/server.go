@@ -11,6 +11,7 @@ import (
 	cfg "github.com/dislinked/api_gateway/startup/config"
 	authGw "github.com/dislinked/common/proto/authentication_service"
 	connGw "github.com/dislinked/common/proto/connection_service"
+	jobGw "github.com/dislinked/common/proto/job_service"
 	postGw "github.com/dislinked/common/proto/post_service"
 	userGw "github.com/dislinked/common/proto/user_service"
 	"github.com/gorilla/handlers"
@@ -68,6 +69,11 @@ func (server *Server) initHandlers() {
 	}
 	connEndpoint := fmt.Sprintf("%s:%s", server.config.ConnHost, server.config.ConnPort)
 	err = connGw.RegisterConnectionServiceHandlerFromEndpoint(context.TODO(), server.mux, connEndpoint, opts)
+	if err != nil {
+		panic(err)
+	}
+	jobEndpoint := fmt.Sprintf("%s:%s", server.config.JobHost, server.config.JobPort)
+	err = jobGw.RegisterJobServiceHandlerFromEndpoint(context.TODO(), server.mux, jobEndpoint, opts)
 	if err != nil {
 		panic(err)
 	}

@@ -28,9 +28,26 @@ func (j JobDBStore) GetAll(ctx context.Context) ([]*domain.JobOffer, error) {
 	panic("implement me")
 }
 
-func (j JobDBStore) Insert(ctx context.Context, profile *domain.JobOffer) error {
-	//TODO implement me
-	panic("implement me")
+func (j JobDBStore) Insert(ctx context.Context, job *domain.JobOffer) error {
+	session := (*j.jobDB).NewSession(neo4j.SessionConfig{AccessMode: neo4j.AccessModeWrite})
+	defer session.Close()
+
+	_, err := session.WriteTransaction(func(transaction neo4j.Transaction) (interface{}, error) {
+		if !checkIfJobExists(job.JobId, transaction) {
+			errJob := createJobNode(job, transaction)
+			if errJob != nil {
+				return nil, errJob
+			}
+			for _, skill := range job.RequiredSkills {
+				createSkillNode(skill, transaction)
+				connectSkillAndJob(job.JobId, skill, transaction)
+
+			}
+
+		}
+		return nil, nil
+	})
+	return err
 }
 
 func (j JobDBStore) Update(ctx context.Context, profile *domain.JobOffer) (bool, error) {
@@ -94,6 +111,40 @@ func (j JobDBStore) CreateUser(ctx context.Context, userID string, username stri
 		}
 		actionResult.Msg = "Successfully created new node with ID:" + userID
 		println("Successfully created new node with ID:" + userID)
+		actionResult.Status = 201
+
+		return actionResult, err
+
+	})
+	if result == nil {
+		return &pb.ActionResult{Msg: "error", Status: 500}, err
+	} else {
+		return result.(*pb.ActionResult), err
+	}
+}
+
+func (j JobDBStore) DeleteUser(ctx context.Context, userID string) (*pb.ActionResult, error) {
+	println("Deleting user job node!")
+	session := (*j.jobDB).NewSession(neo4j.SessionConfig{AccessMode: neo4j.AccessModeWrite})
+	defer session.Close()
+	result, err := session.WriteTransaction(func(transaction neo4j.Transaction) (interface{}, error) {
+		actionResult := &pb.ActionResult{}
+		if !checkIfUserExists(userID, transaction) {
+			actionResult.Status = 406
+			actionResult.Msg = "error user with ID:" + userID + " does not exist"
+			println("User does not exist!")
+			return actionResult, nil
+		}
+		err := deleteNode(userID, transaction)
+
+		if err != nil {
+			println("error while deleting node with ID:" + userID)
+			actionResult.Msg = "error while deleting node with ID:" + userID
+			actionResult.Status = 501
+			return actionResult, err
+		}
+		actionResult.Msg = "Successfully deleted node with ID:" + userID
+		println("Successfully deleted node with ID:" + userID)
 		actionResult.Status = 201
 
 		return actionResult, err

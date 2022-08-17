@@ -1177,12 +1177,12 @@ var file_user_service_proto_depIdxs = []int32{
 	3,  // 12: UserService.Get:input_type -> GetUserRequest
 	4,  // 13: UserService.FindByUsername:input_type -> GetUserByUsernameRequest
 	15, // 14: UserService.GetAll:input_type -> GetUserBySearchParamsRequest
-	13, // 15: UserService.Insert:input_type -> RegisterUserRequest
+	13, // 15: UserService.CreateJob:input_type -> RegisterUserRequest
 	14, // 16: UserService.Update:input_type -> UpdateUserRequest
 	5,  // 17: UserService.Get:output_type -> GetUserResponse
 	5,  // 18: UserService.FindByUsername:output_type -> GetUserResponse
 	6,  // 19: UserService.GetAll:output_type -> GetAllUserResponse
-	7,  // 20: UserService.Insert:output_type -> User
+	7,  // 20: UserService.CreateJob:output_type -> User
 	7,  // 21: UserService.Update:output_type -> User
 	17, // [17:22] is the sub-list for method output_type
 	12, // [12:17] is the sub-list for method input_type

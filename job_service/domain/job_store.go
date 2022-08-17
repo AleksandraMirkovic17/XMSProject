@@ -15,6 +15,7 @@ type JobStore interface {
 	Delete(ctx context.Context, jobId string) (bool, error)
 	Init()
 	CreateUser(ctx context.Context, userID string, username string) (*pb.ActionResult, error)
+	DeleteUser(ctx context.Context, userID string) (*pb.ActionResult, error)
 	UpdateUserSkills(ctx context.Context, userID string, skills []string) (*pb.ActionResult, error)
 	GetRecommendationJobOffer(ctx context.Context, userID string) ([]*JobOffer, error)
 }

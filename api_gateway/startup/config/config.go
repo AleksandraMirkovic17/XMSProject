@@ -15,6 +15,8 @@ type Config struct {
 	AuthPort string
 	ConnHost string
 	ConnPort string
+	JobHost  string
+	JobPort  string
 }
 
 func NewConfig() *Config {
@@ -28,6 +30,8 @@ func NewConfig() *Config {
 		AuthPort: LoadEnvVariable("AUTHENTICATION_SERVICE_PORT"),
 		ConnHost: LoadEnvVariable("CONNECTION_SERVICE_HOST"),
 		ConnPort: LoadEnvVariable("CONNECTION_SERVICE_PORT"),
+		JobHost:  LoadEnvVariable("JOB_SERVICE_HOST"),
+		JobPort:  LoadEnvVariable("JOB_SERVICE_PORT"),
 	}
 }
 
