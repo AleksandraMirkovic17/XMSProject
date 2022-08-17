@@ -147,9 +147,7 @@ func (handler *ConnectionHandler) GetConnectionDetail(ctx context.Context, reque
 }
 
 func (handler *ConnectionHandler) ChangePrivacy(ctx context.Context, request *pb.ChangePrivacyRequest) (*pb.ActionResult, error) {
-	userID := request.ChangePrivacyBody.UserID
-	isPrivate := request.ChangePrivacyBody.IsPrivate
-	return handler.service.ChangePrivacy(userID, isPrivate)
+	panic("Not implemented")
 }
 
 func (handler *ConnectionHandler) GetMyContacts(ctx context.Context, request *pb.GetMyContactsRequest) (*pb.ContactsResponse, error) {

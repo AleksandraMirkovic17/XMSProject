@@ -51,6 +51,10 @@ func (server *Server) Start() {
 	replyPublisher := server.initPublisher(server.config.RegisterUserReplySubject)
 	server.initRegisterUserHandler(authenticationService, replyPublisher, commandSubscriber)
 
+	//update handler
+	commandSubscriberUpdate := server.initSubscriber(server.config.UpdateUserCommandSubject, QueueGroup)
+	replyPublisherUpdate := server.initPublisher(server.config.UpdateUserReplySubject)
+	server.initUpdateUserHandler(authenticationService, replyPublisherUpdate, commandSubscriberUpdate)
 	server.startGrpcServer(authenticationHandler)
 
 }
@@ -78,6 +82,13 @@ func (server *Server) initAuthenticationHandler(service *application.Authenticat
 
 func (server *Server) initRegisterUserHandler(authenticationService *application.AuthenticationService, publisher saga.Publisher, subscriber saga.Subscriber) {
 	_, err := handlers.NewRegisterUserCommandHandler(authenticationService, publisher, subscriber)
+	if err != nil {
+		log.Fatal(err)
+	}
+}
+
+func (server *Server) initUpdateUserHandler(authenticationService *application.AuthenticationService, publisher saga.Publisher, subscriber saga.Subscriber) {
+	_, err := handlers.NewUpdateUserCommandHandler(authenticationService, publisher, subscriber)
 	if err != nil {
 		log.Fatal(err)
 	}

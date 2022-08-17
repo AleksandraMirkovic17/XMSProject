@@ -41,7 +41,7 @@ func (handler *RegisterUserCommandHandler) handle(command *events.RegisterUserCo
 	print("command type je: ")
 	println(command.Type)
 
-	var reply = events.RegisterUserReply{}
+	var reply = events.RegisterUserReply{User: command.User}
 	switch command.Type {
 	case events.CreateJobNode:
 		println("Creta Job Node")

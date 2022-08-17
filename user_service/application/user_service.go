@@ -7,14 +7,16 @@ import (
 )
 
 type UserService struct {
-	store        domain.UserStore
-	orchestrator *orchestrators.UserOrchestrator
+	store              domain.UserStore
+	orchestrator       *orchestrators.UserOrchestrator
+	orchestratorUpdate *orchestrators.UpdateUserOrchestrator
 }
 
-func NewUserService(store domain.UserStore, orchestrator *orchestrators.UserOrchestrator) *UserService {
+func NewUserService(store domain.UserStore, orchestrator *orchestrators.UserOrchestrator, orchestratorUpdate *orchestrators.UpdateUserOrchestrator) *UserService {
 	return &UserService{
-		store:        store,
-		orchestrator: orchestrator,
+		store:              store,
+		orchestrator:       orchestrator,
+		orchestratorUpdate: orchestratorUpdate,
 	}
 }
 
@@ -56,7 +58,7 @@ func (service *UserService) Insert(user *domain.User) error {
 	return err
 }
 func (service *UserService) Update(uuid primitive.ObjectID, user *domain.User) error {
-	service.store.Update(user)
+	service.store.Update(uuid, user)
 	return nil
 }
 
@@ -75,7 +77,7 @@ func (service *UserService) PatchUser(updatePaths []string, requestUser *domain.
 	if err != nil {
 		return nil, err
 	}
-	err = service.store.Update(updatedUser)
+	err = service.store.Update(updatedUser.Id, updatedUser)
 	return updatedUser, nil
 }
 

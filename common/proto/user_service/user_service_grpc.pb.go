@@ -66,7 +66,7 @@ func (c *userServiceClient) GetAll(ctx context.Context, in *GetUserBySearchParam
 
 func (c *userServiceClient) Insert(ctx context.Context, in *RegisterUserRequest, opts ...grpc.CallOption) (*User, error) {
 	out := new(User)
-	err := c.cc.Invoke(ctx, "/UserService/CreateJob", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/UserService/Insert", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -108,7 +108,7 @@ func (UnimplementedUserServiceServer) GetAll(context.Context, *GetUserBySearchPa
 	return nil, status.Errorf(codes.Unimplemented, "method GetAll not implemented")
 }
 func (UnimplementedUserServiceServer) Insert(context.Context, *RegisterUserRequest) (*User, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CreateJob not implemented")
+	return nil, status.Errorf(codes.Unimplemented, "method Insert not implemented")
 }
 func (UnimplementedUserServiceServer) Update(context.Context, *UpdateUserRequest) (*User, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Update not implemented")
@@ -190,7 +190,7 @@ func _UserService_Insert_Handler(srv interface{}, ctx context.Context, dec func(
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/UserService/CreateJob",
+		FullMethod: "/UserService/Insert",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(UserServiceServer).Insert(ctx, req.(*RegisterUserRequest))
@@ -236,7 +236,7 @@ var UserService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _UserService_GetAll_Handler,
 		},
 		{
-			MethodName: "CreateJob",
+			MethodName: "Insert",
 			Handler:    _UserService_Insert_Handler,
 		},
 		{

@@ -78,6 +78,30 @@ func (store *AuthenticationMongoDBStore) filterOne(filter interface{}) (post *do
 	return
 }
 
+//Update(user *UserAuthentication) error
+func (store *AuthenticationMongoDBStore) Update(user *domain.UserAuthentication) error {
+	filter := bson.M{"_id": user.ID}
+	oldUser, err := store.filterOne(filter)
+	if err != nil {
+		return err
+	}
+
+	_, err = store.users.UpdateOne(
+		context.TODO(),
+		bson.M{"_id": oldUser.ID},
+		bson.D{
+			{"$set", bson.D{{"username", user.Username}}},
+			{"$set", bson.D{{"password", user.Password}}},
+			{"$set", bson.D{{"role", user.Role}}},
+		})
+
+	if err != nil {
+		return err
+	}
+	return nil
+
+}
+
 func decode(cursor *mongo.Cursor) (posts []*domain.UserAuthentication, err error) {
 	for cursor.Next(context.TODO()) {
 		var post domain.UserAuthentication

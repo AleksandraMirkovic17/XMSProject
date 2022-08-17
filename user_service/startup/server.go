@@ -43,13 +43,22 @@ func (server *Server) Start() {
 	replySubscriber := server.initSubscriber(server.config.RegisterUserReplySubject, QueueGroup)
 	orchestrator := server.InitOrchestrator(commandPublisher, replySubscriber)
 
-	userService := server.initUserService(userStore, orchestrator)
-	userHandler := server.initUserHandler(userService)
+	commandPublisherUpdateUser := server.initPublisher(server.config.UpdateUserCommandSubject)
+	replySubscriberUpdateUser := server.initSubscriber(server.config.UpdateUserReplySubject, QueueGroup)
+	orchestrator2 := server.InitUpdateOrchestrator(commandPublisherUpdateUser, replySubscriberUpdateUser)
+
+	userService := server.initUserService(userStore, orchestrator, orchestrator2)
+	userHandler := server.initUserHandler(userService, orchestrator2)
 
 	//handler
-	commandSubscriber := server.initSubscriber(server.config.RegisterUserCommandSubject, QueueGroup)
-	replyPublisher := server.initPublisher(server.config.RegisterUserReplySubject)
+	commandSubscriber := server.initSubscriber(server.config.UpdateUserCommandSubject, QueueGroup)
+	replyPublisher := server.initPublisher(server.config.UpdateUserReplySubject)
 	server.initRegisterUserHandler(userService, replyPublisher, commandSubscriber)
+
+	//Update handler
+	commandSubscriberUpdateUser := server.initSubscriber(server.config.RegisterUserCommandSubject, QueueGroup)
+	replyPublisherUpdateUser := server.initPublisher(server.config.RegisterUserReplySubject)
+	server.initUpdateUserHandler(userService, replyPublisherUpdateUser, commandSubscriberUpdateUser)
 
 	server.startGrpcServer(userHandler)
 }
@@ -62,8 +71,23 @@ func (server *Server) InitOrchestrator(publisher saga.Publisher, subscriber saga
 	return orchestrator
 }
 
+func (server *Server) InitUpdateOrchestrator(publisher saga.Publisher, subscriber saga.Subscriber) *orchestrators.UpdateUserOrchestrator {
+	orchestrator, err := orchestrators.NewUpdateUserOrchestrator(publisher, subscriber)
+	if err != nil {
+		log.Fatal(err)
+	}
+	return orchestrator
+}
+
 func (server *Server) initRegisterUserHandler(userService *application.UserService, publisher saga.Publisher, subscriber saga.Subscriber) {
 	_, err := handlers.NewRegisterUserCommandHandler(userService, publisher, subscriber)
+	if err != nil {
+		log.Fatal(err)
+	}
+}
+
+func (server *Server) initUpdateUserHandler(userService *application.UserService, publisher saga.Publisher, subscriber saga.Subscriber) {
+	_, err := handlers.NewUpdateUserCommandHandler(userService, publisher, subscriber)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -103,12 +127,12 @@ func (server *Server) initUserStore(client *mongo.Client) domain.UserStore {
 	return store
 }
 
-func (server *Server) initUserService(store domain.UserStore, orchestrator *orchestrators.UserOrchestrator) *application.UserService {
-	return application.NewUserService(store, orchestrator)
+func (server *Server) initUserService(store domain.UserStore, orchestrator *orchestrators.UserOrchestrator, orchestratorUpdate *orchestrators.UpdateUserOrchestrator) *application.UserService {
+	return application.NewUserService(store, orchestrator, orchestratorUpdate)
 }
 
-func (server *Server) initUserHandler(service *application.UserService) *api.UserHandler {
-	return api.NewUserHandler(service)
+func (server *Server) initUserHandler(service *application.UserService, updateOrchestrator *orchestrators.UpdateUserOrchestrator) *api.UserHandler {
+	return api.NewUserHandler(service, updateOrchestrator)
 }
 
 func (server *Server) startGrpcServer(userHandler *api.UserHandler) {

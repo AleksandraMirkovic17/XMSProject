@@ -47,6 +47,23 @@ func setUserPrivate(userID string, private bool, transaction neo4j.Transaction) 
 	return false, nil
 }
 
+func updateUser(user domain.UserConn, transaction neo4j.Transaction) (bool, error) {
+	cypherText := "MATCH (u:USER) WHERE u.userID=$uID " +
+		"SET u.isPrivate=$private " +
+		"SET  u.username=$username " +
+		"RETURN u.isPrivate, u.username "
+	result, err := transaction.Run(
+		cypherText,
+		map[string]interface{}{"uID": user.UserID, "private": !user.IsPublic, "username": user.Username})
+	if err != nil {
+		return false, err
+	}
+	if result != nil && result.Next() && result.Record().Values[0].(bool) != user.IsPublic && result.Record().Values[1].(string) == user.Username {
+		return true, nil
+	}
+	return false, nil
+}
+
 func checkIfFriendExist(userIDa, userIDb string, transaction neo4j.Transaction) bool {
 	result, _ := transaction.Run(
 		"MATCH (u1:USER) WHERE u1.userID=$uIDa "+

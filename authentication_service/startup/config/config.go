@@ -18,6 +18,8 @@ type Config struct {
 	NatsPass                   string
 	RegisterUserCommandSubject string
 	RegisterUserReplySubject   string
+	UpdateUserCommandSubject   string
+	UpdateUserReplySubject     string
 }
 
 func NewConfig() *Config {
@@ -34,6 +36,8 @@ func NewConfig() *Config {
 		NatsPass:                   LoadEnvVariable("NATS_PASS"),
 		RegisterUserCommandSubject: LoadEnvVariable("REGISTER_USER_COMMAND_SUBJECT"),
 		RegisterUserReplySubject:   LoadEnvVariable("REGISTER_USER_REPLY_SUBJECT"),
+		UpdateUserReplySubject:     LoadEnvVariable("UPDATE_USER_REPLY_SUBJECT"),
+		UpdateUserCommandSubject:   LoadEnvVariable("UPDATE_USER_COMMAND_SUBJECT"),
 	}
 }
 

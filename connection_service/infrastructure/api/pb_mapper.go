@@ -2,8 +2,8 @@ package api
 
 import (
 	"ConnectionService/domain"
-
 	pb "github.com/dislinked/common/proto/connection_service"
+	events "github.com/dislinked/common/saga/update_order"
 )
 
 func mapUserConn(userConn *domain.UserConn) *pb.User {
@@ -26,5 +26,16 @@ func mapDomainUserToPbRecommendedUser(user *domain.UserRecommendation) *pb.Recom
 		Mutual:    int32(user.Mutual),
 	}
 	return recommendedUser
+
+}
+
+func mapEventUpdateUserToDomainUser(user events.UserDetails) *domain.UserConn {
+	domainUser := &domain.UserConn{
+		UserID:   user.Id,
+		Username: user.Username,
+		IsPublic: user.IsPublic,
+	}
+
+	return domainUser
 
 }

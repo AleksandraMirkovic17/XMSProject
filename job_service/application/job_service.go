@@ -27,6 +27,11 @@ func (service *JobService) CreateUser(ctx context.Context, userID string, userna
 	return service.store.CreateUser(ctx, userID, username)
 }
 
+func (service *JobService) UpdateUser(ctx context.Context, node domain.UserJobNode) (*pb.ActionResult, error) {
+	return service.store.UpdateUser(ctx, node)
+
+}
+
 func (service *JobService) DeleteUser(ctx context.Context, userID string) (*pb.ActionResult, error) {
 	return service.store.DeleteUser(ctx, userID)
 }

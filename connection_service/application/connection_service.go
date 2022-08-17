@@ -98,8 +98,8 @@ func (service *ConnectionService) GetConnectionDetail(userIDa, userIDb string) (
 	return service.store.GetConnectionDetail(userIDa, userIDb)
 }
 
-func (service *ConnectionService) ChangePrivacy(userID string, private bool) (*pb.ActionResult, error) {
-	return service.store.ChangePrivacy(userID, private)
+func (service *ConnectionService) UpdateUser(user domain.UserConn) (*pb.ActionResult, error) {
+	return service.store.Update(user)
 }
 
 func (service *ConnectionService) GetMyContacts(ctx context.Context, request *pb.GetMyContactsRequest) (*pb.ContactsResponse, error) {

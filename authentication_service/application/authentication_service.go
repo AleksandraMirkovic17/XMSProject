@@ -76,3 +76,13 @@ func (service *AuthenticationService) DeleteById(id primitive.ObjectID) error {
 func (service *AuthenticationService) IsAuthorized(token *domain.Token) {
 	//service.store.Create()
 }
+
+func (service *AuthenticationService) GetOne(id primitive.ObjectID) (*domain.UserAuthentication, error) {
+	return service.store.GetById(id)
+
+}
+
+func (service *AuthenticationService) Update(user *domain.UserAuthentication) error {
+	return service.store.Update(user)
+
+}

@@ -3,6 +3,7 @@ package api
 import (
 	"UserService/application"
 	"UserService/infrastructure/mappers"
+	orchestrators "UserService/infrastructure/orchestrators"
 	"context"
 	"fmt"
 	pb "github.com/dislinked/common/proto/user_service"
@@ -11,11 +12,12 @@ import (
 
 type UserHandler struct {
 	pb.UnimplementedUserServiceServer
-	service *application.UserService
+	service                *application.UserService
+	updateUserOrchestrator *orchestrators.UpdateUserOrchestrator
 }
 
-func NewUserHandler(service *application.UserService) *UserHandler {
-	return &UserHandler{service: service}
+func NewUserHandler(service *application.UserService, updateUserOrchestrator *orchestrators.UpdateUserOrchestrator) *UserHandler {
+	return &UserHandler{service: service, updateUserOrchestrator: updateUserOrchestrator}
 }
 
 func (handler *UserHandler) GetAll(ctx context.Context, request *pb.GetUserBySearchParamsRequest) (*pb.GetAllUserResponse, error) {
@@ -59,7 +61,7 @@ func (handler *UserHandler) Insert(ctx context.Context, request *pb.RegisterUser
 
 func (handler *UserHandler) Update(ctx context.Context, request *pb.UpdateUserRequest) (*pb.User, error) {
 
-	user := mappers.MapUserPbToDomain(request.User)
+	user := mappers.MapUserPbToDomain(request.User.User)
 	foundUser, findErr := handler.service.FindByUsername((*user).Username)
 	if findErr != nil {
 		return nil, findErr
@@ -73,6 +75,9 @@ func (handler *UserHandler) Update(ctx context.Context, request *pb.UpdateUserRe
 	if updateErr != nil {
 		return nil, updateErr
 	}
+
+	//pozivanje sage prilikom update
+	handler.updateUserOrchestrator.Start(mappers.MapPbUserToEventUpdateUser((*request.User.User.User)), mappers.MapPbUserToEventUpdateUser(*request.User.User.User))
 
 	return mappers.MapUser(user), nil
 }

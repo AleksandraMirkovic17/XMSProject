@@ -34,7 +34,8 @@ func deleteNode(userID string, transaction neo4j.Transaction) error {
 }
 
 func checkIfUserExists(userID string, transaction neo4j.Transaction) bool {
-	cypherText := string(database) + "MATCH (existing_uer:USERJOB) WHERE existing_uer.userID = $userID RETURN existing_uer.userID"
+	cypherText := string(database) + "MATCH (existing_uer:USERJOB) " +
+		"WHERE existing_uer.userID = $userID RETURN existing_uer.userID"
 	result, _ := transaction.Run(
 		cypherText,
 		map[string]interface{}{"userID": userID})
@@ -118,4 +119,120 @@ func connectSkillAndJob(jobID string, skill string, transaction neo4j.Transactio
 	}
 	return false, nil
 
+}
+
+func updateUser(node domain.UserJobNode, transaction neo4j.Transaction) (bool, error) {
+	cypherText := string(database) +
+		"MATCH (existing_uer:USERJOB) " +
+		"WHERE existing_uer.userID = $userID " +
+		"SET existing_uer.username = $username " +
+		"RETURN existing_uer.username"
+	result, err := transaction.Run(
+		cypherText,
+		map[string]interface{}{"userID": node.UserID, "username": node.Username})
+	if err != nil || result == nil {
+		return false, err
+	}
+	if !result.Next() || result.Record().Values[0].(string) != node.Username {
+		println("Not updated username!")
+		return false, err
+	}
+
+	oldSkills, err := getUserSkills(node.UserID, transaction)
+	if err != nil {
+		println("Couldn't get old skills for user!")
+		return false, err
+	}
+	//delete old skills
+	for _, oldSkill := range oldSkills {
+		if !checkIfSkillPresent(oldSkill, node.Skills) {
+			isRemoved, err := removeUserSkill(node.UserID, oldSkill, transaction)
+			if err != nil || !isRemoved {
+				return false, err
+			}
+			println("Removed skill " + oldSkill)
+		}
+	}
+
+	//add new skills
+	for _, newSkill := range node.Skills {
+		if !checkIfSkillPresent(newSkill, oldSkills) {
+			createSkillNode(newSkill, transaction)
+		}
+		addedNew, err := addSkillToUser(node.UserID, newSkill, transaction)
+		if err != nil || !addedNew {
+			return false, err
+		}
+		println("Added new skill " + newSkill)
+	}
+
+	return true, nil
+
+}
+
+func addSkillToUser(userID string, newSkill string, transaction neo4j.Transaction) (bool, error) {
+	cypherText := string(database) + " MATCH (u:USERJOB) WHERE u.userID=$userID " +
+		"MATCH (s:SKILL) WHERE s.name=$name " +
+		"CREATE (u)-[:KNOWS] ->(s) " +
+		"CREATE (s)-[:isKNOWN] ->(u) " +
+		"RETURN u.userID, s.name "
+	result, err := transaction.Run(
+		cypherText,
+		map[string]interface{}{"userID": userID, "name": newSkill})
+	if err != nil {
+		return false, err
+	}
+	if result != nil && result.Next() && result.Record().Values[0].(string) == userID && result.Record().Values[1].(string) == newSkill {
+		return true, nil
+	}
+	return false, nil
+}
+
+func removeUserSkill(userID string, oldSkill string, transaction neo4j.Transaction) (bool, error) {
+	cypherText := string(database) + " MATCH (u:USERJOB)-[k:KNOWS]->(s:SKILL) " +
+		"MATCH (s:SKILL)-[k2:isKNOWN]->(u:USERJOB) " +
+		"WHERE u.userID=$userID AND s.name=$skill " +
+		"DELETE k " +
+		"DELETE k2" +
+		"RETURN s.name "
+	result, err := transaction.Run(
+		cypherText,
+		map[string]interface{}{"userID": userID, "skill": oldSkill})
+	if err != nil {
+		return false, err
+	}
+	if result != nil && result.Next() && result.Record().Values[0].(string) == oldSkill {
+		return true, nil
+	}
+	return false, nil
+
+}
+
+func checkIfSkillPresent(oldSkill string, newSkills []string) bool {
+	for _, skill := range newSkills {
+		if oldSkill == skill {
+			return true
+		}
+	}
+	return false
+}
+
+func getUserSkills(userID string, transaction neo4j.Transaction) ([]string, error) {
+	cypherText := string(database) + "MATCH (u:USERJOB) - [k:KNOWS]->(s:SKILL) " +
+		"WHERE u.userID=$userID " +
+		"return s.name"
+	result, err := transaction.Run(
+		cypherText,
+		map[string]interface{}{"userID": userID})
+
+	var userSkills []string
+
+	if err != nil || result == nil {
+		return nil, err
+	}
+
+	for result.Next() {
+		userSkills = append(userSkills, result.Record().Values[0].(string))
+	}
+	return userSkills, nil
 }

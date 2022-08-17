@@ -50,15 +50,28 @@ func (server *Server) Start() {
 
 	connectionHandler := server.initConnectionHandler(connectionService)
 
+	//register handler
 	commandSubscriber := server.initSubscriber(server.config.RegisterUserCommandSubject, QueueGroupConnection)
 	replyPublisher := server.initPublisher(server.config.RegisterUserReplySubject)
 	server.initRegisterUserHandler(connectionService, replyPublisher, commandSubscriber)
+
+	//update handler
+	commandSubscriberUpdate := server.initSubscriber(server.config.UpdateUserCommandSubject, QueueGroupConnection)
+	replyPublisherUpdate := server.initPublisher(server.config.UpdateUserReplySubject)
+	server.initUpdateUserHandler(connectionService, replyPublisherUpdate, commandSubscriberUpdate)
 
 	server.startGrpcServer(connectionHandler)
 }
 
 func (server *Server) initRegisterUserHandler(connectionService *application.ConnectionService, publisher saga.Publisher, subscriber saga.Subscriber) {
 	_, err := api.NewRegisterUserCommandHandler(connectionService, publisher, subscriber)
+	if err != nil {
+		log.Fatal(err)
+	}
+}
+
+func (server *Server) initUpdateUserHandler(connectionService *application.ConnectionService, publisher saga.Publisher, subscriber saga.Subscriber) {
+	_, err := api.NewUpdateUserCommandHandler(connectionService, publisher, subscriber)
 	if err != nil {
 		log.Fatal(err)
 	}

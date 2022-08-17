@@ -1563,7 +1563,7 @@ var file_connection_service_proto_depIdxs = []int32{
 	8,  // 22: connection_service.ConnectionService.DeclineFriendRequest:input_type -> connection_service.DeclineFriendRequestRequest
 	14, // 23: connection_service.ConnectionService.GetRecommendation:input_type -> connection_service.GetRequest
 	16, // 24: connection_service.ConnectionService.GetConnectionDetail:input_type -> connection_service.GetConnectionDetailRequest
-	3,  // 25: connection_service.ConnectionService.ChangePrivacy:input_type -> connection_service.ChangePrivacyRequest
+	3,  // 25: connection_service.ConnectionService.Update:input_type -> connection_service.ChangePrivacyRequest
 	0,  // 26: connection_service.ConnectionService.GetMyContacts:input_type -> connection_service.GetMyContactsRequest
 	19, // 27: connection_service.ConnectionService.GetFriends:output_type -> connection_service.Users
 	19, // 28: connection_service.ConnectionService.GetBlockeds:output_type -> connection_service.Users
@@ -1578,7 +1578,7 @@ var file_connection_service_proto_depIdxs = []int32{
 	13, // 37: connection_service.ConnectionService.DeclineFriendRequest:output_type -> connection_service.ActionResult
 	21, // 38: connection_service.ConnectionService.GetRecommendation:output_type -> connection_service.RecommendedUsers
 	17, // 39: connection_service.ConnectionService.GetConnectionDetail:output_type -> connection_service.ConnectionDetail
-	13, // 40: connection_service.ConnectionService.ChangePrivacy:output_type -> connection_service.ActionResult
+	13, // 40: connection_service.ConnectionService.Update:output_type -> connection_service.ActionResult
 	2,  // 41: connection_service.ConnectionService.GetMyContacts:output_type -> connection_service.ContactsResponse
 	27, // [27:42] is the sub-list for method output_type
 	12, // [12:27] is the sub-list for method input_type

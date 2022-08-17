@@ -162,6 +162,45 @@ func (j JobDBStore) UpdateUserSkills(ctx context.Context, userID string, skills 
 	panic("implement me")
 }
 
+func (j JobDBStore) UpdateUser(ctx context.Context, node domain.UserJobNode) (*pb.ActionResult, error) {
+	session := (*j.jobDB).NewSession(neo4j.SessionConfig{AccessMode: neo4j.AccessModeWrite})
+	defer session.Close()
+
+	_, err := session.WriteTransaction(func(transaction neo4j.Transaction) (interface{}, error) {
+		if !checkIfUserExists(node.UserID, transaction) {
+			return &pb.ActionResult{
+				Status: 400,
+				Msg:    "User does not exsist!",
+			}, nil
+		}
+		isUpdated, err := updateUser(node, transaction)
+		if err != nil || !isUpdated {
+			return &pb.ActionResult{
+				Status: 400,
+				Msg:    "It is not updated!",
+			}, err
+		}
+		return &pb.ActionResult{
+			Status: 200,
+			Msg:    "Successfully update userjob node!",
+		}, nil
+	})
+
+	if err != nil {
+		return &pb.ActionResult{
+			Status: 400,
+			Msg:    "It is not updated! " + err.Error(),
+		}, err
+
+	}
+
+	return &pb.ActionResult{
+		Status: 200,
+		Msg:    "Successfully update userjob node!",
+	}, nil
+
+}
+
 func (j JobDBStore) GetRecommendationJobOffer(ctx context.Context, userID string) ([]*domain.JobOffer, error) {
 	//TODO implement me
 	panic("implement me")

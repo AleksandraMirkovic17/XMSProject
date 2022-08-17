@@ -11,4 +11,5 @@ type UserStore interface {
 	DeleteById(id primitive.ObjectID) error
 	DeleteAll()
 	GetByUsername(username string) (*UserAuthentication, error)
+	Update(user *UserAuthentication) error
 }

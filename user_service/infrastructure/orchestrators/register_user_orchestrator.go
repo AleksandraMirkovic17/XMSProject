@@ -35,14 +35,6 @@ func (o *UserOrchestrator) handle(reply *events.RegisterUserReply) {
 	}
 }
 
-/*func (o *UserOrchestrator) handle(reply *events.RegisterUserReply) {
-	command := events.RegisterUserCommand{UserAuthentication: reply.UserAuthentication}
-	command.Type = o.nextCommandType(reply.Type)
-	if command.Type != events.UnknownCommand {
-		_ = o.commandPublisher.Publish(command)
-	}
-}*/
-
 func (o *UserOrchestrator) nextCommandType(reply events.RegisterUserReplyType) events.RegisterUserCommandType {
 	switch reply {
 	case events.UserProfileCreated:
@@ -84,26 +76,4 @@ func (o *UserOrchestrator) CreateUser(user *domain.User) error {
 		User: *(mappers.MapDomainUserToCommandUser(user)),
 	}
 	return o.commandPublisher.Publish(events)
-}
-
-func (o *UserOrchestrator) CreateConnectionUser(user *domain.User) error {
-	println("Kreiranje connection usera")
-	event := &events.RegisterUserCommand{
-		User: *(mappers.MapDomainUserToConnectionCommandUser(user)),
-		Type: events.CreateUserNode,
-	}
-	println("Pre publishovanja")
-	return o.commandPublisher.Publish(event)
-}
-
-func (o *UserOrchestrator) CreateJobUser(user *domain.User) error {
-	println("Kreiranje job usera")
-	event := &events.RegisterUserCommand{
-		User: *(mappers.MapDomainUserToJobCommandUser(user)),
-		Type: events.CreateJobNode,
-	}
-
-	println("Pre publishovanja eventa za kreiranje job user noda")
-	return o.commandPublisher.Publish(event)
-
 }

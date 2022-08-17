@@ -61,7 +61,7 @@ func (store *UserMongoDBStore) Insert(user *domain.User) error {
 	return nil
 }
 
-func (store *UserMongoDBStore) Update(user *domain.User) error {
+func (store *UserMongoDBStore) Update(uuid primitive.ObjectID, user *domain.User) error {
 	filter := bson.M{"username": user.Username}
 	oldUser, err := store.filterOne(filter)
 	if err != nil {
@@ -74,14 +74,64 @@ func (store *UserMongoDBStore) Update(user *domain.User) error {
 			{"$set", bson.D{{"name", user.Name}}},
 			{"$set", bson.D{{"surname", user.Surname}}},
 			{"$set", bson.D{{"phone", user.Phone}}},
-			{"$set", bson.D{{"date_of_birth", user.DateOfBirth}}},
-			{"$set", bson.D{{"skills", user.Skills}}},
-			{"$set", bson.D{{"interests", user.Interests}}},
-			{"$set", bson.D{{"education_experience", user.EducationExperiences}}},
-			{"$set", bson.D{{"work_experience", user.WorkExperiences}}},
-			{"$set", bson.D{{"biography", user.Biography}}},
+			{"$set", bson.D{{"password", user.Password}}},
 		},
 	)
+	/*if(user.DateOfBirth != nil){
+		_, err = store.users.UpdateOne(
+			context.TODO(),
+			bson.M{"_id": oldUser.Id},
+			bson.D{
+				{"$set", bson.D{{"date_of_birth", user.DateOfBirth}}},
+			},
+		)
+	}*/
+	if user.Skills != nil {
+		_, err = store.users.UpdateOne(
+			context.TODO(),
+			bson.M{"_id": oldUser.Id},
+			bson.D{
+				{"$set", bson.D{{"skills", user.Skills}}},
+			},
+		)
+	}
+	if user.Interests != nil {
+		_, err = store.users.UpdateOne(
+			context.TODO(),
+			bson.M{"_id": oldUser.Id},
+			bson.D{
+				{"$set", bson.D{{"interests", user.Interests}}},
+			},
+		)
+	}
+	if user.EducationExperiences != nil {
+		_, err = store.users.UpdateOne(
+			context.TODO(),
+			bson.M{"_id": oldUser.Id},
+			bson.D{
+				{"$set", bson.D{{"education_experience", user.EducationExperiences}}},
+			},
+		)
+	}
+	if user.WorkExperiences != nil {
+		_, err = store.users.UpdateOne(
+			context.TODO(),
+			bson.M{"_id": oldUser.Id},
+			bson.D{
+				{"$set", bson.D{{"work_experience", user.WorkExperiences}}},
+			},
+		)
+	}
+	if user.Biography != "" {
+		_, err = store.users.UpdateOne(
+			context.TODO(),
+			bson.M{"_id": oldUser.Id},
+			bson.D{
+				{"$set", bson.D{{"biography", user.Biography}}},
+			},
+		)
+	}
+
 	if err != nil {
 		return err
 	}

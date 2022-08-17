@@ -6,7 +6,7 @@ import (
 
 type UserStore interface {
 	Insert(user *User) error
-	Update(user *User) error
+	Update(uuid primitive.ObjectID, user *User) error
 	GetAll() ([]*User, error)
 	FindByID(uuid primitive.ObjectID) (*User, error)
 	FindByUsername(username string) (*User, error)

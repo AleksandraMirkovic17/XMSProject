@@ -1,4 +1,4 @@
-package create_order
+package update_order
 
 import "time"
 
@@ -33,50 +33,52 @@ type UserDetails struct {
 	Skills      []string
 }
 
-type RegisterUserCommandType int8
+type UpdateUserCommandType int8
 
 const (
-	CreateUserCredentials RegisterUserCommandType = iota
-	UserProfileCreate
+	CreateUserCredentials UpdateUserCommandType = iota
+	UserProfileUpdate
 	RollebackUserProfile
-	CreateUserNode
+	UpdateUserNode
 	RollebackConnectionNode
 	AuthenticationServiceUpdate
 	RollbackAuthenticationService
-	CreateJobNode
+	UpdateJobNode
 	RollbackJobNode
-	ApproveRegistration
-	CancelRegistration
+	ApproveUpdate
+	CancelUpdate
 	UnknownCommand
 )
 
-type RegisterUserCommand struct {
-	User UserDetails
-	Type RegisterUserCommandType
+type UpdateUserCommand struct {
+	User    UserDetails
+	OldUser UserDetails
+	Type    UpdateUserCommandType
 }
 
-type RegisterUserReplyType int8
+type UpdateUserReplyType int8
 
 const (
-	UserCredentialsCreated RegisterUserReplyType = iota
-	UserProfileCreated
-	UserProfileNotCreated
+	UserCredentialsCreated UpdateUserReplyType = iota
+	UserProfileUpdated
+	UserProfileNotUpdated
 	UserProfileRolledBack
-	UserNodeCreated
-	UserNodeFailedToCreate
+	UserNodeUpdated
+	UserNodeFailedToUpdate
 	ConnectionsRolledBack
 	AuthenticationServiceUpdated
 	AuthenticationServiceNotUpdated
 	AuthenticationServiceRolledBack
-	JobNodeCreated
-	JobNodeFailedToCreate
+	JobNodeUpdated
+	JobNodeFailedToUpdate
 	JobNodeRolledBack
 	RegistrationCancelled
 	RegistrationApproved
 	UnknownReply
 )
 
-type RegisterUserReply struct {
-	User UserDetails
-	Type RegisterUserReplyType
+type UpdateUserReply struct {
+	User    UserDetails
+	UserOld UserDetails
+	Type    UpdateUserReplyType
 }

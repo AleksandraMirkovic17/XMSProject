@@ -166,7 +166,7 @@ func (c *connectionServiceClient) GetConnectionDetail(ctx context.Context, in *G
 
 func (c *connectionServiceClient) ChangePrivacy(ctx context.Context, in *ChangePrivacyRequest, opts ...grpc.CallOption) (*ActionResult, error) {
 	out := new(ActionResult)
-	err := c.cc.Invoke(ctx, "/connection_service.ConnectionService/ChangePrivacy", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/connection_service.ConnectionService/Update", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -248,7 +248,7 @@ func (UnimplementedConnectionServiceServer) GetConnectionDetail(context.Context,
 	return nil, status.Errorf(codes.Unimplemented, "method GetConnectionDetail not implemented")
 }
 func (UnimplementedConnectionServiceServer) ChangePrivacy(context.Context, *ChangePrivacyRequest) (*ActionResult, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ChangePrivacy not implemented")
+	return nil, status.Errorf(codes.Unimplemented, "method Update not implemented")
 }
 func (UnimplementedConnectionServiceServer) GetMyContacts(context.Context, *GetMyContactsRequest) (*ContactsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetMyContacts not implemented")
@@ -510,7 +510,7 @@ func _ConnectionService_ChangePrivacy_Handler(srv interface{}, ctx context.Conte
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/connection_service.ConnectionService/ChangePrivacy",
+		FullMethod: "/connection_service.ConnectionService/Update",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(ConnectionServiceServer).ChangePrivacy(ctx, req.(*ChangePrivacyRequest))
@@ -596,7 +596,7 @@ var ConnectionService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _ConnectionService_GetConnectionDetail_Handler,
 		},
 		{
-			MethodName: "ChangePrivacy",
+			MethodName: "Update",
 			Handler:    _ConnectionService_ChangePrivacy_Handler,
 		},
 		{

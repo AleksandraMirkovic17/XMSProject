@@ -117,12 +117,21 @@ message NewUser {
 	User user = 1;
 }
 
+message OldUser {
+	User user = 1;
+}
+
 message  RegisterUserRequest {
 	NewUser user = 1;
 }
 
-message UpdateUserRequest{
+message UpdateUser{
 	NewUser user = 1;
+	OldUser oldUser = 2;
+}
+
+message UpdateUserRequest{
+ UpdateUser user = 1;
 }
 
 message GetUserBySearchParamsRequest{

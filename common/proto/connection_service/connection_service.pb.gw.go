@@ -942,7 +942,7 @@ func RegisterConnectionServiceHandlerServer(ctx context.Context, mux *runtime.Se
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
-		ctx, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/connection_service.ConnectionService/ChangePrivacy", runtime.WithHTTPPathPattern("/connection/privacy"))
+		ctx, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/connection_service.ConnectionService/Update", runtime.WithHTTPPathPattern("/connection/privacy"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -1278,7 +1278,7 @@ func RegisterConnectionServiceHandlerClient(ctx context.Context, mux *runtime.Se
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
-		ctx, err = runtime.AnnotateContext(ctx, mux, req, "/connection_service.ConnectionService/ChangePrivacy", runtime.WithHTTPPathPattern("/connection/privacy"))
+		ctx, err = runtime.AnnotateContext(ctx, mux, req, "/connection_service.ConnectionService/Update", runtime.WithHTTPPathPattern("/connection/privacy"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return

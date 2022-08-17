@@ -740,7 +740,7 @@ func (store *ConnectionDBStore) GetConnectionDetail(userIDa, userIDb string) (*p
 	}
 }
 
-func (store *ConnectionDBStore) ChangePrivacy(userID string, private bool) (*pb.ActionResult, error) {
+func (store *ConnectionDBStore) Update(user domain.UserConn) (*pb.ActionResult, error) {
 
 	session := (*store.connectionDB).NewSession(neo4j.SessionConfig{AccessMode: neo4j.AccessModeWrite})
 	defer session.Close()
@@ -749,30 +749,20 @@ func (store *ConnectionDBStore) ChangePrivacy(userID string, private bool) (*pb.
 
 		actionResult := &pb.ActionResult{Msg: "msg", Status: 0}
 
-		if checkIfUserExist(userID, transaction) {
-			isPrivate, err := isUserPrivate(userID, transaction)
+		if checkIfUserExist(user.UserID, transaction) {
+			updated, err := updateUser(user, transaction)
 			if err != nil {
 				actionResult.Msg = err.Error()
+				actionResult.Status = 400
 				return actionResult, err
 			}
-
-			if isPrivate != private {
-				ok, err := setUserPrivate(userID, private, transaction)
-				if err != nil {
-					actionResult.Msg = err.Error()
-					actionResult.Status = 400
-					return nil, err
-				}
-				if !ok {
-					actionResult.Msg = "error updating privacy"
-					return actionResult, nil
-				} else {
-					actionResult.Msg = "successfully changed privacy"
-					actionResult.Status = 200
-					return actionResult, nil
-				}
+			if !updated {
+				actionResult.Msg = "User is not updated!"
+				actionResult.Status = 400
+				return actionResult, err
 			} else {
-				actionResult.Msg = "same privacy"
+				actionResult.Msg = "successfully updated"
+				actionResult.Status = 200
 				return actionResult, nil
 			}
 

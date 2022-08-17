@@ -21,6 +21,6 @@ type ConnectionStore interface {
 	DeclineFriendRequest(userIDa string, userIDb string) (*pb.ActionResult, error)
 	GetConnectionDetail(userIDa, userIDb string) (*pb.ConnectionDetail, error)
 	GetFriendRequests(userID string) ([]UserConn, error)
-	ChangePrivacy(userID string, private bool) (*pb.ActionResult, error)
+	Update(user UserConn) (*pb.ActionResult, error)
 	GetMyContacts(ctx context.Context, request *pb.GetMyContactsRequest) (*pb.ContactsResponse, error)
 }
