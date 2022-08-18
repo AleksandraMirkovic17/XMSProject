@@ -30,10 +30,12 @@ func (store *UserMongoDBStore) GetAll() ([]*domain.User, error) {
 
 func (store *UserMongoDBStore) FindByID(id primitive.ObjectID) (*domain.User, error) {
 	filter := bson.M{"_id": id}
+	println("Trazenje po id")
 	return store.filterOne(filter)
 }
 
 func (store *UserMongoDBStore) FindByUsername(username string) (user *domain.User, err error) {
+	println("start finding bu username" + username)
 	filter := bson.M{"username": username}
 	return store.filterOne(filter)
 }
@@ -62,9 +64,10 @@ func (store *UserMongoDBStore) Insert(user *domain.User) error {
 }
 
 func (store *UserMongoDBStore) Update(uuid primitive.ObjectID, user *domain.User) error {
-	filter := bson.M{"username": user.Username}
+	filter := bson.M{"_id": uuid}
 	oldUser, err := store.filterOne(filter)
 	if err != nil {
+		println("Error while finding by username")
 		return err
 	}
 	_, err = store.users.UpdateOne(
@@ -86,7 +89,9 @@ func (store *UserMongoDBStore) Update(uuid primitive.ObjectID, user *domain.User
 			},
 		)
 	}*/
+	println()
 	if user.Skills != nil {
+		println("Updating skills", len(user.Skills))
 		_, err = store.users.UpdateOne(
 			context.TODO(),
 			bson.M{"_id": oldUser.Id},

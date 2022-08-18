@@ -47,7 +47,7 @@ func checkIfUserExists(userID string, transaction neo4j.Transaction) bool {
 }
 
 func checkIfSkillExists(skill string, transaction neo4j.Transaction) bool {
-	cypherText := string(database) + "MATCH (existing_skill:SKILL) WHERE existing_skill.name=$skill RETURN existing_skill"
+	cypherText := string(database) + "MATCH (existing_skill:SKILL) WHERE existing_skill.name=$skill RETURN existing_skill.name"
 	result, _ := transaction.Run(
 		cypherText,
 		map[string]interface{}{"skill": skill})
@@ -75,6 +75,7 @@ func checkIfJobExists(jobId string, transaction neo4j.Transaction) bool {
 
 func createSkillNode(skill string, transaction neo4j.Transaction) bool {
 	if !checkIfSkillExists(skill, transaction) {
+		println("skill: ", skill, " does not exist! creating")
 		cypherText := string(database) + "CREATE (:SKILL{name:$skill})"
 		_, err := transaction.Run(
 			cypherText,
@@ -122,6 +123,7 @@ func connectSkillAndJob(jobID string, skill string, transaction neo4j.Transactio
 }
 
 func updateUser(node domain.UserJobNode, transaction neo4j.Transaction) (bool, error) {
+	println("updating username")
 	cypherText := string(database) +
 		"MATCH (existing_uer:USERJOB) " +
 		"WHERE existing_uer.userID = $userID " +
@@ -137,7 +139,7 @@ func updateUser(node domain.UserJobNode, transaction neo4j.Transaction) (bool, e
 		println("Not updated username!")
 		return false, err
 	}
-
+	println("getting old skills")
 	oldSkills, err := getUserSkills(node.UserID, transaction)
 	if err != nil {
 		println("Couldn't get old skills for user!")
@@ -146,6 +148,7 @@ func updateUser(node domain.UserJobNode, transaction neo4j.Transaction) (bool, e
 	//delete old skills
 	for _, oldSkill := range oldSkills {
 		if !checkIfSkillPresent(oldSkill, node.Skills) {
+			println("old skills: ", oldSkill, " is not present in new deleting")
 			isRemoved, err := removeUserSkill(node.UserID, oldSkill, transaction)
 			if err != nil || !isRemoved {
 				return false, err
@@ -158,12 +161,14 @@ func updateUser(node domain.UserJobNode, transaction neo4j.Transaction) (bool, e
 	for _, newSkill := range node.Skills {
 		if !checkIfSkillPresent(newSkill, oldSkills) {
 			createSkillNode(newSkill, transaction)
+			println("New skill does not existed before in skills")
+			addedNew, err := addSkillToUser(node.UserID, newSkill, transaction)
+			if err != nil || !addedNew {
+				return false, err
+			}
+			println("Added new skill " + newSkill)
 		}
-		addedNew, err := addSkillToUser(node.UserID, newSkill, transaction)
-		if err != nil || !addedNew {
-			return false, err
-		}
-		println("Added new skill " + newSkill)
+
 	}
 
 	return true, nil
@@ -193,7 +198,7 @@ func removeUserSkill(userID string, oldSkill string, transaction neo4j.Transacti
 		"MATCH (s:SKILL)-[k2:isKNOWN]->(u:USERJOB) " +
 		"WHERE u.userID=$userID AND s.name=$skill " +
 		"DELETE k " +
-		"DELETE k2" +
+		"DELETE k2 " +
 		"RETURN s.name "
 	result, err := transaction.Run(
 		cypherText,
@@ -233,6 +238,8 @@ func getUserSkills(userID string, transaction neo4j.Transaction) ([]string, erro
 
 	for result.Next() {
 		userSkills = append(userSkills, result.Record().Values[0].(string))
+		print(",old skill: " + result.Record().Values[0].(string))
 	}
+	println(" , len: ", len(userSkills))
 	return userSkills, nil
 }

@@ -38,13 +38,13 @@ type RegisterUserCommandType int8
 const (
 	CreateUserCredentials RegisterUserCommandType = iota
 	UserProfileCreate
-	RollebackUserProfile
+	RollebackRegisterUserProfile
 	CreateUserNode
-	RollebackConnectionNode
-	AuthenticationServiceUpdate
-	RollbackAuthenticationService
+	RollebackRegisterConnectionNode
+	AuthenticationServiceRegisterUpdate
+	RollbackRegisterAuthenticationService
 	CreateJobNode
-	RollbackJobNode
+	RollbackRegisterJobNode
 	ApproveRegistration
 	CancelRegistration
 	UnknownCommand
@@ -61,16 +61,16 @@ const (
 	UserCredentialsCreated RegisterUserReplyType = iota
 	UserProfileCreated
 	UserProfileNotCreated
-	UserProfileRolledBack
+	UserProfileRegisterRolledBack
 	UserNodeCreated
 	UserNodeFailedToCreate
 	ConnectionsRolledBack
-	AuthenticationServiceUpdated
-	AuthenticationServiceNotUpdated
-	AuthenticationServiceRolledBack
+	AuthenticationServiceUserCreated
+	AuthenticationServiceUserNotCreated
+	AuthenticationServiceRegisterRolledBack
 	JobNodeCreated
 	JobNodeFailedToCreate
-	JobNodeRolledBack
+	JobNodeRegisterRolledBack
 	RegistrationCancelled
 	RegistrationApproved
 	UnknownReply

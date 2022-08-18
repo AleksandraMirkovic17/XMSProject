@@ -31,14 +31,19 @@ func NewUpdateUserCommandHandler(service *application.AuthenticationService, pub
 func (handler *UpdateUserCommandHandler) handle(command *events.UpdateUserCommand) {
 	println("Nalazim se u handleru authentication servisa za update")
 	id, err := primitive.ObjectIDFromHex(command.User.Id)
-	if err != nil {
-		return
-	}
-
 	reply := events.UpdateUserReply{
 		User:    command.User,
 		UserOld: command.OldUser,
 	}
+	if err != nil {
+		println(command.User.Id)
+		println("nemoguce id kovertovati")
+		println("Failed to update user  auth profile")
+		reply.Type = events.AuthenticationServiceNotUpdated
+		_ = handler.replyPublisher.Publish(reply)
+		return
+	}
+
 	print("Pre switchovanja")
 	print(command.Type)
 	switch command.Type {

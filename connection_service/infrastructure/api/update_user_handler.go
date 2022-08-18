@@ -26,10 +26,14 @@ func NewUpdateUserCommandHandler(service *application.ConnectionService, publish
 }
 
 func (handler *UpdateUserCommandHandler) handle(command events.UpdateUserCommand) {
+	println("Nalazim se u handleru connection servisa za update")
+	println(command.Type)
 	reply := events.UpdateUserReply{
 		User:    command.User,
 		UserOld: command.OldUser,
 	}
+	print("Pre switchovanja: ")
+	println(command.Type)
 	switch command.Type {
 	case events.UpdateUserNode:
 		println("Updating user node")
@@ -42,15 +46,15 @@ func (handler *UpdateUserCommandHandler) handle(command events.UpdateUserCommand
 		}
 		reply.Type = events.UserNodeUpdated
 		break
-	case events.RollbackJobNode:
+	case events.RollebackConnectionNode:
 		println("Rollback user node")
 		err, _ := handler.userService.UpdateUser(*mapEventUpdateUserToDomainUser(command.OldUser))
 		if err.Status != 200 {
-			println("User doe not exists!")
+			println("User does not exists!")
 			reply.Type = events.UserNodeFailedToUpdate
 			break
 		}
-		reply.Type = events.UserNodeUpdated
+		reply.Type = events.ConnectionsRolledBack
 		break
 	default:
 		reply.Type = events.UnknownReply

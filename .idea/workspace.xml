@@ -5,50 +5,25 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="73e9022d-bf7f-4b1c-95b0-7a9024d84ed5" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/authentication_service/infrastructure/handlers/update_user_handler.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/common/saga/update_order/update_order_event.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/connection_service/infrastructure/api/update_user_handler.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/job_service/infrastructure/handlers/UpdateUserHandler.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/user_service/infrastructure/handlers/update_user_handler.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/user_service/infrastructure/mappers/command_mapper.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/user_service/infrastructure/orchestrators/update_user_orchestrator.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/authentication_service/application/authentication_service.go" beforeDir="false" afterPath="$PROJECT_DIR$/authentication_service/application/authentication_service.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/authentication_service/domain/authentication_store.go" beforeDir="false" afterPath="$PROJECT_DIR$/authentication_service/domain/authentication_store.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/authentication_service/infrastructure/handlers/register_user_handler.go" beforeDir="false" afterPath="$PROJECT_DIR$/authentication_service/infrastructure/handlers/register_user_handler.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/authentication_service/infrastructure/handlers/update_user_handler.go" beforeDir="false" afterPath="$PROJECT_DIR$/authentication_service/infrastructure/handlers/update_user_handler.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/authentication_service/infrastructure/mappers/saga_mapper.go" beforeDir="false" afterPath="$PROJECT_DIR$/authentication_service/infrastructure/mappers/saga_mapper.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/authentication_service/infrastructure/persistence/user_mongodb_store.go" beforeDir="false" afterPath="$PROJECT_DIR$/authentication_service/infrastructure/persistence/user_mongodb_store.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/authentication_service/startup/config/config.go" beforeDir="false" afterPath="$PROJECT_DIR$/authentication_service/startup/config/config.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/authentication_service/startup/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/authentication_service/startup/server.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/common/proto/connection_service/connection_service.pb.go" beforeDir="false" afterPath="$PROJECT_DIR$/common/proto/connection_service/connection_service.pb.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/common/proto/connection_service/connection_service.pb.gw.go" beforeDir="false" afterPath="$PROJECT_DIR$/common/proto/connection_service/connection_service.pb.gw.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/common/proto/connection_service/connection_service_grpc.pb.go" beforeDir="false" afterPath="$PROJECT_DIR$/common/proto/connection_service/connection_service_grpc.pb.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/common/proto/user_service/user_service.pb.go" beforeDir="false" afterPath="$PROJECT_DIR$/common/proto/user_service/user_service.pb.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/common/proto/user_service/user_service.pb.gw.go" beforeDir="false" afterPath="$PROJECT_DIR$/common/proto/user_service/user_service.pb.gw.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/common/proto/user_service/user_service.proto" beforeDir="false" afterPath="$PROJECT_DIR$/common/proto/user_service/user_service.proto" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/common/proto/user_service/user_service_grpc.pb.go" beforeDir="false" afterPath="$PROJECT_DIR$/common/proto/user_service/user_service_grpc.pb.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/authentication_service/infrastructure/orchestrator/register_user_orchestrator.go" beforeDir="false" afterPath="$PROJECT_DIR$/authentication_service/infrastructure/orchestrator/register_user_orchestrator.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/common/saga/create_order/create_order_event.go" beforeDir="false" afterPath="$PROJECT_DIR$/common/saga/create_order/create_order_event.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/connection_service/application/connection_service.go" beforeDir="false" afterPath="$PROJECT_DIR$/connection_service/application/connection_service.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/connection_service/domain/connection_store.go" beforeDir="false" afterPath="$PROJECT_DIR$/connection_service/domain/connection_store.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/connection_service/infrastructure/api/connection_grpc_api.go" beforeDir="false" afterPath="$PROJECT_DIR$/connection_service/infrastructure/api/connection_grpc_api.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/connection_service/infrastructure/api/pb_mapper.go" beforeDir="false" afterPath="$PROJECT_DIR$/connection_service/infrastructure/api/pb_mapper.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/connection_service/infrastructure/persistence/connection_neo4jdb_store.go" beforeDir="false" afterPath="$PROJECT_DIR$/connection_service/infrastructure/persistence/connection_neo4jdb_store.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/connection_service/infrastructure/persistence/transaction.go" beforeDir="false" afterPath="$PROJECT_DIR$/connection_service/infrastructure/persistence/transaction.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/connection_service/startup/config/config.go" beforeDir="false" afterPath="$PROJECT_DIR$/connection_service/startup/config/config.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/connection_service/startup/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/connection_service/startup/server.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/job_service/application/job_service.go" beforeDir="false" afterPath="$PROJECT_DIR$/job_service/application/job_service.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/job_service/domain/job_store.go" beforeDir="false" afterPath="$PROJECT_DIR$/job_service/domain/job_store.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/saga/update_order/update_order_event.go" beforeDir="false" afterPath="$PROJECT_DIR$/common/saga/update_order/update_order_event.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/connection_service/infrastructure/api/update_user_handler.go" beforeDir="false" afterPath="$PROJECT_DIR$/connection_service/infrastructure/api/update_user_handler.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/job_service/infrastructure/handlers/RegisterUserCommandHandler.go" beforeDir="false" afterPath="$PROJECT_DIR$/job_service/infrastructure/handlers/RegisterUserCommandHandler.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/job_service/persistence/job_neo4jdb_store.go" beforeDir="false" afterPath="$PROJECT_DIR$/job_service/persistence/job_neo4jdb_store.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/job_service/infrastructure/handlers/UpdateUserHandler.go" beforeDir="false" afterPath="$PROJECT_DIR$/job_service/infrastructure/handlers/UpdateUserHandler.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/job_service/persistence/transaction.go" beforeDir="false" afterPath="$PROJECT_DIR$/job_service/persistence/transaction.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/job_service/startup/config/config.go" beforeDir="false" afterPath="$PROJECT_DIR$/job_service/startup/config/config.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/job_service/startup/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/job_service/startup/server.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user_service/application/user_service.go" beforeDir="false" afterPath="$PROJECT_DIR$/user_service/application/user_service.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user_service/domain/user_repository.go" beforeDir="false" afterPath="$PROJECT_DIR$/user_service/domain/user_repository.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/user_service/infrastructure/api/user_grpc_api.go" beforeDir="false" afterPath="$PROJECT_DIR$/user_service/infrastructure/api/user_grpc_api.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user_service/infrastructure/handlers/register_user_handler.go" beforeDir="false" afterPath="$PROJECT_DIR$/user_service/infrastructure/handlers/register_user_handler.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user_service/infrastructure/handlers/update_user_handler.go" beforeDir="false" afterPath="$PROJECT_DIR$/user_service/infrastructure/handlers/update_user_handler.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user_service/infrastructure/mappers/command_mapper.go" beforeDir="false" afterPath="$PROJECT_DIR$/user_service/infrastructure/mappers/command_mapper.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user_service/infrastructure/mappers/pb_mapper.go" beforeDir="false" afterPath="$PROJECT_DIR$/user_service/infrastructure/mappers/pb_mapper.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/user_service/infrastructure/orchestrators/register_user_orchestrator.go" beforeDir="false" afterPath="$PROJECT_DIR$/user_service/infrastructure/orchestrators/register_user_orchestrator.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user_service/infrastructure/orchestrators/update_user_orchestrator.go" beforeDir="false" afterPath="$PROJECT_DIR$/user_service/infrastructure/orchestrators/update_user_orchestrator.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/user_service/infrastructure/persistence/user_mongodb_store.go" beforeDir="false" afterPath="$PROJECT_DIR$/user_service/infrastructure/persistence/user_mongodb_store.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user_service/startup/config/config.go" beforeDir="false" afterPath="$PROJECT_DIR$/user_service/startup/config/config.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/user_service/startup/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/user_service/startup/server.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -163,12 +138,12 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
           <url>file://$PROJECT_DIR$/user_service/infrastructure/mappers/pb_mapper.go</url>
-          <line>127</line>
+          <line>131</line>
           <option name="timeStamp" value="2" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
           <url>file://$PROJECT_DIR$/user_service/infrastructure/mappers/pb_mapper.go</url>
-          <line>190</line>
+          <line>194</line>
           <option name="timeStamp" value="3" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
@@ -195,6 +170,11 @@
           <url>file://$PROJECT_DIR$/user_service/domain/user_repository.go</url>
           <line>8</line>
           <option name="timeStamp" value="10" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/user_service/infrastructure/persistence/user_mongodb_store.go</url>
+          <line>65</line>
+          <option name="timeStamp" value="12" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

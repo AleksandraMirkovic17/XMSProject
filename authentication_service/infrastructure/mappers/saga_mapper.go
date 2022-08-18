@@ -15,6 +15,7 @@ func MapCommandToAuthUser(command *events.RegisterUserCommand) *domain.UserAuthe
 		println("Error converting id")
 		return nil
 	}
+	println("Id of the new user is: ", id.Hex())
 	var userD = &domain.UserAuthentication{
 		ID:       id,
 		Username: command.User.Username,

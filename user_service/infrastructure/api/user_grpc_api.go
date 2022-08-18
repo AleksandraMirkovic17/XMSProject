@@ -47,7 +47,7 @@ func (handler *UserHandler) Get(ctx context.Context, request *pb.GetUserRequest)
 }
 
 func (handler *UserHandler) Insert(ctx context.Context, request *pb.RegisterUserRequest) (*pb.User, error) {
-	user := mappers.MapUserPbToDomain(request.User)
+	user := mappers.MapUserPbToDomain(request.User.User)
 	fmt.Println("mapper zavrsio")
 
 	err := handler.service.Insert(user)
@@ -60,8 +60,9 @@ func (handler *UserHandler) Insert(ctx context.Context, request *pb.RegisterUser
 }
 
 func (handler *UserHandler) Update(ctx context.Context, request *pb.UpdateUserRequest) (*pb.User, error) {
-
-	user := mappers.MapUserPbToDomain(request.User.User)
+	println("Starting to update")
+	println("Before mapping", request.User.OldUser.User)
+	user := mappers.MapUserPbToDomain(request.User.OldUser.User)
 	foundUser, findErr := handler.service.FindByUsername((*user).Username)
 	if findErr != nil {
 		return nil, findErr
@@ -70,14 +71,15 @@ func (handler *UserHandler) Update(ctx context.Context, request *pb.UpdateUserRe
 		return nil, findErr
 	}
 	user.Id = foundUser.Id
+	println("foun user id is:", user.Id.Hex())
 
-	updateErr := handler.service.Update(user.Id, user)
+	updateErr := handler.service.Update(user.Id, mappers.MapUserPbToDomain(request.User.User.User))
 	if updateErr != nil {
 		return nil, updateErr
 	}
 
 	//pozivanje sage prilikom update
-	handler.updateUserOrchestrator.Start(mappers.MapPbUserToEventUpdateUser((*request.User.User.User)), mappers.MapPbUserToEventUpdateUser(*request.User.User.User))
+	handler.updateUserOrchestrator.Start(mappers.MapPbUserToEventUpdateUser((*request.User.User.User)), mappers.MapPbUserToEventUpdateUser(*request.User.OldUser.User))
 
 	return mappers.MapUser(user), nil
 }

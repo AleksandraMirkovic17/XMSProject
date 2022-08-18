@@ -4,6 +4,7 @@ import (
 	"UserService/domain"
 	pb "github.com/dislinked/common/proto/user_service"
 	events "github.com/dislinked/common/saga/update_order"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 func MapEventGenderToDomainGender(gender events.Gender) domain.Gender {
@@ -65,6 +66,7 @@ func mapEventGenderToDomainGender(gender events.Gender) domain.Gender {
 }
 
 func MapPbUserToEventUpdateUser(pbUser pb.User) *events.UserDetails {
+	println("pb user id: ", pbUser.Id)
 	eventUser := &events.UserDetails{
 		Id:          pbUser.Id,
 		Name:        pbUser.Name,
@@ -86,7 +88,13 @@ func MapPbUserToEventUpdateUser(pbUser pb.User) *events.UserDetails {
 }
 
 func MapEventUserToDomainUser(eventUser events.UserDetails) *domain.User {
+	id, err := primitive.ObjectIDFromHex(eventUser.Id)
+	if err != nil {
+		println("Error convering in command_mapper!")
+		return nil
+	}
 	domainUser := &domain.User{
+		Id:       id,
 		Name:     eventUser.Name,
 		Surname:  eventUser.Surname,
 		Username: eventUser.Username,
@@ -96,6 +104,7 @@ func MapEventUserToDomainUser(eventUser events.UserDetails) *domain.User {
 		Gender:   mapEventGenderToDomainGender(eventUser.Gender),
 		Role:     mapEventRoleToDomainRole(eventUser.Role),
 		Public:   eventUser.IsPublic,
+		Skills:   []domain.Skill{},
 	}
 
 	for _, skill := range eventUser.Skills {

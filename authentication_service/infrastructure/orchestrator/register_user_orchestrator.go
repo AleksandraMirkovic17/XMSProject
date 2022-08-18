@@ -24,7 +24,7 @@ func NewRegisterUserOrchestrator(publisher saga.Publisher, subscriber saga.Subsc
 
 func (o *RegisterUserOrchestrator) Start(userDetails events.UserDetails) error {
 	event := &events.RegisterUserCommand{
-		Type: events.AuthenticationServiceUpdate,
+		Type: events.AuthenticationServiceRegisterUpdate,
 		User: userDetails,
 	}
 
@@ -44,31 +44,31 @@ func (o *RegisterUserOrchestrator) nextCommandType(reply events.RegisterUserRepl
 	switch reply {
 	case events.UserProfileCreated:
 		println("Kreiran je user profile pa idemo na auth")
-		return events.AuthenticationServiceUpdate
+		return events.AuthenticationServiceRegisterUpdate
 	case events.UserProfileNotCreated:
 		return events.CancelRegistration
 
-	case events.AuthenticationServiceUpdated:
+	case events.AuthenticationServiceUserCreated:
 		println("authentication service je updatovan, treba da se kreira user node")
 		return events.CreateUserNode
-	case events.AuthenticationServiceNotUpdated:
-		return events.RollebackUserProfile
-	case events.AuthenticationServiceRolledBack:
-		return events.RollebackUserProfile
+	case events.AuthenticationServiceUserNotCreated:
+		return events.RollebackRegisterUserProfile
+	case events.AuthenticationServiceRegisterRolledBack:
+		return events.RollebackRegisterUserProfile
 
 	case events.UserNodeCreated:
 		println("user node kreiran treba sada job node da se kreira")
 		return events.CreateJobNode
 	case events.UserNodeFailedToCreate:
-		return events.RollbackAuthenticationService
-	case events.UserProfileRolledBack:
-		return events.RollbackAuthenticationService
+		return events.RollbackRegisterAuthenticationService
+	case events.UserProfileRegisterRolledBack:
+		return events.RollbackRegisterAuthenticationService
 
 	case events.JobNodeCreated:
 		println("job node je kreiran")
 		return events.ApproveRegistration
 	case events.JobNodeFailedToCreate:
-		return events.RollebackConnectionNode
+		return events.RollebackRegisterConnectionNode
 
 	default:
 		return events.UnknownCommand

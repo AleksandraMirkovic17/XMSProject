@@ -51,13 +51,13 @@ func (server *Server) Start() {
 	userHandler := server.initUserHandler(userService, orchestrator2)
 
 	//handler
-	commandSubscriber := server.initSubscriber(server.config.UpdateUserCommandSubject, QueueGroup)
-	replyPublisher := server.initPublisher(server.config.UpdateUserReplySubject)
+	commandSubscriber := server.initSubscriber(server.config.RegisterUserCommandSubject, QueueGroup)
+	replyPublisher := server.initPublisher(server.config.RegisterUserReplySubject)
 	server.initRegisterUserHandler(userService, replyPublisher, commandSubscriber)
 
 	//Update handler
-	commandSubscriberUpdateUser := server.initSubscriber(server.config.RegisterUserCommandSubject, QueueGroup)
-	replyPublisherUpdateUser := server.initPublisher(server.config.RegisterUserReplySubject)
+	commandSubscriberUpdateUser := server.initSubscriber(server.config.UpdateUserCommandSubject, QueueGroup)
+	replyPublisherUpdateUser := server.initPublisher(server.config.UpdateUserReplySubject)
 	server.initUpdateUserHandler(userService, replyPublisherUpdateUser, commandSubscriberUpdateUser)
 
 	server.startGrpcServer(userHandler)

@@ -50,12 +50,16 @@ func (handler *UpdateUserCommandHandler) handle(command *events.UpdateUserComman
 	case events.UpdateJobNode:
 		println("Updating jobnode")
 		err, _ := handler.jobService.UpdateUser(context.TODO(), *mapEventUpdateUserToDomainUser(command.User))
+		println("Pre testiranja skila", err.Status, err.Msg)
 		if err.Status != 200 {
+			println("pruka nije 200")
 			reply.Type = events.JobNodeFailedToUpdate
 			println("Failed to updtae update_user_handler " + string(err.Status))
+			break
 		} else {
 			reply.Type = events.JobNodeUpdated
 			println("user node updated")
+			break
 		}
 	case events.RollbackJobNode:
 		println("Rollback job node")
@@ -85,6 +89,7 @@ func mapEventUpdateUserToDomainUser(user events.UserDetails) *domain.UserJobNode
 	}
 
 	for _, skill := range user.Skills {
+		println("u maperu dodavanje skilla: " + skill)
 		domainUser.Skills = append(domainUser.Skills, skill)
 	}
 

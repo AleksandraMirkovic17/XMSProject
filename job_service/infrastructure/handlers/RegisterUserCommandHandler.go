@@ -53,11 +53,11 @@ func (handler *RegisterUserCommandHandler) handle(command *events.RegisterUserCo
 			reply.Type = events.JobNodeCreated
 			println("user node created")
 		}
-	case events.RollbackJobNode:
+	case events.RollbackRegisterJobNode:
 		println("Rollback job node")
 		err, _ := handler.jobService.DeleteUser(context.TODO(), command.User.Id)
 		if err.Status != 200 {
-			reply.Type = events.JobNodeRolledBack
+			reply.Type = events.JobNodeRegisterRolledBack
 			println("Job node rolled back")
 		}
 

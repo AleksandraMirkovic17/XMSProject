@@ -41,24 +41,24 @@ func (handler *CreateOrderCommandHandler) handle(command *events.RegisterUserCom
 	print("Pre switchovanja")
 	print(command.Type)
 	switch command.Type {
-	case events.AuthenticationServiceUpdate:
+	case events.AuthenticationServiceRegisterUpdate:
 		println("Update authentication servisa")
 		_, err := handler.orderService.Register(mappers.MapCommandToAuthUser(command))
 		if err != nil {
 			println("Nije updatovan")
-			reply.Type = events.AuthenticationServiceNotUpdated
+			reply.Type = events.AuthenticationServiceUserNotCreated
 			return
 		}
 		println("uspeso update authentication servis")
-		reply.Type = events.AuthenticationServiceUpdated
+		reply.Type = events.AuthenticationServiceUserCreated
 
-	case events.RollbackAuthenticationService:
+	case events.RollbackRegisterAuthenticationService:
 		fmt.Println("Auth service:Rollback authentication servisa")
 		err := handler.orderService.DeleteById(order.ID)
 		if err != nil {
 			return
 		}
-		reply.Type = events.AuthenticationServiceRolledBack
+		reply.Type = events.AuthenticationServiceRegisterRolledBack
 	default:
 		reply.Type = events.UnknownReply
 	}

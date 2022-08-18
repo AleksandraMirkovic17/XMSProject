@@ -31,7 +31,7 @@ func NewRegisterUserCommandHandler(orderService *application.UserService, publis
 //treba da se nalazi u connection servisu
 //treba orkestrator umesto ovoga
 func (handler *CreateOrderCommandHandler) handle(command *events.RegisterUserCommand) {
-	println("Nalazim se u hendleru user servisa")
+	println("Nalazim se u hendleru user servisa za creatw")
 	order := mappers.MapCommandToUser(command) //ovde se postavlja id
 
 	reply := events.RegisterUserReply{User: command.User}
@@ -46,15 +46,16 @@ func (handler *CreateOrderCommandHandler) handle(command *events.RegisterUserCom
 		}
 		reply.Type = events.UserProfileCreated
 
-	case events.RollebackUserProfile:
-		fmt.Println("Auth service:Rollback authentication servisa")
+	case events.RollebackRegisterUserProfile:
+		fmt.Println("Auth service:Rollback user servisa")
 		id, err := primitive.ObjectIDFromHex(command.User.Id)
 		if err != nil {
+			println("Desila se greska prilikom konvertovanja brisanja postojeces")
 			return
 		}
 		toDelete, _ := handler.userService.GetOne(id)
 		handler.userService.Delete(toDelete)
-		reply.Type = events.UserProfileRolledBack
+		reply.Type = events.UserProfileRegisterRolledBack
 	case events.ApproveRegistration:
 		fmt.Println("Approve registration")
 		reply.Type = events.RegistrationApproved

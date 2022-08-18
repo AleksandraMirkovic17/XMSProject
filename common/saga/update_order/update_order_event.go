@@ -36,18 +36,18 @@ type UserDetails struct {
 type UpdateUserCommandType int8
 
 const (
-	CreateUserCredentials UpdateUserCommandType = iota
-	UserProfileUpdate
-	RollebackUserProfile
-	UpdateUserNode
-	RollebackConnectionNode
-	AuthenticationServiceUpdate
-	RollbackAuthenticationService
-	UpdateJobNode
-	RollbackJobNode
-	ApproveUpdate
-	CancelUpdate
-	UnknownCommand
+	CreateUserCredentials         UpdateUserCommandType = 15
+	UserProfileUpdate                                   = 16
+	RollebackUserProfile                                = 17
+	UpdateUserNode                                      = 18
+	RollebackConnectionNode                             = 19
+	AuthenticationServiceUpdate                         = 20
+	RollbackAuthenticationService                       = 21
+	UpdateJobNode                                       = 22
+	RollbackJobNode                                     = 23
+	ApproveUpdate                                       = 24
+	CancelUpdate                                        = 25
+	UnknownCommand                                      = 26
 )
 
 type UpdateUserCommand struct {

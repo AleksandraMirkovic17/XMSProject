@@ -11,7 +11,7 @@ import (
 
 func MapUser(user *domain.User) *pb.User {
 	var userPb = &pb.User{
-		Id:                   user.Id.String(),
+		Id:                   user.Id.Hex(),
 		Name:                 user.Name,
 		Surname:              user.Surname,
 		Username:             user.Username,
@@ -64,41 +64,45 @@ func MapUser(user *domain.User) *pb.User {
 	return userPb
 }
 
-func MapUserPbToDomain(userPb *pb.NewUser) *domain.User {
-	dateOfBirth, _ := time.Parse("2006-01-02T15:04", (*userPb).User.DateOfBirth)
+func MapUserPbToDomain(userPb *pb.User) *domain.User {
+	println("Mapping pb user to domain")
+	dateOfBirth, _ := time.Parse("2006-01-02T15:04", (*userPb).DateOfBirth)
+	println("name" + (*userPb).Name)
+	println("surname" + (*userPb).Surname)
+	println("username" + (*userPb).Username)
 	userD := &domain.User{
 		Id:                   primitive.NewObjectID(),
-		Name:                 (*userPb).User.Name,
-		Surname:              (*userPb).User.Surname,
-		Username:             (*userPb).User.Username,
-		Email:                (*userPb).User.Email,
-		Password:             (*userPb).User.Password,
-		Gender:               mapGenderPbToDomainGender((*userPb).User.Gender),
+		Name:                 (*userPb).Name,
+		Surname:              (*userPb).Surname,
+		Username:             (*userPb).Username,
+		Email:                (*userPb).Email,
+		Password:             (*userPb).Password,
+		Gender:               mapGenderPbToDomainGender((*userPb).Gender),
 		Role:                 domain.Regular,
 		DateOfBirth:          dateOfBirth,
-		Public:               (*userPb).User.Public,
+		Public:               (*userPb).Public,
 		Skills:               []domain.Skill{},
 		Interests:            []domain.Interest{},
 		EducationExperiences: []domain.EducationExperience{},
 		WorkExperiences:      []domain.WorkExperience{},
-		Biography:            (*userPb).User.Biography,
+		Biography:            (*userPb).Biography,
 	}
 
-	for _, skill := range userPb.User.Skills {
+	for _, skill := range userPb.Skills {
 		userD.Skills = append(userD.Skills, domain.Skill{
 			Id:   primitive.NewObjectID(),
 			Name: skill.Name,
 		})
 	}
 
-	for _, interest := range userPb.User.Interests {
+	for _, interest := range userPb.Interests {
 		userD.Interests = append(userD.Interests, domain.Interest{
 			Id:   primitive.NewObjectID(),
 			Name: interest.Name,
 		})
 	}
 
-	for _, educationExperience := range userPb.User.EducationExperiences {
+	for _, educationExperience := range userPb.EducationExperiences {
 		startDate, _ := time.Parse("2006-01-02T15:04", educationExperience.StartDate)
 		endDate, _ := time.Parse("2006-01-02T15:04", educationExperience.EndDate)
 		userD.EducationExperiences = append(userD.EducationExperiences, domain.EducationExperience{
@@ -110,7 +114,7 @@ func MapUserPbToDomain(userPb *pb.NewUser) *domain.User {
 		})
 	}
 
-	for _, workExperience := range userPb.User.WorkExperiences {
+	for _, workExperience := range userPb.WorkExperiences {
 		startDate, _ := time.Parse("2006-01-02T15:04", workExperience.StartDate)
 		endDate, _ := time.Parse("2006-01-02T15:04", workExperience.EndDate)
 		userD.WorkExperiences = append(userD.WorkExperiences, domain.WorkExperience{

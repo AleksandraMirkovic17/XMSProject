@@ -28,10 +28,13 @@ func NewUpdateUserCommandHandler(service *application.UserService, publisher sag
 }
 
 func (handler *UpdateUserCommandHandler) handle(command events.UpdateUserCommand) {
+	println("Nalazim se u hendleru user sevisa za update")
 	reply := events.UpdateUserReply{
 		User:    command.User,
 		UserOld: command.OldUser,
 	}
+	print("Pre switchovanja: ")
+	println(command.Type)
 	switch command.Type {
 	case events.RollebackUserProfile:
 		println("Rolling back user profile")
@@ -40,10 +43,11 @@ func (handler *UpdateUserCommandHandler) handle(command events.UpdateUserCommand
 			println("Error convert id")
 			return
 		}
-
 		_, err = handler.userService.GetOne(id)
 		if err != nil {
 			println("User doe not exists!")
+			reply.Type = events.CancelUpdate
+			_ = handler.replyPublisher.Publish(reply)
 			return
 		}
 
@@ -52,6 +56,7 @@ func (handler *UpdateUserCommandHandler) handle(command events.UpdateUserCommand
 			println("Failed to rollback user profile")
 			return
 		}
+		println("User profile rolled back")
 		reply.Type = events.UserProfileRolledBack
 		break
 	case events.UserProfileUpdate:
