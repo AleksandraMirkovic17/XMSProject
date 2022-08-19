@@ -64,6 +64,10 @@ func (o *UserOrchestrator) nextCommandType(reply events.RegisterUserReplyType) e
 		return events.ApproveRegistration
 	case events.JobNodeFailedToCreate:
 		return events.RollebackRegisterConnectionNode
+	case events.RegistrationApproved:
+		return events.UnknownCommand
+	case events.RegistrationCancelled:
+		return events.UnknownCommand
 
 	default:
 		return events.UnknownCommand

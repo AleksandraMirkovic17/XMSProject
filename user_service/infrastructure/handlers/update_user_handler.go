@@ -80,6 +80,11 @@ func (handler *UpdateUserCommandHandler) handle(command events.UpdateUserCommand
 		}
 		reply.Type = events.UserProfileUpdated
 		break
+	case events.ApproveUpdate:
+		reply.Type = events.UpdateApproved
+		break
+	case events.CancelUpdate:
+		reply.Type = events.UpdateCancelled
 	default:
 		reply.Type = events.UnknownReply
 

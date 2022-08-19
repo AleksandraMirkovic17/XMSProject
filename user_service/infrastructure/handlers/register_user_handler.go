@@ -59,6 +59,8 @@ func (handler *CreateOrderCommandHandler) handle(command *events.RegisterUserCom
 	case events.ApproveRegistration:
 		fmt.Println("Approve registration")
 		reply.Type = events.RegistrationApproved
+	case events.CancelRegistration:
+		reply.Type = events.RegistrationCancelled
 
 	default:
 		reply.Type = events.UnknownReply

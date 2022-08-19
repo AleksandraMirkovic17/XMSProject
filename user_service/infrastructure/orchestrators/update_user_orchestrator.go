@@ -66,6 +66,12 @@ func (o *UpdateUserOrchestrator) nextCommand(reply events.UpdateUserReplyType) e
 	case events.JobNodeFailedToUpdate:
 		println("Job node se nije update radimo rollback connection servisa")
 		return events.RollebackConnectionNode
+
+	case events.ApproveUpdate:
+		return events.UnknownCommand
+	case events.CancelUpdate:
+		return events.UnknownCommand
+
 	default:
 		return events.UnknownCommand
 

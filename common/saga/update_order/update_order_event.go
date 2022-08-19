@@ -72,8 +72,8 @@ const (
 	JobNodeUpdated
 	JobNodeFailedToUpdate
 	JobNodeRolledBack
-	RegistrationCancelled
-	RegistrationApproved
+	UpdateCancelled
+	UpdateApproved
 	UnknownReply
 )
 
