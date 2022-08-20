@@ -57,7 +57,7 @@ export default{
         this.CheckIfEmpty()
         if(!this.fieldEmpty){
           axios
-              .post('http://localhost:8080/auth/login',
+              .post('http://localhost:8080/api/auth/login',
               {
                 "email": this.email,
                 "password": this.password
@@ -69,7 +69,7 @@ export default{
                 }
                     localStorage.setItem('token', JSON.stringify(response.data.accessToken));
                     let token = localStorage.getItem('token').substring(1, localStorage.getItem('token').length-1);
-                     axios.get('http://localhost:8080/auth/userData', {
+                     axios.get('http://localhost:8080/api/auth/user_data', {
                     headers: {
                     'Authorization' : 'Bearer ' + token,
                   }
