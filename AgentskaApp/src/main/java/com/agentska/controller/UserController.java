@@ -17,11 +17,13 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import com.agentska.dto.UserDTO;
+import com.agentska.model.Role;
 import com.agentska.model.User;
 import com.agentska.repository.UserRepository;
 import com.agentska.service.UserService;
 import com.agentska.repository.TokenRepository;
 import com.agentska.model.VerificationToken;
+import com.agentska.model.enums.ERole;
 import com.agentska.event.OnRegistrationCompleteEvent;
 import com.agentska.jwt.JwtUtils;
 
@@ -85,13 +87,15 @@ public class UserController {
 
 	@RequestMapping(
 			method = {RequestMethod.POST},
-			value = {"/userRegistration"},
+			value = {"/users/register"},
 			consumes = {"application/json"},
 			produces = {"application/json"}
 	)
 	@CrossOrigin(
 			origins = {"*"}
 	)
+	//@PostMapping("users/register")
+	@PreAuthorize("not(isAuthenticated())")
 	public ResponseEntity<String> register(@RequestBody UserDTO signUpRequest, HttpServletRequest request)
 	{
 		System.out.println("here1");
@@ -107,9 +111,12 @@ public class UserController {
 		}
 		signUpRequest.setPassword(encoder.encode(signUpRequest.getPassword())); // TODO: Add encoder
 		signUpRequest.setPassword(signUpRequest.getPassword());
+		System.out.println("before");
 		User registeredUser = new User(signUpRequest);
-		userService.registerUser(registeredUser);
 		
+		System.out.println("after0");
+		userService.registerUser(registeredUser);
+		System.out.println("after");
 		String appUrl = request.getContextPath();
 
 		System.out.print(appUrl);

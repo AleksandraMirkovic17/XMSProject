@@ -4,6 +4,8 @@ import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import com.agentska.model.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +26,7 @@ import com.agentska.dto.CompanyDTO;
 import com.agentska.dto.CompanyRegisterDTO;
 import com.agentska.model.Company;
 import com.agentska.model.User;
+import com.agentska.model.enums.ERole;
 import com.agentska.service.CompanyService;
 import com.agentska.service.UserDetailsServiceImpl;
 import com.agentska.service.UserService;
@@ -74,8 +77,9 @@ public class CompanyController {
 		try {
 			User currentUser = getCurrentUser();
 			Company company = new Company(companyDTO, currentUser);
-			Company _company = companyService
-					.save(company);
+			Company _company = companyService.registerCompany(company);
+			/*Company _company = companyService
+					.save(company);*/
 			return new ResponseEntity<>(_company, HttpStatus.CREATED);
 		} catch (Exception e) {
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -85,12 +89,13 @@ public class CompanyController {
 	@PutMapping("/company/validate/{id}")
 	@PreAuthorize("hasRole('ADMINISTRATOR') and isAuthenticated()")
 	public ResponseEntity<Company> validateCompany(@PathVariable("id") Integer id) {
+		System.out.println("ffffff");
 		try {
 			Company company = companyService.findById(id);
 			if (company.isValidated())
 				return new ResponseEntity<>(null, HttpStatus.NOT_MODIFIED); // Da li je ovaj statusni kod?
 			company.setValidated(true);
-			return new ResponseEntity<>(companyService.save(company), HttpStatus.OK);
+			return new ResponseEntity<>(companyService.validateCompany(company), HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 		}

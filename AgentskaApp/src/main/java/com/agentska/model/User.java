@@ -6,6 +6,7 @@ import javax.persistence.*;
 
 import com.agentska.dto.UserDTO;
 import com.agentska.model.Role;
+import com.agentska.model.enums.ERole;
 
 @Entity
 @Table(name = "user_table")
@@ -76,6 +77,13 @@ public class User {
 	}
 	public void setActivated(boolean activated) {
 		this.activated = activated;
+	}
+	public boolean isOwner() {
+		for (Role r : roles) {
+		if (r.getName() == ERole.OWNER)
+			return true;
+		}
+		return false;
 	}
 
 	@Override

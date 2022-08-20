@@ -9,6 +9,9 @@ import org.springframework.stereotype.Service;
 
 import com.agentska.model.User;
 import com.agentska.repository.UserRepository;
+import com.agentska.model.Role;
+import com.agentska.model.enums.ERole;
+import com.agentska.repository.RoleRepository;
 import com.agentska.repository.TokenRepository;
 import com.agentska.model.VerificationToken;
 
@@ -19,6 +22,8 @@ public class UserService {
 	private UserRepository userRepository;
 	@Autowired
 	private TokenRepository tokenRepository;
+	@Autowired
+	private RoleRepository roleRepository;
 
 	public User registerUser(User user)
 	{
@@ -69,6 +74,9 @@ public class UserService {
     
 	public User save(User user)
 	{
+		Role userRole = roleRepository.findByName(ERole.USER)
+				.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+		user.getRoles().add(userRole);
 		return userRepository.save(user);
 	}
 	public User getLoggedUser() {

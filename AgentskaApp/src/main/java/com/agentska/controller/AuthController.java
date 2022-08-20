@@ -25,7 +25,7 @@ import com.agentska.service.UserDetailsImpl;
 
 @RestController
 @RequestMapping(
-		value = {"/auth"},
+		value = {"/api"},
 		produces = {"application/json"}
 
 )
@@ -44,7 +44,7 @@ public class AuthController {
 	UserService userService;
 	@RequestMapping(
 			method = {RequestMethod.POST},
-			value = {"/login"},
+			value = {"auth/login"},
 			consumes = {"application/json"},
 			produces = {"application/json"}
 	)
@@ -77,7 +77,7 @@ public class AuthController {
 	}
 	@RequestMapping(
 			method = {RequestMethod.GET},
-			value = {"/userData"},
+			value = {"/auth/user_data"},
 			produces = {"application/json"}
 	)
 	@CrossOrigin(
