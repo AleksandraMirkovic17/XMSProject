@@ -1029,7 +1029,7 @@ export default {
       this.newJobOffer.companyName="";
       this.newJobOffer.position="";
       this.newJobOffer.jobDescription="";
-      this.newJobOffer.reqiredSkills = new Array();
+      this.newJobOffer.requiredSkills = new Array();
     },
     CreatePost: function (){
       PostService.createPost({
