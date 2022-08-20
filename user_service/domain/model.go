@@ -73,7 +73,7 @@ type User struct {
 	Phone                string                `bson:"phone"`
 	Gender               Gender                `bson:"gender"`
 	Role                 Role                  `bson:"role"`
-	DateOfBirth          time.Time             `bson:"date_of_birth"`
+	DateOfBirth          string                `bson:"date_of_birth"`
 	Public               bool                  `bson:"public"`
 	Skills               []Skill               `bson:"skills"`
 	Interests            []Interest            `bson:"interests"`

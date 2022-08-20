@@ -247,7 +247,7 @@
                 <i slot="label" class="now-ui-icons education_paper"></i>
                 <div>
                   <h3>Posts</h3>
-                  <div class="create-new" style="border: 0.2pt solid #e95e38; padding: 2%; " v-if="isUserLoggedIn()">
+                  <div class="create-new" style="border: 0.2pt solid #e95e38; padding: 2%; " v-if="loggedUserDetails.username == user.username">
                     <div class="head-line" style="display: flex; flex-direction: row">
                       <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="white" class="bi bi-file-earmark-post-fill" viewBox="0 0 16 16">
                         <path d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0zM9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1zm-5-.5H7a.5.5 0 0 1 0 1H4.5a.5.5 0 0 1 0-1zm0 3h7a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-.5.5h-7a.5.5 0 0 1-.5-.5v-7a.5.5 0 0 1 .5-.5z"/>
@@ -382,11 +382,64 @@
                 <div>
                   <h3>Job offers</h3>
                 </div>
+                <div class="create-new" style="border: 0.2pt solid #e95e38; padding: 2%; " v-if="loggedUserDetails.username == user.username">
+                  <div class="head-line" style="display: flex; flex-direction: row">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="white" class="bi bi-file-earmark-post-fill" viewBox="0 0 16 16">
+                      <path d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0zM9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1zm-5-.5H7a.5.5 0 0 1 0 1H4.5a.5.5 0 0 1 0-1zm0 3h7a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-.5.5h-7a.5.5 0 0 1-.5-.5v-7a.5.5 0 0 1 .5-.5z"/>
+                    </svg>
+                    <h4 class="description" style="margin-left: 1%; margin-top: 0.2%; ">Publish new job offer</h4>
+                  </div>
+                  <div class="post-content" style="display: flex; flex-direction: row" >
+                    <div class="content2" style="width: 100%">
+                      <div class="post-text" >
+                        <div class="form-floating" style="margin-bottom: 2%;">
+                          <input id="position" type="text" class="form-control" v-model="newJobOffer.companyName" placeholder="Organization name">
+                          <label for="position" style="font-size: 12pt">Organization</label>
+                        </div>
+                        <div class="form-floating">
+                          <input id="company" type="text" class="form-control" v-model="newJobOffer.position" placeholder="Organization name">
+                          <label for="company" style="font-size: 12pt">Position</label>
+                        </div>
+                        <div class="form-floating" style="margin-bottom: 3%">
+                          <textarea class="form-control" placeholder="Job description..." id="jobDescription" style="font-size: 12pt; height: 180px" v-model = "newJobOffer.jobDescription"></textarea>
+                          <label for="jobDescription" style="font-size: 12pt">Job description</label>
+                        </div>
+                        <div class="form-floating" style="margin-bottom: 2%">
+                          <input id="jobValid" type="datetime-local" class="form-control" v-model="newJobOffer.dateValid" required="required" @change="userInfoHasChanged()">
+                          <label for="jobValid" style="font-size: 12pt">Job valid</label>
+                        </div>
+                        <div style="display: flex; flex-direction: row; margin-bottom: 2%;">
+                          <div class="form-floating" style="width: 100%">
+                            <input id="newSkill" class="form-control" placeholder="New skill" type="text" name="new-skill" v-model="newSkill">
+                            <label for="newSkill" style="font-size: 12pt">New skill</label>
+                          </div>
+                          <button class="btn-primary btn-round btn-icon"  style="border: 0; margin-left: 1%;" v-on:click="addSkillToJobOfferSkills()" v-if="newSkill">
+                            <i class="now-ui-icons ui-1_simple-add"></i>
+                          </button>
+                        </div>
+                        <div>
+                          <div style="display: flex; flex-direction: row; margin-right: 2%" v-for="(skill,index) in newJobOffer.requiredSkills" :key="index">
+                            <badge type="primary">
+                              {{skill}}
+                            </badge>
+                            <badge type="default" style="border-radius: 50%; cursor: pointer;" v-on:click="removeSkillFromJobOffer(skill)">
+                              ✕
+                            </badge>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="footer">
+                    <button type="button" class="btn btn-primary" v-on:click="PublishJobOffer">Publish</button>
+                  </div>
+                </div>
               </tab-pane>
 
             </tabs>
           </div>
         </div>
+        <ChangeProfile v-if="display=='settings'" :logged-user="loggedUserDetails"></ChangeProfile>
 
 
 
@@ -417,266 +470,7 @@
     </div>
 
   </div>
-  <div v-if="(loggedUser && !loggedUserFollows && loggedUserDetails.username!=user.username && connectionStatus!='ACCEPT' && !user.Public && connectionStatus!='A_BLOCK_B' && connectionStatus!='B_BLOCK_A')">
-    <div class="profile-panel">
 
-      Follow to view {{user.name}} {{user.surname}}'s profile
-      <br>
-      <button v-if="connectionStatus=='NO_RELATION' && !user.Public" type="button" class="btn btn-light" style=" right: 10%; margin-top: 2%; margin-left: 0.5%; border: 1pt black solid;" v-on:click="follow()">+ Send request to follow</button>
-      <button v-if="connectionStatus=='PENDING'" type="button" class="btn btn-light" style=" right: 10%; margin-top: 2%; margin-left: 0.5%; border: 1pt black solid;" v-on:click="unsendRequest">✔ Friend request sent</button>
-      <div v-if="connectionStatus == 'ACCEPT'" style="display: flex; flex-direction: row;  margin: auto; margin-left: 35%; margin-top: 2%">
-        <button  type="button" class="btn btn-light" style=" right: 10%; border: 1pt black solid;" v-on:click="follow"> ✔ Accept request</button>
-        <button  type="button" class="btn btn-light" style=" right: 10%; margin-left: 0.5%; border: 1pt black solid;" v-on:click="RemoveFriendRequest"> ✖ Decline request</button>
-      </div>
-
-
-
-    </div>
-  </div>
-  <div style="display: flex; flex-direction: row" v-if="(loggedUserFollows || user.Public || loggedUserDetails.username == user.username) && connectionStatus!='A_BLOCK_B' && connectionStatus!='B_BLOCK_A' ">
-    <div class="col-md-4">
-      <div class="profile-panel">
-        <div style="display: flex; flex-direction: row; margin: 5%">
-          <div>
-            <h2>{{user.username}}</h2>
-          </div>
-          <div v-if="loggedUserDetails.username!=user.username" >
-            <div v-if="this.loggedUserFollows==false && connectionStatus!='ACCEPT'">
-              <button type="button" class="btn btn-light" style="position: absolute; right: 10%" v-on:click="follow()">+ Follow</button>
-            </div>
-            <div v-if="connectionStatus=='ACCEPT'">
-              <div v-if="connectionStatus == 'ACCEPT'" style="display: flex; flex-direction: row; margin-left: 2%; margin-top: 2%">
-                <button  type="button" class="btn btn-light" style=" right: 2%; border: 1pt black solid;" v-on:click="follow"> ✔Accept</button>
-                <button  type="button" class="btn btn-light" style=" right: 2%; margin-left: 0.5%; border: 1pt black solid;" v-on:click="RemoveFriendRequest"> ✖Decline</button>
-              </div>
-
-            </div>
-            <div v-if="loggedUserFollows==true">
-              <button type="button" class="btn btn-light" style="position: absolute; right: 10%" v-on:click="deleteFriend">✔ Following</button>
-            </div>
-          </div>
-        </div>
-
-        <div class="row d-flex mt-5">
-            <div class="col-md-12">
-                <label class="input_label">
-                    <input type="email" name="email" v-model="user.email" disabled=yes required="required" @change="userInfoHasChanged()">
-                    <span class="keep_hovered">EMail</span>
-                </label>
-            </div>
-        </div>
-        <div class="row d-flex mt-4">
-            <div class="col-md-12">
-                <label class="input_label">
-                    <input type="email" name="email" v-model="user.username" disabled=yes required="required" @change="userInfoHasChanged()">
-                    <span class="keep_hovered">Username</span>
-                </label>
-            </div>
-        </div>
-        <div class="row d-flex mt-4" v-if="isUserLoggedIn()">
-            <div class="col-md-4">
-                <label class="input_label">
-                    <input type="password" name="old-password" v-model="user.oldPasswordGuess" @change="userInfoHasChanged()" :disabled="!(isUserLoggedIn())">
-                    <span class="keep_hovered">Old Password</span>
-                </label>
-            </div>
-            <div class="col-md-4">
-                <label class="input_label">
-                    <input type="password" name="new-password" v-model="user.newPassword" @change="userInfoHasChanged()" :disabled="!(isUserLoggedIn())">
-                    <span class="keep_hovered">New Password</span>
-                </label>
-            </div>
-            <div class="col-md-4">
-                <label class="input_label">
-                    <input type="password" name="confirm-new-password" v-model="user.newPasswordConfirmation" @change="userInfoHasChanged()" :disabled="!(isUserLoggedIn())">
-                    <span class="keep_hovered">Confirm New Password</span>
-                </label>
-            </div>
-        </div>
-        <div class="row d-flex mt-4">
-            <div class="col-md-6">
-                <label class="input_label">
-                    <input type="text" name="first-name" v-model="user.name" required="required" @change="userInfoHasChanged()" :disabled="!(isUserLoggedIn())">
-                    <span class="keep_hovered">First Name</span>
-                </label>
-            </div>
-            <div class="col-md-6">
-                <label class="input_label">
-                    <input type="text" name="last-name" v-model="user.surname" required="required" @change="userInfoHasChanged()" :disabled="!(isUserLoggedIn())">
-                    <span class="keep_hovered">Last Name</span>
-                </label>
-            </div>
-        </div>
-        <div class="row d-flex mt-4">
-            <div class="col-md-12">
-                <label class="input_label">
-                    <input type="text" name="phone" v-model="user.phone" required="required" @change="userInfoHasChanged()" :disabled="!(isUserLoggedIn())">
-                    <span class="keep_hovered">Contact Phone</span>
-                </label>
-            </div>
-        </div>
-        <div class="row d-flex mt-4">
-            <div class="col-md-12">
-                <label class="input_label">
-                    <input type="datetime-local" name="dateOfBirth" v-model="user.dateOfBirth" required="required" @change="userInfoHasChanged()" :disabled="!(isUserLoggedIn())">
-                    <span class="keep_hovered">Date Of Birth</span>
-                </label>
-            </div>
-        </div>
-        <input type="button" value="Update" v-if="isUserInfoChanged" :disabled="!isAllInputValid()" v-on:click="updateUser()"/>
-        <input type="button" value="Reset" v-if="isUserInfoChanged"/>
-      </div>
-      <div class="profile-panel">
-        <h2>Biography</h2>
-        <div class="row d-flex mt-4">
-            <div class="col-md-12">
-                <textarea class="biography-textarea" cols="60" rows="20" v-model="user.biography" @change="userInfoHasChanged()" :disabled="!(isUserLoggedIn())"></textarea>
-            </div>
-        </div>
-      </div>
-      <div class="profile-panel">
-        <h2>Skills</h2>
-        <div v-for="(skill,index) in user.skills" :key="index" class="row d-flex mt-4">
-          <div class="col-md-10">
-            <h4>{{skill.name}}</h4>
-          </div>
-          <div class="col-md-2">
-            <div class="button_minus" v-on:click="removeSkill(skill.name)" v-if="isUserLoggedIn()"></div>
-          </div>
-        </div>
-        <div class="row d-flex mt-4" v-if="isUserLoggedIn()">
-            <div class="col-md-10">
-                <label class="input_label">
-                    <input type="text" name="new-skill" v-model="newSkill">
-                    <span class="keep_hovered"></span>
-                </label>
-            </div>
-            <div class="col-md-2">
-              <div class="button_plus" v-on:click="addSkill()" v-if="newSkill"></div>
-            </div>
-        </div>
-      </div>
-      <div class="profile-panel">
-        <h2>Interests</h2>
-        <div v-for="(interest,index) in user.interests" :key="index" class="row d-flex mt-4">
-          <div class="col-md-10">
-            <h4>{{interest.name}}</h4>
-          </div>
-          <div class="col-md-2">
-            <div class="button_minus" v-on:click="removeInterest(interest.name)" v-if="isUserLoggedIn()"></div>
-          </div>
-        </div>
-        <div class="row d-flex mt-4" v-if="isUserLoggedIn()">
-            <div class="col-md-10">
-                <label class="input_label">
-                    <input type="text" name="new-interest" v-model="newInterest">
-                    <span class="keep_hovered"></span>
-                </label>
-            </div>
-            <div class="col-md-2">
-              <div class="button_plus" v-on:click="addInterest()" v-if="newInterest"></div>
-            </div>
-        </div>
-      </div>
-      <div class="profile-panel">
-        <h2>Education</h2>
-        <div v-for="(experience,index) in user.educationExperiences" :key="index" class="row d-flex mt-4" style="border-bottom: 1px solid gray">
-          <div class="col-md-6">
-            <p>{{formattedEducationType(experience.type)}}</p>
-            <h4>{{experience.institutionName}}</h4>
-          </div>
-          <div class="col-md-4">
-            <p>{{experience.startDate}} - {{experience.endDate}}</p>
-          </div>
-          <div class="col-md-2">
-            <div class="button_minus" v-on:click="removeEducation(index)" v-if="isUserLoggedIn()"></div>
-          </div>
-        </div>
-        <div class="row d-flex mt-4" v-if="isUserLoggedIn()">
-            <div class="col-md-2">
-                <label class="input_label">
-                    <select v-model="newEducation.type">
-                      <option value="PRIMARY_EDUCATION">Primary</option>
-                      <option value="SECONDARY_EDUCATION">Secondary</option>
-                      <option value="COLLEGE_EDUCATION">College</option>
-                    </select>
-                    <span class="keep_hovered"></span>
-                </label>
-            </div>
-            <div class="col-md-4">
-                <label class="input_label">
-                    <input type="text" name="new-education-institution" v-model="newEducation.institutionName">
-                    <span class="keep_hovered"></span>
-                </label>
-            </div>
-            <div class="col-md-2">
-                <label class="input_label">
-                    <input type="datetime-local" v-model="newEducation.startDate" required="required" @change="userInfoHasChanged()" :disabled="!(isUserLoggedIn())">
-                    <span class="keep_hovered"></span>
-                </label>
-            </div>
-            <div class="col-md-2">
-                <label class="input_label">
-                    <input type="datetime-local" v-model="newEducation.endDate" required="required" @change="userInfoHasChanged()" :disabled="!(isUserLoggedIn())">
-                    <span class="keep_hovered"></span>
-                </label>
-            </div>
-            <div class="col-md-2">
-              <div class="button_plus" v-on:click="addEducation()" v-if="newEducation.type && newEducation.institutionName && newEducation.startDate && newEducation.endDate"></div>
-            </div>
-        </div>
-      </div>
-      <div class="profile-panel">
-        <h2 style="text-align: left;">Work</h2>
-        <div v-for="(experience,index) in user.workExperiences" :key="index" class="row d-flex mt-4" style="border-bottom: 1px solid gray">
-          <div class="col-md-6">
-            <p>{{experience.positionName}}</p>
-            <h4>{{experience.organizationName}}</h4>
-          </div>
-          <div class="col-md-4">
-            <p>{{experience.startDate}} - {{experience.endDate}}</p>
-          </div>
-          <div class="col-md-2">
-            <div class="button_minus" v-on:click="removeWork(index)" v-if="isUserLoggedIn()"></div>
-          </div>
-        </div>
-        <div class="row d-flex mt-4" v-if="isUserLoggedIn()">
-          <div class="col-md-3">
-              <label class="input_label">
-                  <input type="text" v-model="newWork.positionName">
-                  <span class="keep_hovered"></span>
-              </label>
-          </div>
-          <div class="col-md-3">
-              <label class="input_label">
-                  <input type="text" v-model="newWork.organizationName">
-                  <span class="keep_hovered"></span>
-              </label>
-          </div>
-          <div class="col-md-2">
-              <label class="input_label">
-                  <input type="datetime-local" v-model="newWork.startDate" required="required" @change="userInfoHasChanged()" :disabled="!(isUserLoggedIn())">
-                  <span class="keep_hovered"></span>
-              </label>
-          </div>
-          <div class="col-md-2">
-              <label class="input_label">
-                  <input type="datetime-local" v-model="newWork.endDate" required="required" @change="userInfoHasChanged()" :disabled="!(isUserLoggedIn())">
-                  <span class="keep_hovered"></span>
-              </label>
-          </div>
-          <div class="col-md-2">
-            <div class="button_plus" v-on:click="addWork()" v-if="newWork.positionName && newWork.organizationName && newWork.startDate && newWork.endDate"></div>
-          </div>
-        </div>
-      </div>
-      <div class="profile-panel">
-        <h4>Block user</h4>
-        <p>When you block a member on Dislinkt, here's what will happen: You won't be able to access each other's profiles on Dislinkt. You won't be able to message each other on Dislinkt. You won't be able to see each other's shared content.</p>
-        <button  type="button" class="btn btn-light" style=" right: 10%; margin-top: 2%; margin-left: 0.5%; border: 1pt black solid;" v-on:click="blockUser">Block user</button>
-      </div>
-    </div>
-  </div>
 
   <!--Likes Modal -->
   <div class="modal fade" id="likesModal" tabindex="-1" aria-labelledby="likesModalLabel" aria-hidden="true">
@@ -838,10 +632,12 @@ import PictureInput from 'vue-picture-input'
 import PostService from '../services/PostService'
 import UserService from '../services/UserService'
 import ConnectionService from '../services/ConnectionService'
+import JobService from "../services/JobService";
 import $ from 'jquery'
 import Recommendation from "./Connections/Recommendation";
 import {Badge} from "../components";
 import { Tabs, TabPane } from '@/components';
+import ChangeProfile from "./Profile/ChangeProfile";
 window.addEventListener('scroll', HandleScroll )
 
 function HandleScroll(){
@@ -873,11 +669,8 @@ export default {
       connectionStatus: '',
       originalUser: {},
       usersPosts: new Array(),
-      isUserInfoChanged: false,
-      newSkill: "",
-      newInterest: "",
-      newEducation: {},
-      newWork: {},
+
+
       selectedPost: "",
       selectedPostComments: [],
       selectedPostLikes: [],
@@ -885,7 +678,9 @@ export default {
       newCommentContent: '',
       userLiked: false,
       userDisliked: false,
-      display: 'profile'
+      display: 'profile',
+      newJobOffer: new Object(),
+      newSkill: ''
     }
   },
   components:{
@@ -893,10 +688,11 @@ export default {
     Recommendation,
     Badge,
     Tabs,
-    TabPane
+    TabPane,
+    ChangeProfile,
   },
   mounted: function() {
-
+    this.newJobOffer.requiredSkills = new Array();
 
     this.loggedUser = localStorage.getItem('user')
 
@@ -1081,6 +877,13 @@ export default {
       })
 
     },
+    formattedEducationType(educationType){
+      if(educationType === "SECONDARY_EDUCATION")
+        return "Secondary"
+      if(educationType == "COLLEGE_EDUCATION")
+        return "College"
+      return "Primary"
+    },
     deleteFriend(){
       ConnectionService.RemoveFriend(this.loggedUserDetails.id, this.user.id)
       .then(response => {
@@ -1219,11 +1022,16 @@ export default {
     emptyFields: function(){
       this.image = '';
       this.links = new Array();
-      this.postText = ''
-      this.link = ''
+      this.postText = '';
+      this.link = '';
+      this.newJobOffer.publisherId ="";
+      this.newJobOffer.dateValid = "";
+      this.newJobOffer.companyName="";
+      this.newJobOffer.position="";
+      this.newJobOffer.jobDescription="";
+      this.newJobOffer.requiredSkills = new Array();
     },
     CreatePost: function (){
-      console.log("U create post fji")
       PostService.createPost({
         "user": this.originalUser.id,
         "posttext": this.postText,
@@ -1239,87 +1047,35 @@ export default {
       }
        );
     },
-    updateUser() {
-        UserService.updateUser({ user: this.user}).then(() => {
-            this.$router.go();
-        });
+    PublishJobOffer: function(){
+      console.log("U pusblish job fji")
+      this.newJobOffer.datePosted = new Date();
+      this.newJobOffer.jobID= "";
+      this.newJobOffer.publisherId=this.loggedUserDetails.id;
+      JobService.PublishPost(this.newJobOffer).then(res => {
+        console.log("New job", res.data)
+        this.emptyFields();
+      }).catch(err =>{
+            console.log(err);
+            alert("It is not possible to publish job!")
+          }
+      );
+
+
     },
-    addSkill(){
-      this.user.skills.push({
-        id: "ObjectID(\"0\")",
-        name: this.newSkill
-      })
-      this.isUserInfoChanged = true
+    addSkillToJobOfferSkills: function(){
+      this.newJobOffer.requiredSkills.push(this.newSkill)
+      this.newSkill = ""
     },
-    removeSkill(name){
-      for(let index in this.user.skills) {
-        if(this.user.skills[index].name === name) {
-          this.user.skills.splice(index,1)
+    removeSkillFromJobOffer: function (skill){
+      alert("Skill to delete"+skill)
+      for(let index in this.newJobOffer.requiredSkills) {
+        if(this.newJobOffer.requiredSkills[index] === skill) {
+          this.newJobOffer.requiredSkills.splice(index,1)
         }
       }
-      this.isUserInfoChanged = true
-    },
-    addInterest(){
-      this.user.interests.push({
-        id: "ObjectID(\"0\")",
-        name: this.newInterest
-      })
-      this.isUserInfoChanged = true
-    },
-    removeInterest(name){
-      for(let index in this.user.interests) {
-        if(this.user.interests[index].name === name) {
-          this.user.interests.splice(index,1)
-        }
-      }
-      this.isUserInfoChanged = true
-    },
-    addEducation(){
-      this.user.educationExperiences.push(this.newEducation)
-      this.isUserInfoChanged = true
-    },
-    removeEducation(index){
-      this.user.educationExperiences.splice(index,1)
-      this.isUserInfoChanged = true
-    },
-    addWork(){
-      this.user.workExperiences.push(this.newWork)
-      this.isUserInfoChanged = true
-    },
-    removeWork(index){
-      this.user.educationExperiences.splice(index,1)
-      this.isUserInfoChanged = true
-    },
-    formattedEducationType(educationType){
-      if(educationType === "SECONDARY_EDUCATION")
-        return "Secondary"
-      if(educationType == "COLLEGE_EDUCATION")
-        return "College"
-      return "Primary"
-    },
-    userInfoHasChanged() {
-        this.isUserInfoChanged = true
-    },
-    isAllInputValid() {
-        if(this.user.firstName == "")
-            return false
-        if(this.user.lastName == "")
-            return false
-        if(this.user.phone == "")
-            return false
-        if((this.user.oldPasswordGuess && (!this.user.newPassword || !this.user.newPasswordConfirmation))
-            || (this.user.newPassword && (!this.user.oldPasswordGuess || !this.user.newPasswordConfirmation))
-            || (this.user.newPasswordConfirmation && (!this.user.oldPasswordGuess || !this.user.newPassword)))
-            return false;
-        return true
-    },
-    isUserLoggedIn() {
-      return this.loggedUser && JSON.parse(this.loggedUser).username == this.user.username
-    },
-    isSomeoneLoggedIn(){
-      console.log("In checking is someone logged",this.loggedUser)
-      return this.loggedUser && JSON.parse(this.loggedUser).username!=null;
-    },
+    }
+
 
 }
 

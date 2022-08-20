@@ -68,6 +68,7 @@ func (handler *UserHandler) Update(ctx context.Context, request *pb.UpdateUserRe
 		return nil, findErr
 	}
 	if foundUser == nil {
+		println("found user is null")
 		return nil, findErr
 	}
 	user.Id = foundUser.Id
