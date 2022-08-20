@@ -18,7 +18,7 @@ func MapUser(user *domain.User) *pb.User {
 		Email:                user.Email,
 		Gender:               mapGenderToPb(user.Gender),
 		Role:                 mapRoleToPb(user.Role),
-		DateOfBirth:          user.DateOfBirth.Format("2006-01-02T15:04"),
+		DateOfBirth:          user.DateOfBirth,
 		Public:               user.Public,
 		Skills:               []*dislinked.Skill{},
 		Interests:            []*dislinked.Interest{},
@@ -66,7 +66,6 @@ func MapUser(user *domain.User) *pb.User {
 
 func MapUserPbToDomain(userPb *pb.User) *domain.User {
 	println("Mapping pb user to domain")
-	dateOfBirth, _ := time.Parse("2006-01-02T15:04", (*userPb).DateOfBirth)
 	println("name" + (*userPb).Name)
 	println("surname" + (*userPb).Surname)
 	println("username" + (*userPb).Username)
@@ -79,7 +78,7 @@ func MapUserPbToDomain(userPb *pb.User) *domain.User {
 		Password:             (*userPb).Password,
 		Gender:               mapGenderPbToDomainGender((*userPb).Gender),
 		Role:                 domain.Regular,
-		DateOfBirth:          dateOfBirth,
+		DateOfBirth:          (*userPb).DateOfBirth,
 		Public:               (*userPb).Public,
 		Skills:               []domain.Skill{},
 		Interests:            []domain.Interest{},
@@ -224,7 +223,7 @@ func MapDomainUserToCommandUser(user *domain.User) *events.UserDetails {
 		Username:    user.Username,
 		Password:    user.Password,
 		Email:       user.Email,
-		Birthday:    time.Time{},
+		Birthday:    user.DateOfBirth,
 		Gender:      0,
 		Role:        0,
 		PhoneNumber: user.Phone,

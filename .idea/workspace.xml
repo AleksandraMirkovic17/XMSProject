@@ -5,12 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="73e9022d-bf7f-4b1c-95b0-7a9024d84ed5" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/dislinkt-frontend/src/views/Profile/ChangeProfile.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/common/saga/update_order/update_order_event.go" beforeDir="false" afterPath="$PROJECT_DIR$/common/saga/update_order/update_order_event.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user_service/infrastructure/handlers/register_user_handler.go" beforeDir="false" afterPath="$PROJECT_DIR$/user_service/infrastructure/handlers/register_user_handler.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user_service/infrastructure/handlers/update_user_handler.go" beforeDir="false" afterPath="$PROJECT_DIR$/user_service/infrastructure/handlers/update_user_handler.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user_service/infrastructure/orchestrators/register_user_orchestrator.go" beforeDir="false" afterPath="$PROJECT_DIR$/user_service/infrastructure/orchestrators/register_user_orchestrator.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user_service/infrastructure/orchestrators/update_user_orchestrator.go" beforeDir="false" afterPath="$PROJECT_DIR$/user_service/infrastructure/orchestrators/update_user_orchestrator.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/saga/create_order/create_order_event.go" beforeDir="false" afterPath="$PROJECT_DIR$/common/saga/create_order/create_order_event.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dislinkt-frontend/src/views/Profile.vue" beforeDir="false" afterPath="$PROJECT_DIR$/dislinkt-frontend/src/views/Profile.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dislinkt-frontend/src/views/Registration.vue" beforeDir="false" afterPath="$PROJECT_DIR$/dislinkt-frontend/src/views/Registration.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user_service/domain/model.go" beforeDir="false" afterPath="$PROJECT_DIR$/user_service/domain/model.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user_service/infrastructure/api/user_grpc_api.go" beforeDir="false" afterPath="$PROJECT_DIR$/user_service/infrastructure/api/user_grpc_api.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user_service/infrastructure/mappers/pb_mapper.go" beforeDir="false" afterPath="$PROJECT_DIR$/user_service/infrastructure/mappers/pb_mapper.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -33,7 +35,7 @@
     <option name="stateVersion" value="1" />
   </component>
   <component name="ProblemsViewState">
-    <option name="selectedTabId" value="ProjectErrors" />
+    <option name="selectedTabId" value="CurrentFile" />
   </component>
   <component name="ProjectId" id="29IBzKzDINW69cNYdjN5W421eIN" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -53,7 +55,7 @@
     "RunOnceActivity.go.watchers.conflict.with.on.save.actions.check.performed": "true",
     "WebServerToolWindowFactoryState": "false",
     "go.import.settings.migrated": "true",
-    "last_opened_file_path": "C:/Users/PC/Desktop/xml/XMSProject/job_service/startup/config",
+    "last_opened_file_path": "C:/Users/PC/Desktop/xml/XMSProject",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -124,12 +126,12 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
           <url>file://$PROJECT_DIR$/user_service/infrastructure/mappers/pb_mapper.go</url>
-          <line>131</line>
+          <line>130</line>
           <option name="timeStamp" value="2" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
           <url>file://$PROJECT_DIR$/user_service/infrastructure/mappers/pb_mapper.go</url>
-          <line>194</line>
+          <line>193</line>
           <option name="timeStamp" value="3" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">

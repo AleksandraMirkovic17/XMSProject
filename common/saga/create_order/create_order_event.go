@@ -1,7 +1,5 @@
 package create_order
 
-import "time"
-
 type Gender int
 
 const (
@@ -25,7 +23,7 @@ type UserDetails struct {
 	Username    string
 	Password    string
 	Email       string
-	Birthday    time.Time
+	Birthday    string
 	Gender      Gender
 	Role        Role
 	PhoneNumber string

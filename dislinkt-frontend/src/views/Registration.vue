@@ -7,7 +7,6 @@
         </h1>
         <br>
         <div class="input-group mb-3">
-          <span class="input-group-text" id="basic-addon1">Name</span>
           <input type="text" class="form-control" placeholder="Name" aria-label="Name" aria-describedby="basic-addon1" v-model="user.user.name">
         </div>
         <div class="input-group mb-3">
