@@ -247,7 +247,7 @@
                 <i slot="label" class="now-ui-icons education_paper"></i>
                 <div>
                   <h3>Posts</h3>
-                  <div class="create-new" style="border: 0.2pt solid #e95e38; padding: 2%; " v-if="loggedUser">
+                  <div class="create-new" style="border: 0.2pt solid #e95e38; padding: 2%; " v-if="loggedUserDetails.username == user.username">
                     <div class="head-line" style="display: flex; flex-direction: row">
                       <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="white" class="bi bi-file-earmark-post-fill" viewBox="0 0 16 16">
                         <path d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0zM9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1zm-5-.5H7a.5.5 0 0 1 0 1H4.5a.5.5 0 0 1 0-1zm0 3h7a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-.5.5h-7a.5.5 0 0 1-.5-.5v-7a.5.5 0 0 1 .5-.5z"/>
@@ -381,6 +381,58 @@
                 <i slot="label" class="now-ui-icons business_briefcase-24"></i>
                 <div>
                   <h3>Job offers</h3>
+                </div>
+                <div class="create-new" style="border: 0.2pt solid #e95e38; padding: 2%; " v-if="loggedUserDetails.username == user.username">
+                  <div class="head-line" style="display: flex; flex-direction: row">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="white" class="bi bi-file-earmark-post-fill" viewBox="0 0 16 16">
+                      <path d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0zM9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1zm-5-.5H7a.5.5 0 0 1 0 1H4.5a.5.5 0 0 1 0-1zm0 3h7a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-.5.5h-7a.5.5 0 0 1-.5-.5v-7a.5.5 0 0 1 .5-.5z"/>
+                    </svg>
+                    <h4 class="description" style="margin-left: 1%; margin-top: 0.2%; ">Publish new job offer</h4>
+                  </div>
+                  <div class="post-content" style="display: flex; flex-direction: row" >
+                    <div class="content2" style="width: 100%">
+                      <div class="post-text" >
+                        <div class="form-floating" style="margin-bottom: 2%;">
+                          <input id="position" type="text" class="form-control" v-model="newJobOffer.companyName" placeholder="Organization name">
+                          <label for="position" style="font-size: 12pt">Organization</label>
+                        </div>
+                        <div class="form-floating">
+                          <input id="company" type="text" class="form-control" v-model="newJobOffer.position" placeholder="Organization name">
+                          <label for="company" style="font-size: 12pt">Position</label>
+                        </div>
+                        <div class="form-floating" style="margin-bottom: 3%">
+                          <textarea class="form-control" placeholder="Job description..." id="jobDescription" style="font-size: 12pt; height: 180px" v-model = "newJobOffer.jobDescription"></textarea>
+                          <label for="jobDescription" style="font-size: 12pt">Job description</label>
+                        </div>
+                        <div class="form-floating" style="margin-bottom: 2%">
+                          <input id="jobValid" type="datetime-local" class="form-control" v-model="newJobOffer.dateValid" required="required" @change="userInfoHasChanged()">
+                          <label for="jobValid" style="font-size: 12pt">Job valid</label>
+                        </div>
+                        <div style="display: flex; flex-direction: row; margin-bottom: 2%;">
+                          <div class="form-floating" style="width: 100%">
+                            <input id="newSkill" class="form-control" placeholder="New skill" type="text" name="new-skill" v-model="newSkill">
+                            <label for="newSkill" style="font-size: 12pt">New skill</label>
+                          </div>
+                          <button class="btn-primary btn-round btn-icon"  style="border: 0; margin-left: 1%;" v-on:click="addSkillToJobOfferSkills()" v-if="newSkill">
+                            <i class="now-ui-icons ui-1_simple-add"></i>
+                          </button>
+                        </div>
+                        <div>
+                          <div style="display: flex; flex-direction: row; margin-right: 2%" v-for="(skill,index) in newJobOffer.requiredSkills" :key="index">
+                            <badge type="primary">
+                              {{skill}}
+                            </badge>
+                            <badge type="default" style="border-radius: 50%; cursor: pointer;" v-on:click="removeSkillFromJobOffer(skill)">
+                              ✕
+                            </badge>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="footer">
+                    <button type="button" class="btn btn-primary" v-on:click="PublishJobOffer">Publish</button>
+                  </div>
                 </div>
               </tab-pane>
 
@@ -580,6 +632,7 @@ import PictureInput from 'vue-picture-input'
 import PostService from '../services/PostService'
 import UserService from '../services/UserService'
 import ConnectionService from '../services/ConnectionService'
+import JobService from "../services/JobService";
 import $ from 'jquery'
 import Recommendation from "./Connections/Recommendation";
 import {Badge} from "../components";
@@ -625,7 +678,9 @@ export default {
       newCommentContent: '',
       userLiked: false,
       userDisliked: false,
-      display: 'profile'
+      display: 'profile',
+      newJobOffer: new Object(),
+      newSkill: ''
     }
   },
   components:{
@@ -637,7 +692,7 @@ export default {
     ChangeProfile,
   },
   mounted: function() {
-
+    this.newJobOffer.requiredSkills = new Array();
 
     this.loggedUser = localStorage.getItem('user')
 
@@ -967,11 +1022,16 @@ export default {
     emptyFields: function(){
       this.image = '';
       this.links = new Array();
-      this.postText = ''
-      this.link = ''
+      this.postText = '';
+      this.link = '';
+      this.newJobOffer.publisherId ="";
+      this.newJobOffer.dateValid = "";
+      this.newJobOffer.companyName="";
+      this.newJobOffer.position="";
+      this.newJobOffer.jobDescription="";
+      this.newJobOffer.reqiredSkills = new Array();
     },
     CreatePost: function (){
-      console.log("U create post fji")
       PostService.createPost({
         "user": this.originalUser.id,
         "posttext": this.postText,
@@ -987,6 +1047,34 @@ export default {
       }
        );
     },
+    PublishJobOffer: function(){
+      console.log("U pusblish job fji")
+      this.newJobOffer.datePosted = new Date();
+      this.newJobOffer.jobID= "";
+      this.newJobOffer.publisherId=this.loggedUserDetails.id;
+      JobService.PublishPost(this.newJobOffer).then(res => {
+        console.log("New job", res.data)
+        this.emptyFields();
+      }).catch(err =>{
+            console.log(err);
+            alert("It is not possible to publish job!")
+          }
+      );
+
+
+    },
+    addSkillToJobOfferSkills: function(){
+      this.newJobOffer.requiredSkills.push(this.newSkill)
+      this.newSkill = ""
+    },
+    removeSkillFromJobOffer: function (skill){
+      alert("Skill to delete"+skill)
+      for(let index in this.newJobOffer.requiredSkills) {
+        if(this.newJobOffer.requiredSkills[index] === skill) {
+          this.newJobOffer.requiredSkills.splice(index,1)
+        }
+      }
+    }
 
 
 }
