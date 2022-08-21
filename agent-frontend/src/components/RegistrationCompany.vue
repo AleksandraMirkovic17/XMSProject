@@ -1,7 +1,7 @@
 <template class="tem">
   <div class="adventure-registration">
     <form>
-      <h3 class="mb-3">Adventure registration</h3>
+      <h3 class="mb-3">Company registration</h3>
       <div class="col-11">
         <label for="adventure-name" class="form-label">Company name</label>
         <input type="text" class="form-control" id="adventure-name" placeholder="E.g. Titanic" v-model = "name" required>
