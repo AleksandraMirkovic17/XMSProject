@@ -12,6 +12,11 @@
             <a class="nav-link" href="/registrationCompany" >Registration company</a>
 
           </li>
+
+           <li class="nav-item">
+            <a class="nav-link" href="/confirmCompany" >See all company</a>
+
+          </li>
         </ul>
       </div>
     </div>
