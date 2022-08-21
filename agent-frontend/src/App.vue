@@ -14,7 +14,11 @@
           </li>
 
            <li class="nav-item">
-            <a class="nav-link" href="/confirmCompany" >See all company</a>
+            <a class="nav-link" href="/confirmCompany" >See all company (ADMIN SIDE)</a>
+
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/listingCompany" >Listing company (USER SIDE)</a>
 
           </li>
         </ul>

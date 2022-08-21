@@ -5,6 +5,8 @@ import UserLogin from '../components/UserLogin.vue'
 import RegistrationCompany from '../components/RegistrationCompany.vue'
 import ConfirmCompany from '../components/ConfirmCompany.vue'
 
+import ListingCompany from '../components/ListingCompany.vue'
+
 
 
 const routes = [
@@ -37,7 +39,14 @@ const routes = [
         path: '/confirmCompany',
         name: 'confirmCompany',
         component: ConfirmCompany
+       },
+
+       {
+        path: '/listingCompany',
+        name: 'listingCompany',
+        component: ListingCompany
        }
+
 
 
       ]
