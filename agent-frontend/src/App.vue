@@ -8,6 +8,10 @@
             <a class="nav-link" href="/home" v-on:click="logOut">Log out</a>
 
           </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/registrationCompany" >Registration company</a>
+
+          </li>
         </ul>
       </div>
     </div>
