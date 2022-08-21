@@ -25,6 +25,86 @@ func initGraphDB(transaction neo4j.Transaction) error {
 	return err
 }
 
+func getJobById(jobID string, transaction neo4j.Transaction) (*domain.JobOffer, error) {
+	cypherText := string(database) + "MATCH (existing_job:JOB) " +
+		"WHERE existing_job.jobID=$jobID " +
+		"RETURN existing_job.jobID, existing_job.publisherID, existing_job.companyName, existing_job.datePosted, existing_job.dateValid, existing_job.description,  existing_job.position"
+	result, err := transaction.Run(
+		cypherText,
+		map[string]interface{}{"jobID": jobID})
+	if err != nil || result == nil {
+		return nil, err
+	}
+	result.Next()
+	foundJob := &domain.JobOffer{
+		JobId:          result.Record().Values[0].(string),
+		PublisherId:    result.Record().Values[1].(string),
+		RequiredSkills: []string{},
+		DatePosted:     result.Record().Values[3].(string),
+		DateValid:      result.Record().Values[4].(string),
+		CompanyName:    result.Record().Values[2].(string),
+		Position:       result.Record().Values[5].(string),
+		JobDescription: result.Record().Values[6].(string),
+	}
+
+	//get skills
+	cypherTextSkills := string(database) + "MATCH (job:JOB)-[r:REQUIRE]->(s:SKILL) " +
+		"WHERE job.jobID=$jobID " +
+		"RETURN s.name "
+	resultSkills, err := transaction.Run(
+		cypherTextSkills,
+		map[string]interface{}{"jobID": jobID})
+	if err != nil {
+		return nil, err
+	}
+	for resultSkills.Next() {
+		foundJob.RequiredSkills = append(foundJob.RequiredSkills, result.Record().Values[0].(string))
+	}
+	return foundJob, nil
+
+}
+
+func getAllJobs(transaction neo4j.Transaction) ([]*domain.JobOffer, error) {
+	cypherText := string(database) + "MATCH (j:JOB) RETURN j.jobID"
+	result, err := transaction.Run(
+		cypherText,
+		map[string]interface{}{})
+	if err != nil {
+		return nil, err
+	}
+	var jobs []*domain.JobOffer
+
+	for result.Next() {
+		job, err := getJobById(result.Record().Values[0].(string), transaction)
+		if err != nil {
+			return nil, err
+		}
+		jobs = append(jobs, job)
+	}
+	return jobs, nil
+}
+
+func getJobsByPublisherId(publisherId string, transaction neo4j.Transaction) ([]*domain.JobOffer, error) {
+	cypherText := string(database) + "MATCH (j:JOB) WHERE j.publisherID=$publisherID RETURN j.jobID "
+	result, err := transaction.Run(
+		cypherText,
+		map[string]interface{}{"publisherID": publisherId})
+	if err != nil {
+		return nil, err
+	}
+	var jobs []*domain.JobOffer
+
+	for result.Next() {
+		job, err := getJobById(result.Record().Values[0].(string), transaction)
+		if err != nil {
+			return nil, err
+		}
+		jobs = append(jobs, job)
+	}
+	return jobs, nil
+
+}
+
 func deleteNode(userID string, transaction neo4j.Transaction) error {
 	cypherText := string(database) + "MATCH(existing_uer:USERJOB) WHERE existing_uer.userID = $userID DETACH DELETE existing_uer"
 	_, err := transaction.Run(
@@ -61,7 +141,7 @@ func checkIfSkillExists(skill string, transaction neo4j.Transaction) bool {
 }
 
 func checkIfJobExists(jobId string, transaction neo4j.Transaction) bool {
-	cypherText := string(database) + "MATCH (existing_job:JOB) WHERE existing_job.jobID=$jobID RETURN existing_job"
+	cypherText := string(database) + "MATCH (existing_job:JOB) WHERE existing_job.jobID=$jobID RETURN existing_job.jobID"
 	result, _ := transaction.Run(
 		cypherText,
 		map[string]interface{}{"jobID": jobId})

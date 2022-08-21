@@ -5,6 +5,7 @@ import (
 	"fmt"
 	pb "github.com/dislinked/common/proto/job_service"
 	"github.com/dislinked/job_service/domain"
+	"github.com/dislinked/job_service/infrastructure/errors"
 	"github.com/neo4j/neo4j-go-driver/v4/neo4j"
 )
 
@@ -19,13 +20,40 @@ func NewJobDBStore(client *neo4j.Driver) domain.JobStore {
 }
 
 func (j JobDBStore) Get(ctx context.Context, jobId string) (*domain.JobOffer, error) {
-	//TODO implement me
-	panic("implement me")
+	session := (*j.jobDB).NewSession(neo4j.SessionConfig{AccessMode: neo4j.AccessModeWrite})
+	defer session.Close()
+	jobById, err := session.WriteTransaction(func(transaction neo4j.Transaction) (interface{}, error) {
+		if !(checkIfJobExists(jobId, transaction)) {
+			return nil, errors.NewCustomError("Job with id " + jobId + " does not exist!")
+		}
+		job, err1 := getJobById(jobId, transaction)
+		if err1 != nil {
+			return nil, err1
+		}
+		return job, nil
+	},
+	)
+	if err != nil {
+		return nil, err
+	}
+	return jobById.(*domain.JobOffer), nil
 }
-
 func (j JobDBStore) GetAll(ctx context.Context) ([]*domain.JobOffer, error) {
-	//TODO implement me
-	panic("implement me")
+	session := (*j.jobDB).NewSession(neo4j.SessionConfig{AccessMode: neo4j.AccessModeWrite})
+	defer session.Close()
+	allJobs, err := session.WriteTransaction(func(transaction neo4j.Transaction) (interface{}, error) {
+		job, err1 := getAllJobs(transaction)
+		if err1 != nil {
+			return nil, err1
+		}
+		return job, nil
+	},
+	)
+	if err != nil {
+		return nil, err
+	}
+	return allJobs.([]*domain.JobOffer), nil
+
 }
 
 func (j JobDBStore) Insert(ctx context.Context, job *domain.JobOffer) error {
@@ -61,8 +89,20 @@ func (j JobDBStore) Search(ctx context.Context, search string) ([]*domain.JobOff
 }
 
 func (j JobDBStore) GetUserJobOffers(ctx context.Context, userID string) ([]*domain.JobOffer, error) {
-	//TODO implement me
-	panic("implement me")
+	session := (*j.jobDB).NewSession(neo4j.SessionConfig{AccessMode: neo4j.AccessModeWrite})
+	defer session.Close()
+	allJobs, err := session.WriteTransaction(func(transaction neo4j.Transaction) (interface{}, error) {
+		job, err1 := getJobsByPublisherId(userID, transaction)
+		if err1 != nil {
+			return nil, err1
+		}
+		return job, nil
+	},
+	)
+	if err != nil {
+		return nil, err
+	}
+	return allJobs.([]*domain.JobOffer), nil
 }
 
 func (j JobDBStore) Delete(ctx context.Context, jobId string) (bool, error) {

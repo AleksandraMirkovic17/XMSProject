@@ -5,12 +5,10 @@ import (
 	"AuthenticationService/infrastructure/mappers"
 	"AuthenticationService/infrastructure/orchestrator"
 	"context"
-	"net/http"
-	"time"
-
 	pb "github.com/dislinked/common/proto/authentication_service"
 	events "github.com/dislinked/common/saga/create_order"
 	"google.golang.org/grpc/status"
+	"net/http"
 )
 
 type AuthenticationHandler struct {
@@ -43,7 +41,6 @@ func (handler *AuthenticationHandler) Register(ctx context.Context, request *pb.
 	if err != nil {
 		return nil, status.Error(http.StatusBadRequest, "Username already exists!")
 	}
-	dateOfBirth, _ := time.Parse("2006-01-02T15:04", request.User.DateOfBirth)
 	handler.RegisterUserOrchestrator.Start(events.UserDetails{
 		Id:          request.User.Id,
 		Name:        request.User.Name,
@@ -51,7 +48,7 @@ func (handler *AuthenticationHandler) Register(ctx context.Context, request *pb.
 		Username:    request.User.Username,
 		Password:    request.User.Username,
 		Email:       request.User.Email,
-		Birthday:    dateOfBirth,
+		Birthday:    request.User.Email,
 		Gender:      mappers.MapAuthGenderToCreateOrderGender(request.User.Gender),
 		Role:        mappers.MapAuthRoleToCreateOrderRole(request.User.Role),
 		PhoneNumber: request.User.ContactPhone,

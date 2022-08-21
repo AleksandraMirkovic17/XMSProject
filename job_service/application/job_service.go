@@ -47,5 +47,17 @@ func (service *JobService) Insert(ctx context.Context, offer *domain.JobOffer) (
 		return nil, err
 	}
 	return offer, err
+}
+
+func (service *JobService) GetJobOffer(ctx context.Context, jobID string) (*domain.JobOffer, error) {
+	return service.store.Get(ctx, jobID)
+}
+
+func (service *JobService) GetAll(ctx context.Context) ([]*domain.JobOffer, error) {
+	return service.store.GetAll(ctx)
+}
+
+func (service *JobService) GetAllByPublisher(ctx context.Context, publisherID string) ([]*domain.JobOffer, error) {
+	return service.store.GetUserJobOffers(ctx, publisherID)
 
 }
