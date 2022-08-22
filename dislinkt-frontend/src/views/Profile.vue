@@ -434,6 +434,7 @@
                     <button type="button" class="btn btn-primary" v-on:click="PublishJobOffer">Publish</button>
                   </div>
                 </div>
+                <JobOffers :users-jobs="true" :user-i-d="loggedUserDetails.id"></JobOffers>
               </tab-pane>
 
             </tabs>
@@ -445,7 +446,7 @@
 
 
       </div>
-      <div v-if="user.username==loggedUserDetails.username" class="d-flex flex-column flex-shrink-0 p-3 bg-light" style="width: 280px;">
+      <div v-if="user.username==loggedUserDetails.username" class="d-flex flex-column flex-shrink-0 p-3 bg-light" style="width: 20%;">
         <Recommendation></Recommendation>
       </div>
     </div>
@@ -638,6 +639,7 @@ import Recommendation from "./Connections/Recommendation";
 import {Badge} from "../components";
 import { Tabs, TabPane } from '@/components';
 import ChangeProfile from "./Profile/ChangeProfile";
+import JobOffers from "./Job/JobOffers";
 window.addEventListener('scroll', HandleScroll )
 
 function HandleScroll(){
@@ -690,6 +692,7 @@ export default {
     Tabs,
     TabPane,
     ChangeProfile,
+    JobOffers
   },
   mounted: function() {
     this.newJobOffer.requiredSkills = new Array();

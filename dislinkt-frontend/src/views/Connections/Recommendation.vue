@@ -8,13 +8,13 @@
         <div class="profile-view" v-on:click="redirectToProfile(user)" style="cursor: pointer; display: flex; flex-direction: row" >
           <div class="profile-icon" style="width: 20%">
             <div class="photo-container-small">
-              <p style="position: relative; align-content: center; margin: 13%;" v-if="user && user.name && user.surname">
+              <p style="position: relative; align-content: center; margin: 13%; font-weight: bold;" v-if="user && user.name && user.surname">
                 {{user.name.charAt(0).toUpperCase()}}{{user.surname.charAt(0).toUpperCase()}}
               </p>
             </div>
           </div>
           <div class="info">
-          <div  style="display: flex; flex-direction: row;  margin-top: 2%">
+          <div  style="display: flex; flex-direction: row;  margin-top: 2%; ">
             <p style="margin-left: 1%; font-size: 130%;">{{user.name}}  </p>
             <p style="margin-left: 1%; font-size: 130%">{{user.surname}}</p>
           </div>
@@ -32,7 +32,7 @@
           </div>
 
         </div>
-        <div class="profile-respond">
+        <div class="profile-respond" style="margin-left: 30%;">
           <button v-if="user.connectionStatus=='NO_RELATION'" type="button" class="btn btn-round" style="right: 10%" v-on:click="follow(user)">+ Follow</button>
           <button v-if="user.connectionStatus=='PENDING'" type="button" class="btn btn-round" style="right: 10%" v-on:click="unsendRequest(user)">✔ Friend request sent</button>
           <div v-if="user.connectionStatus=='ACCEPT'">
@@ -48,6 +48,36 @@
   </div>
   <h6 style="margin-top: 10%">Jobs for you({{jobs4u.length}})</h6>
   <hr>
+  <div class="recommendations" style="margin-top: 2%;">
+    <div v-for="(job,index) in jobs4u" :key="index">
+      <div class="panel profile-card-small" style="">
+        <div class="profile-view" v-on:click="redirectToProfileJob(job)" style="cursor: pointer; display: flex; flex-direction: row" >
+          <div class="profile-icon" style="width: 20%">
+            <div class="photo-container-small" style="text-align: center;">
+              <p style="position: relative; align-content: center; margin: 13%; font-weight: bold;" v-if="job.position">
+                {{job.position.charAt(0).toUpperCase()}}
+              </p>
+            </div>
+          </div>
+          <div class="info">
+            <div  style="display: flex; flex-direction: row;  margin-top: 2%">
+              <p style="margin-left: 1%; font-size: 130%;">{{job.position}}  </p>
+            </div>
+            <p class="username">@{{job.companyName}}</p>
+          </div>
+
+        </div>
+        <div class="mutual-info">
+          <badge v-for="(skill,index) in job.requiredSkills" :key="index" type="info" style="margin: 1%">
+            {{skill}}
+          </badge>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
 
 </div>
 </template>
@@ -55,6 +85,9 @@
 <script>
 import UserService from "../../services/UserService";
 import ConnectionService from "../../services/ConnectionService";
+import JobService from "../../services/JobService";
+import {Badge} from "../../components";
+
 
 export default {
   name: "Recommendation",
@@ -66,6 +99,9 @@ export default {
       jobs4u: new Array()
 
     }
+  },
+  components:{
+    Badge,
   },
   mounted: function () {
     this.loggedUser = localStorage.getItem('user')
@@ -80,9 +116,20 @@ export default {
 
       })
           .catch(err1 =>{
-            alert("It is impossible to load friends!")
+            alert("It is impossible to load friend recommendation!")
             console.log(err1)
           })
+      JobService.GetJobRecommendations(this.loggedUserDetails.id).then( response2 =>{
+        var jobNodes = response2.data.jobs
+        for (var j of jobNodes){
+          this.pushNewJobRecommendation(j)
+        }
+      }).catch(err1 =>{
+            alert("It is impossible to load job recommendation!")
+            console.log(err1)
+          })
+
+
     })
         .catch(err =>{
           alert("It s impossible to get logged user!")
@@ -117,8 +164,31 @@ export default {
           })
 
     },
+    pushNewJobRecommendation(f){
+      JobService.GetJobById(f.jobID)
+          .then(response2 =>{
+            console.log(response2.data)
+            let recommendedJob = {jobID: f.jobID,
+              publisherId: response2.data.job.publisherId,
+              datePosted: response2.data.job.datePosted,
+              dateValid: response2.data.job.dateValid,
+              companyName: f.companyName,
+              position: f.position,
+              jobDescription: f.jobDescription,
+              requiredSkills: f.requiredSkills}
+            this.jobs4u.push(recommendedJob)
+          })
+          .catch(err =>{
+            console.log("It is impossible to get job by id "+f.jobID+"."+ err)
+            alert("It is impossible to get job by id "+f.jobID+".")
+          })
+
+    },
     redirectToProfile(user){
       this.$router.push("/profile/"+user.username)
+    },
+    redirectToProfileJob(job){
+      console.log("Redirecting "+job)
     },
     follow(user){
      // console.log(user, this.loggedUserDetails)

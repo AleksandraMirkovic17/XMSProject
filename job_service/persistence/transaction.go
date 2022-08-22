@@ -58,7 +58,8 @@ func getJobById(jobID string, transaction neo4j.Transaction) (*domain.JobOffer, 
 		return nil, err
 	}
 	for resultSkills.Next() {
-		foundJob.RequiredSkills = append(foundJob.RequiredSkills, result.Record().Values[0].(string))
+		println("Ubacivanje skilla u job: " + resultSkills.Record().Values[0].(string))
+		foundJob.RequiredSkills = append(foundJob.RequiredSkills, resultSkills.Record().Values[0].(string))
 	}
 	return foundJob, nil
 

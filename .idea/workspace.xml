@@ -6,14 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="73e9022d-bf7f-4b1c-95b0-7a9024d84ed5" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/common/proto/job_service/job_service.pb.go" beforeDir="false" afterPath="$PROJECT_DIR$/common/proto/job_service/job_service.pb.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/common/proto/job_service/job_service.pb.gw.go" beforeDir="false" afterPath="$PROJECT_DIR$/common/proto/job_service/job_service.pb.gw.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/common/proto/job_service/job_service.proto" beforeDir="false" afterPath="$PROJECT_DIR$/common/proto/job_service/job_service.proto" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dislinkt-frontend/src/services/ConnectionService.js" beforeDir="false" afterPath="$PROJECT_DIR$/dislinkt-frontend/src/services/ConnectionService.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dislinkt-frontend/src/services/JobService.js" beforeDir="false" afterPath="$PROJECT_DIR$/dislinkt-frontend/src/services/JobService.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dislinkt-frontend/src/views/Connections/Recommendation.vue" beforeDir="false" afterPath="$PROJECT_DIR$/dislinkt-frontend/src/views/Connections/Recommendation.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dislinkt-frontend/src/views/Profile.vue" beforeDir="false" afterPath="$PROJECT_DIR$/dislinkt-frontend/src/views/Profile.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/job_service/application/job_service.go" beforeDir="false" afterPath="$PROJECT_DIR$/job_service/application/job_service.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/job_service/infrastructure/api/JobHandler.go" beforeDir="false" afterPath="$PROJECT_DIR$/job_service/infrastructure/api/JobHandler.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/job_service/persistence/job_neo4jdb_store.go" beforeDir="false" afterPath="$PROJECT_DIR$/job_service/persistence/job_neo4jdb_store.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/job_service/persistence/transaction.go" beforeDir="false" afterPath="$PROJECT_DIR$/job_service/persistence/transaction.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
