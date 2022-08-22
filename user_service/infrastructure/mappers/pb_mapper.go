@@ -2,11 +2,12 @@ package mappers
 
 import (
 	"UserService/domain"
+	"time"
+
 	dislinked "github.com/dislinked/common/proto/user_service"
 	pb "github.com/dislinked/common/proto/user_service"
 	events "github.com/dislinked/common/saga/create_order"
 	"go.mongodb.org/mongo-driver/bson/primitive"
-	"time"
 )
 
 func MapUser(user *domain.User) *pb.User {
