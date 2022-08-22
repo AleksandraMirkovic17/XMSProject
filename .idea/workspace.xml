@@ -5,13 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="73e9022d-bf7f-4b1c-95b0-7a9024d84ed5" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dislinkt-frontend/src/assets/scss/now-ui-kit/_example-pages.scss" beforeDir="false" afterPath="$PROJECT_DIR$/dislinkt-frontend/src/assets/scss/now-ui-kit/_example-pages.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dislinkt-frontend/src/services/JobService.js" beforeDir="false" afterPath="$PROJECT_DIR$/dislinkt-frontend/src/services/JobService.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dislinkt-frontend/src/views/Job/JobOffer.vue" beforeDir="false" afterPath="$PROJECT_DIR$/dislinkt-frontend/src/views/Job/JobOffer.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dislinkt-frontend/src/views/Job/JobOffers.vue" beforeDir="false" afterPath="$PROJECT_DIR$/dislinkt-frontend/src/views/Job/JobOffers.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dislinkt-frontend/src/views/Profile.vue" beforeDir="false" afterPath="$PROJECT_DIR$/dislinkt-frontend/src/views/Profile.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/job_service/persistence/transaction.go" beforeDir="false" afterPath="$PROJECT_DIR$/job_service/persistence/transaction.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/AgentskaApp/src/main/resources/data.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/agent-frontend/src/components/ConfirmCompany.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/agent-frontend/src/components/ListingCompany.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/agent-frontend/src/components/RegistrationCompany.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AgentskaApp/src/main/java/com/agentska/model/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/AgentskaApp/src/main/java/com/agentska/model/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AgentskaApp/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/AgentskaApp/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/agent-frontend/src/App.vue" beforeDir="false" afterPath="$PROJECT_DIR$/agent-frontend/src/App.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/agent-frontend/src/router/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/agent-frontend/src/router/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/authentication_service/infrastructure/api/authentication_grpc_api.go" beforeDir="false" afterPath="$PROJECT_DIR$/authentication_service/infrastructure/api/authentication_grpc_api.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

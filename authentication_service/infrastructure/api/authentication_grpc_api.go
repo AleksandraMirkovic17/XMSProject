@@ -48,7 +48,7 @@ func (handler *AuthenticationHandler) Register(ctx context.Context, request *pb.
 		Username:    request.User.Username,
 		Password:    request.User.Username,
 		Email:       request.User.Email,
-		Birthday:    request.User.Email,
+		Birthday:    request.User.DateOfBirth,
 		Gender:      mappers.MapAuthGenderToCreateOrderGender(request.User.Gender),
 		Role:        mappers.MapAuthRoleToCreateOrderRole(request.User.Role),
 		PhoneNumber: request.User.ContactPhone,

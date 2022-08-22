@@ -80,7 +80,7 @@ public class User {
 	}
 	public boolean isOwner() {
 		for (Role r : roles) {
-		if (r.getName() == ERole.OWNER)
+		if (r.getName().equals("OWNER"))
 			return true;
 		}
 		return false;
