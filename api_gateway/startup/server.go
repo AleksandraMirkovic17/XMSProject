@@ -12,6 +12,7 @@ import (
 	authGw "github.com/dislinked/common/proto/authentication_service"
 	connGw "github.com/dislinked/common/proto/connection_service"
 	jobGw "github.com/dislinked/common/proto/job_service"
+	messageGw "github.com/dislinked/common/proto/message_service"
 	postGw "github.com/dislinked/common/proto/post_service"
 	userGw "github.com/dislinked/common/proto/user_service"
 	"github.com/gorilla/handlers"
@@ -74,6 +75,11 @@ func (server *Server) initHandlers() {
 	}
 	jobEndpoint := fmt.Sprintf("%s:%s", server.config.JobHost, server.config.JobPort)
 	err = jobGw.RegisterJobServiceHandlerFromEndpoint(context.TODO(), server.mux, jobEndpoint, opts)
+	if err != nil {
+		panic(err)
+	}
+	messageEndpoint := fmt.Sprintf("%s:%s", server.config.MessageHost, server.config.MessagePort)
+	err = messageGw.RegisterMessageServiceHandlerFromEndpoint(context.TODO(), server.mux, messageEndpoint, opts)
 	if err != nil {
 		panic(err)
 	}

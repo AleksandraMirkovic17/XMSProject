@@ -6,7 +6,7 @@ import "google/api/annotations.proto";
 import "google/protobuf/timestamp.proto";
 
 service MessageService{
-  rpc GetByUser(GetByUserRequest) returns(GetMultipleMessages) {
+  rpc GetByUser(GetMessagesByUserRequest) returns(GetMultipleMessages) {
     option (google.api.http) = {
       get: "/message/user/{uuid}"
     };
@@ -19,8 +19,6 @@ service MessageService{
   }
 }
 
-message Empty {}
-
 message GetMultipleMessages {
   repeated UserMessage userMessages = 1;
 }
@@ -29,7 +27,7 @@ message NewUserMessage {
   UserMessage userMessage = 1;
 }
 
-message GetByUserRequest {
+message GetMessagesByUserRequest {
   string uuid = 1;
 }
 

@@ -17,7 +17,7 @@ func NewMessageHandler(service *application.MessageService) *MessageHandler {
 	return &MessageHandler{service: service}
 }
 
-func (handler *MessageHandler) CreateMessage(ctx context.Context, request *pb.NewUserMessage) (*pb.NewUserMessage, error) {
+func (handler *MessageHandler) SendMessage(ctx context.Context, request *pb.NewUserMessage) (*pb.NewUserMessage, error) {
 	message := mapMessageFromPbToDomain(request.UserMessage)
 	newMessage, err := handler.service.Insert(message)
 	if err != nil {
@@ -31,7 +31,7 @@ func (handler *MessageHandler) CreateMessage(ctx context.Context, request *pb.Ne
 	return response, nil
 }
 
-func (handler *MessageHandler) GetByUser(ctx context.Context, request *pb.GetByUserRequest) (*pb.GetMultipleMessages, error) {
+func (handler *MessageHandler) GetByUser(ctx context.Context, request *pb.GetMessagesByUserRequest) (*pb.GetMultipleMessages, error) {
 	uuidUser := request.Uuid
 	messages, err := handler.service.GetAllByUser(uuidUser)
 	if err != nil {

@@ -32,7 +32,7 @@ var _ = utilities.NewDoubleArray
 var _ = metadata.Join
 
 func request_MessageService_GetByUser_0(ctx context.Context, marshaler runtime.Marshaler, client MessageServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq GetByUserRequest
+	var protoReq GetMessagesByUserRequest
 	var metadata runtime.ServerMetadata
 
 	var (
@@ -58,7 +58,7 @@ func request_MessageService_GetByUser_0(ctx context.Context, marshaler runtime.M
 }
 
 func local_request_MessageService_GetByUser_0(ctx context.Context, marshaler runtime.Marshaler, server MessageServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq GetByUserRequest
+	var protoReq GetMessagesByUserRequest
 	var metadata runtime.ServerMetadata
 
 	var (

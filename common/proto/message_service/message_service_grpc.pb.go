@@ -22,7 +22,7 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type MessageServiceClient interface {
-	GetByUser(ctx context.Context, in *GetByUserRequest, opts ...grpc.CallOption) (*GetMultipleMessages, error)
+	GetByUser(ctx context.Context, in *GetMessagesByUserRequest, opts ...grpc.CallOption) (*GetMultipleMessages, error)
 	SendMessage(ctx context.Context, in *NewUserMessage, opts ...grpc.CallOption) (*NewUserMessage, error)
 }
 
@@ -34,7 +34,7 @@ func NewMessageServiceClient(cc grpc.ClientConnInterface) MessageServiceClient {
 	return &messageServiceClient{cc}
 }
 
-func (c *messageServiceClient) GetByUser(ctx context.Context, in *GetByUserRequest, opts ...grpc.CallOption) (*GetMultipleMessages, error) {
+func (c *messageServiceClient) GetByUser(ctx context.Context, in *GetMessagesByUserRequest, opts ...grpc.CallOption) (*GetMultipleMessages, error) {
 	out := new(GetMultipleMessages)
 	err := c.cc.Invoke(ctx, "/MessageService/GetByUser", in, out, opts...)
 	if err != nil {
@@ -56,7 +56,7 @@ func (c *messageServiceClient) SendMessage(ctx context.Context, in *NewUserMessa
 // All implementations must embed UnimplementedMessageServiceServer
 // for forward compatibility
 type MessageServiceServer interface {
-	GetByUser(context.Context, *GetByUserRequest) (*GetMultipleMessages, error)
+	GetByUser(context.Context, *GetMessagesByUserRequest) (*GetMultipleMessages, error)
 	SendMessage(context.Context, *NewUserMessage) (*NewUserMessage, error)
 	mustEmbedUnimplementedMessageServiceServer()
 }
@@ -65,7 +65,7 @@ type MessageServiceServer interface {
 type UnimplementedMessageServiceServer struct {
 }
 
-func (UnimplementedMessageServiceServer) GetByUser(context.Context, *GetByUserRequest) (*GetMultipleMessages, error) {
+func (UnimplementedMessageServiceServer) GetByUser(context.Context, *GetMessagesByUserRequest) (*GetMultipleMessages, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetByUser not implemented")
 }
 func (UnimplementedMessageServiceServer) SendMessage(context.Context, *NewUserMessage) (*NewUserMessage, error) {
@@ -85,7 +85,7 @@ func RegisterMessageServiceServer(s grpc.ServiceRegistrar, srv MessageServiceSer
 }
 
 func _MessageService_GetByUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetByUserRequest)
+	in := new(GetMessagesByUserRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -97,7 +97,7 @@ func _MessageService_GetByUser_Handler(srv interface{}, ctx context.Context, dec
 		FullMethod: "/MessageService/GetByUser",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(MessageServiceServer).GetByUser(ctx, req.(*GetByUserRequest))
+		return srv.(MessageServiceServer).GetByUser(ctx, req.(*GetMessagesByUserRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
