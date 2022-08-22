@@ -1,0 +1,42 @@
+syntax = "proto3";
+
+option go_package = "github.com/dislinked";
+
+import "google/api/annotations.proto";
+import "google/protobuf/timestamp.proto";
+
+service MessageService{
+  rpc GetByUser(GetByUserRequest) returns(GetMultipleMessages) {
+    option (google.api.http) = {
+      get: "/message/user/{uuid}"
+    };
+  }
+  rpc SendMessage(NewUserMessage) returns(NewUserMessage) {
+    option(google.api.http) = {
+      post: "/message"
+      body: "userMessage"
+    };
+  }
+}
+
+message Empty {}
+
+message GetMultipleMessages {
+  repeated UserMessage userMessages = 1;
+}
+
+message NewUserMessage {
+  UserMessage userMessage = 1;
+}
+
+message GetByUserRequest {
+  string uuid = 1;
+}
+
+message UserMessage {
+  string id = 1;
+  string fromUser = 2;
+  string toUser = 3;
+  string content = 4;
+  google.protobuf.Timestamp date = 5;
+}
