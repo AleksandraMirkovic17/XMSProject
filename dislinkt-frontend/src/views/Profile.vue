@@ -182,7 +182,7 @@
                 </div>
 
               </div>
-              <div v-if="user.educationExperiences.length==0">
+              <div v-if="user.educationExperiences && user.educationExperiences.length==0">
                 <p class="nav-pills-warning">No information about education.</p>
               </div>
 
@@ -434,13 +434,14 @@
                     <button type="button" class="btn btn-primary" v-on:click="PublishJobOffer">Publish</button>
                   </div>
                 </div>
-                <JobOffers :users-jobs="true" :user-i-d="loggedUserDetails.id"></JobOffers>
+                <JobOffers :users-jobs="true" :all-jobs="false" :userid="userID"></JobOffers>
               </tab-pane>
 
             </tabs>
           </div>
         </div>
         <ChangeProfile v-if="display=='settings'" :logged-user="loggedUserDetails"></ChangeProfile>
+        <JobOffers :users-jobs="false" :all-jobs="true" v-if="display=='joboffers'"></JobOffers>
 
 
 
@@ -671,6 +672,7 @@ export default {
       connectionStatus: '',
       originalUser: {},
       usersPosts: new Array(),
+      userID : String,
 
 
       selectedPost: "",
@@ -707,6 +709,7 @@ export default {
       {
         UserService.getUserByUsername(JSON.parse(this.loggedUser).username).then(response2 => {
           this.loggedUserDetails = response2.data.User
+          this.userID = this.loggedUserDetails.id
           if(this.loggedUserDetails.id!= this.user.id)
           {
             ConnectionService.GetConnectionDetail(this.loggedUserDetails.id, this.user.id)

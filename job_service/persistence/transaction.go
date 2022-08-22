@@ -43,8 +43,8 @@ func getJobById(jobID string, transaction neo4j.Transaction) (*domain.JobOffer, 
 		DatePosted:     result.Record().Values[3].(string),
 		DateValid:      result.Record().Values[4].(string),
 		CompanyName:    result.Record().Values[2].(string),
-		Position:       result.Record().Values[5].(string),
-		JobDescription: result.Record().Values[6].(string),
+		Position:       result.Record().Values[6].(string),
+		JobDescription: result.Record().Values[5].(string),
 	}
 
 	//get skills

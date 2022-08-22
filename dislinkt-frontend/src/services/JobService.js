@@ -12,6 +12,7 @@ class JobService {
     }
 
     GetJobsByPublisher(userID){
+        console.log(USER_API_BASE_URL+"job/user/"+userID)
         return axios.get(USER_API_BASE_URL+"job/user/"+userID)
     }
 
