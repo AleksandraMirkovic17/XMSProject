@@ -61,3 +61,11 @@ func (service *JobService) GetAllByPublisher(ctx context.Context, publisherID st
 	return service.store.GetUserJobOffers(ctx, publisherID)
 
 }
+
+func (service *JobService) GetAllBySearchParams(ctx context.Context, searchParam string) ([]*domain.JobOffer, error) {
+	return service.store.Search(ctx, searchParam)
+}
+
+func (service *JobService) GetRecommendedJobs(ctx context.Context, userID string) ([]*domain.JobOffer, error) {
+	return service.store.GetRecommendationJobOffer(ctx, userID)
+}

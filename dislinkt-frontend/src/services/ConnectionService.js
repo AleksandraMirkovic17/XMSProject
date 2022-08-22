@@ -4,6 +4,7 @@ const USER_API_BASE_URL = 'http://localhost:4200/';
 
 class ConnectionService{
     GetConnectionDetail(idA, idB){
+        console.log(USER_API_BASE_URL+"connection/"+ConvertObjectIdToHexId(idA)+"/detail/"+ConvertObjectIdToHexId(idB))
         return axios.get(USER_API_BASE_URL+"connection/"+ConvertObjectIdToHexId(idA)+"/detail/"+ConvertObjectIdToHexId(idB))
 }
     Connect(idA, idB){

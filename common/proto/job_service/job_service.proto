@@ -40,7 +40,7 @@ service JobService{
 
   rpc GetUserJobs(CreateUserRequest) returns(GetAllJobsResponse){
     option (google.api.http)={
-      put: "/job/user/{userID}"
+      get: "/job/user/{userID}"
     };
   }
 
@@ -56,7 +56,11 @@ service JobService{
 
   rpc UpdateUserSkills(UpdateSkillsRequest) returns(ActionResult){}
 
-  rpc GetRecommendationJob(GetRecommendedJobsRequest) returns(GetAllJobsResponse){}
+  rpc GetRecommendationJob(GetRecommendedJobsRequest) returns(GetAllJobsResponse){
+    option (google.api.http)={
+      get: "/job/recommendation/{userID}"
+    };
+  }
 }
 
 message EmptyJobResponse{

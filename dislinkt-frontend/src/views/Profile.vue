@@ -897,7 +897,7 @@ export default {
 
     },
     follow(){
-      alert(this.loggedUserDetails.username)
+      //alert(this.loggedUserDetails.username)
 
       if(this.user.Public || this.connectionStatus == 'ACCEPT'){
         ConnectionService.Connect(this.loggedUserDetails.id, this.user.id)

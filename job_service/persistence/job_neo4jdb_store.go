@@ -84,8 +84,20 @@ func (j JobDBStore) Update(ctx context.Context, profile *domain.JobOffer) (bool,
 }
 
 func (j JobDBStore) Search(ctx context.Context, search string) ([]*domain.JobOffer, error) {
-	//TODO implement me
-	panic("implement me")
+	session := (*j.jobDB).NewSession(neo4j.SessionConfig{AccessMode: neo4j.AccessModeWrite})
+	defer session.Close()
+	allJobs, err := session.WriteTransaction(func(transaction neo4j.Transaction) (interface{}, error) {
+		job, err1 := getJobsBySearch(search, transaction)
+		if err1 != nil {
+			return nil, err1
+		}
+		return job, nil
+	},
+	)
+	if err != nil {
+		return nil, err
+	}
+	return allJobs.([]*domain.JobOffer), nil
 }
 
 func (j JobDBStore) GetUserJobOffers(ctx context.Context, userID string) ([]*domain.JobOffer, error) {
@@ -93,6 +105,23 @@ func (j JobDBStore) GetUserJobOffers(ctx context.Context, userID string) ([]*dom
 	defer session.Close()
 	allJobs, err := session.WriteTransaction(func(transaction neo4j.Transaction) (interface{}, error) {
 		job, err1 := getJobsByPublisherId(userID, transaction)
+		if err1 != nil {
+			return nil, err1
+		}
+		return job, nil
+	},
+	)
+	if err != nil {
+		return nil, err
+	}
+	return allJobs.([]*domain.JobOffer), nil
+}
+
+func (j JobDBStore) GetRecommendationJobOffer(ctx context.Context, userID string) ([]*domain.JobOffer, error) {
+	session := (*j.jobDB).NewSession(neo4j.SessionConfig{AccessMode: neo4j.AccessModeWrite})
+	defer session.Close()
+	allJobs, err := session.WriteTransaction(func(transaction neo4j.Transaction) (interface{}, error) {
+		job, err1 := getRecommendedJobs(userID, transaction)
 		if err1 != nil {
 			return nil, err1
 		}
@@ -239,9 +268,4 @@ func (j JobDBStore) UpdateUser(ctx context.Context, node domain.UserJobNode) (*p
 		Msg:    "Successfully update userjob node!",
 	}, nil
 
-}
-
-func (j JobDBStore) GetRecommendationJobOffer(ctx context.Context, userID string) ([]*domain.JobOffer, error) {
-	//TODO implement me
-	panic("implement me")
 }

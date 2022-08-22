@@ -105,6 +105,53 @@ func getJobsByPublisherId(publisherId string, transaction neo4j.Transaction) ([]
 
 }
 
+func getRecommendedJobs(userID string, transaction neo4j.Transaction) ([]*domain.JobOffer, error) {
+	cypherText := string(database) + "MATCH (u:USERJOB)-[k:KNOWS]->(s:SKILL)-[r:isREQUIRED]->(j:JOB) " +
+		"WHERE u.userID=$userID " +
+		"RETURN DISTINCT j.jobID, count(s) as numberOfSkills " +
+		"ORDER BY numberOfSkills DESC"
+	result, err := transaction.Run(
+		cypherText,
+		map[string]interface{}{"userID": userID})
+	if err != nil {
+		return nil, err
+	}
+	var jobs []*domain.JobOffer
+
+	for result.Next() {
+		job, err := getJobById(result.Record().Values[0].(string), transaction)
+		if err != nil {
+			return nil, err
+		}
+		jobs = append(jobs, job)
+	}
+	return jobs, nil
+
+}
+
+func getJobsBySearch(params string, transaction neo4j.Transaction) ([]*domain.JobOffer, error) {
+	cypherText := string(database) + "MATCH (j:JOB) " +
+		"WHERE j.position CONTAINS $search " +
+		"OR j.companyName CONTAINS $search " +
+		"RETURN j.jobID "
+	result, err := transaction.Run(
+		cypherText,
+		map[string]interface{}{"search": params})
+	if err != nil {
+		return nil, err
+	}
+	var jobs []*domain.JobOffer
+
+	for result.Next() {
+		job, err := getJobById(result.Record().Values[0].(string), transaction)
+		if err != nil {
+			return nil, err
+		}
+		jobs = append(jobs, job)
+	}
+	return jobs, nil
+}
+
 func deleteNode(userID string, transaction neo4j.Transaction) error {
 	cypherText := string(database) + "MATCH(existing_uer:USERJOB) WHERE existing_uer.userID = $userID DETACH DELETE existing_uer"
 	_, err := transaction.Run(
