@@ -3,8 +3,13 @@
   <div v-if="jobsToShow.length==0">
     <h4 class="description">There is no published jobs. Come back later!</h4>
   </div>
+  <div v-else style="width: 45%">
+    <div style="display: flex; flex-direction: row">
+      <input type="text" class="form-control" v-model="searchParams" placeholder="Search"/>
+    </div>
+  </div>
 <div v-for="(job,index) in jobsToShow" :key="index">
-  <JobOffer :company-name="job.companyName"
+  <JobOffer v-if="filter(job)" :company-name="job.companyName"
             :date-posted="job.datePosted"
   :date-valid="job.dateValid"
   :description="job.jobDescription"
@@ -29,6 +34,7 @@ export default {
     return{
       jobsToShow: new Array(),
       user: String,
+      searchParams: ""
 
     }
   },
@@ -55,6 +61,12 @@ export default {
 
   },
   methods:{
+    filter: function(job){
+      if(job.position.includes(this.searchParams) || job.companyName.includes(this.searchParams)){
+        return true
+      }
+      return false
+    }
 
   }
 }

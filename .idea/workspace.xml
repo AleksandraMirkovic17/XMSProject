@@ -5,15 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="73e9022d-bf7f-4b1c-95b0-7a9024d84ed5" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/AgentskaApp/src/main/resources/data.sql" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/agent-frontend/src/components/ConfirmCompany.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/agent-frontend/src/components/ListingCompany.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/agent-frontend/src/components/RegistrationCompany.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AgentskaApp/src/main/java/com/agentska/model/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/AgentskaApp/src/main/java/com/agentska/model/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AgentskaApp/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/AgentskaApp/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/agent-frontend/src/App.vue" beforeDir="false" afterPath="$PROJECT_DIR$/agent-frontend/src/App.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/agent-frontend/src/router/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/agent-frontend/src/router/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/authentication_service/infrastructure/api/authentication_grpc_api.go" beforeDir="false" afterPath="$PROJECT_DIR$/authentication_service/infrastructure/api/authentication_grpc_api.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dislinkt-frontend/src/views/Connections.vue" beforeDir="false" afterPath="$PROJECT_DIR$/dislinkt-frontend/src/views/Connections.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dislinkt-frontend/src/views/Connections/FriendReqests.vue" beforeDir="false" afterPath="$PROJECT_DIR$/dislinkt-frontend/src/views/Connections/FriendReqests.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dislinkt-frontend/src/views/Connections/Friends.vue" beforeDir="false" afterPath="$PROJECT_DIR$/dislinkt-frontend/src/views/Connections/Friends.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dislinkt-frontend/src/views/Job/JobOffers.vue" beforeDir="false" afterPath="$PROJECT_DIR$/dislinkt-frontend/src/views/Job/JobOffers.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dislinkt-frontend/src/views/Profile.vue" beforeDir="false" afterPath="$PROJECT_DIR$/dislinkt-frontend/src/views/Profile.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user_service/infrastructure/mappers/command_mapper.go" beforeDir="false" afterPath="$PROJECT_DIR$/user_service/infrastructure/mappers/command_mapper.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user_service/infrastructure/mappers/pb_mapper.go" beforeDir="false" afterPath="$PROJECT_DIR$/user_service/infrastructure/mappers/pb_mapper.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user_service/infrastructure/persistence/user_mongodb_store.go" beforeDir="false" afterPath="$PROJECT_DIR$/user_service/infrastructure/persistence/user_mongodb_store.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -127,12 +127,12 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
           <url>file://$PROJECT_DIR$/user_service/infrastructure/mappers/pb_mapper.go</url>
-          <line>130</line>
+          <line>135</line>
           <option name="timeStamp" value="2" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
           <url>file://$PROJECT_DIR$/user_service/infrastructure/mappers/pb_mapper.go</url>
-          <line>193</line>
+          <line>198</line>
           <option name="timeStamp" value="3" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">

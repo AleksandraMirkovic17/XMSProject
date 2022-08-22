@@ -257,6 +257,27 @@
               </td>
             </tr>
             <tr>
+              <td>Public account</td>
+              <td>
+                <div class="form-check form-switch" style="width: 180px">
+                  <input class="checkbox form-control"  style="width: 50px; height: 25px" type="checkbox" role="switch" id="flexSwitchCheckChecked1" v-on:change="userInfoHasChanged()" v-model="loggedUserNew.public">
+                  <n-switch v-on:change="userInfoHasChanged()"
+                            v-model="loggedUserNew.public"
+                            on-text="PRIVATE"
+                            off-text="PUBLIC"
+                            value ="!loggedUserNew.public"
+                  >
+
+                  </n-switch>
+                </div>
+              </td>
+            </tr>
+            <tr>
+            <td colspan="2">
+              <hr>
+            </td>
+          </tr>
+            <tr>
               <td>
 
               </td>
@@ -292,6 +313,7 @@
 import UserService from "../../services/UserService";
 import ConnectionService from "../../services/ConnectionService";
 import {Badge} from "../../components"
+import {Switch} from "../../components"
 
 export default {
   name: "ChangeProfile",
@@ -307,7 +329,7 @@ export default {
       newInterest: "",
     }
   },
-  components: {Badge},
+  components: {Badge, [Switch.name]: Switch},
   mounted: function () {
     this.loggedUserNew = this.loggedUser
   },
@@ -371,6 +393,7 @@ export default {
       return "Primary"
     },
     userInfoHasChanged() {
+      alert("change")
       this.isUserInfoChanged = true
     },
     isAllInputValid() {

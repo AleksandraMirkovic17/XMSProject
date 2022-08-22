@@ -1,7 +1,8 @@
 <template>
-  <div class="requests" v-if="loggedUser">
-    <div class="title">
-      <h3 style="color: white; font-weight: bolder; margin: 2%">Friend requests ({{requests.length}})</h3>
+  <div class="requests" v-if="loggedUser" style=" width: 100%;">
+
+    <div>
+      <h4 class="title">Friend requests ({{requests.length}})</h4>
     </div>
     <div class="friends">
       <div v-for="(user,index) in requests" :key="index">

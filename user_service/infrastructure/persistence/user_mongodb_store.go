@@ -70,6 +70,10 @@ func (store *UserMongoDBStore) Update(uuid primitive.ObjectID, user *domain.User
 		println("Error while finding by username")
 		return err
 	}
+	println("In update")
+	println("password " + user.Password)
+	print("name, surname " + user.Name + " " + user.Surname)
+	println(" contact phone: " + user.Phone)
 	_, err = store.users.UpdateOne(
 		context.TODO(),
 		bson.M{"_id": oldUser.Id},

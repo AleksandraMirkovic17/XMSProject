@@ -67,6 +67,12 @@ func mapEventGenderToDomainGender(gender events.Gender) domain.Gender {
 
 func MapPbUserToEventUpdateUser(pbUser pb.User) *events.UserDetails {
 	println("pb user id: ", pbUser.Id)
+	println("name is: ", pbUser.Name)
+	println("surname is: ", pbUser.Surname)
+	println("username is: " + pbUser.Username)
+	println("contact phone is " + pbUser.ContactPhone)
+	println("password is " + pbUser.Password)
+
 	eventUser := &events.UserDetails{
 		Id:          pbUser.Id,
 		Name:        pbUser.Name,
@@ -93,6 +99,7 @@ func MapEventUserToDomainUser(eventUser events.UserDetails) *domain.User {
 		println("Error convering in command_mapper!")
 		return nil
 	}
+	println("Phone number: " + eventUser.PhoneNumber)
 	domainUser := &domain.User{
 		Id:       id,
 		Name:     eventUser.Name,

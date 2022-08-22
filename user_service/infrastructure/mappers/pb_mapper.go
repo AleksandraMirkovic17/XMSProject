@@ -69,12 +69,17 @@ func MapUserPbToDomain(userPb *pb.User) *domain.User {
 	println("name" + (*userPb).Name)
 	println("surname" + (*userPb).Surname)
 	println("username" + (*userPb).Username)
+	println("email" + (*userPb).Email)
+	println("password" + (*userPb).Password)
+	println("phone number: " + (*userPb).ContactPhone)
+
 	userD := &domain.User{
 		Id:                   primitive.NewObjectID(),
 		Name:                 (*userPb).Name,
 		Surname:              (*userPb).Surname,
 		Username:             (*userPb).Username,
 		Email:                (*userPb).Email,
+		Phone:                (*userPb).ContactPhone,
 		Password:             (*userPb).Password,
 		Gender:               mapGenderPbToDomainGender((*userPb).Gender),
 		Role:                 domain.Regular,
