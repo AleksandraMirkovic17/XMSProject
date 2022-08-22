@@ -78,7 +78,7 @@ message User {
 	UserRole role = 7;
 	string dateOfBirth = 8;
 	string password = 9;
-	bool Public = 10;
+	bool public = 10;
 	string contactPhone = 11;
 	repeated Skill skills = 12;
 	repeated Interest interests = 13;

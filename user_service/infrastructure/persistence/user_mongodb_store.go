@@ -82,6 +82,7 @@ func (store *UserMongoDBStore) Update(uuid primitive.ObjectID, user *domain.User
 			{"$set", bson.D{{"surname", user.Surname}}},
 			{"$set", bson.D{{"phone", user.Phone}}},
 			{"$set", bson.D{{"password", user.Password}}},
+			{"$set", bson.D{{"public", user.Public}}},
 		},
 	)
 	/*if(user.DateOfBirth != nil){

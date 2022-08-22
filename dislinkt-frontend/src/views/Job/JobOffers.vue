@@ -46,7 +46,7 @@ export default {
         this.jobsToShow = response.data.jobs
       }).catch(err=>{
         console.log(err)
-        alert("It is impossible to load jobs by publisher!")
+        //alert("It is impossible to load jobs by publisher!")
       })
     }
     if(this.allJobs){

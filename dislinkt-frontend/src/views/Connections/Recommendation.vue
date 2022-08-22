@@ -125,7 +125,7 @@ export default {
           this.pushNewJobRecommendation(j)
         }
       }).catch(err1 =>{
-            alert("It is impossible to load job recommendation!")
+            //alert("It is impossible to load job recommendation!")
             console.log(err1)
           })
 
