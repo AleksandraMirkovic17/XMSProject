@@ -137,13 +137,16 @@
       <div  class="container" >
         <div v-if="display=='profile'">
           <div class="button-container" v-if="loggedUserDetails.username!=user.username">
-            <a v-if="this.loggedUserFollows==false && connectionStatus!='ACCEPT' && connectionStatus!='PENDING'" href="#button" class="btn btn-primary btn-round btn-lg" v-on:click="follow">Connect</a>
+            <a v-if="this.loggedUserFollows==false && connectionStatus!='ACCEPT' && connectionStatus!='PENDING' && connectionStatus!='A_BLOCK_B' && connectionStatus!='B_BLOCK_A'" href="#button" class="btn btn-primary btn-round btn-lg" v-on:click="follow">Connect</a>
             <a v-if="connectionStatus=='ACCEPT'" href="#button" class="btn btn-primary btn-round btn-lg" v-on:click="follow">✔ Accept</a>
             <a v-if="connectionStatus=='ACCEPT'" href="#button" class="btn btn-default btn-round btn-lg" v-on:click="RemoveFriendRequest">✖ Decline</a>
             <a v-if="loggedUserFollows==true" href="#button" class="btn btn-primary btn-round btn-lg" v-on:click="deleteFriend">✔ Connected</a>
             <a v-if="connectionStatus=='PENDING'" class="btn btn-primary btn-round btn-lg" v-on:click="unsendRequest">Request sent</a>
+            <a v-if="connectionStatus!='A_BLOCK_B' && connectionStatus!='B_BLOCK_A'" v-on:click="blockUser" href="#button" class="btn btn-default btn-round btn-lg">Block</a>
+            <a v-if="connectionStatus=='A_BLOCK_B'" v-on:click="unblockUser" href="#button" class="btn btn-default btn-round btn-lg">Unblock</a>
+
           </div>
-          <div v-if="loggedUserFollows || user.public || loggedUserDetails.username==user.username">
+          <div v-if="(loggedUserFollows || user.Public || loggedUserDetails.username==user.username)  && connectionStatus!='A_BLOCK_B' && connectionStatus!='B_BLOCK_A'">
             <h3 class="title" v-if="user.biography!=''">About me</h3>
             <h5 class="description" v-if="user.biography!=''">
               {{user.biography}}
@@ -187,7 +190,7 @@
               </div>
             </div>
           </div>
-          <div v-if="loggedUserFollows || user.public || loggedUserDetails.username==user.username" class="additional-info" style="display: flex; flex-direction: row; width: 100%">
+          <div v-if="(loggedUserFollows || user.Public || loggedUserDetails.username==user.username)  && connectionStatus!='A_BLOCK_B' && connectionStatus!='B_BLOCK_A'" class="additional-info" style="display: flex; flex-direction: row; width: 100%">
             <div class="experience profile-panel" style="width: 55%; margin: 2%;">
               <h3>Experience</h3>
               <h4 class="description" style="text-align: left">
@@ -262,7 +265,7 @@
               </div>
             </div>
           </div>
-          <div class="row" v-if="loggedUserFollows || user.public || loggedUserDetails.username==user.username">
+          <div class="row" v-if="(loggedUserFollows || user.Public || loggedUserDetails.username==user.username)  && connectionStatus!='A_BLOCK_B' && connectionStatus!='B_BLOCK_A'">
             <tabs
                 pills
                 class="nav-align-center"
@@ -498,16 +501,14 @@
     </div>
   </div>
   <div v-if="loggedUser && connectionStatus=='B_BLOCK_A'">
-    <div class="profile-panel">
+    <div style="width: 100%; justify-content: center; text-align: center" >
       You cannot view this user, because you are blocked by them
     </div>
   </div>
   <div v-if="loggedUser && connectionStatus=='A_BLOCK_B'">
-    <div class="profile-panel">
+    <div style="width: 100%; justify-content: center; text-align: center">
       You cannot view this user, because you blocked them
-      <div v-if="connectionStatus=='A_BLOCK_B'">
-        <button  type="button" class="btn btn-light" style=" right: 10%; margin-top: 2%; margin-left: 0.5%; border: 1pt black solid;" v-on:click="unblockUser">Unblock user</button>
-      </div>
+
     </div>
 
   </div>
