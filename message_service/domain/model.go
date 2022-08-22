@@ -10,6 +10,6 @@ type Message struct {
 	Id       primitive.ObjectID `bson:"_id"`
 	Content  string             `bson:"content"`
 	Date     time.Time          `bson:"date"`
-	FromUser string             `bson:"user"`
-	ToUser   string             `bson:"user"`
+	FromUser string             `bson:"fromUser"`
+	ToUser   string             `bson:"toUser"`
 }
