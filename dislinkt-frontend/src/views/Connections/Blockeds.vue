@@ -1,11 +1,27 @@
 <template>
   <div class="friends" v-if="loggedUser">
-    <div class="title">
-      <h3 style="color: white; font-weight: bolder; margin: 2%">Blocked users ({{blockeds.length}})</h3>
+    <div>
+      <h4 class="title">Blocked users ({{blockeds.length}})</h4>
     </div>
     <div class="friends">
       <div v-for="(user,index) in blockeds" :key="index">
-        <div class="profile-container" v-on:click="redirectToProfile(user)" style="cursor: pointer">
+        <div class="panel profile-card-small" v-on:click="redirectToProfile(user)"  style="cursor: pointer; display: flex; flex-direction: row">
+          <div class="profile-icon" style="width: 20%">
+            <div class="photo-container-small">
+              <p style="position: relative; align-content: center; margin: 13%; font-weight: bold;" v-if="user && user.name && user.surname">
+                {{user.name.charAt(0).toUpperCase()}}{{user.surname.charAt(0).toUpperCase()}}
+              </p>
+            </div>
+          </div>
+          <div class="info">
+            <div  style="display: flex; flex-direction: row;  margin-top: 2%; ">
+              <p style="margin-left: 1%; font-size: 130%;">{{user.name}}  </p>
+              <p style="margin-left: 1%; font-size: 130%">{{user.surname}}</p>
+            </div>
+            <p class="username">@{{user.username}}</p>
+          </div>
+        </div>
+        <!--<div class="profile-container" v-on:click="redirectToProfile(user)" style="cursor: pointer">
           <div class="profile-icon" style="width: 10%">
             <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16">
               <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
@@ -15,7 +31,7 @@
             <h3 style="margin-left: 1%">{{user.name}} {{user.surname}} </h3>
             <h3>({{user.username}})</h3>
           </div>
-        </div>
+        </div>-->
 
       </div>
     </div>

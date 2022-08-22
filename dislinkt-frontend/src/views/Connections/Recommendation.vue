@@ -35,10 +35,14 @@
         <div class="profile-respond" style="margin-left: 30%;">
           <button v-if="user.connectionStatus=='NO_RELATION'" type="button" class="btn btn-round" style="right: 10%" v-on:click="follow(user)">+ Follow</button>
           <button v-if="user.connectionStatus=='PENDING'" type="button" class="btn btn-round" style="right: 10%" v-on:click="unsendRequest(user)">✔ Friend request sent</button>
-          <div v-if="user.connectionStatus=='ACCEPT'">
-            <button  type="button" class="btn btn-round" style=" right: 10%; border: 1pt black solid;" v-on:click="follow(user)"> ✔ Accept request</button>
-            <button  type="button" class="btn btn-round" style=" right: 10%; margin-left: 0.5%; border: 1pt black solid;" v-on:click="RemoveFriendRequest(user)"> ✖ Decline request</button>
+
+        </div>
+        <div v-if="user.connectionStatus=='ACCEPT'">
+          <div style="display: flex; flex-direction: row;">
+            <button  type="button" class="btn btn-primary btn-round"  v-on:click="follow(user)"> ✔Accept</button>
+            <button  type="button" class="btn btn-round"  v-on:click="RemoveFriendRequest(user)"> ✖Decline</button>
           </div>
+
         </div>
 
       </div>

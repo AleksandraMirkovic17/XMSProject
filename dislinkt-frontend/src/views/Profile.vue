@@ -134,15 +134,16 @@
           </ul>
         </div>
       </nav>
-      <div  class="container">
+      <div  class="container" >
         <div v-if="display=='profile'">
           <div class="button-container" v-if="loggedUserDetails.username!=user.username">
-            <a v-if="this.loggedUserFollows==false && connectionStatus!='ACCEPT'" href="#button" class="btn btn-primary btn-round btn-lg" v-on:click="follow">Connect</a>
+            <a v-if="this.loggedUserFollows==false && connectionStatus!='ACCEPT' && connectionStatus!='PENDING'" href="#button" class="btn btn-primary btn-round btn-lg" v-on:click="follow">Connect</a>
             <a v-if="connectionStatus=='ACCEPT'" href="#button" class="btn btn-primary btn-round btn-lg" v-on:click="follow">✔ Accept</a>
             <a v-if="connectionStatus=='ACCEPT'" href="#button" class="btn btn-default btn-round btn-lg" v-on:click="RemoveFriendRequest">✖ Decline</a>
             <a v-if="loggedUserFollows==true" href="#button" class="btn btn-primary btn-round btn-lg" v-on:click="deleteFriend">✔ Connected</a>
+            <a v-if="connectionStatus=='PENDING'" class="btn btn-primary btn-round btn-lg" v-on:click="unsendRequest">Request sent</a>
           </div>
-          <div>
+          <div v-if="loggedUserFollows || user.public || loggedUserDetails.username==user.username">
             <h3 class="title" v-if="user.biography!=''">About me</h3>
             <h5 class="description" v-if="user.biography!=''">
               {{user.biography}}
@@ -186,7 +187,7 @@
               </div>
             </div>
           </div>
-          <div class="additional-info" style="display: flex; flex-direction: row; width: 100%">
+          <div v-if="loggedUserFollows || user.public || loggedUserDetails.username==user.username" class="additional-info" style="display: flex; flex-direction: row; width: 100%">
             <div class="experience profile-panel" style="width: 55%; margin: 2%;">
               <h3>Experience</h3>
               <h4 class="description" style="text-align: left">
@@ -261,7 +262,7 @@
               </div>
             </div>
           </div>
-          <div class="row">
+          <div class="row" v-if="loggedUserFollows || user.public || loggedUserDetails.username==user.username">
             <tabs
                 pills
                 class="nav-align-center"
@@ -956,7 +957,7 @@ export default {
     },
     follow(){
       //alert(this.loggedUserDetails.username)
-
+console.log(this.connectionStatus)
       if(this.user.Public || this.connectionStatus == 'ACCEPT'){
         ConnectionService.Connect(this.loggedUserDetails.id, this.user.id)
             .then( response => {
@@ -971,7 +972,7 @@ export default {
       } else{
         ConnectionService.SendFriendRequest(this.loggedUserDetails.id, this.user.id)
             .then( response => {
-              console.log("connecting:", response);
+              console.log("connecting sending request:", response);
               this.getConnectionDetails()
             })
             .catch(err => {

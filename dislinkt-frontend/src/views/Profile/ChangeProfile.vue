@@ -269,6 +269,7 @@
                   >
 
                   </n-switch>
+                  <input type="checkbox" v-model="loggedUserNew.public" v-on:change="userInfoHasChanged()">
                 </div>
               </td>
             </tr>

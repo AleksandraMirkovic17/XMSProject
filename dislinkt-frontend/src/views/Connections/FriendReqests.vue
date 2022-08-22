@@ -6,8 +6,28 @@
     </div>
     <div class="friends">
       <div v-for="(user,index) in requests" :key="index">
-        <div class="profile-container" >
-          <div class="profile-informations" v-on:click="redirectToProfile(user)" style="cursor: pointer">
+        <div >
+          <div class="profile-card-small" v-on:click="redirectToProfile(user)"  style="cursor: pointer; display: flex; flex-direction: row">
+            <div class="profile-icon"  v-on:click="redirectToProfile(user)">
+              <div class="photo-container-small">
+                <p style="position: relative; align-content: center; margin: 13%; font-weight: bold;" v-if="user && user.name && user.surname">
+                  {{user.name.charAt(0).toUpperCase()}}{{user.surname.charAt(0).toUpperCase()}}
+                </p>
+              </div>
+            </div>
+            <div class="info" v-on:click="redirectToProfile(user)" style="margin-left: 2%">
+              <div  style="display: flex; flex-direction: row;  margin-top: 2%; ">
+                <p style="margin-left: 1%; font-size: 130%;">{{user.name}}  </p>
+                <p style="margin-left: 1%; font-size: 130%">{{user.surname}}</p>
+              </div>
+              <p class="username">@{{user.username}}</p>
+            </div>
+            <div  style="display: flex; flex-direction: row;  margin: auto; margin-left: 30%; ">
+              <button  type="button" class="btn btn-primary btn-round" style=" right: 10%; " v-on:click="Connect(user, index)"> ✔Accept </button>
+              <button  type="button" class="btn btn-default btn-round" style=" right: 10%; margin-left: 0.5%; " v-on:click="RemoveFriendRequest(user, index)"> ✖Decline</button>
+            </div>
+          </div>
+         <!-- <div class="profile-informations" v-on:click="redirectToProfile(user)" style="cursor: pointer">
             <div class="profile-icon" style="width: 10%">
               <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16">
                 <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
@@ -21,7 +41,7 @@
           <div  style="display: flex; flex-direction: row;  margin: auto; margin-left: 20%; margin-top: 2%">
             <button  type="button" class="btn btn-light" style=" right: 10%; border: 1pt black solid;" v-on:click="Connect(user, index)"> ✔ Accept request</button>
             <button  type="button" class="btn btn-light" style=" right: 10%; margin-left: 0.5%; border: 1pt black solid;" v-on:click="RemoveFriendRequest(user, index)"> ✖ Decline request</button>
-          </div>
+          </div>-->
         </div>
 
 
