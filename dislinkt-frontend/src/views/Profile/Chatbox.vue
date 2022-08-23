@@ -31,18 +31,7 @@
             </div>
           </header>
           <ul id="chat">
-            <!--<li class="you">
-              <div class="entete">
-                <span class="status green"></span>
-                <h2>Vincent</h2>
-                <h3>10:12AM, Today</h3>
-              </div>
-              <div class="triangle"></div>
-              <div class="message">
-                Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.
-              </div>
-            </li>-->
-            <li :class="{ me: messageIsFromMe(message), you: !messageIsFromMe(message) }" v-for="(message,index) in messages" :key="index">
+            <li :class="{ me: messageIsFromMe(message), you: !messageIsFromMe(message) }" v-for="(message,index) in relevantMessages" :key="index">
               <div class="entete">
                 <h3>{{message.date}}</h3>
                 <h2>Me</h2>
@@ -117,6 +106,11 @@ export default {
     },
     messageIsFromMe(message){
       return message.fromUser == this.loggedUserDetails.id
+    }
+  },
+  computed: {
+    relevantMessages() {
+      return this.messages.filter(m => m.fromUser == this.selectedUser.id || m.toUser == this.selectedUser.id)
     }
   }
 }
