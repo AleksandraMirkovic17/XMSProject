@@ -34,7 +34,8 @@
             <li :class="{ me: messageIsFromMe(message), you: !messageIsFromMe(message) }" v-for="(message,index) in relevantMessages" :key="index">
               <div class="entete">
                 <h3>{{message.date}}</h3>
-                <h2>Me</h2>
+                <h2 v-if="messageIsFromMe(message)">Me</h2>
+                <h2 v-if="!messageIsFromMe(message)">{{selectedUser.name}}</h2>
                 <span class="status blue"></span>
               </div>
               <div class="triangle"></div>
@@ -116,6 +117,7 @@ export default {
         MessageService.getMessagesByUser(this.loggedUserDetails.id).then(response1 => {
           this.messages = response1.data.userMessages
         })
+        this.messageContent = "";
       })
     }
   },
