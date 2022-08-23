@@ -42,6 +42,8 @@ func (o *UserOrchestrator) nextCommandType(reply events.RegisterUserReplyType) e
 		return events.AuthenticationServiceRegisterUpdate
 	case events.UserProfileNotCreated:
 		return events.CancelRegistration
+	case events.UserProfileRegisterRolledBack:
+		return events.CancelRegistration
 
 	case events.AuthenticationServiceUserCreated:
 		println("authentication service je updatovan, treba da se kreira user node")
@@ -55,14 +57,17 @@ func (o *UserOrchestrator) nextCommandType(reply events.RegisterUserReplyType) e
 		println("user node kreiran treba sada job node da se kreira")
 		return events.CreateJobNode
 	case events.UserNodeFailedToCreate:
+		println("User node u connections nije kreiran idemo na rollback auth servis!")
 		return events.RollbackRegisterAuthenticationService
-	case events.UserProfileRegisterRolledBack:
+	case events.ConnectionsRolledBack:
+		println("Servis konekcije je rollback idemo na rollback suthentication servids")
 		return events.RollbackRegisterAuthenticationService
 
 	case events.JobNodeCreated:
 		println("job node je kreiran")
 		return events.ApproveRegistration
 	case events.JobNodeFailedToCreate:
+		println("Job node nije kreiran, rollback connection noda!")
 		return events.RollebackRegisterConnectionNode
 	case events.RegistrationApproved:
 		return events.UnknownCommand

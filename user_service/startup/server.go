@@ -35,17 +35,22 @@ const (
 )
 
 func (server *Server) Start() {
+	println("Pocetak starta")
 	mongoClient := server.initMongoClient()
 	userStore := server.initUserStore(mongoClient)
 
+	println("Pre pozivanja orkestratora 1")
 	//orchestrator
 	commandPublisher := server.initPublisher(server.config.RegisterUserCommandSubject)
 	replySubscriber := server.initSubscriber(server.config.RegisterUserReplySubject, QueueGroup)
 	orchestrator := server.InitOrchestrator(commandPublisher, replySubscriber)
+	println("Posle pozivanja orkestartora 1")
 
+	println("Pre pozivanja orkestratora 2")
 	commandPublisherUpdateUser := server.initPublisher(server.config.UpdateUserCommandSubject)
 	replySubscriberUpdateUser := server.initSubscriber(server.config.UpdateUserReplySubject, QueueGroup)
 	orchestrator2 := server.InitUpdateOrchestrator(commandPublisherUpdateUser, replySubscriberUpdateUser)
+	println("Posle pozivanja orkestartora 2")
 
 	userService := server.initUserService(userStore, orchestrator, orchestrator2)
 	userHandler := server.initUserHandler(userService, orchestrator2)
@@ -94,16 +99,21 @@ func (server *Server) initUpdateUserHandler(userService *application.UserService
 }
 
 func (server *Server) initPublisher(subject string) saga.Publisher {
+	println("Unutar publishera")
 	publisher, err := nats.NewNATSPublisher(
 		server.config.NatsHost, server.config.NatsPort,
 		server.config.NatsUser, server.config.NatsPass, subject)
 	if err != nil {
+		println("Da li ovdee!")
 		log.Fatal(err)
+		println("Posle log fatal")
+
 	}
 	return publisher
 }
 
 func (server *Server) initSubscriber(subject, queueGroup string) saga.Subscriber {
+	println("Pokusaj inicijalizacije subsribera")
 	subscriber, err := nats.NewNATSSubscriber(
 		server.config.NatsHost, server.config.NatsPort,
 		server.config.NatsUser, server.config.NatsPass, subject, queueGroup)

@@ -42,11 +42,18 @@ func (handler *RegisterUserCommandHandler) handle(command *events.RegisterUserCo
 		err, _ := handler.connectionService.Register(command.User.Id, command.User.Username, command.User.IsPublic)
 		if err.Status != 201 {
 			reply.Type = events.UserNodeFailedToCreate
-			println("Failed to create register_user_handler " + string(err.Status))
+			print(err.Status)
+			println(" Failed to create register_user_handler " + string(err.Status))
+			break
 		} else {
 			reply.Type = events.UserNodeCreated
 			println("created register_user_handler ")
+			break
 		}
+	case events.RollebackRegisterConnectionNode:
+		println("Nalazim se u rollback connection node, medjutim nije implamentirana metoda")
+		reply.Type = events.ConnectionsRolledBack
+		break
 
 	default:
 		println("Unknown reply je u pitanju")

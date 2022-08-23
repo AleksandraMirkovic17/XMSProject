@@ -5,11 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="73e9022d-bf7f-4b1c-95b0-7a9024d84ed5" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dislinkt-frontend/src/views/Connections/Blockeds.vue" beforeDir="false" afterPath="$PROJECT_DIR$/dislinkt-frontend/src/views/Connections/Blockeds.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dislinkt-frontend/src/views/Connections/FriendReqests.vue" beforeDir="false" afterPath="$PROJECT_DIR$/dislinkt-frontend/src/views/Connections/FriendReqests.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dislinkt-frontend/src/views/Profile.vue" beforeDir="false" afterPath="$PROJECT_DIR$/dislinkt-frontend/src/views/Profile.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dislinkt-frontend/src/views/Profile/ChangeProfile.vue" beforeDir="false" afterPath="$PROJECT_DIR$/dislinkt-frontend/src/views/Profile/ChangeProfile.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/saga/messaging/nats/connection.go" beforeDir="false" afterPath="$PROJECT_DIR$/common/saga/messaging/nats/connection.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/connection_service/infrastructure/api/register_user_handler.go" beforeDir="false" afterPath="$PROJECT_DIR$/connection_service/infrastructure/api/register_user_handler.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/job_service/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/job_service/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/message_service/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/message_service/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user_service/infrastructure/handlers/register_user_handler.go" beforeDir="false" afterPath="$PROJECT_DIR$/user_service/infrastructure/handlers/register_user_handler.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user_service/infrastructure/orchestrators/register_user_orchestrator.go" beforeDir="false" afterPath="$PROJECT_DIR$/user_service/infrastructure/orchestrators/register_user_orchestrator.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user_service/startup/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/user_service/startup/server.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -52,7 +57,7 @@
     &quot;RunOnceActivity.go.watchers.conflict.with.on.save.actions.check.performed&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
     &quot;go.import.settings.migrated&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/PC/Desktop/xml/dislinkt-backend&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/PC/Desktop/xml/XML-BSEP/XML&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -118,7 +123,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
           <url>file://$PROJECT_DIR$/user_service/startup/server.go</url>
-          <line>129</line>
+          <line>139</line>
           <option name="timeStamp" value="1" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">

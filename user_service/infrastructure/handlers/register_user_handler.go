@@ -54,7 +54,11 @@ func (handler *CreateOrderCommandHandler) handle(command *events.RegisterUserCom
 			return
 		}
 		toDelete, _ := handler.userService.GetOne(id)
-		handler.userService.Delete(toDelete)
+		err1 := handler.userService.Delete(toDelete)
+		if err1 != nil {
+			println("Desila se greska prilikom brisanja postojeceg usera err1")
+			reply.Type = events.UnknownReply
+		}
 		reply.Type = events.UserProfileRegisterRolledBack
 	case events.ApproveRegistration:
 		fmt.Println("Approve registration")
