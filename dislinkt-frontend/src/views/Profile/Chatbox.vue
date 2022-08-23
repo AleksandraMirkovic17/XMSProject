@@ -44,10 +44,8 @@
             </li>
           </ul>
           <footer>
-            <textarea placeholder="Type your message"></textarea>
-            <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/1940306/ico_picture.png" alt="">
-            <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/1940306/ico_file.png" alt="">
-            <a href="#">Send</a>
+            <textarea placeholder="Type your message" v-model="messageContent"></textarea>
+            <button type="button" class="btn btn-dark" style="width: 30%; height: 40px; float: right" v-on:click="sendMessage()">Send</button>
           </footer>
         </main>
     </div>
@@ -65,7 +63,8 @@ export default {
       loggedUserDetails: "",
       selectedUser: {},
       friends: new Array(),
-      messages: new Array()
+      messages: new Array(),
+      messageContent: "",
     }
   },
   mounted: function () {
@@ -106,6 +105,18 @@ export default {
     },
     messageIsFromMe(message){
       return message.fromUser == this.loggedUserDetails.id
+    },
+    sendMessage(){
+      let messageToSend = {
+        fromUser: this.loggedUserDetails.id,
+        toUser: this.selectedUser.id,
+        content: this.messageContent
+      }
+      MessageService.sendMessage(messageToSend).then( () => {
+        MessageService.getMessagesByUser(this.loggedUserDetails.id).then(response1 => {
+          this.messages = response1.data.userMessages
+        })
+      })
     }
   },
   computed: {
