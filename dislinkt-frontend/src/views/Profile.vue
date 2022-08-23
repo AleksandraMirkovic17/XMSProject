@@ -135,6 +135,7 @@
         </div>
       </nav>
       <div  class="container" >
+        <chatbox v-if="display=='chat'"></chatbox>
         <div v-if="display=='profile'">
           <div class="button-container" v-if="loggedUserDetails.username!=user.username">
             <a v-if="this.loggedUserFollows==false && connectionStatus!='ACCEPT' && connectionStatus!='PENDING' && connectionStatus!='A_BLOCK_B' && connectionStatus!='B_BLOCK_A'" href="#button" class="btn btn-primary btn-round btn-lg" v-on:click="follow">Connect</a>
@@ -682,6 +683,7 @@ import { Tabs, TabPane } from '@/components';
 import ChangeProfile from "./Profile/ChangeProfile";
 import JobOffers from "./Job/JobOffers";
 import Connections from "./Connections";
+import Chatbox from "./Profile/Chatbox";
 window.addEventListener('scroll', HandleScroll )
 
 function HandleScroll(){
@@ -737,7 +739,8 @@ export default {
     TabPane,
     ChangeProfile,
     JobOffers,
-    Connections
+    Connections,
+    Chatbox
   },
   mounted: function() {
     this.newJobOffer.requiredSkills = new Array();
@@ -1526,26 +1529,11 @@ console.log(this.connectionStatus)
         width: 100%;
         transition: all .3s;
     }
-    #dkkd{
 
+    .customactive{
+      background-color: #999999;
+      color: white;
+      font-weight: bold;
+      border-radius: 20px;
     }
-/*!
- * Bootstrap v4.3.1 (https://getbootstrap.com/)
- * Copyright 2011-2019 The Bootstrap Authors
- * Copyright 2011-2019 Twitter, Inc.
- * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
- */
-
-
-.customactive{
-  background-color: #999999;
-  color: white;
-  font-weight: bold;
-  border-radius: 20px;
-}
-
-
-
-
-
 </style>

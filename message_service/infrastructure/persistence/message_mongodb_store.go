@@ -52,7 +52,12 @@ func (store *MessageMongoDBStore) Update(message *domain.Message) error {
 }
 
 func (store *MessageMongoDBStore) GetAllByUser(uuid string) ([]*domain.Message, error) {
-	filter := bson.M{"user_id": uuid}
+	filter := bson.D{
+		{"$or", bson.A{
+			bson.D{{"fromUser", uuid}},
+			bson.D{{"toUser", uuid}},
+		}},
+	}
 	return store.filter(filter)
 }
 
