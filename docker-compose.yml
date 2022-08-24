@@ -11,7 +11,7 @@ services:
         environment:
             AUTH_SERVICE_PORT: ${AUTHENTICATION_SERVICE_PORT}
             MONGO_DB_HOST: ${AUTHENTICATION_MONGO_DB_HOST_DOCKER}
-            MONGO_DB_PORT: ${MONGO_DB_PORT}      
+            MONGO_DB_PORT: ${MONGO_DB_PORT}
             USER_SERVICE_HOST: ${USER_SERVICE_HOST_DOCKER}
             USER_SERVICE_PORT: ${USER_SERVICE_PORT}
             GATEWAY_HOST: ${GATEWAY_HOST_DOCKER}
@@ -169,10 +169,13 @@ services:
         container_name: auth_mongo_db
         command: mongod --quiet --logpath /dev/null
         restart: on-failure
+        ports:
+            - '4001:27017'
+        volumes:
+            - auth_data:/data/db
         networks:
             - network
-        logging:
-            driver: none
+
 
 
     user_mongo_db:
@@ -180,30 +183,36 @@ services:
         container_name: user_mongo_db
         command: mongod --quiet --logpath /dev/null
         restart: on-failure
+        ports:
+            - '4002:27017'
+        volumes:
+            -   user_data:/data/db
         networks:
             - network
-        logging:
-            driver: none
 
     post_mongo_db:
         image: mongo
         container_name: post_mongo_db
         command: mongod --quiet --logpath /dev/null
         restart: on-failure
+        ports:
+            - '4003:27017'
+        volumes:
+            - posts_data:/data/db
         networks:
             - network
-        logging:
-            driver: none
 
     message_mongo_db:
         image: mongo
         container_name: message_mongo_db
         command: mongod --quiet --logpath /dev/null
         restart: on-failure
+        ports:
+            - '4004:27017'
+        volumes:
+            - message_data:/data/db
         networks:
             - network
-        logging:
-            driver: none
 
     neo4j:
         image: neo4j:4.3.3
@@ -230,6 +239,7 @@ services:
         environment:
             NEO4J_AUTH: none
             NEO4J_dbms_allow__upgrade: 'true'
+            NEO4J_dbms_connector_bolt_listen__address: ":7686"
         networks:
             - network
 
@@ -248,3 +258,13 @@ services:
 networks:
     network:
         driver: bridge
+
+volumes:
+    user_data:
+        name: user-database
+    posts_data:
+        name: posts-database
+    message_data:
+        name: message-database
+    auth_data:
+        name: auth-database

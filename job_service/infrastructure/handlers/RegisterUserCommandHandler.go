@@ -48,7 +48,10 @@ func (handler *RegisterUserCommandHandler) handle(command *events.RegisterUserCo
 		err, _ := handler.jobService.CreateUser(context.TODO(), command.User.Id, command.User.Username)
 		if err.Status != 201 {
 			reply.Type = events.JobNodeFailedToCreate
-			println("Failed to create register_user_handler " + string(err.Status))
+			print("Failed to create register_user_handler " + string(err.Status))
+			print(err.Status)
+			print(err.Msg)
+			println("")
 		} else {
 			reply.Type = events.JobNodeCreated
 			println("user node created")

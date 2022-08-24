@@ -22,20 +22,24 @@ func NewAuthenticationService(store domain.UserStore, orchestrator *orchestrator
 }
 
 func (service *AuthenticationService) Login(credentials *domain.Credentials) (*domain.Token, error) {
+	println("in login" + (*credentials).Username)
 	dbUser, _ := service.store.GetByUsername((*credentials).Username)
 	if (*dbUser).Username == "" {
+		println("Bsd credentials")
 		err := errors.New("bad credentials")
 		return nil, err
 	}
 
 	isPasswordCorrect := service.jwtManager.CheckPasswordHash((*credentials).Password, (*dbUser).Password)
 	if !isPasswordCorrect {
+		println("Password  is wrong")
 		err := errors.New("bad credentials")
 		return nil, err
 	}
 
 	validToken, err := service.jwtManager.GenerateJWT((*dbUser).Username, (*dbUser).Role)
 	if err != nil {
+		println("failed to generate token")
 		err := errors.New("failed to generate token")
 		return nil, err
 	}
@@ -44,6 +48,7 @@ func (service *AuthenticationService) Login(credentials *domain.Credentials) (*d
 	token.Username = (*dbUser).Username
 	token.Role = (*dbUser).Role
 	token.TokenString = validToken
+	println("uspesno je proslo!")
 
 	return &token, nil
 }

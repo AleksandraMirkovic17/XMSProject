@@ -99,8 +99,10 @@ export default {
                   this.$router.push("/profile/"+response.data.username)
                 }
             })
-            .catch(error =>
-              console.log(error)
+            .catch(error => {
+                  console.log(error)
+                  alert("It is impossible to login!")
+                }
             );
         }
     }

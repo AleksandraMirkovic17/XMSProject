@@ -5,7 +5,7 @@ import (
 	"github.com/neo4j/neo4j-go-driver/v4/neo4j"
 )
 
-const database = "USE JOBS "
+var database = "USE JOBS "
 
 func createUserNode() {
 
@@ -13,13 +13,19 @@ func createUserNode() {
 
 func initGraphDB(transaction neo4j.Transaction) error {
 	_, err := transaction.Run(
-		"CREATE DATABSE jobs IF NOT EXISTS ",
+		"CREATE DATABASE jobs IF NOT EXISTS ",
 		map[string]interface{}{})
 	if err != nil {
+		println("Database uspesno kreiran")
 		cypherText := string(database) + " CREATE (Advokat:JOB{position:advokat})"
 		_, err = transaction.Run(
 			cypherText,
 			map[string]interface{}{})
+	}
+	println("database mozda nije uspesno kreiran")
+	if err != nil {
+		println("Moramo koristiti deaultni database")
+		database = ""
 	}
 
 	return err

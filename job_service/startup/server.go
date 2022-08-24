@@ -103,7 +103,7 @@ func (server *Server) initNeo4J() *neo4j.Driver {
 
 func (server *Server) initJobStore(client *neo4j.Driver) domain.JobStore {
 	store := persistence.NewJobDBStore(client)
-	//store.Init()
+	store.Init()
 	return store
 }
 

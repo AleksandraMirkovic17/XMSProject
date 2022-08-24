@@ -24,6 +24,8 @@ func NewAuthenticationHandler(service *application.AuthenticationService) *Authe
 }
 
 func (handler *AuthenticationHandler) Login(ctx context.Context, request *pb.LoginRequest) (*pb.Token, error) {
+	println("Starting login")
+	println(request.Credentials.Username + " " + request.Credentials.Password)
 	credentials := mapCredentialsToDomain(request.Credentials)
 	token, err := handler.service.Login(credentials)
 

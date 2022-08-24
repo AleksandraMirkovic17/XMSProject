@@ -167,7 +167,7 @@ func (j JobDBStore) CreateUser(ctx context.Context, userID string, username stri
 			println("Already existing user!")
 			return actionResult, nil
 		}
-
+		println("here before transaction.run")
 		_, err := transaction.Run(
 			database+"CREATE (new_user:USERJOB{userID:$userID, username:$username})",
 			map[string]interface{}{"userID": userID, "username": username})

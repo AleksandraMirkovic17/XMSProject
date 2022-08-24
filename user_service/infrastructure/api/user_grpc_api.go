@@ -22,6 +22,7 @@ func NewUserHandler(service *application.UserService, updateUserOrchestrator *or
 }
 
 func (handler *UserHandler) GetAll(ctx context.Context, request *pb.GetUserBySearchParamsRequest) (*pb.GetAllUserResponse, error) {
+	println("getting all users")
 	users, err := handler.service.GetAllByUsernameAndNameAndSurname(request.Username, request.Username, request.Username)
 	if err != nil {
 		return nil, err

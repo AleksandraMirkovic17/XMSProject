@@ -178,11 +178,14 @@ func (store *UserMongoDBStore) Search(searchText string) (*[]domain.User, error)
 }
 
 func (store *UserMongoDBStore) Delete(user *domain.User) error {
-	println("brisanje usera iz user store")
+	println("brisanje usera iz user store" + user.Username)
 	err := store.Delete(user)
 	if err != nil {
+		println("err")
+		println(err)
 		return err
 	}
+	println("nema errora obrisano je user " + user.Username)
 	return nil
 }
 
