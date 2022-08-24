@@ -30,9 +30,7 @@ import com.agentska.jwt.JwtUtils;
 
 @RestController
 @RequestMapping(
-		value = {"/api"},
-		produces = {"application/json"}
-)
+		value = {"/api"})
 public class UserController {
 	@Autowired
 	UserService userService;
@@ -85,16 +83,8 @@ public class UserController {
 	}
 
 
-	@RequestMapping(
-			method = {RequestMethod.POST},
-			value = {"/users/register"},
-			consumes = {"application/json"},
-			produces = {"application/json"}
-	)
-	@CrossOrigin(
-			origins = {"*"}
-	)
-	//@PostMapping("users/register")
+
+	@PostMapping("/users/register")
 	@PreAuthorize("not(isAuthenticated())")
 	public ResponseEntity<String> register(@RequestBody UserDTO signUpRequest, HttpServletRequest request)
 	{

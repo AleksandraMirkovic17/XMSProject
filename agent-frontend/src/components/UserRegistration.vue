@@ -28,6 +28,7 @@ Registration</button>
 <script>
 
 import axios from 'axios'
+import {devServer} from "../../vue.config";
 
 export default{
     data(){
@@ -49,7 +50,7 @@ export default{
       this.CheckIfFieldsAreFilled();
 
       if(this.fieldsFilled && this.passwordValid){
-        axios.post('http://localhost:8080/api/users/register',
+        axios.post(devServer.proxy+'api/users/register',
             {
               "username": this.username,
               "email": this.email,

@@ -19,6 +19,14 @@ id, name) VALUES (
 3,'OWNER');
 
 
+INSERT INTO public.user_roles(
+user_id, role_id) VALUES (
+500,2);
+INSERT INTO public.user_roles(
+user_id, role_id) VALUES (
+501,2);
+
+
 
 
 

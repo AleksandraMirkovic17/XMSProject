@@ -44,13 +44,9 @@ public class AuthController {
 	UserService userService;
 	@RequestMapping(
 			method = {RequestMethod.POST},
-			value = {"auth/login"},
-			consumes = {"application/json"},
-			produces = {"application/json"}
+			value = {"auth/login"}
 	)
-	@CrossOrigin(
-			origins = {"*"}
-	)
+
 	public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginDTO loginRequest) {
 		Authentication authentication = authenticationManager.authenticate(
 				new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));

@@ -31,7 +31,6 @@ import com.agentska.service.CompanyService;
 import com.agentska.service.UserDetailsServiceImpl;
 import com.agentska.service.UserService;
 
-@CrossOrigin(origins = "http://localhost:8081")
 @RestController
 @RequestMapping("/api")
 public class CompanyController {
