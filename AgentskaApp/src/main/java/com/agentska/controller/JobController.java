@@ -76,79 +76,33 @@ public class JobController {
 	@PostMapping("/job/{companyId}")
 	@PreAuthorize("isAuthenticated()")
 	public ResponseEntity<Job> createJob(@PathVariable int companyId, @RequestBody JobCreationDTO jobDTO) {
-		System.out.println("1");
 		try {
-			System.out.println("2");
 			Company company = null;
 			User currentUser = getCurrentUser();
-			List<Company> companies = companyService.findByOwnerId(currentUser.getId());
+			company = companyService.findById(companyId);
+			/*
+			List<Company> companies = companyService.findByOwnerId(currentUser.getId()); //Ovo je jako glupo napisano TODO: ispraviti
 			for (Company c : companies) {
 				if (c.getId() == companyId) {
 					company = c;
 					break;
 				}
 			}
-			System.out.println("3");
 			if (company == null) {
 				return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 			}
-			System.out.println("4");
+			*/
+			if (company.getOwner().getId() == currentUser.getId()) {
+				return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+			}
 			Job job = new Job(jobDTO, company);
-			System.out.println("5");
 			Job _job = jobService.createJob(job, jobDTO.getRequirements());
-			System.out.println("6");
 			return new ResponseEntity<>(_job, HttpStatus.CREATED);
 		} catch (Exception e) {
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 	
-	/*
-	@PutMapping("/job/{id}")
-	@PreAuthorize("isAuthenticated()")
-	public ResponseEntity<Job> updateJob(@PathVariable("id") Integer id, @RequestBody JobDTO jobDTO) {
-		try {
-			User currentUser = getCurrentUser();
-			Job job = jobService.findById(id);
-			if (job == null)
-				return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-			if (currentUser.getId() != job.getOwner().getId())
-				return new ResponseEntity<>(null, HttpStatus.FORBIDDEN); // Da li je forbidden kad menja tudji resurs?
-			if (!job.isValidated())
-				return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
-			job.setName(jobDTO.getName());
-			job.setDescription(jobDTO.getDescription());
-			job.setContactInfo(jobDTO.getContactInfo());
-			return new ResponseEntity<>(jobService.save(job), HttpStatus.OK);
-		} catch (Exception e) {
-			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-	}
-	*/
-	
-	/*
-	@DeleteMapping("/job/{id}")
-	@PreAuthorize("isAuthenticated()")
-	public ResponseEntity<HttpStatus> deleteJob(@PathVariable("id") Integer id) {
-		try {
-			System.out.println("FFFF1");
-			User currentUser = getCurrentUser();
-			Job job = jobService.findById(id);
-			if (job == null)
-				return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-			if (currentUser.getId() != job.getOwner().getId())
-				return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
-			System.out.println("FFFF2");
-			System.out.println(id);
-			jobService.deleteById(id);
-			System.out.println("FFFF3");
-			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-	}
-	*/
 	private User getCurrentUser() {
 		String currentUserEmail = SecurityContextHolder.getContext().getAuthentication().getName();
 		return userService.findByEmail(currentUserEmail);
