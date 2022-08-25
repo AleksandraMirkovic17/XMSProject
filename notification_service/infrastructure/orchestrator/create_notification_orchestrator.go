@@ -31,15 +31,16 @@ func (o *CreateNotificationOrchestrator) handle(reply *events.CreateNotification
 	}
 }
 
-/*func (o *CreateNotificationOrchestrator) Start(userDetails events.NotificationDetails) error {
+func (o *CreateNotificationOrchestrator) Start(NotificationDetails events.NotificationDetails) error {
 	event := &events.CreateNotificationCommand{
-		Type: events.AuthenticationServiceRegisterUpdate,
-		User: userDetails,
+		Type:         events.CreateNotification,
+		Notification: NotificationDetails,
 	}
 
 	return o.commandPublisher.Publish(event)
 }
 
+/*
 func (o *RegisterUserOrchestrator) nextCommandType(reply events.RegisterUserReplyType) events.RegisterUserCommandType {
 	switch reply {
 	case events.UserProfileCreated:

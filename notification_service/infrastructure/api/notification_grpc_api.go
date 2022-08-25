@@ -34,13 +34,8 @@ func (handler *NotificationHandler) CreateNotification(ctx context.Context, requ
 		Date:    time.Now(),
 	})
 
-	response := &pb.NewNotification{
-		Content: "TEST",
-	}
-	return response, nil
-}
-
-func (handler *NotificationHandler) IsAuthorized(ctx context.Context, request *pb.AuthorizationRequest) (*pb.AuthorizationResponse, error) {
-
+	/*response := &pb.NewNotification{
+		Notification.Content: "TEST",
+	}*/
 	return nil, nil
 }

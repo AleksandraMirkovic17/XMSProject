@@ -1,12 +1,12 @@
 package create_notification
 
 type NotificationDetails struct {
-	string id = 1;
-	string user = 2;
-	string content = 3;
-	string url = 4;
-	bool seen = 5;
-	google.protobuf.Timestamp date = 6;
+	Id 		string
+	User 	string
+	Content string
+	Url		string
+	Seen	bool
+	Date 	google.protobuf.Timestamp
 }
 
 type CreateNotificationCommandType int8

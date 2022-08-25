@@ -4,7 +4,6 @@ go 1.18
 
 require (
 	github.com/dislinked/common v0.0.0-00010101000000-000000000000
-	github.com/golang-jwt/jwt/v4 v4.4.2
 	github.com/joho/godotenv v1.4.0
 	google.golang.org/grpc v1.47.0
 )
