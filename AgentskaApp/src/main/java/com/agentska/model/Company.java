@@ -1,13 +1,6 @@
 package com.agentska.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import com.agentska.dto.CompanyDTO;
 import com.agentska.dto.CompanyRegisterDTO;
@@ -17,7 +10,9 @@ import com.agentska.dto.CompanyRegisterDTO;
 public class Company {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@SequenceGenerator(name = "company_sequence_generator", sequenceName = "company_sequence", initialValue = 100)
+
+	@GeneratedValue(strategy = GenerationType.IDENTITY,generator = "company_sequence_generator")
 	protected Integer id;
 	
 	@ManyToOne
