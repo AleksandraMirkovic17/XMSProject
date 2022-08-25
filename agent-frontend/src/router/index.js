@@ -4,7 +4,7 @@ import UserRegistration from '../components/UserRegistration.vue'
 import UserLogin from '../components/UserLogin.vue'
 import RegistrationCompany from '../components/RegistrationCompany.vue'
 import ConfirmCompany from '../components/ConfirmCompany.vue'
-
+import UserHomePage from '../components/UserHomePage.vue'
 import ListingCompany from '../components/ListingCompany.vue'
 
 
@@ -45,6 +45,12 @@ const routes = [
         path: '/listingCompany',
         name: 'listingCompany',
         component: ListingCompany
+       },
+
+       {
+        path: '/userHomePage',
+        name: 'userHomePage',
+        component: UserHomePage
        }
 
 

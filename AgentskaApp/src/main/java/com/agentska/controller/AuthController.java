@@ -7,6 +7,7 @@ import javax.validation.Valid;
 import com.agentska.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -42,11 +43,14 @@ public class AuthController {
 	JwtUtils jwtUtils;
 	@Autowired
 	UserService userService;
+
 	@RequestMapping(
 			method = {RequestMethod.POST},
-			value = {"auth/login"}
+			value = {"auth/login"},
+			consumes = MediaType.APPLICATION_JSON_VALUE,produces = MediaType.APPLICATION_JSON_VALUE
 	)
 
+	@CrossOrigin(origins = "*")
 	public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginDTO loginRequest) {
 		Authentication authentication = authenticationManager.authenticate(
 				new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));

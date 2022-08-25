@@ -34,7 +34,7 @@
 </template>
 <script>
 import axios from 'axios'
-
+import {devServer} from "../../vue.config";
 
 //import {onBeforeMount} from "vue";
 export default{
@@ -57,7 +57,7 @@ export default{
         this.CheckIfEmpty()
         if(!this.fieldEmpty){
           axios
-              .post('http://localhost:8080/api/auth/login',
+              .post(devServer.proxy+'api/auth/login',
               {
                 "email": this.email,
                 "password": this.password
@@ -69,14 +69,18 @@ export default{
                 }
                     localStorage.setItem('token', JSON.stringify(response.data.accessToken));
                     let token = localStorage.getItem('token').substring(1, localStorage.getItem('token').length-1);
-                     axios.get('http://localhost:8080/api/auth/user_data', {
+                     axios.get(devServer.proxy+'api/auth/user_data', {
                     headers: {
                     'Authorization' : 'Bearer ' + token,
                   }
                     })
                .then(response1 => {
                      this.loggedUser =response1.data
-                     console.log(response1.data.userType)
+                     console.log(response1.data)
+
+                      let router = this.$router;
+                      router.push('/userHomePage')
+                      return;
               })
               })
           .catch((err)=>
