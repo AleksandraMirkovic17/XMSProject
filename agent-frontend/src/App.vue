@@ -1,5 +1,5 @@
 <template>
-  <nav class = "navbar navbar-expand-lg bg-dark navbar-dark mainavbar" style="height: 8%">
+  <nav class = "navbar navbar-expand-lg bg-dark navbar-dark mainavbar" style="height: 7%; position: fixed;">
     <div class="container">
       <a  class="navbar-brand" href="/home">Agent application</a>
       <div class="collapse navbar-collapse">

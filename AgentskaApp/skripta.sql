@@ -26,6 +26,14 @@ INSERT INTO public.user_roles(
 user_id, role_id) VALUES (
 501,2);
 
+INSERT INTO public.company (
+id, contact_info, description, name, validated, owner_id) VALUES (
+1, 'neki tamo kontakt', 'losa kompanija1', 'IGOR', true, 500);
+INSERT INTO public.company (
+id, contact_info, description, name, validated, owner_id) VALUES (
+2, 'caos', 'losa kompanija', 'IGOR2', true, 500);
+
+
 
 
 

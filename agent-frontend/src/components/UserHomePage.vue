@@ -4,20 +4,46 @@
     <div class="sidebar-logo">
       {{loggedUser.username}} 
     </div>
-  </div>
+ 
+  <ul class="sidebar-navigation">
+      <li class="header">Company</li>
+      <li>
+        <a v-on:click="DisplayRegistrationCompany()">
+          <i class="fa fa-plus" aria-hidden="true"></i> Registration company
+        </a>
+      </li>
+      <li>
+        <a v-on:click="DisplayListingCompany()">
+          <i class="fa fa-plus" aria-hidden="true"></i> Listing company
+        </a>
+      </li>
+  </ul>
 </div>
+ <div class="router-elem">
+    <div v-if="display == 'registration'">
+      <RegistrationCompanyVue></RegistrationCompanyVue>
+    </div>
+      <div v-if="display=='listing'">
+      <ListingCompanyVue></ListingCompanyVue>
+    </div>
+  </div>
+ </div>
 </template>
 
 <script>
 
 import axios from "axios";
 import {devServer} from "../../vue.config";
+import RegistrationCompanyVue from "./RegistrationCompany.vue";
+import ListingCompanyVue from "./ListingCompany.vue";
 
 export default{
   name: "userHomePage",
+  components: {RegistrationCompanyVue,ListingCompanyVue},
     data: function(){
         return{
-            loggedUser:null
+            loggedUser:null,
+            display: ''
         }
     },
     mounted(){
@@ -32,7 +58,20 @@ export default{
       this.loggedUser =response.data
       console.log("Ovaj user je ulogovan:", this.loggedUser.roles[0].name)
     })
+    },
+    methods:
+    {
+
+        DisplayRegistrationCompany()
+        {
+            this.display='registration';
+        },
+        DisplayListingCompany()
+        {
+            this.display='listing';
+        }
     }
+
 }
 </script>
 <style scoped>
@@ -110,6 +149,7 @@ b-example-divider {
 
 .sidebar-container {
   position: fixed;
+  z-index: 9;
   width: 220px;
   height: 100%;
   padding-top: 2%;
@@ -118,8 +158,6 @@ b-example-divider {
   overflow-y: auto;
   background: #1a1a1a;
   color: #fff;
-   margin-top: 20%;
-  padding: 0;
 }
 
 .content-container {
@@ -198,9 +236,7 @@ b-example-divider {
 
 .side-bov{
   position: fixed;
-  margin-top: 0%;
+  margin-top: 3%;
 }
 
 </style>
-
-  

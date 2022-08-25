@@ -42,7 +42,7 @@ public class CompanyController {
 	UserDetailsServiceImpl userDetailsServiceImpl;
 	
 	@GetMapping("/company")
-	public ResponseEntity<List<Company>> getAllCompanies(@RequestParam(required = false) String title) {
+	public ResponseEntity<List<Company>> getAllCompanies() {
 		try {
 			List<Company> companies = companyService.findAll();
 			return new ResponseEntity<>(companies, HttpStatus.OK);
