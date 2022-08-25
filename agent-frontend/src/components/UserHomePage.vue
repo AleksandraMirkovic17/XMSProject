@@ -43,12 +43,12 @@ export default{
     data: function(){
         return{
             loggedUser:null,
-            display: ''
+            display: '',
+            token: ''
         }
     },
     mounted(){
-    
-   this.token = localStorage.getItem('token').substring(1, localStorage.getItem('token').length-1);
+     this.token = localStorage.getItem('token').substring(1, localStorage.getItem('token').length-1);
     axios.get(devServer.proxy+'api/auth/user_data', {
       headers: {
         'Authorization' : 'Bearer ' + this.token,

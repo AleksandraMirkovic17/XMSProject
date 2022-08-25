@@ -41,10 +41,10 @@ export default{
     },
      mounted(){
     
-   this.token = localStorage.getItem('token').substring(1, localStorage.getItem('token').length-1);
+   let token = localStorage.getItem('token').substring(1, localStorage.getItem('token').length-1);
     axios.get(devServer.proxy+'api/auth/user_data', {
       headers: {
-        'Authorization' : 'Bearer ' + this.token,
+        'Authorization' : 'Bearer ' + token,
       }
     })
     .then(response => {
@@ -55,6 +55,9 @@ export default{
     methods:{
     Registration()
     {
+         let token = localStorage.getItem('token').substring(1, localStorage.getItem('token').length-1);
+         console.log(token)
+
       if(this.name=='' || this.contactInfo=='' || this.description=='')
       {
         alert('fill in all the fields')
@@ -65,7 +68,11 @@ export default{
               "name": this.name,
               "description": this.description,
               "contactInfo": this.contactInfo
+            },  {
+            headers: {
+              'Authorization' : 'Bearer ' + token,
             }
+          }
             )
             .then(response => {
               alert(response.data)
