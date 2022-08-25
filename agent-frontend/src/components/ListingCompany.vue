@@ -6,7 +6,7 @@
         <h1 class="display-4" style="color:black">All company</h1>  
     </header>
     <div v-for="c in companies" :key="c.id" class="row py-5">
-        <div v-if="c.owner.username != loggedUser.username" class="col-lg-7 mx-auto">
+        <div v-if="c.owner.username != loggedUser.username && c.validated==true" class="col-lg-7 mx-auto">
             <div  class="card shadow mb-4">
                 <div class="card-body p-5">
                     <h4 class="mb-4">{{c.name}}</h4>
@@ -24,14 +24,72 @@
         </div>
         
     </div>
-
-    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" >
-      <div class="modal-dialog">
+    
+    <div class="modal fade " id="staticBackdrop"  data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" >
+      <div class="modal-dialog  modal-lg">
+        
         <div class="modal-content">
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary" data-bs-dismiss="modal" >Create report</button>
+             <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+              Add comment
+            </button>    
+             <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+              Add interview comment
+            </button>    
+             <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+              Add sallary comment
+            </button>  
+          <ul class="nav">
+  <li class="nav-item">
+    <a class="nav-link active" href="#">Comments</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="#">Job offer</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="#">Interview</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link " href="#">Salaries</a>
+  </li>
+</ul>
+    <div class="modal-footer">
+            
+<table class="table table-striped table-hover">
+        <thead>
+        <tr>
+          <th scope="col">Comment</th>
+          <th scope="col">Username</th>
+     
+        </tr>
+        </thead>
+        <tbody>
+        <tr style="align-content: center" data-toggle="modal" >
+          <td> Nesto ovde pise</td>
+          <td  style="align-content: center"> i ovde isto </td>
+          
+        </tr>
+         <tr style="align-content: center" data-toggle="modal" >
+          <td> Nesto ovde pise</td>
+          <td  style="align-content: center"> i ovde isto </td>
+          
+        </tr>
+         <tr style="align-content: center" data-toggle="modal" >
+          <td> Nesto ovde pise</td>
+          <td  style="align-content: center"> i ovde isto </td>
+        
+        </tr>
+         <tr style="align-content: center" data-toggle="modal" >
+          <td> Nesto ovde pise</td>
+          <td  style="align-content: center"> i ovde isto </td>
+        </tr>
+        
+        </tbody>
+      </table>
+
+      
+            
           </div>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
         </div>
       </div>
     </div>

@@ -18,13 +18,63 @@
       </div>
       
 <hr>
-      <button class="w-100 btn btn-primary btn-lg" type="submit">Register a company </button>
+      <button class="w-100 btn btn-primary btn-lg" type="button" v-on:click="Registration">Register a company </button>
     </form>
 
   </div>
 
 
 </template>
+<script>
+
+import axios from 'axios'
+import {devServer} from "../../vue.config";
+
+export default{
+    data(){
+        return{
+          name: '',
+          description: '',
+          contactInfo: '',
+          loggedUser: null
+        }
+    },
+     mounted(){
+    
+   this.token = localStorage.getItem('token').substring(1, localStorage.getItem('token').length-1);
+    axios.get(devServer.proxy+'api/auth/user_data', {
+      headers: {
+        'Authorization' : 'Bearer ' + this.token,
+      }
+    })
+    .then(response => {
+      this.loggedUser =response.data
+      console.log("Ovaj user je ulogovan:", this.loggedUser.roles[0].name)
+    })
+    },
+    methods:{
+    Registration()
+    {
+      if(this.name=='' || this.contactInfo=='' || this.description=='')
+      {
+        alert('fill in all the fields')
+        return;
+      }
+      axios.post(devServer.proxy+'api/company',
+            {
+              "name": this.name,
+              "description": this.description,
+              "contactInfo": this.contactInfo
+            }
+            )
+            .then(response => {
+              alert(response.data)
+              
+       });
+    }
+    }
+}
+</script>
 
 <style scoped>
 .adventure-registration{
