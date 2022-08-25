@@ -2,14 +2,18 @@ package api
 
 import (
 	"NotificationService/application"
+	"NotificationService/infrastructure/orchestrator"
 	"context"
+	"time"
 
 	pb "github.com/dislinked/common/proto/notification_service"
+	events "github.com/dislinked/common/saga/create_notification"
 )
 
 type NotificationHandler struct {
 	pb.UnimplementedNotificationServiceServer
-	service *application.NotificationService
+	service                        *application.NotificationService
+	CreateNotificationOrchestrator *orchestrator.CreateNotificationOrchestrator
 }
 
 func NewNotificationHandler(service *application.NotificationService) *NotificationHandler {
@@ -18,22 +22,25 @@ func NewNotificationHandler(service *application.NotificationService) *Notificat
 	}
 }
 
-func (handler *NotificationHandler) GetAllNotifications(ctx context.Context, request *pb.GetAllNotificationsRequest) (*pb.GetAllNotificationsResponse, error) {
-	return handler.service.GetAllNotifications(ctx, request)
+func (handler *NotificationHandler) CreateNotification(ctx context.Context, request *pb.NewNotification) (*pb.NewNotification, error) {
+	notification := mapNotificationToDomain(request.Notification)
+	handler.service.Insert(notification)
+	handler.CreateNotificationOrchestrator.Start(events.NotificationDetails{
+		Id:      request.Notification.Id,
+		User:    request.Notification.User,
+		Content: request.Notification.Content,
+		Url:     request.Notification.Url,
+		Seen:    false,
+		Date:    time.Now(),
+	})
+
+	response := &pb.NewNotification{
+		Content: "TEST",
+	}
+	return response, nil
 }
 
-func (handler *NotificationHandler) MarkAllAsSeen(ctx context.Context, request *pb.MarkAllAsSeenRequest) (*pb.MarkAllAsSeenResponse, error) {
-	return handler.service.MarkAllAsSeen(ctx, request)
-}
+func (handler *NotificationHandler) IsAuthorized(ctx context.Context, request *pb.AuthorizationRequest) (*pb.AuthorizationResponse, error) {
 
-func (handler *NotificationHandler) InsertNotification(ctx context.Context, request *pb.InsertNotificationRequest) (*pb.InsertNotificationRequestResponse, error) {
-	return handler.service.InsertNotification(ctx, request)
-}
-
-func (handler *NotificationHandler) GetUserSettings(ctx context.Context, request *pb.GetUserSettingsRequest) (*pb.GetUserSettingsResponse, error) {
-	return handler.service.GetUserSettings(ctx, request)
-}
-
-func (handler *NotificationHandler) UpdateUserSettings(ctx context.Context, request *pb.UpdateUserSettingsRequest) (*pb.GetUserSettingsResponse, error) {
-	return handler.service.UpdateUserSettings(ctx, request)
+	return nil, nil
 }
