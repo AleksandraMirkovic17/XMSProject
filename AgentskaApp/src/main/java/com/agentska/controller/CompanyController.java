@@ -86,7 +86,10 @@ public class CompanyController {
 	}
 	
 	@PutMapping("/company/validate/{id}")
-	@PreAuthorize("hasRole('ADMINISTRATOR') and isAuthenticated()")
+	//@PreAuthorize("hasRole('ADMINISTRATOR')")
+	@CrossOrigin(
+			origins = {"*"}
+	)
 	public ResponseEntity<Company> validateCompany(@PathVariable("id") Integer id) {
 		System.out.println("ffffff");
 		try {

@@ -5,7 +5,7 @@
       {{loggedUser.username}} 
     </div>
  
-  <ul class="sidebar-navigation">
+  <ul v-if="loggedUser.roles[0].name=='USER'" class="sidebar-navigation">
       <li class="header">Company</li>
       <li>
         <a v-on:click="DisplayRegistrationCompany()">
@@ -18,6 +18,14 @@
         </a>
       </li>
   </ul>
+  <ul v-if="loggedUser.roles[0].name=='ADMINISTRATOR'" class="sidebar-navigation">
+      <li class="header">See all company request</li>
+      <li>
+        <a v-on:click="DisplayAllCompanyRequest()">
+          <i class="fa fa-plus" aria-hidden="true"></i> Companies request
+        </a>
+      </li>
+  </ul>
 </div>
  <div class="router-elem">
     <div v-if="display == 'registration'">
@@ -25,6 +33,9 @@
     </div>
       <div v-if="display=='listing'">
       <ListingCompanyVue></ListingCompanyVue>
+    </div>
+    <div v-if="display=='request'">
+      <ConfirmCompanyVue></ConfirmCompanyVue>
     </div>
   </div>
  </div>
@@ -36,10 +47,11 @@ import axios from "axios";
 import {devServer} from "../../vue.config";
 import RegistrationCompanyVue from "./RegistrationCompany.vue";
 import ListingCompanyVue from "./ListingCompany.vue";
+import ConfirmCompanyVue from "./ConfirmCompany.vue";
 
 export default{
   name: "userHomePage",
-  components: {RegistrationCompanyVue,ListingCompanyVue},
+  components: {RegistrationCompanyVue,ListingCompanyVue,ConfirmCompanyVue},
     data: function(){
         return{
             loggedUser:null,
@@ -69,6 +81,10 @@ export default{
         DisplayListingCompany()
         {
             this.display='listing';
+        },
+        DisplayAllCompanyRequest()
+        {
+          this.display='request';
         }
     }
 
