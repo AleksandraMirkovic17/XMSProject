@@ -6,6 +6,7 @@ import RegistrationCompany from '../components/RegistrationCompany.vue'
 import ConfirmCompany from '../components/ConfirmCompany.vue'
 import UserHomePage from '../components/UserHomePage.vue'
 import ListingCompany from '../components/ListingCompany.vue'
+import OwnerCompany from '../components/OwnerCompany.vue'
 
 
 
@@ -51,6 +52,11 @@ const routes = [
         path: '/userHomePage',
         name: 'userHomePage',
         component: UserHomePage
+       },
+       {
+        path: '/ownerCompany',
+        name: 'ownerCompany',
+        component: OwnerCompany
        }
 
 

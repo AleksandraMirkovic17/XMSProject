@@ -27,7 +27,7 @@ user_id, role_id) VALUES (
 500,2);
 INSERT INTO public.user_roles(
 user_id, role_id) VALUES (
-501,2);
+501,3);
 INSERT INTO public.user_roles(
 user_id, role_id) VALUES (
 502,1);
@@ -35,10 +35,10 @@ user_id, role_id) VALUES (
 
 INSERT INTO public.company (
 id, contact_info, description, name, validated, owner_id) VALUES (
-1, 'neki tamo kontakt', 'losa kompanija1', 'IGOR', false, 500);
+1, 'neki tamo kontakt', 'losa kompanija1', 'IGOR', true, 501);
 INSERT INTO public.company (
 id, contact_info, description, name, validated, owner_id) VALUES (
-2, 'caos', 'losa kompanija', 'IGOR2', true, 500);
+2, 'caos', 'losa kompanija', 'IGOR2', true, 501);
 
 
 

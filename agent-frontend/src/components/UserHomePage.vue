@@ -5,7 +5,7 @@
       {{loggedUser.username}} 
     </div>
  
-  <ul v-if="loggedUser.roles[0].name=='USER'" class="sidebar-navigation">
+  <ul v-if="loggedUser.roles[0].name=='USER' || loggedUser.roles[0].name=='OWNER'" class="sidebar-navigation">
       <li class="header">Company</li>
       <li>
         <a v-on:click="DisplayRegistrationCompany()">
@@ -15,6 +15,11 @@
       <li>
         <a v-on:click="DisplayListingCompany()">
           <i class="fa fa-plus" aria-hidden="true"></i> Listing company
+        </a>
+      </li>
+      <li v-if="loggedUser.roles[0].name=='OWNER'">
+        <a v-on:click="DisplayYourCompany()">
+          <i class="fa fa-plus" aria-hidden="true"></i> See you company
         </a>
       </li>
   </ul>
@@ -37,6 +42,9 @@
     <div v-if="display=='request'">
       <ConfirmCompanyVue></ConfirmCompanyVue>
     </div>
+    <div v-if="display=='companies'">
+      <OwnerCompanyVue></OwnerCompanyVue>
+    </div>
   </div>
  </div>
 </template>
@@ -48,10 +56,11 @@ import {devServer} from "../../vue.config";
 import RegistrationCompanyVue from "./RegistrationCompany.vue";
 import ListingCompanyVue from "./ListingCompany.vue";
 import ConfirmCompanyVue from "./ConfirmCompany.vue";
+import OwnerCompanyVue from "./OwnerCompany.vue"
 
 export default{
   name: "userHomePage",
-  components: {RegistrationCompanyVue,ListingCompanyVue,ConfirmCompanyVue},
+  components: {RegistrationCompanyVue,ListingCompanyVue,ConfirmCompanyVue,OwnerCompanyVue},
     data: function(){
         return{
             loggedUser:null,
@@ -85,6 +94,10 @@ export default{
         DisplayAllCompanyRequest()
         {
           this.display='request';
+        },
+        DisplayYourCompany()
+        {
+          this.display='companies';
         }
     }
 
