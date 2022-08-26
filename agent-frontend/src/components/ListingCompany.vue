@@ -111,7 +111,8 @@ import {devServer} from "../../vue.config";
 export default{
     data(){
         return{
-           companies: null
+           companies: null,
+           loggedUser: null
         }
     },
     mounted(){

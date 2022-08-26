@@ -29,16 +29,18 @@
       <div class="modal-dialog  modal-lg">
         
         <div class="modal-content">
+          <div v-if="edit==false && adding==false">
              <button class="btn btn-primary" v-on:click="DisplayEdit">
               Edit
             </button>    
-             <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+             <button class="btn btn-primary" v-on:click="DisplayJobOffer">
               Add job offer
             </button>
+          </div>
             
             <div class="modal-body" v-if="edit==true">
         <form>
-      <h3 class="mb-3">Company registration</h3>
+      <h3 class="mb-3">Company information</h3>
       <div class="col-11">
         <label for="adventure-name" class="form-label">Company id</label>
         <input type="text" class="form-control" id="adventure-name" placeholder="E.g. Titanic" v-model = "id" disabled>
@@ -66,8 +68,48 @@
           
 
       </form>
+
+      
       </div>
-          <ul class="nav" v-if="edit==false">
+       <div class="modal-body" v-if="adding==true">
+        <form>
+      <h3 class="mb-3">Create jobOffer</h3>
+      <div class="col-11">
+        <label for="job-position" class="form-label">Position</label>
+        <input type="text" class="form-control" id="job-position" placeholder="E.g. Titanic" v-model = "position" >
+      </div>
+      <div class="col-11">
+        <label for="job-description" class="form-label">Description</label>
+        <input type="text" class="form-control" id="job-description" placeholder="E.g. Titanic" v-model = "description1" required>
+      </div>
+
+      <div class="col-11">
+        <label for="job-date" class="form-label">Creation date</label>
+        <input type="datetime-local" class="form-control" id="job-date" placeholder="E.g. Titanic" v-model = "creationDate" required>
+      </div>
+
+      <div class="col-11">
+        <label for="job-due" class="form-label">Due Date</label>
+        <input type="datetime-local" class="form-control" id="job-due" placeholder="E.g. Titanic" v-model = "dueDate" required>
+      </div>
+      <div class="col-11">
+        <label for="job-req" class="form-label">Requirements</label>
+        <input type="text" class="form-control" id="job-req" placeholder="E.g. Titanic"  required>
+        <button class="btn btn-primary " type="button" v-on:click="AddRequirment">Add requirement </button>
+      </div>
+      <br>
+       <div class="modal-footer">
+          <button class="btn btn-primary " type="button" v-on:click="SaveJob">Save </button>
+        
+             <button type="button" class="btn btn-secondary" v-on:click="CloseJob">Close</button>
+       </div>
+          
+
+      </form>
+
+      
+      </div>
+          <ul class="nav" v-if="edit==false && adding==false">
   <li class="nav-item">
     <a class="nav-link active" href="#">Comments</a>
   </li>
@@ -81,7 +123,7 @@
     <a class="nav-link " href="#">Salaries</a>
   </li>
 </ul>
-    <div class="modal-footer" v-if="edit==false">
+    <div class="modal-footer" v-if="edit==false && adding==false">
             
 <table class="table table-striped table-hover">
         <thead>
@@ -116,7 +158,7 @@
       </table>
             
           </div>
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" v-if="edit==false">Close</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" v-if="edit==false || adding==false">Close</button>
         </div>
       </div>
     </div>
@@ -146,7 +188,15 @@ export default{
            description: '',
            contactInfo: '',
            id: 0,
-           token: ''
+           token: '',
+           adding: false,
+           requirments: new Array(),
+           position:'',
+           description1: '',
+           creationDate: '',
+           dueDate:''
+
+
         }
 
     },
@@ -174,6 +224,10 @@ export default{
         {
             this.edit=true;
         },
+        DisplayJobOffer()
+        {
+            this.adding=true;
+        },
        
         SetFields(company)
         {
@@ -185,6 +239,31 @@ export default{
         CloseEdit()
         {
             this.edit=false;
+        },
+        CloseJob()
+        {
+          this.adding=false;
+        },
+        SaveJob()
+        {
+          let description=this.description1;
+            axios.post(devServer.proxy+'api/job/'+this.id,
+            {
+              "position": this.position,
+              "description": description,
+              "requirments": this.requirments,
+              "creationDate": this.creationDate,
+              "dueDate": this.dueDate
+            },  {
+            headers: {
+              'Authorization' : 'Bearer ' + this.token,
+            }
+            }).then(response=>
+            {
+                 
+                 console.log(response.data)
+                 this.adding=false;
+            })
         },
         SaveEdit()
         {
@@ -210,7 +289,14 @@ export default{
       })
             })
             this.edit=false;
-        }
+        },
+         AddRequirment(){
+      var requirment = document.getElementById('job-req').value;
+      this.requirments.push(requirment);
+      console.log(this.requirments);
+      document.getElementById('job-req').value='';
+
+    }
 
     }
 
