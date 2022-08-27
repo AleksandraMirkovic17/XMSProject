@@ -106,7 +106,7 @@ export default {
               "gender": 2,
               "email": this.user.user.email,
               "contactPhone": this.user.user.contactPhone,
-              "dateOfBirth": "2000-01-01T01:30:15.01Z",
+              "dateOfBirth": this.user.user.date,
               "password": this.user.user.password,
               "public": this.user.user.public
             }

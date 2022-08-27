@@ -2,6 +2,7 @@ package api
 
 import (
 	"PostService/application"
+	"PostService/infrastructure/orchestrators"
 	"context"
 	"fmt"
 	pb "github.com/dislinked/common/proto/post_service"
@@ -11,7 +12,8 @@ import (
 
 type PostHandler struct {
 	pb.UnimplementedPostServiceServer
-	service *application.PostService
+	service                              *application.PostService
+	friendPostedNotificationOrchestrator *orchestrators.FriendPostedNotificationOrchestrator
 }
 
 func NewPostHandler(service *application.PostService) *PostHandler {
@@ -40,6 +42,9 @@ func (handler *PostHandler) CreatePost(ctx context.Context, request *pb.NewPost)
 	if err != nil {
 		return nil, status.Error(400, err.Error())
 	}
+
+	//pozivanje sage za slanje notifikacija
+	handler.friendPostedNotificationOrchestrator.Start(MapDomainNotificationToEventNotification(newPost))
 
 	response := &pb.NewPost{
 		Post: mapPostFromDomainToPb(newPost),

@@ -4,15 +4,18 @@ import (
 	"PostService/domain"
 	"errors"
 	"go.mongodb.org/mongo-driver/bson/primitive"
+	"PostService/infrastructure/orchestrators"
 )
 
 type PostService struct {
-	store domain.PostStore
+	store domain.PostStore,
+	orchestrator *orchestrators.FriendPostedNotificationOrchestrator
 }
 
-func NewPostService(store domain.PostStore) *PostService {
+func NewPostService(store domain.PostStore, orchestrator *orchestrators.FriendPostedNotificationOrchestrator) *PostService {
 	return &PostService{
 		store: store,
+		orchestrator: orchestrator,
 	}
 }
 

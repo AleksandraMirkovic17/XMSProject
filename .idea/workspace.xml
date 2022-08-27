@@ -5,16 +5,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="73e9022d-bf7f-4b1c-95b0-7a9024d84ed5" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/common/saga/friend_posted_notification/friend_posted_notification_events.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/post_service/infrastructure/handlers/FriendPostedNotificationHandler.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/post_service/infrastructure/orchestrators/FriendPoatedNotificationOrchestrator.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/authentication_service/application/authentication_service.go" beforeDir="false" afterPath="$PROJECT_DIR$/authentication_service/application/authentication_service.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/authentication_service/infrastructure/api/authentication_grpc_api.go" beforeDir="false" afterPath="$PROJECT_DIR$/authentication_service/infrastructure/api/authentication_grpc_api.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/authentication_service/infrastructure/orchestrator/register_user_orchestrator.go" beforeDir="false" afterPath="$PROJECT_DIR$/authentication_service/infrastructure/orchestrator/register_user_orchestrator.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/authentication_service/startup/config/config.go" beforeDir="false" afterPath="$PROJECT_DIR$/authentication_service/startup/config/config.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/authentication_service/startup/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/authentication_service/startup/server.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/common/proto/authentication_service/authentication_service.pb.go" beforeDir="false" afterPath="$PROJECT_DIR$/common/proto/authentication_service/authentication_service.pb.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dislinkt-frontend/src/services/UserService.js" beforeDir="false" afterPath="$PROJECT_DIR$/dislinkt-frontend/src/services/UserService.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user_service/startup/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/user_service/startup/server.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/saga/create_notification/create_notification_event.go" beforeDir="false" afterPath="$PROJECT_DIR$/common/saga/create_notification/create_notification_event.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dislinkt-frontend/src/views/Registration.vue" beforeDir="false" afterPath="$PROJECT_DIR$/dislinkt-frontend/src/views/Registration.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/post_service/application/post_service.go" beforeDir="false" afterPath="$PROJECT_DIR$/post_service/application/post_service.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/post_service/infrastructure/api/pb_mapper.go" beforeDir="false" afterPath="$PROJECT_DIR$/post_service/infrastructure/api/pb_mapper.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/post_service/infrastructure/api/post_grpc_api.go" beforeDir="false" afterPath="$PROJECT_DIR$/post_service/infrastructure/api/post_grpc_api.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/post_service/startup/config/config.go" beforeDir="false" afterPath="$PROJECT_DIR$/post_service/startup/config/config.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/post_service/startup/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/post_service/startup/server.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

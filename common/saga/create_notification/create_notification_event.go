@@ -1,5 +1,7 @@
 package create_notification
 
+import "google.golang.org/grpc/credentials/google"
+
 type NotificationDetails struct {
 	Id 		string
 	User 	string
