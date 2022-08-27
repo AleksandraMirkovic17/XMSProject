@@ -1,6 +1,6 @@
 package orchestrator
 
-import (
+/*import (
 	events "github.com/dislinked/common/saga/create_order"
 	saga "github.com/dislinked/common/saga/messaging"
 )
@@ -32,15 +32,14 @@ func (o *RegisterUserOrchestrator) Start(userDetails events.UserDetails) error {
 }
 
 func (o *RegisterUserOrchestrator) handle(reply *events.RegisterUserReply) {
-	/*println("U register user servisu orchestraatoru authentication servisa")
+	rintln("U register user servisu orchestraatoru authentication servisa")
 	command := events.RegisterUserCommand{User: reply.User}
 	command.Type = o.nextCommandType(reply.Type)
 	if command.Type != events.UnknownCommand {
 		_ = o.commandPublisher.Publish(command)
-	}*/
-}
-
-func (o *RegisterUserOrchestrator) nextCommandType(reply events.RegisterUserReplyType) events.RegisterUserCommandType {
+	}
+}*/
+/*func (o *RegisterUserOrchestrator) nextCommandType(reply events.RegisterUserReplyType) events.RegisterUserCommandType {
 	switch reply {
 	case events.UserProfileCreated:
 		println("Kreiran je user profile pa idemo na auth")
@@ -73,4 +72,4 @@ func (o *RegisterUserOrchestrator) nextCommandType(reply events.RegisterUserRepl
 	default:
 		return events.UnknownCommand
 	}
-}
+}*/

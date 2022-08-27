@@ -20,8 +20,6 @@ import (
 
 type Server struct {
 	config *config.Config
-	// tracer otgo.Tracer
-	// closer io.Closer
 }
 
 func NewServer(config *config.Config) *Server {
@@ -35,27 +33,21 @@ const (
 )
 
 func (server *Server) Start() {
-	println("Pocetak starta")
 	mongoClient := server.initMongoClient()
 	userStore := server.initUserStore(mongoClient)
 
-	println("Pre pozivanja orkestratora 1")
 	//orchestrator
 	commandPublisher := server.initPublisher(server.config.RegisterUserCommandSubject)
 	replySubscriber := server.initSubscriber(server.config.RegisterUserReplySubject, QueueGroup)
 	orchestrator := server.InitOrchestrator(commandPublisher, replySubscriber)
-	println("Posle pozivanja orkestartora 1")
 
-	println("Pre pozivanja orkestratora 2")
 	commandPublisherUpdateUser := server.initPublisher(server.config.UpdateUserCommandSubject)
 	replySubscriberUpdateUser := server.initSubscriber(server.config.UpdateUserReplySubject, QueueGroup)
 	orchestrator2 := server.InitUpdateOrchestrator(commandPublisherUpdateUser, replySubscriberUpdateUser)
-	println("Posle pozivanja orkestartora 2")
 
 	userService := server.initUserService(userStore, orchestrator, orchestrator2)
 	userHandler := server.initUserHandler(userService, orchestrator2)
 
-	//handler
 	commandSubscriber := server.initSubscriber(server.config.RegisterUserCommandSubject, QueueGroup)
 	replyPublisher := server.initPublisher(server.config.RegisterUserReplySubject)
 	server.initRegisterUserHandler(userService, replyPublisher, commandSubscriber)

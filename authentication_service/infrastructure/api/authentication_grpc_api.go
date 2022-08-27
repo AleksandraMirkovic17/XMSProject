@@ -2,19 +2,15 @@ package api
 
 import (
 	"AuthenticationService/application"
-	"AuthenticationService/infrastructure/mappers"
-	"AuthenticationService/infrastructure/orchestrator"
 	"context"
 	pb "github.com/dislinked/common/proto/authentication_service"
-	events "github.com/dislinked/common/saga/create_order"
 	"google.golang.org/grpc/status"
 	"net/http"
 )
 
 type AuthenticationHandler struct {
 	pb.UnimplementedAuthenticationServiceServer
-	service                  *application.AuthenticationService
-	RegisterUserOrchestrator *orchestrator.RegisterUserOrchestrator
+	service *application.AuthenticationService
 }
 
 func NewAuthenticationHandler(service *application.AuthenticationService) *AuthenticationHandler {
@@ -43,7 +39,7 @@ func (handler *AuthenticationHandler) Register(ctx context.Context, request *pb.
 	if err != nil {
 		return nil, status.Error(http.StatusBadRequest, "Username already exists!")
 	}
-	handler.RegisterUserOrchestrator.Start(events.UserDetails{
+	/*handler.RegisterUserOrchestrator.Start(events.UserDetails{
 		Id:          request.User.Id,
 		Name:        request.User.Name,
 		Surname:     request.User.Surname,
@@ -55,7 +51,7 @@ func (handler *AuthenticationHandler) Register(ctx context.Context, request *pb.
 		Role:        mappers.MapAuthRoleToCreateOrderRole(request.User.Role),
 		PhoneNumber: request.User.ContactPhone,
 		IsPublic:    request.User.Public,
-	})
+	})*/
 
 	response := &pb.RegisterResponse{
 		Username: request.User.Username,

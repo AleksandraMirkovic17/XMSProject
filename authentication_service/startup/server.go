@@ -5,7 +5,6 @@ import (
 	"AuthenticationService/domain"
 	"AuthenticationService/infrastructure/api"
 	"AuthenticationService/infrastructure/handlers"
-	orchestrators "AuthenticationService/infrastructure/orchestrator"
 	"AuthenticationService/infrastructure/persistence"
 	"AuthenticationService/startup/config"
 	"fmt"
@@ -38,12 +37,7 @@ func (server *Server) Start() {
 	mongoClient := server.initMongoClient()
 	authenticationStore := server.initAuthenticationStore(mongoClient)
 
-	//orchestrator
-	commandPublisher := server.initPublisher(server.config.RegisterUserCommandSubject)
-	replySubscriber := server.initSubscriber(server.config.RegisterUserReplySubject, QueueGroup)
-	orchestrator := server.InitOrchestrator(commandPublisher, replySubscriber)
-
-	authenticationService := server.initAuthenticationService(authenticationStore, orchestrator)
+	authenticationService := server.initAuthenticationService(authenticationStore)
 	authenticationHandler := server.initAuthenticationHandler(authenticationService)
 
 	//handler
@@ -72,8 +66,8 @@ func (server *Server) initAuthenticationStore(client *mongo.Client) domain.UserS
 	return store
 }
 
-func (server *Server) initAuthenticationService(store domain.UserStore, orchestrator *orchestrators.RegisterUserOrchestrator) *application.AuthenticationService {
-	return application.NewAuthenticationService(store, orchestrator)
+func (server *Server) initAuthenticationService(store domain.UserStore) *application.AuthenticationService {
+	return application.NewAuthenticationService(store)
 }
 
 func (server *Server) initAuthenticationHandler(service *application.AuthenticationService) *api.AuthenticationHandler {
@@ -114,14 +108,6 @@ func (server *Server) initSubscriber(subject, queueGroup string) saga.Subscriber
 	return subscriber
 }
 
-func (server *Server) initCreateOrderOrchestrator(publisher saga.Publisher, subscriber saga.Subscriber) *orchestrators.RegisterUserOrchestrator {
-	orchestrator, err := orchestrators.NewRegisterUserOrchestrator(publisher, subscriber)
-	if err != nil {
-		log.Fatal(err)
-	}
-	return orchestrator
-}
-
 func (server *Server) startGrpcServer(authenticationHandler *api.AuthenticationHandler) {
 	listener, err := net.Listen("tcp", fmt.Sprintf(":%s", server.config.Port))
 	if err != nil {
@@ -132,12 +118,4 @@ func (server *Server) startGrpcServer(authenticationHandler *api.AuthenticationH
 	if err := grpcServer.Serve(listener); err != nil {
 		log.Fatalf("failed to serve: %s", err)
 	}
-}
-
-func (server *Server) InitOrchestrator(publisher saga.Publisher, subscriber saga.Subscriber) *orchestrators.RegisterUserOrchestrator {
-	orchestrator, err := orchestrators.NewRegisterUserOrchestrator(publisher, subscriber)
-	if err != nil {
-		log.Fatal(err)
-	}
-	return orchestrator
 }

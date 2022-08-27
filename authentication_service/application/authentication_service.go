@@ -2,22 +2,19 @@ package application
 
 import (
 	"AuthenticationService/domain"
-	orchestrators "AuthenticationService/infrastructure/orchestrator"
 	"errors"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 type AuthenticationService struct {
-	store        domain.UserStore
-	orchestrator *orchestrators.RegisterUserOrchestrator
-	jwtManager   JwtManager
+	store      domain.UserStore
+	jwtManager JwtManager
 }
 
-func NewAuthenticationService(store domain.UserStore, orchestrator *orchestrators.RegisterUserOrchestrator) *AuthenticationService {
+func NewAuthenticationService(store domain.UserStore) *AuthenticationService {
 	return &AuthenticationService{
-		store:        store,
-		jwtManager:   *NewJwtManager(),
-		orchestrator: orchestrator,
+		store:      store,
+		jwtManager: *NewJwtManager(),
 	}
 }
 

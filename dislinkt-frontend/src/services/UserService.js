@@ -28,6 +28,7 @@ class UserService{
     }
 
     login(user) {
+        console.log(axios.post('http://localhost:4200/login', user))
       return axios.post('http://localhost:4200/login', user);
     }
 

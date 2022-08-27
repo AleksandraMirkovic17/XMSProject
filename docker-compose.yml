@@ -9,13 +9,9 @@ services:
             dockerfile: ./authentication_service/Dockerfile
         restart: on-failure
         environment:
-            AUTH_SERVICE_PORT: ${AUTHENTICATION_SERVICE_PORT}
+            AUTHENTICATION_SERVICE_PORT: ${AUTHENTICATION_SERVICE_PORT}
             MONGO_DB_HOST: ${AUTHENTICATION_MONGO_DB_HOST_DOCKER}
             MONGO_DB_PORT: ${MONGO_DB_PORT}
-            USER_SERVICE_HOST: ${USER_SERVICE_HOST_DOCKER}
-            USER_SERVICE_PORT: ${USER_SERVICE_PORT}
-            GATEWAY_HOST: ${GATEWAY_HOST_DOCKER}
-            GATEWAY_PORT: ${GATEWAY_PORT}
             REGISTER_USER_COMMAND_SUBJECT: ${REGISTER_USER_COMMAND_SUBJECT}
             REGISTER_USER_REPLY_SUBJECT: ${REGISTER_USER_REPLY_SUBJECT}
             UPDATE_USER_COMMAND_SUBJECT: ${UPDATE_USER_COMMAND_SUBJECT}
@@ -153,8 +149,8 @@ services:
             POST_SERVICE_PORT: ${POST_SERVICE_PORT}
             USER_SERVICE_HOST: ${USER_SERVICE_HOST_DOCKER}
             USER_SERVICE_PORT: ${USER_SERVICE_PORT}
-            AUTH_SERVICE_HOST: ${AUTHENTICATION_SERVICE_HOST_DOCKER}
-            AUTH_SERVICE_PORT: ${AUTHENTICATION_SERVICE_PORT}
+            AUTHENTICATION_SERVICE_HOST: ${AUTHENTICATION_SERVICE_HOST_DOCKER}
+            AUTHENTICATION_SERVICE_PORT: ${AUTHENTICATION_SERVICE_PORT}
             CONNECTION_SERVICE_HOST: ${CONNECTION_SERVICE_HOST_DOCKER}
             CONNECTION_SERVICE_PORT: ${CONNECTION_SERVICE_PORT}
             JOB_SERVICE_HOST: ${JOB_SERVICE_HOST_DOCKER}
@@ -215,7 +211,7 @@ services:
             - network
 
     neo4j:
-        image: neo4j:4.3.3
+        image: neo4j:4.4.3
         container_name: neo4j
         hostname: neo4j
         restart: on-failure
@@ -229,7 +225,7 @@ services:
             - network
 
     neo4j_jobs:
-        image: neo4j:4.3.3
+        image: neo4j:4.4.4
         container_name: neo4j_jobs
         hostname: neo4j_jobs
         restart: on-failure
