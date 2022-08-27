@@ -2,19 +2,20 @@ package application
 
 import (
 	"PostService/domain"
-	"errors"
-	"go.mongodb.org/mongo-driver/bson/primitive"
 	"PostService/infrastructure/orchestrators"
+	"errors"
+
+	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 type PostService struct {
-	store domain.PostStore,
+	store        domain.PostStore
 	orchestrator *orchestrators.FriendPostedNotificationOrchestrator
 }
 
 func NewPostService(store domain.PostStore, orchestrator *orchestrators.FriendPostedNotificationOrchestrator) *PostService {
 	return &PostService{
-		store: store,
+		store:        store,
 		orchestrator: orchestrator,
 	}
 }

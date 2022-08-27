@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"PostService/application"
+
 	events "github.com/dislinked/common/saga/friend_posted_notification"
 	saga "github.com/dislinked/common/saga/messaging"
 )
@@ -12,11 +13,11 @@ type FriendPostedNotificationHandler struct {
 	commandSubscriber saga.Subscriber
 }
 
-func NewFriendPostedNotificationHandler(service *application.PostService, publiser saga.Publisher, subsciber *saga.Subscriber) (*FriendPostedNotificationHandler, error) {
+func NewFriendPostedNotificationHandler(service *application.PostService, publiser saga.Publisher, subscriber *saga.Subscriber) (*FriendPostedNotificationHandler, error) {
 	o := &FriendPostedNotificationHandler{
 		service:           service,
 		replyPublisher:    publiser,
-		commandSubscriber: subsciber,
+		commandSubscriber: *subscriber,
 	}
 	err := o.commandSubscriber.Subscribe(o.handle)
 	if err != nil {

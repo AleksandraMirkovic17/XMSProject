@@ -71,8 +71,9 @@ func (o *FriendPostedNotificationOrchestrator) nextCommand(reply events.FriendPo
 
 func (o *FriendPostedNotificationOrchestrator) Start(Notification *events.FriendPostNotification) error {
 	println("Starting orchestrator for sending notifications for posts!")
-	event := &events.FriendPostNotificationCommand{
+	/*event := &events.FriendPostNotificationCommand{
 		Notification: *Notification,
 		Type:         events.GetConnections,
-	}
+	}*/
+	return nil
 }

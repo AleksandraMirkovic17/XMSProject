@@ -2,11 +2,12 @@ package api
 
 import (
 	"PostService/domain"
+	"time"
+
 	pb "github.com/dislinked/common/proto/post_service"
 	events "github.com/dislinked/common/saga/friend_posted_notification"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"google.golang.org/protobuf/types/known/timestamppb"
-	"time"
 )
 
 func mapPostFromDomainToPb(post *domain.Post) *pb.Post {
@@ -42,8 +43,8 @@ func MapDomainNotificationToEventNotification(postDomain *domain.Post) *events.F
 		Content:               "Your friend just posted, check it out!",
 		RedirectPath:          "",
 		NotificationSender:    postDomain.User,
-		NotificationReceivers: string[]{},
-		postID:                postDomain.Id.Hex(),
+		NotificationReceivers: nil,
+		//postID:                postDomain.Id.Hex(),
 	}
 	return notification
 }

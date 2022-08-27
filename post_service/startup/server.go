@@ -9,12 +9,14 @@ import (
 	"PostService/infrastructure/persistence"
 	"PostService/startup/config"
 	"fmt"
-	postProto "github.com/dislinked/common/proto/post_service"
-	saga "github.com/dislinked/common/saga/messaging"
-	"go.mongodb.org/mongo-driver/mongo"
-	"google.golang.org/grpc"
 	"log"
 	"net"
+
+	postProto "github.com/dislinked/common/proto/post_service"
+	saga "github.com/dislinked/common/saga/messaging"
+	"github.com/dislinked/common/saga/messaging/nats"
+	"go.mongodb.org/mongo-driver/mongo"
+	"google.golang.org/grpc"
 )
 
 const (
@@ -67,7 +69,7 @@ func (server *Server) initPostStore(client *mongo.Client) domain.PostStore {
 }
 
 func (server *Server) initFriendPostedNotificationHandler(service *application.PostService, publisher saga.Publisher, subscriber saga.Subscriber) {
-	_, err := handlers.NewFriendPostedNotificationHandler(service, publisher, subscriber)
+	_, err := handlers.NewFriendPostedNotificationHandler(service, publisher, &subscriber)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -115,7 +117,7 @@ func (server *Server) initSubscriber(subject, queueGroup string) saga.Subscriber
 	return subscriber
 }
 
-func (server *Server) InitOrchestrator(publisher saga.Publisher, subscriber saga.Subscriber) *orchestrators.UserOrchestrator {
+func (server *Server) InitOrchestrator(publisher saga.Publisher, subscriber saga.Subscriber) *orchestrators.FriendPostedNotificationOrchestrator {
 	orchestrator, err := orchestrators.NewFriendPostedNotificationOrchestrator(publisher, subscriber)
 	if err != nil {
 		log.Fatal(err)
