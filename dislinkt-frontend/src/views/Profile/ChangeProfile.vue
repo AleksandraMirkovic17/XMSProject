@@ -269,10 +269,46 @@
               </td>
             </tr>
             <tr>
-            <td colspan="2">
-              <hr>
-            </td>
-          </tr>
+              <td>Followed Profile Notifications</td>
+              <td>
+                <div class="form-check form-switch" style="width: 180px">
+                  <span class="switch">
+                    <input type="checkbox" class="switch" id="notificationsFollowedProfiles" v-model="loggedUserNew.notificationsFollowedProfiles" @change="userInfoHasChanged()">
+                    <label for="notificationsFollowedProfiles" v-if="loggedUserNew.notificationsFollowedProfiles">On</label>
+                    <label for="notificationsFollowedProfiles" v-if="!loggedUserNew.notificationsFollowedProfiles">Off</label>
+                  </span>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>Message Notifications</td>
+              <td>
+                <div class="form-check form-switch" style="width: 180px">
+                  <span class="switch">
+                    <input type="checkbox" class="switch" id="notificationsMessages" v-model="loggedUserNew.notificationsMessages" @change="userInfoHasChanged()">
+                    <label for="notificationsMessages" v-if="loggedUserNew.notificationsMessages">On</label>
+                    <label for="notificationsMessages" v-if="!loggedUserNew.notificationsMessages">Off</label>
+                  </span>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>Post Notifications</td>
+              <td>
+                <div class="form-check form-switch" style="width: 180px">
+                  <span class="switch">
+                    <input type="checkbox" class="switch" id="notificationsPosts" v-model="loggedUserNew.notificationsPosts" @change="userInfoHasChanged()">
+                    <label for="notificationsPosts" v-if="loggedUserNew.notificationsPosts">On</label>
+                    <label for="notificationsPosts" v-if="!loggedUserNew.notificationsPosts">Off</label>
+                  </span>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2">
+                <hr>
+              </td>
+            </tr>
             <tr>
               <td>
 

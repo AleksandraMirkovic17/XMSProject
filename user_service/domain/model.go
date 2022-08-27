@@ -1,8 +1,9 @@
 package domain
 
 import (
-	"go.mongodb.org/mongo-driver/bson/primitive"
 	"time"
+
+	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 type Role int
@@ -80,4 +81,9 @@ type User struct {
 	EducationExperiences []EducationExperience `bson:"education_experience"`
 	WorkExperiences      []WorkExperience      `bson:"work_experience"`
 	Biography            string                `bson:"biography"`
+
+	// Settings
+	NotificationsFollowedProfiles bool `bson:"notifications_followed_profiles"`
+	NotificationsPosts            bool `bson:"notifications_posts"`
+	NotificationsMessages         bool `bson:"notifications_messages"`
 }

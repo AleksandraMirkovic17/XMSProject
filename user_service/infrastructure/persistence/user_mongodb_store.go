@@ -53,6 +53,9 @@ func (store *UserMongoDBStore) FindByUsernameAndNameAndSurname(username string, 
 
 func (store *UserMongoDBStore) Insert(user *domain.User) error {
 	println("pre insertovanja id je: ", user.Id.Hex())
+	user.NotificationsFollowedProfiles = true
+	user.NotificationsMessages = true
+	user.NotificationsPosts = true
 	result, err := store.users.InsertOne(context.TODO(), user)
 	if err != nil {
 		return err
@@ -83,6 +86,9 @@ func (store *UserMongoDBStore) Update(uuid primitive.ObjectID, user *domain.User
 			{"$set", bson.D{{"phone", user.Phone}}},
 			{"$set", bson.D{{"password", user.Password}}},
 			{"$set", bson.D{{"public", user.Public}}},
+			{"$set", bson.D{{"notifications_followed_profiles", user.NotificationsFollowedProfiles}}},
+			{"$set", bson.D{{"notifications_posts", user.NotificationsPosts}}},
+			{"$set", bson.D{{"notifications_messages", user.NotificationsMessages}}},
 		},
 	)
 	/*if(user.DateOfBirth != nil){

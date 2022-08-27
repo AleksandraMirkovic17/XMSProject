@@ -85,6 +85,9 @@ message User {
 	repeated EducationExperience educationExperiences = 14;
 	repeated WorkExperience workExperiences = 15;
 	string biography = 16;
+	bool notificationsFollowedProfiles = 17;
+	bool notificationsPosts = 18;
+	bool notificationsMessages = 19;
 }
 
 message Skill{
