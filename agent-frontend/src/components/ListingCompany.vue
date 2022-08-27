@@ -125,7 +125,7 @@ export default{
     })
     .then(response => {
       this.loggedUser =response.data
-      console.log("Ovaj user je ulogovan:", this.loggedUser.roles[0].name)
+      console.log("Ovaj user je ulogovan:", this.loggedUser.roles[0].name) //Treba videti da li postoji odgovarajuca rola
       axios.get(devServer.proxy+'api/company')
       .then(response1=>{
         this.companies=response1.data;
