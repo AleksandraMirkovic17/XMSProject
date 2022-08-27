@@ -23,7 +23,7 @@ public class JobService {
 
 	public Job createJob(Job job, List<String> requirementTexts)
 	{
-		Job savedJob = jobRepository.save(job);
+		Job savedJob = jobRepository.save(job); //Ako ne uspe treba mozda obrisati?
 		System.out.println("11");
 		for (String r : requirementTexts) {
 			System.out.println("11.");

@@ -77,6 +77,7 @@ public class JobController {
 	@PreAuthorize("isAuthenticated()")
 	public ResponseEntity<Job> createJob(@PathVariable int companyId, @RequestBody JobCreationDTO jobDTO) {
 		try {
+			System.out.println("ttttttttttttttest");
 			Company company = null;
 			User currentUser = getCurrentUser();
 			company = companyService.findById(companyId);
@@ -92,7 +93,8 @@ public class JobController {
 				return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 			}
 			*/
-			if (company.getOwner().getId() == currentUser.getId()) {
+			System.out.println(company.getOwner().getId() + ", " + currentUser.getId());
+			if (company.getOwner().getId() != currentUser.getId()) {
 				return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 			}
 			Job job = new Job(jobDTO, company);

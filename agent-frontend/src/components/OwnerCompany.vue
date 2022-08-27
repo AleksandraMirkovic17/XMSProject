@@ -251,7 +251,7 @@ export default{
             {
               "position": this.position,
               "description": description,
-              "requirments": this.requirments,
+              "requirements": this.requirments,
               "creationDate": this.creationDate,
               "dueDate": this.dueDate
             },  {
