@@ -35,10 +35,35 @@ user_id, role_id) VALUES (
 
 INSERT INTO public.company (
 id, contact_info, description, name, validated, owner_id) VALUES (
-1, 'neki tamo kontakt', 'losa kompanija1', 'IGOR', true, 501);
+1, 'mozete nas kontaktirati preko broja telefona', 'vrsimo razne usluge', 'SCITI', true, 501);
 INSERT INTO public.company (
 id, contact_info, description, name, validated, owner_id) VALUES (
-2, 'caos', 'losa kompanija', 'IGOR2', true, 501);
+2, 'mozete nas kontaktirati preko broja telefona', 'vise informacija mozete dobiti na nasem sajtu', 'TRIDERM', true, 501);
+
+
+INSERT INTO public.company (
+id, contact_info, description, name, validated, owner_id) VALUES (
+3, 'nas sajt: hhttp....', 'Odlicna kompanija za sve usluge', 'IXIY', true, 500);
+INSERT INTO public.company (
+id, contact_info, description, name, validated, owner_id) VALUES (
+4, 'mozete nas kontaktirati preko broja telefona', 'Pomoci cemo Vam u svakom trenutku', 'IGOR4', true, 500);
+
+INSERT INTO public.comment(
+id, company_id, user_id, text) VALUES(
+1, 1, 501, 'Odlicna kompanija');
+
+INSERT INTO public.comment(
+id, company_id, user_id, text) VALUES(
+2, 1, 501, 'Veoma prijatna kompanija');
+
+INSERT INTO public.comment(
+id, company_id, user_id, text) VALUES(
+1, 2, 501, 'Odlicna kompanija');
+
+INSERT INTO public.comment(
+id, company_id, user_id, text) VALUES(
+2, 2, 501, 'Usluge nam se nisu svidele');
+
 
 
 

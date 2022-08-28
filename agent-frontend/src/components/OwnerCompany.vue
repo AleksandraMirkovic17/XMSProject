@@ -111,53 +111,117 @@
       </div>
           <ul class="nav" v-if="edit==false && adding==false">
   <li class="nav-item">
-    <a class="nav-link active" href="#">Comments</a>
+    <a class="nav-link active" href="#" v-on:click="DisplayCommentsCard">Comments</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="#">Job offer</a>
+    <a class="nav-link" href="#" v-on:click="DisplayJobOfferCard">Job offer</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="#">Interview</a>
+    <a class="nav-link" href="#" v-on:click="DisplayInterviewCard">Interview</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link " href="#">Salaries</a>
+    <a class="nav-link " href="#" v-on:click="DisplaySalariesCard">Salaries</a>
   </li>
 </ul>
-    <div class="modal-footer" v-if="edit==false && adding==false">
+<!--TABELA COMMENTS-->
+    <div class="modal-footer" v-if="edit==false && adding==false && commentsCard==true && jobOfferCard==false">
             
-<table class="table table-striped table-hover">
+<table  class="table table-striped table-hover">
         <thead>
         <tr>
           <th scope="col">Comment</th>
           <th scope="col">Username</th>
-     
         </tr>
         </thead>
         <tbody>
-        <tr style="align-content: center" data-toggle="modal" >
-          <td> Nesto ovde pise</td>
-          <td  style="align-content: center"> i ovde isto </td>
-          
+        <tr style="align-content: center" data-toggle="modal" v-for="c in comments" :key="c.id">
+          <td> {{c.text}}</td>
+          <td  style="align-content: center"> {{c.user.username}}</td>
         </tr>
-         <tr style="align-content: center" data-toggle="modal" >
-          <td> Nesto ovde pise</td>
-          <td  style="align-content: center"> i ovde isto </td>
-          
-        </tr>
-         <tr style="align-content: center" data-toggle="modal" >
-          <td> Nesto ovde pise</td>
-          <td  style="align-content: center"> i ovde isto </td>
-        
-        </tr>
-         <tr style="align-content: center" data-toggle="modal" >
-          <td> Nesto ovde pise</td>
-          <td  style="align-content: center"> i ovde isto </td>
-        </tr>
-        
         </tbody>
       </table>
             
           </div>
+          <!--TABELA Interview-->
+    <div class="modal-footer" v-if="edit==false && adding==false && commentsCard==false && jobOfferCard==false && interviewCard==true">
+            
+<table  class="table table-striped table-hover">
+        <thead>
+        <tr>
+          <th scope="col">Comment</th>
+          <th scope="col">Username</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr style="align-content: center" data-toggle="modal" v-for="c in interviews" :key="c.id">
+          <td> {{c.text}}</td>
+          <td  style="align-content: center"> {{c.user.username}}</td>
+        </tr>
+        </tbody>
+      </table>
+            
+          </div>
+
+          <!--TABELA JOBOFFER-->
+    <div class="modal-footer" v-if="edit==false && adding==false && commentsCard==false && jobOfferCard==true">
+            
+<table  class="table table-striped table-hover">
+        <thead>
+        <tr>
+          <th scope="col">Position</th>
+          <th scope="col">Description</th>
+          <th scope="col">Due Date</th>
+          <th scope="col">Company name</th>
+          <th scope="col">API KEY</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr style="align-content: center" data-toggle="modal" v-for="c in jobs" :key="c.id">
+          <td> {{c.position}}</td>
+          <td  style="align-content: center"> {{c.description}}</td>
+          <td> {{c.dueDate}}</td>
+          <td  style="align-content: center"> {{c.company.name}}</td>
+           <button type="button" class="btn btn-secondary"  v-on:click="Publishe(c)">Publishe</button>
+        </tr>
+        </tbody>
+      </table>
+            
+          </div>
+
+          <!--API KEY-->
+          <div class="modal-body" v-if="key==true && edit==false && adding==false && commentsCard==false">
+        <form>
+      <h3 class="mb-3">Create jobOffer</h3>
+      <div class="col-11">
+        <label for="job-position" class="form-label">API KEY</label>
+        <input type="text" class="form-control" id="job-position" placeholder="E.g. Titanic" v-model = "apiKey" >
+        <button type="button" class="btn btn-secondary" v-on:click="sendToDislinkt">SEND</button>
+
+      </div>
+        </form>
+          </div>
+
+            <div class="modal-footer" v-if="edit==false && adding==false && commentsCard==false && jobOfferCard==false && interviewCard==false && salariesCard==true">
+            
+<table  class="table table-striped table-hover">
+        <thead>
+        <tr>
+          <th scope="col">Position</th>
+          <th scope="col">Salary</th>
+            <th scope="col">Username</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr style="align-content: center" data-toggle="modal" v-for="c in salaries" :key="c.id">
+          <td> {{c.position}}</td>
+           <td> {{c.salary}}</td>
+          <td  style="align-content: center"> {{c.user.username}}</td>
+        </tr>
+        </tbody>
+      </table>
+            
+          </div>
+
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" v-if="edit==false || adding==false">Close</button>
         </div>
       </div>
@@ -194,7 +258,17 @@ export default{
            position:'',
            description1: '',
            creationDate: '',
-           dueDate:''
+           dueDate:'',
+           commentsCard: false,
+           jobOfferCard: false,
+           salariesCard: false,
+           interviewCard: false,
+           comments: null,
+           jobs: null,
+           key: false,
+           jobOffer: null,
+           interviews: null,
+           salaries: null
 
 
         }
@@ -223,10 +297,12 @@ export default{
         DisplayEdit()
         {
             this.edit=true;
+                this.key=false;
         },
         DisplayJobOffer()
         {
             this.adding=true;
+                this.key=false;
         },
        
         SetFields(company)
@@ -296,6 +372,71 @@ export default{
       console.log(this.requirments);
       document.getElementById('job-req').value='';
 
+    },
+    DisplayCommentsCard()
+    {
+      axios.get(devServer.proxy+'api/comment/company/'+this.id)
+      .then(response=>
+      {
+      this.comments=response.data;
+      console.log(this.comments)
+      this.commentsCard=true;
+      this.salariesCard=false;
+      this.interviewCard=false;
+      this.jobOfferCard=false;
+          this.key=false;
+      })
+
+    },
+    DisplayJobOfferCard()
+    {
+      axios.get(devServer.proxy+'api/job/all/'+this.id)
+      .then(response=>
+      {
+        this.jobs=response.data;
+        let date=this.jobs.dueDate;
+        console.log(date)
+        console.log(this.jobs)
+         this.commentsCard=false;
+      this.salariesCard=false;
+      this.interviewCard=false;
+      this.jobOfferCard=true;
+          this.key=false;
+      })
+      
+    },
+    Publishe(jobOffer)
+    {
+      this.jobOffer=jobOffer;
+      this.key=true;
+        this.commentsCard=false;
+      this.salariesCard=false;
+      this.interviewCard=false;
+      this.jobOfferCard=false;
+    },
+    DisplayInterviewCard()
+    {
+      axios.get(devServer.proxy+'api/interview_comment/company/'+this.id)
+      .then(response=>
+      {
+        this.interviews=response.data
+        this.commentsCard=false;
+      this.salariesCard=false;
+      this.interviewCard=true;
+      this.jobOfferCard=false;
+      })
+    },
+     DisplaySalariesCard()
+    {
+      axios.get(devServer.proxy+'api/salary_comment/company/'+this.id)
+      .then(response=>
+      {
+        this.salaries=response.data
+          this.commentsCard=false;
+      this.salariesCard=true;
+      this.interviewCard=false;
+      this.jobOfferCard=false;
+      })
     }
 
     }

@@ -1,12 +1,6 @@
 package com.agentska.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import com.agentska.dto.CommentCreationDTO;
 
@@ -14,7 +8,9 @@ import com.agentska.dto.CommentCreationDTO;
 @Table(name = "comment")
 public class Comment {
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@SequenceGenerator(name = "comment_sequence_generator", sequenceName = "comment_sequence", initialValue = 100)
+
+	@GeneratedValue(strategy = GenerationType.IDENTITY,generator="comment_sequence_generator")
 	protected Integer id;
 	
 	@ManyToOne
