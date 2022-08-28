@@ -4,7 +4,6 @@ import (
 	"NotificationService/application"
 	"NotificationService/infrastructure/orchestrator"
 	"context"
-	"time"
 
 	pb "github.com/dislinked/common/proto/notification_service"
 	events "github.com/dislinked/common/saga/create_notification"
@@ -31,7 +30,7 @@ func (handler *NotificationHandler) CreateNotification(ctx context.Context, requ
 		Content: request.Notification.Content,
 		Url:     request.Notification.Url,
 		Seen:    false,
-		Date:    time.Now(),
+		//Date:    time.Now(),
 	})
 
 	/*response := &pb.NewNotification{

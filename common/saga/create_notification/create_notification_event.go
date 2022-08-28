@@ -1,14 +1,11 @@
 package create_notification
 
-import "google.golang.org/grpc/credentials/google"
-
 type NotificationDetails struct {
 	Id 		string
 	User 	string
 	Content string
 	Url		string
 	Seen	bool
-	Date 	google.protobuf.Timestamp
 }
 
 type CreateNotificationCommandType int8

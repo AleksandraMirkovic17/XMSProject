@@ -8,8 +8,8 @@ import (
 
 type Config struct {
 	Port                             string
-	AuthDBHost                       string
-	AuthDBPort                       string
+	NotificationDBHost               string
+	NotificationDBPort               string
 	ApiGatewayHost                   string
 	ApiGatewayPort                   string
 	NatsHost                         string
@@ -23,17 +23,17 @@ type Config struct {
 func NewConfig() *Config {
 
 	return &Config{
-		Port:                             LoadEnvVariable("AUTHENTICATION_SERVICE_PORT"),
-		AuthDBHost:                       LoadEnvVariable("MONGO_DB_HOST"),
-		AuthDBPort:                       LoadEnvVariable("MONGO_DB_PORT"),
-		ApiGatewayPort:                   LoadEnvVariable("AUTHENTICATION_SERVICE_HOST"),
-		ApiGatewayHost:                   LoadEnvVariable("AUTHENTICATION_SERVICE_PORT"),
+		Port:                             LoadEnvVariable("NOTIFICATION_SERVICE_PORT"),
+		NotificationDBHost:               LoadEnvVariable("MONGO_DB_HOST"),
+		NotificationDBPort:               LoadEnvVariable("MONGO_DB_PORT"),
+		ApiGatewayPort:                   LoadEnvVariable("NOTIFICATION_SERVICE_HOST"),
+		ApiGatewayHost:                   LoadEnvVariable("NOTIFICATION_SERVICE_PORT"),
 		NatsHost:                         LoadEnvVariable("NATS_HOST"),
 		NatsPort:                         LoadEnvVariable("NATS_PORT"),
 		NatsUser:                         LoadEnvVariable("NATS_USER"),
 		NatsPass:                         LoadEnvVariable("NATS_PASS"),
-		CreateNotificationCommandSubject: LoadEnvVariable("SEND_MESSAGE_COMMAND_SUBJECT"),
-		CreateNotificationReplySubject:   LoadEnvVariable("SEND_MESSAGE_REPLY_SUBJECT"),
+		CreateNotificationCommandSubject: LoadEnvVariable("CREATE_NOTIFICATION_COMMAND_SUBJECT"),
+		CreateNotificationReplySubject:   LoadEnvVariable("CREATE_NOTIFICATION_REPLY_SUBJECT"),
 	}
 }
 
