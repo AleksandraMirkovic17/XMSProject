@@ -1,8 +1,9 @@
 package config
 
 import (
-	"github.com/joho/godotenv"
 	"os"
+
+	"github.com/joho/godotenv"
 )
 
 type Config struct {
@@ -26,8 +27,8 @@ func NewConfig() *Config {
 		NatsPort:                   LoadEnvVariable("NATS_PORT"),
 		NatsUser:                   LoadEnvVariable("NATS_USER"),
 		NatsPass:                   LoadEnvVariable("NATS_PASS"),
-		FriendPostedCommandSubject: LoadEnvVariable("FRIEND_POSTED_COMMAND_SUBJECT"),
-		FriendPostedReplySubject:   LoadEnvVariable("FRIEND_POSTED_REPLY_SUBJECT"),
+		FriendPostedCommandSubject: LoadEnvVariable("CREATE_NOTIFICATION_COMMAND_SUBJECT"),
+		FriendPostedReplySubject:   LoadEnvVariable("CREATE_NOTIFICATION_REPLY_SUBJECT"),
 	}
 }
 
