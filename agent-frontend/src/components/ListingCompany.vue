@@ -71,8 +71,12 @@
         <input type="number" min="1" class="form-control" id="adventure-name"  v-model = "rating" required>
       </div>
       <div class="col-11">
-        <label for="adventure-name" class="form-label">difficulty</label>
-        <input type="text" class="form-control" id="adventure-name"  v-model = "difficulty" required>
+        <label for="difficulty_box" class="form-label">difficulty</label>
+        <select class="form-control" name="difficulty_box" id="difficulty_box" v-model="difficulty" required>
+          <option value="EASY">Easy</option>
+          <option value="MEDIUM">Medium</option>
+          <option value="HARD">Hard</option>
+        </select>
       </div>
       <br>
        <div class="modal-footer">
@@ -145,12 +149,16 @@
         <tr>
           <th scope="col">Comment</th>
           <th scope="col">Username</th>
+          <th scope="col">Rating</th>
+          <th scope="col">Difficulty</th>
         </tr>
         </thead>
         <tbody>
         <tr style="align-content: center" data-toggle="modal" v-for="c in interviews" :key="c.id">
           <td> {{c.text}}</td>
           <td  style="align-content: center"> {{c.user.username}}</td>
+          <td> {{c.rating}}</td>
+          <td> {{c.difficulty}}</td>
         </tr>
         </tbody>
       </table>
