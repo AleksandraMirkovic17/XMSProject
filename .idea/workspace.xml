@@ -5,17 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="73e9022d-bf7f-4b1c-95b0-7a9024d84ed5" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/common/saga/friend_posted_notification/friend_posted_notification_events.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/post_service/infrastructure/handlers/FriendPostedNotificationHandler.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/post_service/infrastructure/orchestrators/FriendPoatedNotificationOrchestrator.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/api_gateway/infrastructure/handlers/SearchHandler.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/common/saga/create_notification/create_notification_event.go" beforeDir="false" afterPath="$PROJECT_DIR$/common/saga/create_notification/create_notification_event.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dislinkt-frontend/src/views/Registration.vue" beforeDir="false" afterPath="$PROJECT_DIR$/dislinkt-frontend/src/views/Registration.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/post_service/application/post_service.go" beforeDir="false" afterPath="$PROJECT_DIR$/post_service/application/post_service.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/post_service/infrastructure/api/pb_mapper.go" beforeDir="false" afterPath="$PROJECT_DIR$/post_service/infrastructure/api/pb_mapper.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/post_service/infrastructure/api/post_grpc_api.go" beforeDir="false" afterPath="$PROJECT_DIR$/post_service/infrastructure/api/post_grpc_api.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/post_service/startup/config/config.go" beforeDir="false" afterPath="$PROJECT_DIR$/post_service/startup/config/config.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api_gateway/domain/model.go" beforeDir="false" afterPath="$PROJECT_DIR$/api_gateway/domain/model.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api_gateway/startup/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/api_gateway/startup/server.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/post_service/startup/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/post_service/startup/server.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -69,26 +64,26 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;DefaultGoTemplateProperty&quot;: &quot;Go File&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.go.format.on.save.advertiser.fired&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.go.formatter.settings.were.checked&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.go.migrated.go.modules.settings&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.go.modules.go.list.on.any.changes.was.set&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.go.watchers.conflict.with.on.save.actions.check.performed&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;go.import.settings.migrated&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/PC/Desktop/xml/dislinkt-backend&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "DefaultGoTemplateProperty": "Go File",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.go.format.on.save.advertiser.fired": "true",
+    "RunOnceActivity.go.formatter.settings.were.checked": "true",
+    "RunOnceActivity.go.migrated.go.modules.settings": "true",
+    "RunOnceActivity.go.modules.go.list.on.any.changes.was.set": "true",
+    "RunOnceActivity.go.watchers.conflict.with.on.save.actions.check.performed": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "go.import.settings.migrated": "true",
+    "last_opened_file_path": "C:/Users/PC/Desktop/xml/XML-BSEP/XML",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\PC\Desktop\xml\XMSProject\job_service\startup\config" />
@@ -152,12 +147,12 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
           <url>file://$PROJECT_DIR$/user_service/infrastructure/mappers/pb_mapper.go</url>
-          <line>136</line>
+          <line>142</line>
           <option name="timeStamp" value="2" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
           <url>file://$PROJECT_DIR$/user_service/infrastructure/mappers/pb_mapper.go</url>
-          <line>199</line>
+          <line>205</line>
           <option name="timeStamp" value="3" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
@@ -187,7 +182,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
           <url>file://$PROJECT_DIR$/user_service/infrastructure/persistence/user_mongodb_store.go</url>
-          <line>65</line>
+          <line>68</line>
           <option name="timeStamp" value="12" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">

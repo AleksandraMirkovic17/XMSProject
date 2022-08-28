@@ -48,6 +48,9 @@ func (server *Server) initCustomHandlers() {
 	postHandler := handlers1.NewPostHandler(server.config)
 	postHandler.Init(server.mux)
 
+	searchHandler := handlers1.NewSearchHandlerc(server.config)
+	searchHandler.Init(server.mux)
+
 }
 
 func (server *Server) initHandlers() {

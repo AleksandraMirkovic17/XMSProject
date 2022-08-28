@@ -37,3 +37,11 @@ type Post struct {
 	Comments  []*Comment            `bson:"comments"`
 	IsDeleted bool                  `bson:"is_deleted"`
 }
+
+type User struct {
+	Id       primitive.ObjectID
+	Name     string
+	Surname  string
+	Username string
+	Public   bool
+}

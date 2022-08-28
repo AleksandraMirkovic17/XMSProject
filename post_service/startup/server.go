@@ -45,7 +45,7 @@ func (server *Server) Start() {
 	postService := server.initPostService(postStore, orchestrator)
 	postHandler := server.initPostHandler(postService)
 
-	//friend posted orchestrator
+	//friend posted handler
 	commandSuscriberFriendPosted := server.initSubscriber(server.config.FriendPostedCommandSubject, QueueGroupFriendPosted)
 	replyPublisherFriendPosted := server.initPublisher(server.config.FriendPostedReplySubject)
 	server.initFriendPostedNotificationHandler(postService, replyPublisherFriendPosted, commandSuscriberFriendPosted)
