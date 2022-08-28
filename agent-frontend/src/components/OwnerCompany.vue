@@ -181,7 +181,7 @@
           <td  style="align-content: center"> {{c.description}}</td>
           <td> {{c.dueDate}}</td>
           <td  style="align-content: center"> {{c.company.name}}</td>
-           <button type="button" class="btn btn-secondary"  v-on:click="Publishe(c)">Publishe</button>
+           <button type="button" class="btn btn-secondary"  v-on:click="Publish(c)">Publish</button>
         </tr>
         </tbody>
       </table>
@@ -194,8 +194,8 @@
       <h3 class="mb-3">Create jobOffer</h3>
       <div class="col-11">
         <label for="job-position" class="form-label">API KEY</label>
-        <input type="text" class="form-control" id="job-position" placeholder="E.g. Titanic" v-model = "apiKey" >
-        <button type="button" class="btn btn-secondary" v-on:click="sendToDislinkt">SEND</button>
+        <input type="text" class="form-control" id="job-position" v-model = "apiKey" >
+        <button type="button" class="btn btn-secondary" v-on:click="SendToDislinkt">SEND</button>
 
       </div>
         </form>
@@ -268,8 +268,8 @@ export default{
            key: false,
            jobOffer: null,
            interviews: null,
-           salaries: null
-
+           salaries: null,
+           dislinktServer: 'http://localhost:4200/', //za sada ovde
 
         }
 
@@ -405,7 +405,7 @@ export default{
       })
       
     },
-    Publishe(jobOffer)
+    Publish(jobOffer)
     {
       this.jobOffer=jobOffer;
       this.key=true;
@@ -426,7 +426,7 @@ export default{
       this.jobOfferCard=false;
       })
     },
-     DisplaySalariesCard()
+    DisplaySalariesCard()
     {
       axios.get(devServer.proxy+'api/salary_comment/company/'+this.id)
       .then(response=>
@@ -437,6 +437,26 @@ export default{
       this.interviewCard=false;
       this.jobOfferCard=false;
       })
+    },
+    SendToDislinkt()
+    {
+      console.log(this.jobOffer.requirements);
+      let creationDate = this.jobOffer.creationDate[2] + '.' + this.jobOffer.creationDate[1] + '.' + this.jobOffer.creationDate[0] + '.';
+      let dueDate = this.jobOffer.dueDate[2] + '.' + this.jobOffer.dueDate[1] + '.' + this.jobOffer.dueDate[0] + '.';
+      let jobData = {
+        jobID: "",
+        publisherId: "",
+        requiredSkills: this.jobOffer.requirements,
+        datePosted: creationDate,
+        dateValid: dueDate,
+        companyName: this.jobOffer.company.name,
+        position: this.jobOffer.position,
+        jobDescription: this.jobOffer.description
+      };
+      axios.post(this.dislinktServer + 'job/', jobData)
+      //.then(response=>
+      //{
+      //});
     }
 
     }
