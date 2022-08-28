@@ -11,7 +11,8 @@ type NotificationDetails struct {
 type CreateNotificationCommandType int8
 
 const (
-	CreateNotification CreateNotificationCommandType = iota
+	GetConnections CreateNotificationCommandType = iota
+	CreateNotification
 	NotificationCreate
 	UnknownCommand
 )
@@ -24,7 +25,9 @@ type CreateNotificationCommand struct {
 type CreateNotificationReplyType int8
 
 const (
-	CreatedNotification CreateNotificationReplyType = iota
+	ConnectionsSuccess CreateNotificationReplyType = iota
+	ConnectionsFail
+	CreatedNotification
 	NotificationCreated
 	UnknownReply
 )
