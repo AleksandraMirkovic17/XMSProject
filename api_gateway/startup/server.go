@@ -13,6 +13,7 @@ import (
 	connGw "github.com/dislinked/common/proto/connection_service"
 	jobGw "github.com/dislinked/common/proto/job_service"
 	messageGw "github.com/dislinked/common/proto/message_service"
+	notificationGw "github.com/dislinked/common/proto/notification_service"
 	postGw "github.com/dislinked/common/proto/post_service"
 	userGw "github.com/dislinked/common/proto/user_service"
 	"github.com/gorilla/handlers"
@@ -83,6 +84,11 @@ func (server *Server) initHandlers() {
 	}
 	messageEndpoint := fmt.Sprintf("%s:%s", server.config.MessageHost, server.config.MessagePort)
 	err = messageGw.RegisterMessageServiceHandlerFromEndpoint(context.TODO(), server.mux, messageEndpoint, opts)
+	if err != nil {
+		panic(err)
+	}
+	notificationsEndpoint := fmt.Sprintf("%s:%s", server.config.NotificationHost, server.config.NotificationPort)
+	err = notificationGw.RegisterNotificationServiceHandlerFromEndpoint(context.TODO(), server.mux, notificationsEndpoint, opts)
 	if err != nil {
 		panic(err)
 	}

@@ -33,7 +33,6 @@ func NewServer(config *config.Config) *Server {
 
 const (
 	QueueGroupConnection = "connection_service_connection"
-	QueueGroup           = "connection_service"
 )
 
 func (server *Server) Start() {
@@ -60,6 +59,11 @@ func (server *Server) Start() {
 	replyPublisherUpdate := server.initPublisher(server.config.UpdateUserReplySubject)
 	server.initUpdateUserHandler(connectionService, replyPublisherUpdate, commandSubscriberUpdate)
 
+	//friend posted notification handler
+	commandSubscriberFriendPosted := server.initSubscriber(server.config.FriendPostedCommandSubject, QueueGroupConnection)
+	replyPublisherFriendPosted := server.initPublisher(server.config.FriendPostedReplySubject)
+	server.initFriendPostedNotificationHandler(connectionService, replyPublisherFriendPosted, commandSubscriberFriendPosted)
+
 	server.startGrpcServer(connectionHandler)
 }
 
@@ -72,6 +76,13 @@ func (server *Server) initRegisterUserHandler(connectionService *application.Con
 
 func (server *Server) initUpdateUserHandler(connectionService *application.ConnectionService, publisher saga.Publisher, subscriber saga.Subscriber) {
 	_, err := api.NewUpdateUserCommandHandler(connectionService, publisher, subscriber)
+	if err != nil {
+		log.Fatal(err)
+	}
+}
+
+func (server *Server) initFriendPostedNotificationHandler(userService *application.ConnectionService, publisher saga.Publisher, subscriber saga.Subscriber) {
+	_, err := api.NewFriendPostedNotificationHandler(userService, publisher, subscriber)
 	if err != nil {
 		log.Fatal(err)
 	}

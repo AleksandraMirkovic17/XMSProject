@@ -28,6 +28,8 @@ type Config struct {
 	ConnectionNotificationReplySubject   string
 	UpdateUserCommandSubject             string
 	UpdateUserReplySubject               string
+	FriendPostedCommandSubject           string
+	FriendPostedReplySubject             string
 }
 
 func NewConfig() *Config {
@@ -52,6 +54,8 @@ func NewConfig() *Config {
 		RegisterUserReplySubject:   LoadEnvVariable("REGISTER_USER_REPLY_SUBJECT"),
 		UpdateUserReplySubject:     LoadEnvVariable("UPDATE_USER_REPLY_SUBJECT"),
 		UpdateUserCommandSubject:   LoadEnvVariable("UPDATE_USER_COMMAND_SUBJECT"),
+		FriendPostedCommandSubject: LoadEnvVariable("CREATE_NOTIFICATION_COMMAND_SUBJECT"),
+		FriendPostedReplySubject:   LoadEnvVariable("CREATE_NOTIFICATION_REPLY_SUBJECT"),
 	}
 }
 

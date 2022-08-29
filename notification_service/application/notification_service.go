@@ -2,18 +2,15 @@ package application
 
 import (
 	"NotificationService/domain"
-	orchestrators "NotificationService/infrastructure/orchestrator"
 )
 
 type NotificationService struct {
-	store        domain.NotificationStore
-	orchestrator *orchestrators.CreateNotificationOrchestrator
+	store domain.NotificationStore
 }
 
-func NewNotificationService(store domain.NotificationStore, orchestrator *orchestrators.CreateNotificationOrchestrator) *NotificationService {
+func NewNotificationService(store domain.NotificationStore) *NotificationService {
 	return &NotificationService{
-		store:        store,
-		orchestrator: orchestrator,
+		store: store,
 	}
 }
 

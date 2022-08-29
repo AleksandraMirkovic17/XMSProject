@@ -38,18 +38,13 @@ func (server *Server) Start() {
 	mongoClient := server.initMongoClient()
 	notificationStore := server.initNotificationStore(mongoClient)
 
-	//orchestratorCreate
-	commandPublisher := server.initPublisher(server.config.CreateNotificationCommandSubject)
-	replySubscriber := server.initSubscriber(server.config.CreateNotificationReplySubject, QueueGroup)
-	orchestrator := server.InitOrchestrator(commandPublisher, replySubscriber)
-
-	notificationService := server.initNotificationService(notificationStore, orchestrator)
+	notificationService := server.initNotificationService(notificationStore)
 	notificationHandler := server.initNotificationHandler(notificationService)
 
-	//handler
-	commandSubscriber := server.initSubscriber(server.config.CreateNotificationCommandSubject, QueueGroup)
-	replyPublisher := server.initPublisher(server.config.CreateNotificationReplySubject)
-	server.initCreateNotificationHandler(notificationService, replyPublisher, commandSubscriber)
+	//friend posted notification handler
+	commandSubscriberFriendPosted := server.initSubscriber(server.config.FriendPostedCommandSubject, QueueGroup)
+	replyPublisherFriendPosted := server.initPublisher(server.config.FriendPostedReplySubject)
+	server.initFriendPostedNotificationHandler(notificationService, replyPublisherFriendPosted, commandSubscriberFriendPosted)
 
 	server.startGrpcServer(notificationHandler)
 
@@ -68,8 +63,8 @@ func (server *Server) initNotificationStore(client *mongo.Client) domain.Notific
 	return store
 }
 
-func (server *Server) initNotificationService(store domain.NotificationStore, orchestrator *orchestrators.CreateNotificationOrchestrator) *application.NotificationService {
-	return application.NewNotificationService(store, orchestrator)
+func (server *Server) initNotificationService(store domain.NotificationStore) *application.NotificationService {
+	return application.NewNotificationService(store)
 }
 
 func (server *Server) initNotificationHandler(service *application.NotificationService) *api.NotificationHandler {
@@ -78,6 +73,13 @@ func (server *Server) initNotificationHandler(service *application.NotificationS
 
 func (server *Server) initCreateNotificationHandler(notificationService *application.NotificationService, publisher saga.Publisher, subscriber saga.Subscriber) {
 	_, err := handlers.NewCreateNotificationCommandHandler(notificationService, publisher, subscriber)
+	if err != nil {
+		log.Fatal(err)
+	}
+}
+
+func (server *Server) initFriendPostedNotificationHandler(userService *application.NotificationService, publisher saga.Publisher, subscriber saga.Subscriber) {
+	_, err := handlers.NewFriendPostedNotificationHandler(userService, publisher, subscriber)
 	if err != nil {
 		log.Fatal(err)
 	}

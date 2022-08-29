@@ -5,13 +5,28 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="73e9022d-bf7f-4b1c-95b0-7a9024d84ed5" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/api_gateway/infrastructure/handlers/SearchHandler.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/connection_service/infrastructure/api/friend_posted_notification_handler.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/notification_service/infrastructure/handlers/FriendPostedNotificationHandler.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user_service/infrastructure/handlers/friend_posted_notification_handler.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api_gateway/domain/model.go" beforeDir="false" afterPath="$PROJECT_DIR$/api_gateway/domain/model.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api_gateway/startup/config/config.go" beforeDir="false" afterPath="$PROJECT_DIR$/api_gateway/startup/config/config.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/api_gateway/startup/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/api_gateway/startup/server.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/connection_service/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/connection_service/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/connection_service/startup/config/config.go" beforeDir="false" afterPath="$PROJECT_DIR$/connection_service/startup/config/config.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/connection_service/startup/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/connection_service/startup/server.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/notification_service/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/notification_service/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/notification_service/application/notification_service.go" beforeDir="false" afterPath="$PROJECT_DIR$/notification_service/application/notification_service.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/notification_service/startup/config/config.go" beforeDir="false" afterPath="$PROJECT_DIR$/notification_service/startup/config/config.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/notification_service/startup/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/notification_service/startup/server.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/post_service/infrastructure/api/pb_mapper.go" beforeDir="false" afterPath="$PROJECT_DIR$/post_service/infrastructure/api/pb_mapper.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/post_service/infrastructure/api/post_grpc_api.go" beforeDir="false" afterPath="$PROJECT_DIR$/post_service/infrastructure/api/post_grpc_api.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/post_service/infrastructure/handlers/FriendPostedNotificationHandler.go" beforeDir="false" afterPath="$PROJECT_DIR$/post_service/infrastructure/handlers/FriendPostedNotificationHandler.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/post_service/infrastructure/orchestrators/FriendPostedNotificationOrchestrator.go" beforeDir="false" afterPath="$PROJECT_DIR$/post_service/infrastructure/orchestrators/FriendPostedNotificationOrchestrator.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/post_service/startup/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/post_service/startup/server.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user_service/startup/config/config.go" beforeDir="false" afterPath="$PROJECT_DIR$/user_service/startup/config/config.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user_service/startup/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/user_service/startup/server.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -142,7 +157,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
           <url>file://$PROJECT_DIR$/user_service/startup/server.go</url>
-          <line>131</line>
+          <line>143</line>
           <option name="timeStamp" value="1" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
@@ -189,6 +204,11 @@
           <url>file://$PROJECT_DIR$/job_service/persistence/job_neo4jdb_store.go</url>
           <line>60</line>
           <option name="timeStamp" value="13" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/post_service/infrastructure/orchestrators/FriendPostedNotificationOrchestrator.go</url>
+          <line>31</line>
+          <option name="timeStamp" value="14" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

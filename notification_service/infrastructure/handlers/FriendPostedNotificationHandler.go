@@ -1,23 +1,22 @@
 package handlers
 
 import (
-	"PostService/application"
-
+	"NotificationService/application"
 	events "github.com/dislinked/common/saga/friend_posted_notification"
 	saga "github.com/dislinked/common/saga/messaging"
 )
 
 type FriendPostedNotificationHandler struct {
-	service           *application.PostService
+	service           *application.NotificationService
 	replyPublisher    saga.Publisher
 	commandSubscriber saga.Subscriber
 }
 
-func NewFriendPostedNotificationHandler(service *application.PostService, publiser saga.Publisher, subscriber *saga.Subscriber) (*FriendPostedNotificationHandler, error) {
+func NewFriendPostedNotificationHandler(service *application.NotificationService, publiser saga.Publisher, subscriber saga.Subscriber) (*FriendPostedNotificationHandler, error) {
 	o := &FriendPostedNotificationHandler{
 		service:           service,
 		replyPublisher:    publiser,
-		commandSubscriber: *subscriber,
+		commandSubscriber: subscriber,
 	}
 	err := o.commandSubscriber.Subscribe(o.handle)
 	if err != nil {
@@ -35,16 +34,9 @@ func (handler *FriendPostedNotificationHandler) handle(command events.FriendPost
 	}
 
 	switch command.Type {
-	case events.FiledToPost:
-		println("Failed to post")
-		reply.Type = events.UnknownReply
-		break
-	case events.RollbackPostService:
-		println("Have to rollback post service")
-		reply.Type = events.PostServiceRolledBack
-		break
-	case events.SuccessfulyPosted:
-		reply.Type = events.UnknownReply
+	case events.SendNotification:
+		println("Sending notification")
+		reply.Type = events.NotificationSent
 		break
 	default:
 		reply.Type = events.UnknownReply

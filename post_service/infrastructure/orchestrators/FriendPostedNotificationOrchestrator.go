@@ -1,7 +1,7 @@
 package orchestrators
 
 import (
-	events "github.com/dislinked/common/saga/create_notification"
+	events "github.com/dislinked/common/saga/friend_posted_notification"
 	saga "github.com/dislinked/common/saga/messaging"
 )
 
@@ -22,14 +22,14 @@ func NewFriendPostedNotificationOrchestrator(publisher saga.Publisher, subscribe
 	return o, nil
 }
 
-func (o *FriendPostedNotificationOrchestrator) handle(reply *events.CreateNotificationReply) {
+func (o *FriendPostedNotificationOrchestrator) handle(reply *events.FriendPostNotificationReply) {
 	println("Nalazim se u hendleru friend posted orkestratora")
-	command := events.CreateNotificationCommand{
-		Notification: events.NotificationDetails{
-			User:    reply.Notification.User,
-			Content: reply.Notification.Content,
-			Url:     reply.Notification.Url,
-			Seen:    reply.Notification.Seen,
+	command := events.FriendPostNotificationCommand{
+		Notification: events.FriendPostNotification{
+			Content:               reply.Notification.Content,
+			RedirectPath:          reply.Notification.RedirectPath,
+			NotificationSender:    reply.Notification.NotificationSender,
+			NotificationReceivers: reply.Notification.NotificationReceivers,
 		},
 		Type: o.nextCommand(reply.Type),
 	}
@@ -41,8 +41,8 @@ func (o *FriendPostedNotificationOrchestrator) handle(reply *events.CreateNotifi
 
 }
 
-func (o *FriendPostedNotificationOrchestrator) nextCommand(reply events.CreateNotificationReplyType) events.CreateNotificationCommandType {
-	/*switch reply {
+func (o *FriendPostedNotificationOrchestrator) nextCommand(reply events.FriendPostNotificationReplyType) events.FriendPostNotificationCommandType {
+	switch reply {
 	case events.ConnectionsFail:
 		println("It was imposible to get sender connections!")
 		return events.RollbackPostService
@@ -65,15 +65,23 @@ func (o *FriendPostedNotificationOrchestrator) nextCommand(reply events.CreateNo
 	default:
 		return events.UnknownCommand
 
-	}*/
+	}
 	return events.UnknownCommand
 }
 
-func (o *FriendPostedNotificationOrchestrator) Start(notification *events.NotificationDetails) error {
+func (o *FriendPostedNotificationOrchestrator) Start(Notification *events.FriendPostNotification) error {
 	println("Starting orchestrator for sending notifications for posts!")
-	event := events.CreateNotificationCommand{
+	println(Notification.NotificationSender, "sender")
+	event := &events.FriendPostNotificationCommand{
+		Notification: *Notification,
 		Type:         events.GetConnections,
-		Notification: *notification,
 	}
+	println("Pre provere da li je nil")
+	/*if o.commandPublisher  {
+		println("komand pubisher je NULL")
+	} else {
+		println("Command publisher nije null")
+	}*/
 	return o.commandPublisher.Publish(event)
+
 }

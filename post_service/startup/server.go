@@ -20,7 +20,7 @@ import (
 )
 
 const (
-	QueueGroupFriendPosted = "friend_posted_notification"
+	QueueGroup = "post_service"
 )
 
 type Server struct {
@@ -39,14 +39,14 @@ func (server *Server) Start() {
 
 	//friend posted orchestrator
 	commandPublisher := server.initPublisher(server.config.FriendPostedCommandSubject)
-	replySubsciber := server.initSubscriber(server.config.FriendPostedReplySubject, QueueGroupFriendPosted)
+	replySubsciber := server.initSubscriber(server.config.FriendPostedReplySubject, QueueGroup)
 	orchestrator := server.InitOrchestrator(commandPublisher, replySubsciber)
 
 	postService := server.initPostService(postStore, orchestrator)
-	postHandler := server.initPostHandler(postService)
+	postHandler := server.initPostHandler(postService, orchestrator)
 
 	//friend posted handler
-	commandSuscriberFriendPosted := server.initSubscriber(server.config.FriendPostedCommandSubject, QueueGroupFriendPosted)
+	commandSuscriberFriendPosted := server.initSubscriber(server.config.FriendPostedCommandSubject, QueueGroup)
 	replyPublisherFriendPosted := server.initPublisher(server.config.FriendPostedReplySubject)
 	server.initFriendPostedNotificationHandler(postService, replyPublisherFriendPosted, commandSuscriberFriendPosted)
 
@@ -79,8 +79,8 @@ func (server *Server) initPostService(store domain.PostStore, orchestrator *orch
 	return application.NewPostService(store, orchestrator)
 }
 
-func (server *Server) initPostHandler(service *application.PostService) *api.PostHandler {
-	return api.NewPostHandler(service)
+func (server *Server) initPostHandler(service *application.PostService, orchestrator *orchestrators.FriendPostedNotificationOrchestrator) *api.PostHandler {
+	return api.NewPostHandler(service, orchestrator)
 }
 
 func (server *Server) startGrpcServer(postHandler *api.PostHandler) {
@@ -120,6 +120,7 @@ func (server *Server) initSubscriber(subject, queueGroup string) saga.Subscriber
 func (server *Server) InitOrchestrator(publisher saga.Publisher, subscriber saga.Subscriber) *orchestrators.FriendPostedNotificationOrchestrator {
 	orchestrator, err := orchestrators.NewFriendPostedNotificationOrchestrator(publisher, subscriber)
 	if err != nil {
+		println("error while initialising friend posted notification orchestrator")
 		log.Fatal(err)
 	}
 	return orchestrator

@@ -16,8 +16,11 @@ type PostHandler struct {
 	friendPostedNotificationOrchestrator *orchestrators.FriendPostedNotificationOrchestrator
 }
 
-func NewPostHandler(service *application.PostService) *PostHandler {
-	return &PostHandler{service: service}
+func NewPostHandler(service *application.PostService, orchestrator *orchestrators.FriendPostedNotificationOrchestrator) *PostHandler {
+	return &PostHandler{
+		service:                              service,
+		friendPostedNotificationOrchestrator: orchestrator,
+	}
 }
 
 func (handler *PostHandler) GetAll(ctx context.Context, request *pb.Empty) (*pb.GetMultipleResponse, error) {

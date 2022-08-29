@@ -40,6 +40,8 @@ services:
             REGISTER_USER_REPLY_SUBJECT: ${REGISTER_USER_REPLY_SUBJECT}
             UPDATE_USER_COMMAND_SUBJECT: ${UPDATE_USER_COMMAND_SUBJECT}
             UPDATE_USER_REPLY_SUBJECT: ${UPDATE_USER_REPLY_SUBJECT}
+            CREATE_NOTIFICATION_COMMAND_SUBJECT: ${CREATE_NOTIFICATION_COMMAND_SUBJECT}
+            CREATE_NOTIFICATION_REPLY_SUBJECT: ${CREATE_NOTIFICATION_REPLY_SUBJECT}
             NATS_HOST: ${NATS_HOST}
             NATS_PORT: ${NATS_PORT}
             NATS_USER: ${NATS_USER}
@@ -70,6 +72,30 @@ services:
             - post_mongo_db
         networks:
             - network
+
+    notification_service:
+        image: notification_service
+        container_name: notification_service
+        build:
+            context: .
+            dockerfile: ./notification_service/Dockerfile
+        restart: on-failure
+        environment:
+            NOTIFICATION_SERVICE_PORT: ${NOTIFICATION_SERVICE_PORT}
+            MONGO_DB_HOST: ${NOTIFICATION_MONGO_DB_HOST_DOCKER}
+            MONGO_DB_PORT: ${MONGO_DB_PORT}
+            NATS_HOST: ${NATS_HOST}
+            NATS_PORT: ${NATS_PORT}
+            NATS_USER: ${NATS_USER}
+            NATS_PASS: ${NATS_PASS}
+            CREATE_NOTIFICATION_COMMAND_SUBJECT: ${CREATE_NOTIFICATION_COMMAND_SUBJECT}
+            CREATE_NOTIFICATION_REPLY_SUBJECT: ${CREATE_NOTIFICATION_REPLY_SUBJECT}
+        depends_on:
+            -  notification_mongo_db
+        networks:
+            - network
+
+
 
     message_service:
         image: message_service
@@ -104,6 +130,8 @@ services:
             REGISTER_USER_REPLY_SUBJECT: ${REGISTER_USER_REPLY_SUBJECT}
             UPDATE_USER_COMMAND_SUBJECT: ${UPDATE_USER_COMMAND_SUBJECT}
             UPDATE_USER_REPLY_SUBJECT: ${UPDATE_USER_REPLY_SUBJECT}
+            CREATE_NOTIFICATION_COMMAND_SUBJECT: ${CREATE_NOTIFICATION_COMMAND_SUBJECT}
+            CREATE_NOTIFICATION_REPLY_SUBJECT: ${CREATE_NOTIFICATION_REPLY_SUBJECT}
             NATS_HOST: ${NATS_HOST}
             NATS_PORT: ${NATS_PORT}
             NATS_USER: ${NATS_USER}
@@ -163,6 +191,8 @@ services:
             JOB_SERVICE_PORT: ${JOB_SERVICE_PORT}
             MESSAGE_SERVICE_HOST: ${MESSAGE_SERVICE_HOST_DOCKER}
             MESSAGE_SERVICE_PORT: ${MESSAGE_SERVICE_PORT}
+            NOTIFICATION_SERVICE_HOST: ${NOTIFICATION_SERVICE_HOST_DOCKER}
+            NOTIFICATION_SERVICE_PORT: ${NOTIFICATION_SERVICE_PORT}
         networks:
             - network
 
@@ -213,6 +243,18 @@ services:
             - '4004:27017'
         volumes:
             - message_data:/data/db
+        networks:
+            - network
+
+    notification_mongo_db:
+        image: mongo
+        container_name: notification_mongo_db
+        command: mongod --quiet --logpath /dev/null
+        restart: on-failure
+        ports:
+            - '4005:27017'
+        volumes:
+            - notification_data:/data/db
         networks:
             - network
 
@@ -270,3 +312,5 @@ volumes:
         name: message-database
     auth_data:
         name: auth-database
+    notification_data:
+        name: notification-database

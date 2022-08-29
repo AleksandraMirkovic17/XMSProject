@@ -57,6 +57,11 @@ func (server *Server) Start() {
 	replyPublisherUpdateUser := server.initPublisher(server.config.UpdateUserReplySubject)
 	server.initUpdateUserHandler(userService, replyPublisherUpdateUser, commandSubscriberUpdateUser)
 
+	//friend posted notification handler
+	commandSubscriberFriendPosted := server.initSubscriber(server.config.FriendPostedCommandSubject, QueueGroup)
+	replyPublisherFriendPosted := server.initPublisher(server.config.FriendPostedReplySubject)
+	server.initFriendPostedNotificationHandler(userService, replyPublisherFriendPosted, commandSubscriberFriendPosted)
+
 	server.startGrpcServer(userHandler)
 }
 
@@ -85,6 +90,13 @@ func (server *Server) initRegisterUserHandler(userService *application.UserServi
 
 func (server *Server) initUpdateUserHandler(userService *application.UserService, publisher saga.Publisher, subscriber saga.Subscriber) {
 	_, err := handlers.NewUpdateUserCommandHandler(userService, publisher, subscriber)
+	if err != nil {
+		log.Fatal(err)
+	}
+}
+
+func (server *Server) initFriendPostedNotificationHandler(userService *application.UserService, publisher saga.Publisher, subscriber saga.Subscriber) {
+	_, err := handlers.NewFriendPostedNotificationHandler(userService, publisher, subscriber)
 	if err != nil {
 		log.Fatal(err)
 	}
