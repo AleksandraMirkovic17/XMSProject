@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.agentska.dto.JobCreationDTO;
+import com.agentska.dto.JobDTO;
 import com.agentska.model.Company;
 import com.agentska.model.Job;
 import com.agentska.model.JobRequirement;
@@ -55,10 +56,12 @@ public class JobController {
 		}
 	}
 	@GetMapping("/job/{id}")
-	public ResponseEntity<Job> getJobById(@PathVariable("id") Integer id) {
+	public ResponseEntity<JobDTO> getJobById(@PathVariable("id") Integer id) {
 		Job jobData = jobService.findById(id);
+		List<JobRequirement> requirements = jobService.getRequirementsByJobId(id);
 		if (jobData != null) {
-			return new ResponseEntity<>(jobData, HttpStatus.OK);
+			JobDTO jobDTO = new JobDTO(jobData, requirements);
+			return new ResponseEntity<>(jobDTO, HttpStatus.OK);
 		} else {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
@@ -66,11 +69,16 @@ public class JobController {
 	
 	@GetMapping("/job/all/{id}")
 	//@PreAuthorize("authentication.principal.id == #id")
-	public ResponseEntity<List<Job>> getAllJobsByCompany(@PathVariable int id)
+	public ResponseEntity<List<JobDTO>> getAllJobsByCompany(@PathVariable int id)
 	{
 		System.out.println(id);
 		List<Job> jobData = jobService.findByCompanyId(id);
-		return new ResponseEntity<>(jobData, HttpStatus.OK);
+		List<JobDTO> jobDTOs = new ArrayList<JobDTO>();
+		for (Job j : jobData) {
+			List<JobRequirement> requirements = jobService.getRequirementsByJobId(j.getId());
+			jobDTOs.add(new JobDTO(j, requirements));
+		}
+		return new ResponseEntity<>(jobDTOs, HttpStatus.OK);
 	}
 	
 	@PostMapping("/job/{companyId}")

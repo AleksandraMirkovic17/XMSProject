@@ -45,6 +45,10 @@ public class JobService {
 			return foundJob.get();
 	}
 	
+	public List<JobRequirement> getRequirementsByJobId(Integer id) {
+		return jobRequirementRepository.findByJobId(id);
+	}
+	
 	public List<Job> findByCompanyId(Integer companyId)
 	{
 		return jobRepository.findByCompanyId(companyId);
