@@ -51,6 +51,22 @@ public class InterviewComment {
 		this.rating = interviewCommentDTO.getRating();
 	}
 
+	public EDifficulty getDifficulty() {
+		return difficulty;
+	}
+
+	public void setDifficulty(EDifficulty difficulty) {
+		this.difficulty = difficulty;
+	}
+
+	public int getRating() {
+		return rating;
+	}
+
+	public void setRating(int rating) {
+		this.rating = rating;
+	}
+
 	public Integer getId() {
 		return id;
 	}

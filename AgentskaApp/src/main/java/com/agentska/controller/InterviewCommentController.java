@@ -74,6 +74,8 @@ public class InterviewCommentController {
 	@PreAuthorize("isAuthenticated()")
 	public ResponseEntity<InterviewComment> createInterviewComment(@PathVariable int companyId, @RequestBody InterviewCommentCreationDTO interviewCommentDTO) {
 		try {
+			if (interviewCommentDTO.getRating() < 1 || interviewCommentDTO.getRating() > 5)
+				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 			User currentUser = getCurrentUser();
 			Company company = companyService.findById(companyId);
 			if (company.getOwner().getId() == getCurrentUser().getId()) {
