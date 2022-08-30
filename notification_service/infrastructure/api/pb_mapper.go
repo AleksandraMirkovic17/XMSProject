@@ -37,3 +37,19 @@ func mapNotificationToDomain(notification *pb.Notification) *domain.Notification
 	}
 	return userDomain
 }
+
+/*func mapNotificationCommandToDomain(notification *events.NotificationDetails) *domain.Notification {
+	id, err := primitive.ObjectIDFromHex((*notification).Id)
+	if err != nil {
+		return nil
+	}
+	userDomain := &domain.Notification{
+		Id:      id,
+		User:    notification.User,
+		Content: notification.Content,
+		Url:     notification.Url,
+		Seen:    notification.Seen,
+		Date:    time.Now(),
+	}
+	return userDomain
+}*/

@@ -72,7 +72,7 @@ func (server *Server) initNotificationHandler(service *application.NotificationS
 }
 
 func (server *Server) initCreateNotificationHandler(notificationService *application.NotificationService, publisher saga.Publisher, subscriber saga.Subscriber) {
-	_, err := handlers.NewCreateNotificationCommandHandler(notificationService, publisher, subscriber)
+	_, err := handlers.NewFriendPostedNotificationHandler(notificationService, publisher, subscriber)
 	if err != nil {
 		log.Fatal(err)
 	}

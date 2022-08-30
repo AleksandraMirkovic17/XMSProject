@@ -3,7 +3,7 @@ package handlers
 import (
 	"PostService/application"
 
-	events "github.com/dislinked/common/saga/friend_posted_notification"
+	events "github.com/dislinked/common/saga/create_notification"
 	saga "github.com/dislinked/common/saga/messaging"
 )
 
@@ -26,11 +26,8 @@ func NewFriendPostedNotificationHandler(service *application.PostService, publis
 	return o, nil
 }
 
-func (handler *FriendPostedNotificationHandler) handle(command events.FriendPostNotificationCommand) {
-	println("Nalazim se u hendleru post servisa za slanje notifikacija za objavljene postove prijatelja")
-	print("Command type je: ")
-	println(command.Type)
-	reply := events.FriendPostNotificationReply{
+func (handler *FriendPostedNotificationHandler) handle(command events.CreateNotificationCommand) {
+	/*reply := events.CreateNotificationReply{
 		Notification: command.Notification,
 	}
 
@@ -52,5 +49,5 @@ func (handler *FriendPostedNotificationHandler) handle(command events.FriendPost
 	}
 	if reply.Type != events.UnknownReply {
 		_ = handler.replyPublisher.Publish(reply)
-	}
+	}*/
 }

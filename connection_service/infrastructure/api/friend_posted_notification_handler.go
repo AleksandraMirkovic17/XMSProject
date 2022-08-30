@@ -2,7 +2,8 @@ package api
 
 import (
 	"ConnectionService/application"
-	events "github.com/dislinked/common/saga/friend_posted_notification"
+
+	events "github.com/dislinked/common/saga/create_notification"
 	saga "github.com/dislinked/common/saga/messaging"
 )
 
@@ -25,25 +26,28 @@ func NewFriendPostedNotificationHandler(service *application.ConnectionService, 
 	return o, nil
 }
 
-func (handler *FriendPostedNotificationHandler) handle(command events.FriendPostNotificationCommand) {
-	println("Nalazim se u hendleru connection servisa za slanje notifikacija za objavljene postove prijatelja")
-	print("Command type je: ")
-	println(command.Type)
-	reply := events.FriendPostNotificationReply{
+func (handler *FriendPostedNotificationHandler) handle(command events.CreateNotificationCommand) {
+	reply := events.CreateNotificationReply{
 		Notification: command.Notification,
 	}
 
 	switch command.Type {
-	case events.GetConnections:
-		println("Getting connections in connections service")
-		//TO DO: dodati
-		reply.Type = events.ConnectionsSuccess
+	case events.DistributeToConnections:
+		friends, err := handler.service.GetFriends(command.Notification.User)
+		if err != nil {
+			reply.Type = events.UnknownReply
+		} else {
+			reply.Type = events.DistributeToConnectionsSuccess
+			for _, friend := range friends {
+				reply.Notification.User = friend.UserID
+				handler.replyPublisher.Publish(reply)
+			}
+		}
 		break
 	default:
 		reply.Type = events.UnknownReply
-
 	}
-	if reply.Type != events.UnknownReply {
-		_ = handler.replyPublisher.Publish(reply)
+	if reply.Type != events.UnknownReply && reply.Type != events.DistributeToConnectionsSuccess {
+		handler.replyPublisher.Publish(reply)
 	}
 }
