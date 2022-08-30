@@ -103,7 +103,6 @@ func (server *Server) initFriendPostedNotificationHandler(userService *applicati
 }
 
 func (server *Server) initPublisher(subject string) saga.Publisher {
-	println("Unutar publishera")
 	publisher, err := nats.NewNATSPublisher(
 		server.config.NatsHost, server.config.NatsPort,
 		server.config.NatsUser, server.config.NatsPass, subject)
@@ -117,7 +116,6 @@ func (server *Server) initPublisher(subject string) saga.Publisher {
 }
 
 func (server *Server) initSubscriber(subject, queueGroup string) saga.Subscriber {
-	println("Pokusaj inicijalizacije subsribera")
 	subscriber, err := nats.NewNATSSubscriber(
 		server.config.NatsHost, server.config.NatsPort,
 		server.config.NatsUser, server.config.NatsPass, subject, queueGroup)

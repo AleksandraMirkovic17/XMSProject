@@ -2,6 +2,16 @@
   <div>
   <div style="display: flex; flex-direction: row" >
       <div style="width: 80%; padding: 5%">
+        <div style="margin-bottom: 2%">
+          <h2>Generate API token</h2>
+          <div style="display: flex; flex-direction: row">
+            <input class="form-control" v-model="apiKey" readonly="" style="margin-top: 1.5%" type="text"/>
+            <input type="button" class="btn-primary btn-round" style=" border: 0" value="Generate" v-on:click="generateAPI()"/>
+          </div>
+          <p v-if="apiKey!=''" style="text-align: left; font-size: 10pt" class="description">It is valid for 30 days!</p>
+
+
+        </div>
         <div >
             <div>
               <h2>Edit your profile</h2>
@@ -359,6 +369,7 @@ export default {
       newWork: {},
       newSkill: "",
       newInterest: "",
+      apiKey: ""
     }
   },
   components: {Badge, [Switch.name]: Switch},
@@ -476,6 +487,16 @@ export default {
             )
       }
     },
+    generateAPI(){
+      UserService.generateApiToken(this.loggedUser.username)
+      .then(response =>{
+        this.apiKey = response.data.apiToken
+      })
+      .catch(err => {
+        console.log(err)
+      })
+
+    }
   }
 }
 </script>

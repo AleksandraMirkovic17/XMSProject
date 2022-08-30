@@ -27,7 +27,7 @@ service JobService{
 
   rpc UpdateJob(CreateJobRequest) returns(CreateJobResponse){
     option (google.api.http)={
-      put: "/job"
+      put: "/jobput"
       body: "job"
     };
   }

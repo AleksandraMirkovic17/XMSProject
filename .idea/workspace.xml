@@ -5,27 +5,24 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="73e9022d-bf7f-4b1c-95b0-7a9024d84ed5" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/connection_service/infrastructure/api/friend_posted_notification_handler.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/notification_service/infrastructure/handlers/FriendPostedNotificationHandler.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/user_service/infrastructure/handlers/friend_posted_notification_handler.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/api_gateway/domain/ShareJobOfferRequest.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/api_gateway/infrastructure/handlers/ShareJobOfferHandler.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api_gateway/startup/config/config.go" beforeDir="false" afterPath="$PROJECT_DIR$/api_gateway/startup/config/config.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api_gateway/infrastructure/services/client.go" beforeDir="false" afterPath="$PROJECT_DIR$/api_gateway/infrastructure/services/client.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/api_gateway/startup/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/api_gateway/startup/server.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/connection_service/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/connection_service/Dockerfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/connection_service/startup/config/config.go" beforeDir="false" afterPath="$PROJECT_DIR$/connection_service/startup/config/config.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/connection_service/startup/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/connection_service/startup/server.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/notification_service/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/notification_service/Dockerfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/notification_service/application/notification_service.go" beforeDir="false" afterPath="$PROJECT_DIR$/notification_service/application/notification_service.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/notification_service/startup/config/config.go" beforeDir="false" afterPath="$PROJECT_DIR$/notification_service/startup/config/config.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/notification_service/startup/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/notification_service/startup/server.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/post_service/infrastructure/api/pb_mapper.go" beforeDir="false" afterPath="$PROJECT_DIR$/post_service/infrastructure/api/pb_mapper.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/post_service/infrastructure/api/post_grpc_api.go" beforeDir="false" afterPath="$PROJECT_DIR$/post_service/infrastructure/api/post_grpc_api.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/post_service/infrastructure/handlers/FriendPostedNotificationHandler.go" beforeDir="false" afterPath="$PROJECT_DIR$/post_service/infrastructure/handlers/FriendPostedNotificationHandler.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/post_service/infrastructure/orchestrators/FriendPostedNotificationOrchestrator.go" beforeDir="false" afterPath="$PROJECT_DIR$/post_service/infrastructure/orchestrators/FriendPostedNotificationOrchestrator.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/post_service/startup/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/post_service/startup/server.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user_service/startup/config/config.go" beforeDir="false" afterPath="$PROJECT_DIR$/user_service/startup/config/config.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/proto/job_service/job_service.pb.go" beforeDir="false" afterPath="$PROJECT_DIR$/common/proto/job_service/job_service.pb.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/proto/job_service/job_service.pb.gw.go" beforeDir="false" afterPath="$PROJECT_DIR$/common/proto/job_service/job_service.pb.gw.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/proto/job_service/job_service.proto" beforeDir="false" afterPath="$PROJECT_DIR$/common/proto/job_service/job_service.proto" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/proto/user_service/user_service.pb.go" beforeDir="false" afterPath="$PROJECT_DIR$/common/proto/user_service/user_service.pb.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/proto/user_service/user_service.pb.gw.go" beforeDir="false" afterPath="$PROJECT_DIR$/common/proto/user_service/user_service.pb.gw.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/proto/user_service/user_service.proto" beforeDir="false" afterPath="$PROJECT_DIR$/common/proto/user_service/user_service.proto" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/proto/user_service/user_service_grpc.pb.go" beforeDir="false" afterPath="$PROJECT_DIR$/common/proto/user_service/user_service_grpc.pb.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dislinkt-frontend/src/services/UserService.js" beforeDir="false" afterPath="$PROJECT_DIR$/dislinkt-frontend/src/services/UserService.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dislinkt-frontend/src/views/Profile/ChangeProfile.vue" beforeDir="false" afterPath="$PROJECT_DIR$/dislinkt-frontend/src/views/Profile/ChangeProfile.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user_service/application/user_service.go" beforeDir="false" afterPath="$PROJECT_DIR$/user_service/application/user_service.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user_service/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/user_service/go.mod" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user_service/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/user_service/go.sum" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user_service/infrastructure/api/user_grpc_api.go" beforeDir="false" afterPath="$PROJECT_DIR$/user_service/infrastructure/api/user_grpc_api.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/user_service/startup/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/user_service/startup/server.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -82,8 +79,6 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "DefaultGoTemplateProperty": "Go File",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.go.format.on.save.advertiser.fired": "true",
     "RunOnceActivity.go.formatter.settings.were.checked": "true",
     "RunOnceActivity.go.migrated.go.modules.settings": "true",
@@ -91,12 +86,10 @@
     "RunOnceActivity.go.watchers.conflict.with.on.save.actions.check.performed": "true",
     "WebServerToolWindowFactoryState": "false",
     "go.import.settings.migrated": "true",
-    "last_opened_file_path": "C:/Users/PC/Desktop/xml/XML-BSEP/XML",
+    "last_opened_file_path": "C:/Users/PC",
     "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm"
+    "node.js.selected.package.tslint": "(autodetect)"
   }
 }]]></component>
   <component name="RecentsManager">
@@ -135,6 +128,17 @@
     </configuration>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="73e9022d-bf7f-4b1c-95b0-7a9024d84ed5" name="Changes" comment="" />
+      <created>1661858498681</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1661858498681</updated>
+      <workItem from="1661858505174" duration="159000" />
+    </task>
+    <servers />
+  </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
@@ -151,66 +155,5 @@
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/user_service/startup/server.go</url>
-          <line>143</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/user_service/infrastructure/mappers/pb_mapper.go</url>
-          <line>142</line>
-          <option name="timeStamp" value="2" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/user_service/infrastructure/mappers/pb_mapper.go</url>
-          <line>205</line>
-          <option name="timeStamp" value="3" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/connection_service/domain/connection_store.go</url>
-          <line>12</line>
-          <option name="timeStamp" value="5" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/connection_service/infrastructure/persistence/connection_neo4jdb_store.go</url>
-          <line>199</line>
-          <option name="timeStamp" value="7" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/connection_service/infrastructure/persistence/transaction.go</url>
-          <line>188</line>
-          <option name="timeStamp" value="8" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/connection_service/main.go</url>
-          <line>8</line>
-          <option name="timeStamp" value="9" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/user_service/domain/user_repository.go</url>
-          <line>8</line>
-          <option name="timeStamp" value="10" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/user_service/infrastructure/persistence/user_mongodb_store.go</url>
-          <line>68</line>
-          <option name="timeStamp" value="12" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/job_service/persistence/job_neo4jdb_store.go</url>
-          <line>60</line>
-          <option name="timeStamp" value="13" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/post_service/infrastructure/orchestrators/FriendPostedNotificationOrchestrator.go</url>
-          <line>31</line>
-          <option name="timeStamp" value="14" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>

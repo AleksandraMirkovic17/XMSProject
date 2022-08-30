@@ -35,6 +35,10 @@ class UserService{
     logout() {
       localStorage.removeItem('user');
     }
+
+    generateApiToken(user){
+        return axios.post(USER_API_BASE_URL+"/token/generate", user)
+    }
 }
 
 export default new UserService();

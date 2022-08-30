@@ -6,7 +6,6 @@ import (
 	orchestrators "UserService/infrastructure/orchestrators"
 	"context"
 	"fmt"
-
 	pb "github.com/dislinked/common/proto/user_service"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
@@ -115,4 +114,96 @@ func (handler *UserHandler) FindByUsername(ctx context.Context, request *pb.GetU
 		User: mappers.MapUser(user),
 	}
 	return response, nil
+}
+
+func (handler *UserHandler) GenerateAPIToken(ctx context.Context, request *pb.GenerateTokenRequest) (*pb.ApiToken, error) {
+	user, err := handler.service.FindByUsername(request.Username.Username)
+	if err != nil {
+		return nil, err
+	}
+	token, err := handler.service.GenerateApiToken(user)
+	if err != nil {
+		println("Error is in generate token")
+		println(err.Error())
+		return nil, err
+	}
+	return &pb.ApiToken{
+		ApiToken: token,
+	}, nil
+
+}
+
+func (handler *UserHandler) ShareJobOffer(ctx context.Context, request *pb.ShareJobRequest) (*pb.ShareJobResponse, error) {
+	token := request.ShareJob.ApiToken
+	hasAccess, username, err := handler.service.CheckAccess(token)
+	if err != nil {
+		println("Impossible to check the access of the token:", err.Error())
+		return &pb.ShareJobResponse{
+			Job:   nil,
+			Valid: false,
+		}, err
+	}
+	if !hasAccess {
+		return &pb.ShareJobResponse{
+			Job:   nil,
+			Valid: false,
+		}, nil
+	}
+	user, err := handler.service.FindByUsername(username)
+	if err != nil {
+		return nil, err
+	}
+
+	println("User id is:", user.Id.Hex())
+
+	return &pb.ShareJobResponse{
+		Job: &pb.Job{
+			JobID:          "",
+			PublisherId:    user.Id.Hex(),
+			RequiredSkills: request.ShareJob.Job.RequiredSkills,
+			DatePosted:     request.ShareJob.Job.DatePosted,
+			DateValid:      request.ShareJob.Job.DateValid,
+			CompanyName:    request.ShareJob.Job.CompanyName,
+			Position:       request.ShareJob.Job.Position,
+			JobDescription: request.ShareJob.Job.JobDescription,
+		},
+		Valid: true,
+	}, nil
+
+	/*postRequestBody, _ := json.Marshal(map[string]any{
+		"jobID":          "",
+		"publisherId":    user.Id.Hex(),
+		"requiredSkills": request.ShareJob.Job.RequiredSkills,
+		"datePosted":     request.ShareJob.Job.DatePosted,
+		"dateValid":      request.ShareJob.Job.DateValid,
+		"companyName":    request.ShareJob.Job.CompanyName,
+		"position":       request.ShareJob.Job.Position,
+		"jobDescription": request.ShareJob.Job.JobDescription,
+	})
+
+	jsonBody := []byte(postRequestBody)
+	bodyReader := bytes.NewReader(jsonBody)
+
+	requestURL := fmt.Sprintf("http://localhost:%s/job")
+	println("request url", requestURL)
+
+	println("company name:", request.ShareJob.Job.CompanyName)
+
+	/requestBodt := bytes.NewBuffer(postRequestBody)
+	resp, err := http.Post("http://localhost:4200/job", "application/json", requestBodt)
+
+	resp, err := http.NewRequest(http.MethodPost, requestURL, bodyReader)
+	print("response status code")
+	println(resp)
+	if err != nil {
+		return &pb.ActionResult{
+			Status: 400,
+			Msg:    "Error while sending post request:" + err.Error(),
+		}, nil
+	}
+	defer resp.Body.Close()
+	return &pb.ActionResult{
+		Status: 200,
+		Msg:    "Request sent to post service! Status:" + resp.Response.Status,
+	}, nil*/
 }
