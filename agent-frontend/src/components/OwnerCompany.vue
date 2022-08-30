@@ -269,6 +269,7 @@ export default{
            jobOffer: null,
            interviews: null,
            salaries: null,
+          apiKey: "",
            dislinktServer: 'http://localhost:4200/', //za sada ovde
 
         }
@@ -453,7 +454,7 @@ export default{
         position: this.jobOffer.position,
         jobDescription: this.jobOffer.description
       };
-      axios.post(this.dislinktServer + 'job/', jobData)
+      axios.post(this.dislinktServer + 'share/job', {"apiToken":this.apiKey,"job":jobData })
       //.then(response=>
       //{
       //});

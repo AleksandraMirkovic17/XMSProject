@@ -5,25 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="73e9022d-bf7f-4b1c-95b0-7a9024d84ed5" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/api_gateway/domain/ShareJobOfferRequest.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/api_gateway/infrastructure/handlers/ShareJobOfferHandler.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api_gateway/infrastructure/services/client.go" beforeDir="false" afterPath="$PROJECT_DIR$/api_gateway/infrastructure/services/client.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api_gateway/startup/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/api_gateway/startup/server.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/common/proto/job_service/job_service.pb.go" beforeDir="false" afterPath="$PROJECT_DIR$/common/proto/job_service/job_service.pb.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/common/proto/job_service/job_service.pb.gw.go" beforeDir="false" afterPath="$PROJECT_DIR$/common/proto/job_service/job_service.pb.gw.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/common/proto/job_service/job_service.proto" beforeDir="false" afterPath="$PROJECT_DIR$/common/proto/job_service/job_service.proto" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/common/proto/user_service/user_service.pb.go" beforeDir="false" afterPath="$PROJECT_DIR$/common/proto/user_service/user_service.pb.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/common/proto/user_service/user_service.pb.gw.go" beforeDir="false" afterPath="$PROJECT_DIR$/common/proto/user_service/user_service.pb.gw.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/common/proto/user_service/user_service.proto" beforeDir="false" afterPath="$PROJECT_DIR$/common/proto/user_service/user_service.proto" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/common/proto/user_service/user_service_grpc.pb.go" beforeDir="false" afterPath="$PROJECT_DIR$/common/proto/user_service/user_service_grpc.pb.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dislinkt-frontend/src/services/UserService.js" beforeDir="false" afterPath="$PROJECT_DIR$/dislinkt-frontend/src/services/UserService.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AgentskaApp/skripta.sql" beforeDir="false" afterPath="$PROJECT_DIR$/AgentskaApp/skripta.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/agent-frontend/src/components/OwnerCompany.vue" beforeDir="false" afterPath="$PROJECT_DIR$/agent-frontend/src/components/OwnerCompany.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dislinkt-frontend/src/views/Profile/ChangeProfile.vue" beforeDir="false" afterPath="$PROJECT_DIR$/dislinkt-frontend/src/views/Profile/ChangeProfile.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user_service/application/user_service.go" beforeDir="false" afterPath="$PROJECT_DIR$/user_service/application/user_service.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user_service/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/user_service/go.mod" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user_service/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/user_service/go.sum" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user_service/infrastructure/api/user_grpc_api.go" beforeDir="false" afterPath="$PROJECT_DIR$/user_service/infrastructure/api/user_grpc_api.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user_service/startup/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/user_service/startup/server.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -78,17 +63,6 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
-    "DefaultGoTemplateProperty": "Go File",
-    "RunOnceActivity.go.format.on.save.advertiser.fired": "true",
-    "RunOnceActivity.go.formatter.settings.were.checked": "true",
-    "RunOnceActivity.go.migrated.go.modules.settings": "true",
-    "RunOnceActivity.go.modules.go.list.on.any.changes.was.set": "true",
-    "RunOnceActivity.go.watchers.conflict.with.on.save.actions.check.performed": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "go.import.settings.migrated": "true",
-    "last_opened_file_path": "C:/Users/PC",
-    "node.js.detected.package.eslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)"
   }
 }]]></component>
@@ -136,6 +110,7 @@
       <option name="presentableId" value="Default" />
       <updated>1661858498681</updated>
       <workItem from="1661858505174" duration="159000" />
+      <workItem from="1661887673451" duration="44000" />
     </task>
     <servers />
   </component>

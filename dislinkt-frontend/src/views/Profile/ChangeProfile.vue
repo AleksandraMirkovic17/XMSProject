@@ -488,7 +488,7 @@ export default {
       }
     },
     generateAPI(){
-      UserService.generateApiToken(this.loggedUser.username)
+      UserService.generateApiToken({"username":this.loggedUser.username})
       .then(response =>{
         this.apiKey = response.data.apiToken
       })
