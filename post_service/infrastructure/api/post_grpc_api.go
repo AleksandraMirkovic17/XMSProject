@@ -5,6 +5,7 @@ import (
 	"PostService/infrastructure/orchestrators"
 	"context"
 	"fmt"
+
 	pb "github.com/dislinked/common/proto/post_service"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"google.golang.org/grpc/status"
@@ -47,7 +48,9 @@ func (handler *PostHandler) CreatePost(ctx context.Context, request *pb.NewPost)
 	}
 
 	//pozivanje sage za slanje notifikacija
-	handler.friendPostedNotificationOrchestrator.Start(MapDomainNotificationToEventNotification(newPost))
+	postNotification := MapDomainNotificationToEventNotification(newPost)
+	postNotification.Content = "FRIEND_POSTED_CONTENT"
+	handler.friendPostedNotificationOrchestrator.Start(postNotification)
 
 	response := &pb.NewPost{
 		Post: mapPostFromDomainToPb(newPost),

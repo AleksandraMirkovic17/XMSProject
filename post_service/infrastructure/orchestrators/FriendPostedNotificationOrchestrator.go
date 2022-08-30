@@ -42,9 +42,9 @@ func (o *FriendPostedNotificationOrchestrator) handle(reply *events.CreateNotifi
 func (o *FriendPostedNotificationOrchestrator) nextCommand(reply events.CreateNotificationReplyType) events.CreateNotificationCommandType {
 	switch reply {
 	case events.DistributeToConnectionsSuccess:
+		return events.GenerateContent
+	case events.GenerateContentSuccess:
 		return events.CreateNotification
-	/*case events.GenerateContentSuccess:
-	return events.CreateNotification*/
 	default:
 		return events.UnknownCommand
 	}

@@ -5,6 +5,7 @@ import (
 
 	events "github.com/dislinked/common/saga/create_notification"
 	saga "github.com/dislinked/common/saga/messaging"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 type FriendPostedNotificationHandler struct {
@@ -32,14 +33,19 @@ func (handler *FriendPostedNotificationHandler) handle(command events.CreateNoti
 	}
 
 	switch command.Type {
-	//case events.GetConnectionsWithTurnedOnNotifications:
-	//	println("Getting connections with turned on notification")
-	//	//TO DO: dodati
-	//	reply.Type = events.JustConnectionsNotificationTurnedOnSuccess
-	//	break
+	case events.GenerateContent:
+		userId, _ := primitive.ObjectIDFromHex(command.Notification.User)
+		user, _ := handler.service.GetOne(userId)
+		if user != nil {
+			reply.Type = events.GenerateContentSuccess
+			reply.Notification.Content = user.Username + " has made a new post"
+			reply.Notification.Url = "profile/" + user.Id.Hex()
+		} else {
+			reply.Type = events.GenericFailure
+		}
+		break
 	default:
 		reply.Type = events.UnknownReply
-
 	}
 	if reply.Type != events.UnknownReply {
 		_ = handler.replyPublisher.Publish(reply)
