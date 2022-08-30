@@ -30,12 +30,8 @@ func NewFriendPostedNotificationHandler(service *application.NotificationService
 }
 
 func mapNotificationCommandToDomain(notification *events.NotificationDetails) *domain.Notification {
-	id, err := primitive.ObjectIDFromHex((*notification).Id)
-	if err != nil {
-		return nil
-	}
 	userDomain := &domain.Notification{
-		Id:      id,
+		Id:      primitive.NewObjectID(),
 		User:    notification.User,
 		Content: notification.Content,
 		Url:     notification.Url,

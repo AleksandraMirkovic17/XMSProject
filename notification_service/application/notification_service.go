@@ -15,6 +15,5 @@ func NewNotificationService(store domain.NotificationStore) *NotificationService
 }
 
 func (service *NotificationService) Insert(notification *domain.Notification) error {
-	service.store.Insert(notification)
-	return nil
+	return service.store.Insert(notification)
 }

@@ -34,13 +34,8 @@ func (store *NotificationMongoDBStore) GetAll() ([]*domain.Notification, error) 
 }
 
 func (store *NotificationMongoDBStore) Insert(notification *domain.Notification) error {
-	result, err := store.notifications.InsertOne(context.TODO(), notification)
-	if err != nil {
-		return err
-	}
-	notification.Id = result.InsertedID.(primitive.ObjectID)
-
-	return nil
+	_, err := store.notifications.InsertOne(context.TODO(), notification)
+	return err
 }
 
 func (store *NotificationMongoDBStore) Update(notification *domain.Notification) error {
