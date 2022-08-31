@@ -184,8 +184,7 @@ func (store *UserMongoDBStore) Search(searchText string) (*[]domain.User, error)
 }
 
 func (store *UserMongoDBStore) Delete(user *domain.User) error {
-	println("brisanje usera iz user store" + user.Username)
-	err := store.Delete(user)
+	_, err := store.users.DeleteOne(context.TODO(), bson.M{"_id": user.Id})
 	if err != nil {
 		println("err")
 		println(err)

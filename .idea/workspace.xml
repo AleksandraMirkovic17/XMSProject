@@ -6,13 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="73e9022d-bf7f-4b1c-95b0-7a9024d84ed5" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api_gateway/infrastructure/handlers/SearchHandler.go" beforeDir="false" afterPath="$PROJECT_DIR$/api_gateway/infrastructure/handlers/SearchHandler.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/connection_service/infrastructure/api/connection_grpc_api.go" beforeDir="false" afterPath="$PROJECT_DIR$/connection_service/infrastructure/api/connection_grpc_api.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dislinkt-frontend/src/assets/scss/now-ui-kit/_example-pages.scss" beforeDir="false" afterPath="$PROJECT_DIR$/dislinkt-frontend/src/assets/scss/now-ui-kit/_example-pages.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dislinkt-frontend/src/layout/MainNavbar.vue" beforeDir="false" afterPath="$PROJECT_DIR$/dislinkt-frontend/src/layout/MainNavbar.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dislinkt-frontend/src/views/Post/Post.vue" beforeDir="false" afterPath="$PROJECT_DIR$/dislinkt-frontend/src/views/Post/Post.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dislinkt-frontend/src/views/Profile.vue" beforeDir="false" afterPath="$PROJECT_DIR$/dislinkt-frontend/src/views/Profile.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dislinkt-frontend/src/views/ProfileSearchView.vue" beforeDir="false" afterPath="$PROJECT_DIR$/dislinkt-frontend/src/views/ProfileSearchView.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/authentication_service/infrastructure/handlers/register_user_handler.go" beforeDir="false" afterPath="$PROJECT_DIR$/authentication_service/infrastructure/handlers/register_user_handler.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user_service/infrastructure/persistence/user_mongodb_store.go" beforeDir="false" afterPath="$PROJECT_DIR$/user_service/infrastructure/persistence/user_mongodb_store.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
