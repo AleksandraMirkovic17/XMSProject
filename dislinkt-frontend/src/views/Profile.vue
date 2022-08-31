@@ -412,7 +412,7 @@
           <JobOffers :users-jobs="false" :all-jobs="true" ></JobOffers>
         </div>
         <div v-if="display=='notifications'">
-          <div v-for="(notification,index) in notifications" :key="index" style="width: 100%; height: 30px">
+          <div v-for="(notification,index) in notifications" :key="index" class="profile-panel">
             {{notification.content}}
           </div>
         </div>
