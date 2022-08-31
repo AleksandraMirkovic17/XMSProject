@@ -30,6 +30,7 @@ func (s SearchHandler) Init(mux *runtime.ServeMux) {
 }
 
 func (s SearchHandler) getUsersBySearch(w http.ResponseWriter, r *http.Request, params map[string]string) {
+	fmt.Println("[ApiGateway]:Searching for")
 	searchParams := params["params"]
 	userID := params["userID"]
 	println("params: " + searchParams + ", searching by user: " + userID)
@@ -51,10 +52,10 @@ func (s SearchHandler) getUsersBySearch(w http.ResponseWriter, r *http.Request, 
 		println("get users by search")
 		return
 	}
-	friends, err := connectionService.GetFriends(context.TODO(), &connectionPb.GetRequest{UserID: userID})
-	if err != nil {
+	friends, err1 := connectionService.GetFriends(context.TODO(), &connectionPb.GetRequest{UserID: userID})
+	if err1 != nil {
 		w.WriteHeader(http.StatusNotFound)
-		println("get friends by id err")
+		println("get friends by id err:", err1.Error())
 		return
 	}
 	blockeds, err := connectionService.GetBlockeds(context.TODO(), &connectionPb.GetRequest{UserID: userID})
@@ -130,7 +131,7 @@ func mapPbUserToDomainUser(usearch *userPb.User) domain.User {
 func NewSearchHandlerc(c *config.Config) handler.Handler {
 	return &SearchHandler{
 		userServiceAddress:       fmt.Sprintf("%s:%s", c.UserHost, c.UserPort),
-		conncetionServiceAddress: "",
+		conncetionServiceAddress: fmt.Sprintf("%s:%s", c.ConnHost, c.ConnPort),
 		config:                   nil,
 	}
 

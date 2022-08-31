@@ -51,6 +51,12 @@
                 </a>
 
       </li>
+      <li class="nav-item">
+        <div style="display: flex; flex-direction: row; margin-top: 2%">
+          <input type="text" class="form-control" v-model="searchParams"/>
+          <button v-on:click="searchProfiles" class="btn-info btn-round" style="padding: 2.5%; border: solid #01131f 1pt">Search</button>
+        </div>
+      </li>
     </template>
   </navbar>
 </template>

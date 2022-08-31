@@ -6,9 +6,13 @@
   <component name="ChangeListManager">
     <list default="true" id="73e9022d-bf7f-4b1c-95b0-7a9024d84ed5" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AgentskaApp/skripta.sql" beforeDir="false" afterPath="$PROJECT_DIR$/AgentskaApp/skripta.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/agent-frontend/src/components/OwnerCompany.vue" beforeDir="false" afterPath="$PROJECT_DIR$/agent-frontend/src/components/OwnerCompany.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dislinkt-frontend/src/views/Profile/ChangeProfile.vue" beforeDir="false" afterPath="$PROJECT_DIR$/dislinkt-frontend/src/views/Profile/ChangeProfile.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api_gateway/infrastructure/handlers/SearchHandler.go" beforeDir="false" afterPath="$PROJECT_DIR$/api_gateway/infrastructure/handlers/SearchHandler.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/connection_service/infrastructure/api/connection_grpc_api.go" beforeDir="false" afterPath="$PROJECT_DIR$/connection_service/infrastructure/api/connection_grpc_api.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dislinkt-frontend/src/assets/scss/now-ui-kit/_example-pages.scss" beforeDir="false" afterPath="$PROJECT_DIR$/dislinkt-frontend/src/assets/scss/now-ui-kit/_example-pages.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dislinkt-frontend/src/layout/MainNavbar.vue" beforeDir="false" afterPath="$PROJECT_DIR$/dislinkt-frontend/src/layout/MainNavbar.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dislinkt-frontend/src/views/Post/Post.vue" beforeDir="false" afterPath="$PROJECT_DIR$/dislinkt-frontend/src/views/Post/Post.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dislinkt-frontend/src/views/Profile.vue" beforeDir="false" afterPath="$PROJECT_DIR$/dislinkt-frontend/src/views/Profile.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dislinkt-frontend/src/views/ProfileSearchView.vue" beforeDir="false" afterPath="$PROJECT_DIR$/dislinkt-frontend/src/views/ProfileSearchView.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -130,5 +134,16 @@
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/common/proto/connection_service/connection_service_grpc.pb.go</url>
+          <line>24</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

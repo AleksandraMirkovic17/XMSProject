@@ -137,7 +137,7 @@
       <div  class="container" >
         <chatbox v-if="display=='chat'"></chatbox>
         <div v-if="display=='profile'">
-          <div class="button-container" v-if="loggedUserDetails.username!=user.username">
+          <div class="button-container" v-if="loggedUserDetails.username!=user.username && loggedUser">
             <a v-if="this.loggedUserFollows==false && connectionStatus!='ACCEPT' && connectionStatus!='PENDING' && connectionStatus!='A_BLOCK_B' && connectionStatus!='B_BLOCK_A'" href="#button" class="btn btn-primary btn-round btn-lg" v-on:click="follow">Connect</a>
             <a v-if="connectionStatus=='ACCEPT'" href="#button" class="btn btn-primary btn-round btn-lg" v-on:click="follow">✔ Accept</a>
             <a v-if="connectionStatus=='ACCEPT'" href="#button" class="btn btn-default btn-round btn-lg" v-on:click="RemoveFriendRequest">✖ Decline</a>
@@ -147,7 +147,7 @@
             <a v-if="connectionStatus=='A_BLOCK_B'" v-on:click="unblockUser" href="#button" class="btn btn-default btn-round btn-lg">Unblock</a>
 
           </div>
-          <div v-if="(loggedUserFollows || user.Public || loggedUserDetails.username==user.username)  && connectionStatus!='A_BLOCK_B' && connectionStatus!='B_BLOCK_A'">
+          <div v-if="(loggedUserFollows || user.public || loggedUserDetails.username==user.username)  && connectionStatus!='A_BLOCK_B' && connectionStatus!='B_BLOCK_A'">
             <h3 class="title" v-if="user.biography!=''">About me</h3>
             <h5 class="description" v-if="user.biography!=''">
               {{user.biography}}
@@ -191,7 +191,7 @@
               </div>
             </div>
           </div>
-          <div v-if="(loggedUserFollows || user.Public || loggedUserDetails.username==user.username)  && connectionStatus!='A_BLOCK_B' && connectionStatus!='B_BLOCK_A'" class="additional-info" style="display: flex; flex-direction: row; width: 100%">
+          <div v-if="(loggedUserFollows || user.public || loggedUserDetails.username==user.username)  && connectionStatus!='A_BLOCK_B' && connectionStatus!='B_BLOCK_A'" class="additional-info" style="display: flex; flex-direction: row; width: 100%">
             <div class="experience profile-panel" style="width: 55%; margin: 2%;">
               <h3>Experience</h3>
               <h4 class="description" style="text-align: left">
@@ -266,7 +266,7 @@
               </div>
             </div>
           </div>
-          <div class="row" v-if="(loggedUserFollows || user.Public || loggedUserDetails.username==user.username)  && connectionStatus!='A_BLOCK_B' && connectionStatus!='B_BLOCK_A'">
+          <div class="row" v-if="(loggedUserFollows || user.public || loggedUserDetails.username==user.username)  && connectionStatus!='A_BLOCK_B' && connectionStatus!='B_BLOCK_A'">
             <tabs
                 pills
                 class="nav-align-center"
@@ -328,7 +328,7 @@
                       <button type="button" class="btn btn-primary" v-on:click="CreatePost">Post</button>
                     </div>
                   </div>
-                  <Posts :feed-posts="false" :users-posts="true" :userid="userID" :username="empty"></Posts>
+                  <Posts :feed-posts="false" :users-posts="true" :userid="userID" ></Posts>
 
                 </div>
               </tab-pane>
@@ -421,7 +421,7 @@
     </div>
   </div>
 
-  <div v-if="!(loggedUser || user.Public)">
+  <div v-if="!(loggedUser || user.public)">
     <div class="profile-panel">
       Log in to view {{user.name}} {{user.surname}}'s profile
     </div>
@@ -565,7 +565,6 @@ export default {
           this.selectedPost = this.usersPosts[0]
           this.isUserInfoChanged = false
 
-          this.updatedSelectedPost()
 
         }
 
@@ -679,7 +678,8 @@ export default {
     follow(){
       //alert(this.loggedUserDetails.username)
 console.log(this.connectionStatus)
-      if(this.user.Public || this.connectionStatus == 'ACCEPT'){
+      console.log(this.user.public)
+      if(this.user.public || this.connectionStatus == 'ACCEPT'){
         ConnectionService.Connect(this.loggedUserDetails.id, this.user.id)
             .then( response => {
               console.log("connecting:", response);
