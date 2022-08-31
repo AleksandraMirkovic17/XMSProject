@@ -20,6 +20,8 @@ type Config struct {
 	FriendPostedReplySubject             string
 	ConnectionNotificationCommandSubject string
 	ConnectionNotificationReplySubject   string
+	MessageNotificationCommandSubject    string
+	MessageNotificationReplySubject      string
 }
 
 func NewConfig() *Config {
@@ -36,6 +38,8 @@ func NewConfig() *Config {
 		FriendPostedReplySubject:             LoadEnvVariable("CREATE_NOTIFICATION_REPLY_SUBJECT"),
 		ConnectionNotificationCommandSubject: LoadEnvVariable("CONNECTION_NOTIFICATION_COMMAND_SUBJECT"),
 		ConnectionNotificationReplySubject:   LoadEnvVariable("CONNECTION_NOTIFICATION_REPLY_SUBJECT"),
+		MessageNotificationCommandSubject:    LoadEnvVariable("MESSAGE_NOTIFICATION_COMMAND_SUBJECT"),
+		MessageNotificationReplySubject:      LoadEnvVariable("MESSAGE_NOTIFICATION_REPLY_SUBJECT"),
 	}
 }
 

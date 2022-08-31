@@ -2,18 +2,21 @@ package application
 
 import (
 	"MessageService/domain"
+	"MessageService/infrastructure/orchestrator"
 	"errors"
 
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 type MessageService struct {
-	store domain.MessageStore
+	store        domain.MessageStore
+	Orchestrator *orchestrator.MessageNotificationOrchestrator
 }
 
-func NewMessageService(store domain.MessageStore) *MessageService {
+func NewMessageService(store domain.MessageStore, orchestrator *orchestrator.MessageNotificationOrchestrator) *MessageService {
 	return &MessageService{
-		store: store,
+		store:        store,
+		Orchestrator: orchestrator,
 	}
 }
 

@@ -5,10 +5,21 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="73e9022d-bf7f-4b1c-95b0-7a9024d84ed5" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/common/saga/message_notification/mesage_notification_events.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/message_service/infrastructure/handler/MessageNotificationHandler.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/message_service/infrastructure/orchestrator/MessageNotificationOrchestrator.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/notification_service/infrastructure/handlers/message_notification_handler.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user_service/infrastructure/handlers/message_notification_handler.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/connection_service/infrastructure/api/connection_grpc_api.go" beforeDir="false" afterPath="$PROJECT_DIR$/connection_service/infrastructure/api/connection_grpc_api.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/notification_service/infrastructure/handlers/connection_notification_handler.go" beforeDir="false" afterPath="$PROJECT_DIR$/notification_service/infrastructure/handlers/connection_notification_handler.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/message_service/application/message_service.go" beforeDir="false" afterPath="$PROJECT_DIR$/message_service/application/message_service.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/message_service/startup/config/config.go" beforeDir="false" afterPath="$PROJECT_DIR$/message_service/startup/config/config.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/message_service/startup/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/message_service/startup/server.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/notification_service/startup/config/config.go" beforeDir="false" afterPath="$PROJECT_DIR$/notification_service/startup/config/config.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/notification_service/startup/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/notification_service/startup/server.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user_service/startup/config/config.go" beforeDir="false" afterPath="$PROJECT_DIR$/user_service/startup/config/config.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user_service/startup/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/user_service/startup/server.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

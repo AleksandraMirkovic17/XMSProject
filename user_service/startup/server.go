@@ -67,6 +67,11 @@ func (server *Server) Start() {
 	replyPublisherConNot := server.initPublisher(server.config.ConnectionNotificationReplySubject)
 	server.initConnectionNotificationHandler(userService, replyPublisherConNot, commandSubscriberConNot)
 
+	//message notificatio handler
+	commandSubscriberMessNot := server.initSubscriber(server.config.MessageNotificationCommandSubject, QueueGroup)
+	replyPublisherMessNot := server.initPublisher(server.config.MessageNotificationReplySubject)
+	server.initMessageNotificationHandler(userService, replyPublisherMessNot, commandSubscriberMessNot)
+
 	server.startGrpcServer(userHandler)
 }
 
@@ -109,6 +114,13 @@ func (server *Server) initFriendPostedNotificationHandler(userService *applicati
 
 func (server *Server) initConnectionNotificationHandler(userService *application.UserService, publisher saga.Publisher, subscriber saga.Subscriber) {
 	_, err := handlers.NewConnectionNotificatioHandler(userService, publisher, subscriber)
+	if err != nil {
+		log.Fatal(err)
+	}
+}
+
+func (server *Server) initMessageNotificationHandler(service *application.UserService, publisher saga.Publisher, subscriber saga.Subscriber) {
+	_, err := handlers.NewMessageNotificatioHandler(service, publisher, subscriber)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -171,3 +183,5 @@ func (server *Server) startGrpcServer(userHandler *api.UserHandler) {
 		log.Fatalf("failed to serve: %s", err)
 	}
 }
+
+
