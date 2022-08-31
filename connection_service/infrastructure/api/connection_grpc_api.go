@@ -84,7 +84,7 @@ func (handler *ConnectionHandler) AddFriend(ctx context.Context, request *pb.Add
 	userIDb := request.AddFriendDTO.UserIDb
 
 	actionResult, err := handler.service.AddFriend(userIDa, userIDb)
-	if err != nil && actionResult.Status == 201 {
+	if actionResult.Status == 201 {
 		handler.service.Orchestrator.Start(&events.ConnectionNotification{
 			Content:    "",
 			SenderId:   userIDa,
@@ -138,7 +138,9 @@ func (handler *ConnectionHandler) SendFriendRequest(ctx context.Context, request
 	userIDb := request.SendFriendRequestRequestDTO.UserIDb
 
 	actionResult, err := handler.service.SendFriendRequest(userIDa, userIDb)
-	if err != nil && actionResult.Status == 201 {
+	println("action result")
+	println(actionResult.Status)
+	if actionResult.Status == 201 {
 		handler.service.Orchestrator.Start(&events.ConnectionNotification{
 			Content:    "",
 			SenderId:   userIDa,

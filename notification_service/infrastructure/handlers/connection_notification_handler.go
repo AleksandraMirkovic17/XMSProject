@@ -32,6 +32,10 @@ func (handler *ConnectionNotificationHandler) handle(command events.ConnectionNo
 	println("Nalazim se u hendleru notification servisa za slanje notifikacija za konekcije")
 	print("Command type je: ")
 	println(command.Type)
+	println("sender id")
+	println(command.Notification.SenderId)
+	println("Sender")
+	println(command.Notification.Sender)
 	reply := events.ConnectionNotificationReply{
 		Notification: command.Notification,
 	}

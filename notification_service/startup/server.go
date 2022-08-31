@@ -91,7 +91,7 @@ func (server *Server) initFriendPostedNotificationHandler(userService *applicati
 }
 
 func (server *Server) initConnectionNotificationHandler(userService *application.NotificationService, publisher saga.Publisher, subscriber saga.Subscriber) {
-	_, err := handlers.NewFriendPostedNotificationHandler(userService, publisher, subscriber)
+	_, err := handlers.NewConnectionNotificatioHandler(userService, publisher, subscriber)
 	if err != nil {
 		log.Fatal(err)
 	}
