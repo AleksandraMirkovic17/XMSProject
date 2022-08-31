@@ -12,6 +12,7 @@ class PostService{
     }
 
     getAllPostsByUser(userId){
+        console.log(USER_API_BASE_URL+"post/user/"+userId)
         return axios.get(USER_API_BASE_URL+"post/user/"+userId)
     }
 

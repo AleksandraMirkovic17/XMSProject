@@ -296,8 +296,6 @@ export default {
     })
     .catch( err => {
           console.log("Error while getting feed!", err)
-          alert("Error while getting feed!")
-
         }
     )
   },

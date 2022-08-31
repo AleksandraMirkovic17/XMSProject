@@ -21,6 +21,7 @@ func MapUser(user *domain.User) *pb.User {
 		Role:                          mapRoleToPb(user.Role),
 		DateOfBirth:                   user.DateOfBirth,
 		Public:                        user.Public,
+		ContactPhone:                  user.Phone,
 		Skills:                        []*dislinked.Skill{},
 		Interests:                     []*dislinked.Interest{},
 		EducationExperiences:          []*dislinked.EducationExperience{},

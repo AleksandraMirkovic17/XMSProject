@@ -328,7 +328,7 @@
                       <button type="button" class="btn btn-primary" v-on:click="CreatePost">Post</button>
                     </div>
                   </div>
-                  <Posts :feed-posts="false" :users-posts="true" :userid="userID" ></Posts>
+                  <Posts :feed-posts="false" :users-posts="true" :userid="user.id" ></Posts>
 
                 </div>
               </tab-pane>
