@@ -3,7 +3,7 @@
   <table class="table table-striped table-bordered">
             <thead>
                 <tr>
-                    <th>Name company</th>
+                    <th>Company name</th>
                     <th>Username</th>
                     <th>Request</th>
                 </tr>

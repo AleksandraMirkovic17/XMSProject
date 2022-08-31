@@ -2,6 +2,7 @@
   <nav class = "navbar navbar-expand-lg bg-dark navbar-dark mainavbar" style="height: 7%; position: fixed;">
     <div class="container">
       <a  class="navbar-brand" href="/home">Agent application</a>
+      <!--
       <div class="collapse navbar-collapse">
         <ul class ="navbar-nav ms-auto">
           <li class="nav-item">
@@ -9,20 +10,20 @@
 
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/registrationCompany" >Registration company</a>
+            <a class="nav-link" href="/registrationCompany" >Company registration</a>
 
           </li>
 
            <li class="nav-item">
-            <a class="nav-link" href="/confirmCompany" >See all company (ADMIN SIDE)</a>
+            <a class="nav-link" href="/confirmCompany" >All companies (ADMIN SIDE)</a>
 
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/listingCompany" >Listing company (USER SIDE)</a>
+            <a class="nav-link" href="/listingCompany" >Comapny listing (USER SIDE)</a>
 
           </li>
         </ul>
-      </div>
+      </div>-->
     </div>
   </nav>
     <router-view/>

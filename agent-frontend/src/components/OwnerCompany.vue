@@ -3,7 +3,7 @@
  <div class="container py-5">
     <!-- For demo purpose -->
     <header class="text-center text-white">
-        <h1 class="display-4" style="color:black">All company</h1>  
+        <h1 class="display-4" style="color:black">Your companies</h1>  
     </header>
     <div v-for="c in companies" :key="c.id" class="row py-5">
         <div v-if="c.owner.username == loggedUser.username && c.validated==true" class="col-lg-7 mx-auto">

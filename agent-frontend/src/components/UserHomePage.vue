@@ -5,29 +5,37 @@
       {{loggedUser.username}} 
     </div>
  
-  <ul v-if="loggedUser.roles[0].name=='USER' || loggedUser.roles[0].name=='OWNER'" class="sidebar-navigation">
+  <ul class="sidebar-navigation">
+  <!--loggedUser.roles.includes('USER',0) || loggedUser.roles.includes('OWNER',0)-->
+  <div v-if="(isUser || isOwner) && !isAdmin">
       <li class="header">Company</li>
       <li>
         <a v-on:click="DisplayRegistrationCompany()">
-          <i class="fa fa-plus" aria-hidden="true"></i> Registration company
+          <i class="fa fa-plus" aria-hidden="true"></i> Company registration
         </a>
-      </li>
+      </li><!--
       <li>
         <a v-on:click="DisplayListingCompany()">
-          <i class="fa fa-plus" aria-hidden="true"></i> Listing company
+          <i class="fa fa-plus" aria-hidden="true"></i> Company listing
         </a>
-      </li>
-      <li v-if="loggedUser.roles[0].name=='OWNER'">
+      </li>-->
+      <li v-if="isOwner">
         <a v-on:click="DisplayYourCompany()">
-          <i class="fa fa-plus" aria-hidden="true"></i> See you company
+          <i class="fa fa-plus" aria-hidden="true"></i> Your companies
         </a>
       </li>
+  </div>
+    <li>
+      <a v-on:click="DisplayListingCompany()">
+        <i class="fa fa-plus" aria-hidden="true"></i> Company listing
+      </a>
+    </li>
   </ul>
-  <ul v-if="loggedUser.roles[0].name=='ADMINISTRATOR'" class="sidebar-navigation">
-      <li class="header">See all company request</li>
+  <ul v-if="isAdmin" class="sidebar-navigation">
+      <li class="header">All company requests</li>
       <li>
         <a v-on:click="DisplayAllCompanyRequest()">
-          <i class="fa fa-plus" aria-hidden="true"></i> Companies request
+          <i class="fa fa-plus" aria-hidden="true"></i> Company requests
         </a>
       </li>
   </ul>
@@ -65,7 +73,10 @@ export default{
         return{
             loggedUser:null,
             display: '',
-            token: ''
+            token: '',
+            isUser: false,
+            isOwner: false,
+            isAdmin: false
         }
     },
     mounted(){
@@ -77,7 +88,19 @@ export default{
     })
     .then(response => {
       this.loggedUser =response.data
-      console.log("Ovaj user je ulogovan:", this.loggedUser.roles[0].name)
+      //console.log("Ovaj user je ulogovan:", this.loggedUser.roles[0].name)
+      let roles = this.loggedUser.roles;
+      for (var i = 0; i < roles.length; i++){
+        if(roles[i].name == 'USER')
+          this.isUser = true;
+        if(roles[i].name == 'OWNER')
+          this.isOwner = true;
+        if(roles[i].name == 'ADMINISTRATOR')
+          this.isAdmin = true;
+      }
+      console.log(this.isUser);
+      console.log(this.isOwner);
+      console.log(this.isAdmin);
     })
     },
     methods:

@@ -14,7 +14,7 @@
 
       </div>
       <div>
-      <h1>Dont have an account?</h1>
+      <h1>Don't have an account?</h1>
       <p class="lead my-4"></p>
       <a type="button" class = "btn btn-primary btn-lg"  href="/userRegistration">Register
       </a>
