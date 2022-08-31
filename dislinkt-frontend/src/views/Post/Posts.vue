@@ -37,6 +37,7 @@ export default {
   mounted: function () {
     if (this.feedPosts){
       PostService.getFeedForUser(this.username).then(response1 =>{
+        console.table(response1.data.Feed)
         this.postsToShow = response1.data.Feed
       })
 

@@ -23,7 +23,7 @@
         <p>{{ posttext }}</p>
       </div>
       <div class="post-links" style="margin-bottom: 3%">
-        <div v-if="links.length==0">no links</div>
+        <div v-if="links && links.length==0">no links</div>
         <div v-for="(link, index) in links" :key="index">
           <a :href="link"><h6>{{ link}}</h6></a>
         </div>
