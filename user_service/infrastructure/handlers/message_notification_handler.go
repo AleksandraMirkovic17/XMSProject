@@ -56,7 +56,7 @@ func (handler *MessageNotificationHandler) handle(command events.MessageNotifica
 			reply.Type = events.NotificationsAreTurnedOff
 			break
 		}
-		if !receiverUser.NotificationsFollowedProfiles {
+		if !receiverUser.NotificationsMessages {
 			reply.Type = events.NotificationsAreTurnedOff
 			break
 		}

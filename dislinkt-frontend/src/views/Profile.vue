@@ -413,7 +413,11 @@
         </div>
         <div v-if="display=='notifications'">
           <div v-for="(notification,index) in notifications" :key="index" class="profile-panel">
-            {{notification.content}}
+            <div style="display: flex; flex-direction: row">
+              <p>{{notification.date}} </p>
+              <p style="margin-left: 2%">{{notification.content}}</p>
+            </div>
+
           </div>
         </div>
         <Posts v-if="display=='feed'" :username="loggedUserDetails.username" :userid="userID" :feed-posts="true" :users-posts="false"></Posts>
