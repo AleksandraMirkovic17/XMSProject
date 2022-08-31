@@ -462,7 +462,7 @@ func RegisterJobServiceHandlerServer(ctx context.Context, mux *runtime.ServeMux,
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
-		ctx, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/job_service.JobService/UpdateJob", runtime.WithHTTPPathPattern("/job"))
+		ctx, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/job_service.JobService/UpdateJob", runtime.WithHTTPPathPattern("/jobput"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -684,7 +684,7 @@ func RegisterJobServiceHandlerClient(ctx context.Context, mux *runtime.ServeMux,
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
-		ctx, err = runtime.AnnotateContext(ctx, mux, req, "/job_service.JobService/UpdateJob", runtime.WithHTTPPathPattern("/job"))
+		ctx, err = runtime.AnnotateContext(ctx, mux, req, "/job_service.JobService/UpdateJob", runtime.WithHTTPPathPattern("/jobput"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -794,7 +794,7 @@ var (
 
 	pattern_JobService_CreateJob_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0}, []string{"job"}, ""))
 
-	pattern_JobService_UpdateJob_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0}, []string{"job"}, ""))
+	pattern_JobService_UpdateJob_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0}, []string{"jobput"}, ""))
 
 	pattern_JobService_SearchJob_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2}, []string{"job", "search", "param"}, ""))
 

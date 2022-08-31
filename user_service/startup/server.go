@@ -62,6 +62,16 @@ func (server *Server) Start() {
 	replyPublisherFriendPosted := server.initPublisher(server.config.FriendPostedReplySubject)
 	server.initFriendPostedNotificationHandler(userService, replyPublisherFriendPosted, commandSubscriberFriendPosted)
 
+	//connection notification handler
+	commandSubscriberConNot := server.initSubscriber(server.config.ConnectionNotificationCommandSubject, QueueGroup)
+	replyPublisherConNot := server.initPublisher(server.config.ConnectionNotificationReplySubject)
+	server.initConnectionNotificationHandler(userService, replyPublisherConNot, commandSubscriberConNot)
+
+	//message notificatio handler
+	commandSubscriberMessNot := server.initSubscriber(server.config.MessageNotificationCommandSubject, QueueGroup)
+	replyPublisherMessNot := server.initPublisher(server.config.MessageNotificationReplySubject)
+	server.initMessageNotificationHandler(userService, replyPublisherMessNot, commandSubscriberMessNot)
+
 	server.startGrpcServer(userHandler)
 }
 
@@ -102,8 +112,21 @@ func (server *Server) initFriendPostedNotificationHandler(userService *applicati
 	}
 }
 
+func (server *Server) initConnectionNotificationHandler(userService *application.UserService, publisher saga.Publisher, subscriber saga.Subscriber) {
+	_, err := handlers.NewConnectionNotificatioHandler(userService, publisher, subscriber)
+	if err != nil {
+		log.Fatal(err)
+	}
+}
+
+func (server *Server) initMessageNotificationHandler(service *application.UserService, publisher saga.Publisher, subscriber saga.Subscriber) {
+	_, err := handlers.NewMessageNotificatioHandler(service, publisher, subscriber)
+	if err != nil {
+		log.Fatal(err)
+	}
+}
+
 func (server *Server) initPublisher(subject string) saga.Publisher {
-	println("Unutar publishera")
 	publisher, err := nats.NewNATSPublisher(
 		server.config.NatsHost, server.config.NatsPort,
 		server.config.NatsUser, server.config.NatsPass, subject)
@@ -117,7 +140,6 @@ func (server *Server) initPublisher(subject string) saga.Publisher {
 }
 
 func (server *Server) initSubscriber(subject, queueGroup string) saga.Subscriber {
-	println("Pokusaj inicijalizacije subsribera")
 	subscriber, err := nats.NewNATSSubscriber(
 		server.config.NatsHost, server.config.NatsPort,
 		server.config.NatsUser, server.config.NatsPass, subject, queueGroup)
@@ -161,3 +183,5 @@ func (server *Server) startGrpcServer(userHandler *api.UserHandler) {
 		log.Fatalf("failed to serve: %s", err)
 	}
 }
+
+

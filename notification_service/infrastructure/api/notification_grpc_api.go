@@ -38,3 +38,19 @@ func (handler *NotificationHandler) CreateNotification(ctx context.Context, requ
 	}*/
 	return nil, nil
 }
+
+func (handler *NotificationHandler) GetByUser(ctx context.Context, request *pb.GetNotificationsByUserRequest) (*pb.GetMultipleNotifications, error) {
+	uuidUser := request.Uuid
+	notifications, err := handler.service.GetAllByUser(uuidUser)
+	if err != nil {
+		return nil, err
+	}
+	response := &pb.GetMultipleNotifications{
+		Notifications: []*pb.Notification{},
+	}
+	for _, notification := range notifications {
+		current := mapNotificationToPB(notification)
+		response.Notifications = append(response.Notifications, current)
+	}
+	return response, nil
+}

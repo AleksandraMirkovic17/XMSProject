@@ -4,8 +4,8 @@ import (
 	"ConnectionService/application"
 	"context"
 	"fmt"
-
 	pb "github.com/dislinked/common/proto/connection_service"
+	events "github.com/dislinked/common/saga/connection_notification"
 )
 
 type ConnectionHandler struct {
@@ -42,6 +42,7 @@ func (handler *ConnectionHandler) GetFriends(ctx context.Context, request *pb.Ge
 		fmt.Println("User", id, "is friend with", user.UserID, user.Username)
 		response.Users = append(response.Users, mapUserConn(user))
 	}
+	fmt.Println("Returning response")
 	return response, nil
 }
 
@@ -81,7 +82,19 @@ func (handler *ConnectionHandler) AddFriend(ctx context.Context, request *pb.Add
 	fmt.Println("[ConnectionHandler]:AddFriend")
 	userIDa := request.AddFriendDTO.UserIDa
 	userIDb := request.AddFriendDTO.UserIDb
-	return handler.service.AddFriend(userIDa, userIDb)
+
+	actionResult, err := handler.service.AddFriend(userIDa, userIDb)
+	if actionResult.Status == 201 {
+		handler.service.Orchestrator.Start(&events.ConnectionNotification{
+			Content:    "",
+			SenderId:   userIDa,
+			ReceiverId: userIDb,
+			Sender:     "",
+			Receiver:   "",
+			Request:    false,
+		})
+	}
+	return actionResult, err
 }
 func (handler *ConnectionHandler) AddBlockUser(ctx context.Context, request *pb.AddBlockUserRequest) (*pb.ActionResult, error) {
 	fmt.Println("[ConnectionHandler]:AddBlockUser")
@@ -123,7 +136,22 @@ func (handler *ConnectionHandler) SendFriendRequest(ctx context.Context, request
 	fmt.Println("[ConnectionHandler]:SendFriendRequest")
 	userIDa := request.SendFriendRequestRequestDTO.UserIDa
 	userIDb := request.SendFriendRequestRequestDTO.UserIDb
-	return handler.service.SendFriendRequest(userIDa, userIDb)
+
+	actionResult, err := handler.service.SendFriendRequest(userIDa, userIDb)
+	println("action result")
+	println(actionResult.Status)
+	if actionResult.Status == 201 {
+		handler.service.Orchestrator.Start(&events.ConnectionNotification{
+			Content:    "",
+			SenderId:   userIDa,
+			ReceiverId: userIDb,
+			Sender:     "",
+			Receiver:   "",
+			Request:    true,
+		})
+
+	}
+	return actionResult, err
 }
 func (handler *ConnectionHandler) UnsendFriendRequest(ctx context.Context, request *pb.UnsendFriendRequestRequest) (*pb.ActionResult, error) {
 	fmt.Println("[ConnectionHandler]:UnsendFriendRequest")

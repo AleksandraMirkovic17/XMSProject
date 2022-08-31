@@ -3,7 +3,10 @@ package application
 import (
 	"UserService/domain"
 	"UserService/infrastructure/orchestrators"
+	"fmt"
+	"github.com/dgrijalva/jwt-go"
 	"go.mongodb.org/mongo-driver/bson/primitive"
+	"time"
 )
 
 type UserService struct {
@@ -108,4 +111,82 @@ func (service *UserService) FindByUsername(username string) (*domain.User, error
 
 func (service *UserService) Delete(user *domain.User) interface{} {
 	return service.store.Delete(user)
+}
+
+func (service *UserService) GenerateApiToken(user *domain.User) (string, error) {
+	var claims = &APIToken{}
+	claims.Username = user.Username
+	claims.Method = "ShareJobOffer"
+
+	userRoles := "Agent"
+
+	claims.Roles = append(claims.Roles, userRoles)
+	var tokenCreationTime = time.Now().UTC()
+	var tokenExpirationTime = tokenCreationTime.Add(time.Duration(720) * time.Hour)
+
+	token, err := generateToken(claims, tokenExpirationTime)
+	if err != nil {
+		return "", err
+	}
+	return token, nil
+}
+
+func (service *UserService) CheckAccess(token string) (bool, string, error) {
+	claims, err := verifyToken(token)
+	if err != nil {
+		println("Error verifying token!")
+		return false, "", err
+	}
+	if claims.valid() != nil {
+		return false, "", claims.valid()
+	}
+
+	return true, claims.Username, nil
+}
+
+func (token APIToken) valid() error {
+	now := time.Now().UTC().Unix()
+
+	if token.VerifyExpiresAt(now, false) == false {
+		diff := time.Unix(now, 0).Sub(time.Unix(token.ExpiresAt, 0))
+		return fmt.Errorf("token is expired by %v", diff)
+	}
+	return nil
+}
+
+func generateToken(claims *APIToken, expirationTime time.Time) (string, error) {
+	claims.ExpiresAt = expirationTime.Unix()
+	claims.IssuedAt = time.Now().UTC().Unix()
+	claims.Issuer = "Dislinkt"
+
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+	mySigningKey := []byte("secretString")
+	tokenString, err := token.SignedString(mySigningKey)
+	if err != nil {
+		return "", err
+	}
+	return tokenString, nil
+}
+
+func verifyToken(token string) (*APIToken, error) {
+	claims := &APIToken{}
+	_, err := jwt.ParseWithClaims(token, claims, func(token *jwt.Token) (interface{}, error) {
+		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
+			return nil, fmt.Errorf("unexpected signing method: %v", token.Header["alg"])
+		}
+		return []byte("secretString"), nil
+	})
+	if err != nil {
+		fmt.Println("Error parsing claims:", err.Error())
+		return nil, err
+	}
+
+	return claims, nil
+}
+
+type APIToken struct {
+	Username string
+	Method   string
+	Roles    []string
+	jwt.StandardClaims
 }

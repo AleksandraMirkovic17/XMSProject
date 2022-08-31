@@ -52,6 +52,9 @@ func (server *Server) initCustomHandlers() {
 	searchHandler := handlers1.NewSearchHandlerc(server.config)
 	searchHandler.Init(server.mux)
 
+	shareJobHandler := handlers1.NewShareJobOfferHandler(server.config)
+	shareJobHandler.Init(server.mux)
+
 }
 
 func (server *Server) initHandlers() {
@@ -100,6 +103,8 @@ func (server *Server) Start() {
 		handlers.AllowedOrigins([]string{
 			"http://localhost:4200",
 			"http://localhost:4200/**",
+			"http://localhost:9003",
+			"http://localhost:9003/**",
 			"http://localhost:8080/**",
 			"http://localhost:8080",
 			"http://localhost:8081/**",

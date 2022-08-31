@@ -17,3 +17,7 @@ func NewNotificationService(store domain.NotificationStore) *NotificationService
 func (service *NotificationService) Insert(notification *domain.Notification) error {
 	return service.store.Insert(notification)
 }
+
+func (service *NotificationService) GetAllByUser(uuid string) ([]*domain.Notification, error) {
+	return service.store.GetAllByUser(uuid)
+}

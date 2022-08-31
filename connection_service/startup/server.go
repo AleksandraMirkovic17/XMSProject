@@ -1,6 +1,7 @@
 package startup
 
 import (
+	"ConnectionService/infrastructure/orchestrator"
 	"crypto/tls"
 	"fmt"
 	"log"
@@ -39,15 +40,20 @@ func (server *Server) Start() {
 	fmt.Println("starting connection service server")
 	neo4jClient := server.initNeo4J()
 
-	//commandPublisher := server.initPublisher(server.config.ConnectionNotificationCommandSubject)
-	//replySubscriber := server.initSubscriber(server.config.ConnectionNotificationReplySubject, QueueGroupConnection)
-	//orchestrator := server.initOrchestrator(commandPublisher, replySubscriber) //Za sada ne treba
+	//Connection notification orchestrator
+	commandPublisher := server.initPublisher(server.config.ConnectionNotificationCommandSubject)
+	replySubscriber := server.initSubscriber(server.config.ConnectionNotificationReplySubject, QueueGroupConnection)
+	orchestrator := server.InitConnectionNotificationOrchestrator(commandPublisher, replySubscriber)
 
 	connectionStore := server.initConnectionStore(neo4jClient)
 
-	connectionService := server.initConnectionService(connectionStore)
-
+	connectionService := server.initConnectionService(connectionStore, orchestrator)
 	connectionHandler := server.initConnectionHandler(connectionService)
+
+	//connection notification handler
+	commandSubscriberConNot := server.initSubscriber(server.config.ConnectionNotificationCommandSubject, QueueGroupConnection)
+	replyPublisherConNot := server.initPublisher(server.config.ConnectionNotificationReplySubject)
+	server.initConnectionNotificationHandler(connectionService, replyPublisherConNot, commandSubscriberConNot)
 
 	//register handler
 	commandSubscriber := server.initSubscriber(server.config.RegisterUserCommandSubject, QueueGroupConnection)
@@ -83,6 +89,13 @@ func (server *Server) initUpdateUserHandler(connectionService *application.Conne
 
 func (server *Server) initFriendPostedNotificationHandler(userService *application.ConnectionService, publisher saga.Publisher, subscriber saga.Subscriber) {
 	_, err := api.NewFriendPostedNotificationHandler(userService, publisher, subscriber)
+	if err != nil {
+		log.Fatal(err)
+	}
+}
+
+func (server *Server) initConnectionNotificationHandler(service *application.ConnectionService, publisher saga.Publisher, subscriber saga.Subscriber) {
+	_, err := api.NewConnectionNotificatioHandler(service, publisher, subscriber)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -125,8 +138,8 @@ func (server *Server) initConnectionStore(client *neo4j.Driver) domain.Connectio
 	return store
 }
 
-func (server *Server) initConnectionService(store domain.ConnectionStore) *application.ConnectionService {
-	return application.NewConnectionService(store, server.config)
+func (server *Server) initConnectionService(store domain.ConnectionStore, orchestrator *orchestrator.ConnectionNotificationOrchestrator) *application.ConnectionService {
+	return application.NewConnectionService(store, server.config, orchestrator)
 }
 
 func (server *Server) initConnectionHandler(service *application.ConnectionService) *api.ConnectionHandler {
@@ -144,6 +157,14 @@ func (server *Server) startGrpcServer(connectionHandler *api.ConnectionHandler) 
 		log.Fatalf("failed to serve: %s", err)
 		log.Fatalf("failed to serve: %s", err)
 	}
+}
+
+func (server *Server) InitConnectionNotificationOrchestrator(publisher saga.Publisher, subscriber saga.Subscriber) *orchestrator.ConnectionNotificationOrchestrator {
+	orchestrator, err := orchestrator.NewConnectionNotificationOrchestrator(publisher, subscriber)
+	if err != nil {
+		log.Fatal(err)
+	}
+	return orchestrator
 }
 
 func getConnection(address string) (*grpc.ClientConn, error) {

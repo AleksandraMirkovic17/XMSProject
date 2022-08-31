@@ -27,6 +27,8 @@ type UserServiceClient interface {
 	GetAll(ctx context.Context, in *GetUserBySearchParamsRequest, opts ...grpc.CallOption) (*GetAllUserResponse, error)
 	Insert(ctx context.Context, in *RegisterUserRequest, opts ...grpc.CallOption) (*User, error)
 	Update(ctx context.Context, in *UpdateUserRequest, opts ...grpc.CallOption) (*User, error)
+	GenerateAPIToken(ctx context.Context, in *GenerateTokenRequest, opts ...grpc.CallOption) (*ApiToken, error)
+	ShareJobOffer(ctx context.Context, in *ShareJobRequest, opts ...grpc.CallOption) (*ShareJobResponse, error)
 }
 
 type userServiceClient struct {
@@ -82,6 +84,24 @@ func (c *userServiceClient) Update(ctx context.Context, in *UpdateUserRequest, o
 	return out, nil
 }
 
+func (c *userServiceClient) GenerateAPIToken(ctx context.Context, in *GenerateTokenRequest, opts ...grpc.CallOption) (*ApiToken, error) {
+	out := new(ApiToken)
+	err := c.cc.Invoke(ctx, "/UserService/GenerateAPIToken", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userServiceClient) ShareJobOffer(ctx context.Context, in *ShareJobRequest, opts ...grpc.CallOption) (*ShareJobResponse, error) {
+	out := new(ShareJobResponse)
+	err := c.cc.Invoke(ctx, "/UserService/ShareJobOffer", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // UserServiceServer is the server API for UserService service.
 // All implementations must embed UnimplementedUserServiceServer
 // for forward compatibility
@@ -91,6 +111,8 @@ type UserServiceServer interface {
 	GetAll(context.Context, *GetUserBySearchParamsRequest) (*GetAllUserResponse, error)
 	Insert(context.Context, *RegisterUserRequest) (*User, error)
 	Update(context.Context, *UpdateUserRequest) (*User, error)
+	GenerateAPIToken(context.Context, *GenerateTokenRequest) (*ApiToken, error)
+	ShareJobOffer(context.Context, *ShareJobRequest) (*ShareJobResponse, error)
 	mustEmbedUnimplementedUserServiceServer()
 }
 
@@ -112,6 +134,12 @@ func (UnimplementedUserServiceServer) Insert(context.Context, *RegisterUserReque
 }
 func (UnimplementedUserServiceServer) Update(context.Context, *UpdateUserRequest) (*User, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Update not implemented")
+}
+func (UnimplementedUserServiceServer) GenerateAPIToken(context.Context, *GenerateTokenRequest) (*ApiToken, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GenerateAPIToken not implemented")
+}
+func (UnimplementedUserServiceServer) ShareJobOffer(context.Context, *ShareJobRequest) (*ShareJobResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ShareJobOffer not implemented")
 }
 func (UnimplementedUserServiceServer) mustEmbedUnimplementedUserServiceServer() {}
 
@@ -216,6 +244,42 @@ func _UserService_Update_Handler(srv interface{}, ctx context.Context, dec func(
 	return interceptor(ctx, in, info, handler)
 }
 
+func _UserService_GenerateAPIToken_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GenerateTokenRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).GenerateAPIToken(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/UserService/GenerateAPIToken",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).GenerateAPIToken(ctx, req.(*GenerateTokenRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserService_ShareJobOffer_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ShareJobRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).ShareJobOffer(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/UserService/ShareJobOffer",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).ShareJobOffer(ctx, req.(*ShareJobRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // UserService_ServiceDesc is the grpc.ServiceDesc for UserService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -242,6 +306,14 @@ var UserService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "Update",
 			Handler:    _UserService_Update_Handler,
+		},
+		{
+			MethodName: "GenerateAPIToken",
+			Handler:    _UserService_GenerateAPIToken_Handler,
+		},
+		{
+			MethodName: "ShareJobOffer",
+			Handler:    _UserService_ShareJobOffer_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

@@ -114,6 +114,14 @@
                 My job offers
               </a>
             </li>
+            <li v-on:click="DisplayNotifications">
+              <a href="#" class="nav-link link-dark">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark" viewBox="0 0 16 16">
+                  <path d="M14 4.5V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5.5L14 4.5zm-3 0A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5h-2z"/>
+                </svg>
+                Notifications
+              </a>
+            </li>
             <li  v-on:click="DisplayProfile">
               <a href="#" class="nav-link link-dark">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16">
@@ -137,7 +145,7 @@
       <div  class="container" >
         <chatbox v-if="display=='chat'"></chatbox>
         <div v-if="display=='profile'">
-          <div class="button-container" v-if="loggedUserDetails.username!=user.username">
+          <div class="button-container" v-if="loggedUserDetails.username!=user.username && loggedUser">
             <a v-if="this.loggedUserFollows==false && connectionStatus!='ACCEPT' && connectionStatus!='PENDING' && connectionStatus!='A_BLOCK_B' && connectionStatus!='B_BLOCK_A'" href="#button" class="btn btn-primary btn-round btn-lg" v-on:click="follow">Connect</a>
             <a v-if="connectionStatus=='ACCEPT'" href="#button" class="btn btn-primary btn-round btn-lg" v-on:click="follow">✔ Accept</a>
             <a v-if="connectionStatus=='ACCEPT'" href="#button" class="btn btn-default btn-round btn-lg" v-on:click="RemoveFriendRequest">✖ Decline</a>
@@ -147,7 +155,7 @@
             <a v-if="connectionStatus=='A_BLOCK_B'" v-on:click="unblockUser" href="#button" class="btn btn-default btn-round btn-lg">Unblock</a>
 
           </div>
-          <div v-if="(loggedUserFollows || user.Public || loggedUserDetails.username==user.username)  && connectionStatus!='A_BLOCK_B' && connectionStatus!='B_BLOCK_A'">
+          <div v-if="(loggedUserFollows || user.public || loggedUserDetails.username==user.username)  && connectionStatus!='A_BLOCK_B' && connectionStatus!='B_BLOCK_A'">
             <h3 class="title" v-if="user.biography!=''">About me</h3>
             <h5 class="description" v-if="user.biography!=''">
               {{user.biography}}
@@ -191,7 +199,7 @@
               </div>
             </div>
           </div>
-          <div v-if="(loggedUserFollows || user.Public || loggedUserDetails.username==user.username)  && connectionStatus!='A_BLOCK_B' && connectionStatus!='B_BLOCK_A'" class="additional-info" style="display: flex; flex-direction: row; width: 100%">
+          <div v-if="(loggedUserFollows || user.public || loggedUserDetails.username==user.username)  && connectionStatus!='A_BLOCK_B' && connectionStatus!='B_BLOCK_A'" class="additional-info" style="display: flex; flex-direction: row; width: 100%">
             <div class="experience profile-panel" style="width: 55%; margin: 2%;">
               <h3>Experience</h3>
               <h4 class="description" style="text-align: left">
@@ -266,7 +274,7 @@
               </div>
             </div>
           </div>
-          <div class="row" v-if="(loggedUserFollows || user.Public || loggedUserDetails.username==user.username)  && connectionStatus!='A_BLOCK_B' && connectionStatus!='B_BLOCK_A'">
+          <div class="row" v-if="(loggedUserFollows || user.public || loggedUserDetails.username==user.username)  && connectionStatus!='A_BLOCK_B' && connectionStatus!='B_BLOCK_A'">
             <tabs
                 pills
                 class="nav-align-center"
@@ -328,7 +336,7 @@
                       <button type="button" class="btn btn-primary" v-on:click="CreatePost">Post</button>
                     </div>
                   </div>
-                  <Posts :feed-posts="false" :users-posts="true" :userid="userID" :username="empty"></Posts>
+                  <Posts :feed-posts="false" :users-posts="true" :userid="user.id" ></Posts>
 
                 </div>
               </tab-pane>
@@ -403,9 +411,14 @@
         <div v-if="display=='joboffers'">
           <JobOffers :users-jobs="false" :all-jobs="true" ></JobOffers>
         </div>
-        <div v-if="display=='myjoboffers'">
-          <JobOffers :users-jobs="true" :all-jobs="false" :userid="userID" ></JobOffers>
+        <div v-if="display=='notifications'">
+          <div v-for="(notification,index) in notifications" :key="index" class="profile-panel">
+            <div style="display: flex; flex-direction: row">
+              <p>{{notification.date}} </p>
+              <p style="margin-left: 2%">{{notification.content}}</p>
+            </div>
 
+          </div>
         </div>
         <Posts v-if="display=='feed'" :username="loggedUserDetails.username" :userid="userID" :feed-posts="true" :users-posts="false"></Posts>
 
@@ -421,7 +434,7 @@
     </div>
   </div>
 
-  <div v-if="!(loggedUser || user.Public)">
+  <div v-if="!(loggedUser || user.public)">
     <div class="profile-panel">
       Log in to view {{user.name}} {{user.surname}}'s profile
     </div>
@@ -448,6 +461,7 @@ import PostService from '../services/PostService'
 import UserService from '../services/UserService'
 import ConnectionService from '../services/ConnectionService'
 import JobService from "../services/JobService";
+import NotificationService from "../services/NotificationService";
 import $ from 'jquery'
 import Recommendation from "./Connections/Recommendation";
 import {Badge} from "../components";
@@ -488,6 +502,7 @@ export default {
       connectionStatus: '',
       originalUser: {},
       usersPosts: new Array(),
+      notifications: new Array(),
       userID : String,
 
 
@@ -565,21 +580,25 @@ export default {
           this.selectedPost = this.usersPosts[0]
           this.isUserInfoChanged = false
 
-          this.updatedSelectedPost()
 
         }
-
       })
-          .catch(err1 =>{
-            console.log(err1)
-            //alert("User posts are unavailable!")
-          })
+      .catch(err1 =>{
+        console.log(err1)
+      })
+
+      NotificationService.getNotificationsByUser(this.user.id).then(response1 =>{
+        this.notifications = response1.data.notifications;
+      })
+      .catch(err1 =>{
+        console.log(err1)
+      })
     })
-        .catch(err => {
-          console.error(err);
-          if(err.response.status == 403)
-            this.$router.push("/unauthorized")
-        })
+    .catch(err => {
+      console.error(err);
+      if(err.response.status == 403)
+        this.$router.push("/unauthorized")
+    })
   },
   methods:{
     DisplayFeed: function(){
@@ -606,6 +625,9 @@ export default {
     },
     DisplayMyJobOffers: function(){
       this.display='myjoboffers'
+    },
+    DisplayNotifications: function(){
+      this.display='notifications'
     },
     DisplayProfile: function(){
       this.display='profile'
@@ -679,7 +701,8 @@ export default {
     follow(){
       //alert(this.loggedUserDetails.username)
 console.log(this.connectionStatus)
-      if(this.user.Public || this.connectionStatus == 'ACCEPT'){
+      console.log(this.user.public)
+      if(this.user.public || this.connectionStatus == 'ACCEPT'){
         ConnectionService.Connect(this.loggedUserDetails.id, this.user.id)
             .then( response => {
               console.log("connecting:", response);

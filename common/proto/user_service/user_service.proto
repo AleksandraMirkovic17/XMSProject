@@ -32,6 +32,45 @@ service UserService{
 			body: "user"
 		};
 	}
+
+	rpc GenerateAPIToken(GenerateTokenRequest) returns(ApiToken) {
+		option (google.api.http) = {
+			post: "/user/token/generate"
+			body: "username"
+		};
+	}
+
+	rpc ShareJobOffer(ShareJobRequest) returns(ShareJobResponse) {
+		option (google.api.http) = {
+			post: "/user/share/job"
+			body: "shareJob"
+		};
+	}
+}
+
+message Job{
+	string jobID = 1;
+	string publisherId =2;
+	repeated string requiredSkills =3;
+	string datePosted = 4;
+	string dateValid =5;
+	string companyName =6;
+	string position =7;
+	string jobDescription =8;
+}
+
+message ShareJob{
+	string apiToken = 1;
+	Job job = 2;
+}
+
+message ShareJobRequest{
+	ShareJob shareJob = 1;
+}
+
+message ShareJobResponse{
+	Job job = 1;
+	bool valid = 2;
 }
 
 message GetUserRequest {
@@ -42,8 +81,20 @@ message GetUserByUsernameRequest {
 	string username = 1;
 }
 
+message Username{
+	string username = 1;
+}
+
+message GenerateTokenRequest{
+	Username username = 1;
+}
+
 message GetUserResponse {
   User User = 1;
+}
+
+message ApiToken {
+	string apiToken = 1;
 }
 
 message GetAllUserResponse {

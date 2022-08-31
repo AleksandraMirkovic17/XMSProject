@@ -32,7 +32,7 @@
         <nav-link to="/login">
           <i class="now-ui-icons users_circle-08"></i> Login
         </nav-link>
-        <nav-link to="/registration">
+        <nav-link to="/register">
           <i class="now-ui-icons users_single-02"></i> Register
         </nav-link>
       </drop-down>
@@ -50,6 +50,12 @@
 
                 </a>
 
+      </li>
+      <li class="nav-item">
+        <div style="display: flex; flex-direction: row; margin-top: 2%">
+          <input type="text" class="form-control" v-model="searchParams"/>
+          <button v-on:click="searchProfiles" class="btn-info btn-round" style="padding: 2.5%; border: solid #01131f 1pt">Search</button>
+        </div>
       </li>
     </template>
   </navbar>

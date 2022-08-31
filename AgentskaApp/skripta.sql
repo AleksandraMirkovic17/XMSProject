@@ -58,11 +58,11 @@ id, company_id, user_id, text) VALUES(
 
 INSERT INTO public.comment(
 id, company_id, user_id, text) VALUES(
-1, 2, 501, 'Odlicna kompanija');
+3, 2, 501, 'Odlicna kompanija');
 
 INSERT INTO public.comment(
 id, company_id, user_id, text) VALUES(
-2, 2, 501, 'Usluge nam se nisu svidele');
+4, 2, 501, 'Usluge nam se nisu svidele');
 
 
 

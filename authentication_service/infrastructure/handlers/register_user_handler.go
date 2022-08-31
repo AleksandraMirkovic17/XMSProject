@@ -47,7 +47,7 @@ func (handler *CreateOrderCommandHandler) handle(command *events.RegisterUserCom
 		if err != nil {
 			println("Nije updatovan")
 			reply.Type = events.AuthenticationServiceUserNotCreated
-			return
+			break
 		}
 		println("uspeso update authentication servis")
 		reply.Type = events.AuthenticationServiceUserCreated
@@ -59,6 +59,7 @@ func (handler *CreateOrderCommandHandler) handle(command *events.RegisterUserCom
 			return
 		}
 		reply.Type = events.AuthenticationServiceRegisterRolledBack
+		break
 	default:
 		reply.Type = events.UnknownReply
 	}

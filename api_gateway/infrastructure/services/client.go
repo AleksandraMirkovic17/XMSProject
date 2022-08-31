@@ -2,6 +2,7 @@ package services
 
 import (
 	connGw "github.com/dislinked/common/proto/connection_service"
+	jobGw "github.com/dislinked/common/proto/job_service"
 	postGw "github.com/dislinked/common/proto/post_service"
 	userGw "github.com/dislinked/common/proto/user_service"
 	"log"
@@ -32,6 +33,14 @@ func NewConnectionClient(address string) connGw.ConnectionServiceClient {
 		log.Fatalf("Failed to start gRPC connection to Connection service: %v", err)
 	}
 	return connGw.NewConnectionServiceClient(conn)
+}
+
+func NewJobClient(address string) jobGw.JobServiceClient {
+	conn, err := getConnection(address)
+	if err != nil {
+		log.Fatalf("Failed to start gRPC connection to Job service: %v", err)
+	}
+	return jobGw.NewJobServiceClient(conn)
 }
 
 func getConnection(address string) (*grpc.ClientConn, error) {

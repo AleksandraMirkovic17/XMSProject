@@ -118,6 +118,7 @@ public class UserController {
 			      HttpStatus.OK);
 	}
 	
+	/*
 	@PutMapping("/users/{id}")
 	public ResponseEntity<User> updateUser(@PathVariable("id") long id, @RequestBody User User) {
 		Optional<User> UserData = UserRepository.findById(id);
@@ -149,6 +150,7 @@ public class UserController {
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
+	*/
 	@GetMapping("user/registration_confirm")
 	public ResponseEntity<String> confirmRegistration(@RequestParam("token") String token) {
 		

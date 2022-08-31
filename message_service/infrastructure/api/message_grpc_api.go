@@ -3,6 +3,7 @@ package api
 import (
 	"MessageService/application"
 	"context"
+	events "github.com/dislinked/common/saga/message_notification"
 
 	pb "github.com/dislinked/common/proto/message_service"
 	"google.golang.org/grpc/status"
@@ -23,6 +24,14 @@ func (handler *MessageHandler) SendMessage(ctx context.Context, request *pb.NewU
 	if err != nil {
 		return nil, status.Error(400, err.Error())
 	}
+
+	handler.service.Orchestrator.Start(&events.MessageNotification{
+		Content:    "",
+		SenderId:   request.UserMessage.FromUser,
+		ReceiverId: request.UserMessage.ToUser,
+		Sender:     "",
+		Receiver:   "",
+	})
 
 	response := &pb.NewUserMessage{
 		UserMessage: mapMessageFromDomainToPb(newMessage),

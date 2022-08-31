@@ -46,6 +46,16 @@ func (server *Server) Start() {
 	replyPublisherFriendPosted := server.initPublisher(server.config.FriendPostedReplySubject)
 	server.initFriendPostedNotificationHandler(notificationService, replyPublisherFriendPosted, commandSubscriberFriendPosted)
 
+	//connection notification handler
+	commandSubscriberConNot := server.initSubscriber(server.config.ConnectionNotificationCommandSubject, QueueGroup)
+	replyPublisherConNot := server.initPublisher(server.config.ConnectionNotificationReplySubject)
+	server.initConnectionNotificationHandler(notificationService, replyPublisherConNot, commandSubscriberConNot)
+
+	//message notification handler
+	commandSubscriberMessNot := server.initSubscriber(server.config.MessageNotificationCommandSubject, QueueGroup)
+	replyPublisherMessNot := server.initPublisher(server.config.MessageNotificationReplySubject)
+	server.initMessageNotificationHandler(notificationService, replyPublisherMessNot, commandSubscriberMessNot)
+
 	server.startGrpcServer(notificationHandler)
 
 }
@@ -80,6 +90,20 @@ func (server *Server) initCreateNotificationHandler(notificationService *applica
 
 func (server *Server) initFriendPostedNotificationHandler(userService *application.NotificationService, publisher saga.Publisher, subscriber saga.Subscriber) {
 	_, err := handlers.NewFriendPostedNotificationHandler(userService, publisher, subscriber)
+	if err != nil {
+		log.Fatal(err)
+	}
+}
+
+func (server *Server) initConnectionNotificationHandler(userService *application.NotificationService, publisher saga.Publisher, subscriber saga.Subscriber) {
+	_, err := handlers.NewConnectionNotificatioHandler(userService, publisher, subscriber)
+	if err != nil {
+		log.Fatal(err)
+	}
+}
+
+func (server *Server) initMessageNotificationHandler(service *application.NotificationService, publisher saga.Publisher, subscriber saga.Subscriber) {
+	_, err := handlers.NewMessageNotificatioHandler(service, publisher, subscriber)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -132,3 +156,5 @@ func (server *Server) startGrpcServer(notificationHandler *api.NotificationHandl
 		log.Fatalf("failed to serve: %s", err)
 	}
 }
+
+

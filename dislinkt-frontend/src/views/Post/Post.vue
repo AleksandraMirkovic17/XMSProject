@@ -54,7 +54,7 @@
           </button>
         </div>
         <div>
-          <button type="primary" class="btn-default" style="border: 0pt" data-bs-toggle="modal" data-bs-target="#commentsModal">
+          <button type="primary" class="btn-default" style="border: 0pt" data-bs-toggle="modal" :data-bs-target="'#'+postid" v-on:click="changeSelectedPost">
             <div class="likes-icon">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat-right-dots" viewBox="0 0 16 16">
                 <path d="M2 1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h9.586a2 2 0 0 1 1.414.586l2 2V2a1 1 0 0 0-1-1H2zm12-1a2 2 0 0 1 2 2v12.793a.5.5 0 0 1-.854.353l-2.853-2.853a1 1 0 0 0-.707-.293H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h12z"/>
@@ -169,11 +169,12 @@
       </div>
     </div>
     <!--CommentsModal -->
-    <div class="modal fade" id="commentsModal" tabindex="-1" aria-labelledby="commentsModalLabel" aria-hidden="true">
+    <div class="modal fade" :id="postid" tabindex="-1" :aria-labelledby="postid+'Label'" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel2">Comments</h5>
+            <h5 class="modal-title" >Comments</h5>
+            {{postid}}
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
@@ -247,7 +248,8 @@ export default {
       comments: new Array(),
       userLiked: false,
       userDisliked: false,
-      newCommentContent: ""
+      newCommentContent: "",
+      modal: "dislikesModal"
     }
   },
   components:{
@@ -283,6 +285,10 @@ export default {
   },
   methods:{
     changeSelectedPost: function (){
+      console.log("Here")
+      this.likes = new Array()
+      this.dislikes = new Array()
+      this.comments = new Array()
       PostService.getLikes(this.postid)
           .then(response => {
             this.likes = response.data.owner;
@@ -302,6 +308,7 @@ export default {
           })
       PostService.getComments(this.postid)
           .then(response =>{
+            console.log(response.data.comment)
             this.comments = response.data.comment
           })
           .catch(err =>{
@@ -323,6 +330,7 @@ export default {
       this.userLiked=false
     },
     checkUserDisliked: function (){
+      this.dislikes = new Array()
       if(this.loggedUser){
         var username = JSON.parse(this.loggedUser).username;
         for (var dislike of this.dislikes){

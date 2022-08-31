@@ -14,7 +14,6 @@ import (
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"net/http"
-	"strings"
 )
 
 type FeedHandler struct {
@@ -49,9 +48,7 @@ func (f FeedHandler) GetFeedPostsForUser(w http.ResponseWriter, r *http.Request,
 	}
 	println("user id is", user.User.Id)
 	id := user.User.Id
-	idsplit := strings.Split(id, "\"")
-	println("Object id", idsplit[1])
-	connections, err := connectionService.GetFriends(context.TODO(), &connectionPb.GetRequest{UserID: idsplit[1]})
+	connections, err := connectionService.GetFriends(context.TODO(), &connectionPb.GetRequest{UserID: id})
 	if err != nil {
 		w.WriteHeader(http.StatusNotFound)
 		println("get friend error")
@@ -62,8 +59,7 @@ func (f FeedHandler) GetFeedPostsForUser(w http.ResponseWriter, r *http.Request,
 	println("Number of friends: ", len(connections.Users))
 	for _, friend := range connections.Users {
 		println("friend user id:", friend.UserID, friend.Username)
-		hexObjectId, _ := primitive.ObjectIDFromHex(friend.UserID)
-		postsPbs, err := postsService.GetByUser(context.TODO(), &postPb.GetByUserRequest{Uuid: hexObjectId.String()})
+		postsPbs, err := postsService.GetByUser(context.TODO(), &postPb.GetByUserRequest{Uuid: friend.UserID})
 		if err != nil {
 			w.WriteHeader(http.StatusBadRequest)
 			println("Get by user")

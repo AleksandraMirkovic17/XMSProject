@@ -19,6 +19,11 @@ class UserService{
         return axios.get(USER_API_BASE_URL+"?username="+ param)
     }
 
+    searchUsersLogged(userId, param){
+        console.log(USER_API_BASE_URL+"/search/"+userId+"/"+param)
+        return axios.get(USER_API_BASE_URL+"/search/"+userId+"/"+param)
+    }
+
     registerUser(user){
         return axios.post(USER_API_BASE_URL, user);
     }
@@ -34,6 +39,10 @@ class UserService{
 
     logout() {
       localStorage.removeItem('user');
+    }
+
+    generateApiToken(user){
+        return axios.post(USER_API_BASE_URL+"/token/generate", user)
     }
 }
 

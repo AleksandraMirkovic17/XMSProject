@@ -1,6 +1,7 @@
 package application
 
 import (
+	"ConnectionService/infrastructure/orchestrator"
 	"context"
 	"fmt"
 
@@ -12,14 +13,16 @@ import (
 )
 
 type ConnectionService struct {
-	store      domain.ConnectionStore
-	UserClient userService.UserServiceClient
+	store        domain.ConnectionStore
+	UserClient   userService.UserServiceClient
+	Orchestrator *orchestrator.ConnectionNotificationOrchestrator
 }
 
-func NewConnectionService(store domain.ConnectionStore, c *config.Config) *ConnectionService {
+func NewConnectionService(store domain.ConnectionStore, c *config.Config, orchestrator *orchestrator.ConnectionNotificationOrchestrator) *ConnectionService {
 	return &ConnectionService{
-		store:      store,
-		UserClient: NewUserClient(fmt.Sprintf("%s:%s", c.UserHost, c.UserPort)),
+		store:        store,
+		Orchestrator: orchestrator,
+		UserClient:   NewUserClient(fmt.Sprintf("%s:%s", c.UserHost, c.UserPort)),
 	}
 }
 
