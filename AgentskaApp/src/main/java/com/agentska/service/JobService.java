@@ -1,5 +1,6 @@
 package com.agentska.service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,6 +24,7 @@ public class JobService {
 
 	public Job createJob(Job job, List<String> requirementTexts)
 	{
+		job.setCreationDate(LocalDateTime.now());
 		Job savedJob = jobRepository.save(job); //Ako ne uspe treba mozda obrisati?
 		System.out.println("11");
 		for (String r : requirementTexts) {
