@@ -27,6 +27,10 @@ public class UserService {
 
 	public User registerUser(User user)
 	{
+		Role userRole = roleRepository.findByName(ERole.USER)
+				.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+		user.getRoles().add(userRole);
+		user.setActivated(true);
 		return userRepository.save(user);
 	}
 	
