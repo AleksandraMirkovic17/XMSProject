@@ -45,7 +45,7 @@ func (handler *ConnectionNotificationHandler) handle(command events.ConnectionNo
 		println("Sending notification in notification service")
 		//TO DO: dodati
 		err := handler.service.Insert(&domain.Notification{
-			Id:      primitive.ObjectID{},
+			Id:      primitive.NewObjectID(),
 			User:    command.Notification.ReceiverId,
 			Content: command.Notification.Content,
 			Url:     "",

@@ -97,8 +97,6 @@ export default {
           alert("Passwords are not same!")
           return
         }
-        alert(this.user.user.name)
-        alert(this.user.user.public)
           UserService.registerUser({
             "user" : {
               "name": this.user.user.name,
@@ -114,6 +112,7 @@ export default {
 
             }
           );
+        this.user.user = new Object()
       }
   }
 }

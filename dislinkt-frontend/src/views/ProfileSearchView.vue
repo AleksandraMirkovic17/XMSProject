@@ -104,7 +104,7 @@ export default {
 }
 
 .photo-container-small{
-  background-color: #dedede;
+  background-color: #f6f6f6;
   width: 70px;
   height: 70px;
   border-radius: 50%;
