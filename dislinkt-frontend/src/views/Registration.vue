@@ -6,31 +6,32 @@
           Join Dislinkt today!
         </h1>
         <br>
+        Name
         <div class="input-group mb-3">
           <input type="text" class="form-control" placeholder="Name" aria-label="Name" aria-describedby="basic-addon1" v-model="user.user.name">
         </div>
+        Surname
         <div class="input-group mb-3">
-          <span class="input-group-text" id="basic-addon2">Surname</span>
           <input type="text" class="form-control" placeholder="Surname" aria-label="Surname" aria-describedby="basic-addon1" v-model="user.user.surname">
         </div>
+        Username
         <div class="input-group mb-3">
-          <span class="input-group-text" id="basic-addon3">Username</span>
           <input type="text" class="form-control" placeholder="Userrname" aria-label="Username" aria-describedby="basic-addon1" v-model="user.user.username">
         </div>
+        Email
         <div class="input-group mb-3">
-          <span class="input-group-text" id="basic-addon4">Email</span>
           <input type="text" class="form-control" placeholder="email@example.com" aria-label="Email" aria-describedby="basic-addon1" v-model="user.user.email">
         </div>
+        Phone
         <div class="input-group mb-3">
-          <span class="input-group-text" id="basic-addon5">Phone number</span>
           <input type="text" class="form-control" placeholder="838942868109041" aria-label="Surname" aria-describedby="basic-addon1" v-model="user.user.contactPhone">
         </div>
+        Date of birth
         <div class="input-group mb-3">
-          <span class="input-group-text" id="basic-addon6">Date of birth</span>
           <input type="date" class="form-control"  aria-describedby="basic-addon1" v-model="user.user.date">
         </div>
+        Gender
         <div class="input-group mb-3">
-          <span class="input-group-text" id="basic-addon7">Gender</span>
           <select class="form-select" aria-label="Default select example" v-model="user.user.gender">
             <option selected>Select</option>
             <option value=1>Male</option>
@@ -38,12 +39,12 @@
             <option value=3>Other</option>
           </select>
         </div>
+        Password
         <div class="input-group mb-3">
-          <span class="input-group-text" id="basic-addon8">Password</span>
           <input type="password" class="form-control" aria-label="Surname" aria-describedby="basic-addon1" v-model="user.user.password">
         </div>
+        Repeat password
         <div class="input-group mb-3">
-          <span class="input-group-text" id="basic-addon9">Repeat password</span>
           <input type="password" class="form-control" aria-label="Surname" aria-describedby="basic-addon1" v-model="user.user.repeatPassword">
         </div>
         <span class="switch">
@@ -126,8 +127,9 @@ export default {
 }
 
 .registration{
-  background-color: #e85a4f;
+  background-color: #ffffff;
   border-radius: 20px;
+  border: 1pt solid red;
   margin: 30%;
   margin-top: 2%;
   padding: 5%;
